@@ -53,6 +53,7 @@
                     captcha: this.loginForm.captcha
                 };
                 this.$api.login.login(userInfo).then((res) => {
+                    debugger
                     if (res.msg != null) {
                         this.$message({message: res.msg, type: 'error'})
                     } else {
@@ -64,7 +65,6 @@
                 })
             },
             refreshCaptcha: function () {
-                debugger
                 this.loginForm.src = this.global.baseUrl + "/captcha.jpg?t=" + new Date().getTime();
             },
         },
