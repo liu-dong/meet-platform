@@ -8,6 +8,5 @@
 export const baseUrl = 'http://localhost:8881';
 
 export default {
-  baseUrl,
-  backupBaseUrl
+  baseUrl
 }

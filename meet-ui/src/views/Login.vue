@@ -52,19 +52,24 @@
                     username: this.loginForm.username, password: this.loginForm.password,
                     captcha: this.loginForm.captcha
                 };
-                $.ajax({
-                    url: "../login",
-                    type: "post",
-                    dataType: "json",
-                    data: userInfo,
-                    success: function (result) {
-                        console.log(result);
+                this.$api.login.login(userInfo).then((res) => {
+                    if (res.msg != null) {
+                        this.$message({message: res.msg, type: 'error'})
+                    } else {
+                        this.$router.push('/')  // 登录成功，跳转到主页
                     }
-                });
+                    this.loading = false
+                }).catch((res) => {
+                    this.$message({message: res.message, type: 'error'})
+                })
             },
             refreshCaptcha: function () {
+                debugger
                 this.loginForm.src = this.global.baseUrl + "/captcha.jpg?t=" + new Date().getTime();
             },
+        },
+        mounted() {
+            this.refreshCaptcha()
         }
     }
 </script>
