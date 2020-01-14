@@ -8,9 +8,7 @@ import Cookies from "js-cookie";
 import router from '@/router'
 
 export default function $axios(options) {
-    debugger
     return new Promise((resolve, reject) => {//Promise ?
-        debugger
         //导入类配置文件的信息
         const instance = axios.create({//axios.create ? 创建自定义axios 实例
             baseURL: config.baseUrl,// 基础url前缀
@@ -18,13 +16,11 @@ export default function $axios(options) {
             timeout: config.timeout,// 设置超时时间
             withCredentials: config.withCredentials// 携带凭证
         });
-        debugger
 
         // request 请求拦截器
         instance.interceptors.request.use(
             // 在发送请求之前执行的方法
             config => {//没有方法名，传的参数为config 即function(config){}
-                debugger
                 let token = Cookies.get('token');
                 // 发送请求时携带token
                 if (token) {
@@ -37,9 +33,7 @@ export default function $axios(options) {
             },
             // 请求错误后执行的方法
             error => {
-                debugger
-                return Promise.reject(error);
-                debugger
+                // return Promise.reject(error);
                 // 请求发生错误时
                 console.log('request:', error);
                 // 判断请求超时
@@ -113,7 +107,6 @@ export default function $axios(options) {
 
         // 请求处理
         instance(options).then(res => {
-            debugger
             resolve(res);
             return false
         }).catch(error => {

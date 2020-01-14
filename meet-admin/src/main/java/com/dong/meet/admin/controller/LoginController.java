@@ -93,4 +93,10 @@ public class LoginController {
 //        JwtAuthenticationToken token = SecurityUtils.login(request, username, password, authenticationManager);
         return HttpResult.ok();
     }
+
+    @PostMapping(value = "/hi")
+    public HttpResult hi(){
+        System.out.println("111111111111111111");
+        return HttpResult.ok();
+    }
 }
