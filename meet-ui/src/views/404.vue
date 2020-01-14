@@ -18,6 +18,7 @@
 </script>
 
 <style lang="scss">
+
     .site-wrapper.site-page--not-found {
         position: absolute;
         top: 60px;
