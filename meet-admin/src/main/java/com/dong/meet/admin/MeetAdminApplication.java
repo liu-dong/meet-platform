@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author LD
  */
-@SpringBootApplication
+@SpringBootApplication//(scanBasePackages={"com.louis.mango"}) 不加也没关系，springboot会默认扫描启动类的当前包及子包
 public class MeetAdminApplication {
 
     public static void main(String[] args) {

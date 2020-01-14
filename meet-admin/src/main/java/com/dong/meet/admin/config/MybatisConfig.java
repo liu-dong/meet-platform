@@ -35,7 +35,7 @@ public class MybatisConfig {
         sessionFactory.setTypeAliasesPackage("com.dong.meet.**.model");
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         // 扫描映射文件
-        sessionFactory.setMapperLocations(resolver.getResources("classpath*:**/mapper/*.xml"));
+        sessionFactory.setMapperLocations(resolver.getResources("classpath:**/mapper/*.xml"));
 
         return sessionFactory.getObject();
     }

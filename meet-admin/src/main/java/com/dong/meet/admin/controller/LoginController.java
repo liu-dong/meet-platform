@@ -22,6 +22,7 @@ import java.io.IOException;
 
 /**
  * 登录模块
+ *
  * @author 3hld
  * @date 2020/1/6 15:30
  * @Version 1.0
@@ -37,6 +38,7 @@ public class LoginController {
 
     /**
      * 动态生成验证码
+     *
      * @param response
      * @param request
      * @throws IOException
@@ -59,17 +61,18 @@ public class LoginController {
 
     /**
      * 登录
+     *
      * @param bean
      * @param request
-     * @return
+     * @returncd
      */
     @PostMapping(value = "/login")
     public HttpResult login(@RequestBody LoginInfoBean bean, HttpServletRequest request) {
-        return loginService.login(bean,request);
+        return loginService.login(bean, request);
     }
 
     @PostMapping(value = "/hi")
-    public HttpResult hi(){
+    public HttpResult hi() {
         System.out.println("111111111111111111");
         return HttpResult.ok();
     }

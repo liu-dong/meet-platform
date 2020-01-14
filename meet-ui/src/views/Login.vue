@@ -54,9 +54,10 @@
                 };
                 this.$api.login.login(userInfo).then((res) => {
                     debugger
-                    if (res.msg != null) {
-                        this.$message({message: res.msg, type: 'error'})
+                    if (res.code === 500) {
+                        this.$message({message: res.message, type: 'error'})
                     } else {
+                        this.$message({message: res.message, type: 'success'})
                         this.$router.push('/')  // 登录成功，跳转到主页
                     }
                     this.loading = false

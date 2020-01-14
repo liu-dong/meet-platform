@@ -37,7 +37,7 @@ public class InterceptConfig {
         System.out.println("----------------1:" + request.getMethod() + "----------------");
         System.out.println("----------------2:" + request.getRemoteAddr() + "----------------");
         System.out.println("----------------3:" + request.getRemotePort() + "----------------");
-        System.out.println("----------------4:" + request.getHttpServletMapping() + "----------------");
+//        System.out.println("----------------4:" + request.getHttpServletMapping() + "----------------");
         System.out.println("----------------5:" + request.getServletPath() + "----------------");
         System.out.println("----------------6:" + request.getContextPath() + "----------------");
         System.out.println("----------------7:" + Arrays.toString(joinPoint.getArgs()) + "----------------");
