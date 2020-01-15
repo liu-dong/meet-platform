@@ -25,3 +25,9 @@ spring:
             pool-prepared-statements: true
             max-open-prepared-statements: 50
             max-pool-prepared-statement-per-connection-size: 20
+    # spring security安全验证
+    security:
+        user:
+            name: admin
+            password: 123456
+            roles: admin

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<!--suppress ALL -->
 <mapper namespace="com.dong.meet.admin.dao.SysUserMapper">
     <resultMap id="BaseResultMap" type="com.dong.meet.admin.model.SysUser">
         <id column="id" property="id" jdbcType="BIGINT"/>
@@ -20,9 +19,9 @@
         <result column="del_flag" property="delFlag" jdbcType="TINYINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, nick_name, avatar, password, salt, email, mobile, status, dept_id, create_by, 
-    create_time, last_update_by, last_update_time, del_flag
-  </sql>
+        id, name, nick_name, avatar, password, salt, email, mobile, status, dept_id, create_by,
+        create_time, last_update_by, last_update_time, del_flag
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
@@ -30,20 +29,20 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from sys_user
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
+        delete from sys_user
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
     <insert id="insert" parameterType="com.dong.meet.admin.model.SysUser">
-    insert into sys_user (id, name, nick_name, 
-      avatar, password, salt, 
-      email, mobile, status, 
-      dept_id, create_by, create_time, 
+    insert into sys_user (id, name, nick_name,
+      avatar, password, salt,
+      email, mobile, status,
+      dept_id, create_by, create_time,
       last_update_by, last_update_time, del_flag
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{deptId,jdbcType=BIGINT}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+      #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+      #{deptId,jdbcType=BIGINT}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{lastUpdateBy,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=TINYINT}
       )
   </insert>

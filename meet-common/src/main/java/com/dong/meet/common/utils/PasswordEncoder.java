@@ -23,7 +23,7 @@ public class PasswordEncoder {
      * 默认md5加密
      * @param salt
      */
-    PasswordEncoder(Object salt) {
+    public PasswordEncoder(Object salt) {
         this(salt, MD5);
     }
 
@@ -62,7 +62,7 @@ public class PasswordEncoder {
      * @param rawPass 明文
      * @return
      */
-    boolean matches(String encPass, String rawPass) {
+    public boolean matches(String encPass, String rawPass) {
         String pass1 = "" + encPass;
         //同样的盐值和同样的明文会生成同样的密码
         String pass2 = encode(rawPass);
