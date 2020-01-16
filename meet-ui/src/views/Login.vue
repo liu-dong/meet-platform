@@ -24,7 +24,7 @@
             </el-col>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">登录</el-button>
+            <el-button type="primary" @click="login">登录</el-button>
             <el-button type="primary" @click="onSubmit">重置</el-button>
         </el-form-item>
     </el-form>
@@ -45,7 +45,7 @@
             }
         },
         methods: {
-            onSubmit() {
+            login() {
                 debugger
                 this.loading = true;
                 let userInfo = {
@@ -53,7 +53,6 @@
                     captcha: this.loginForm.captcha
                 };
                 this.$api.login.login(userInfo).then((res) => {
-                    debugger
                     if (res.code === 500) {
                         this.$message({message: res.message, type: 'error'})
                     } else {
