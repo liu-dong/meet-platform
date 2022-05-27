@@ -1,0 +1,99 @@
+{
+    "code": 200,
+    "success": true,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": "0b968dab73fb443fa8e65f402a47583d",
+            "userType": 2,
+            "username": "junbuyu",
+            "password": "123456",
+            "personId": "8b80f924f19746e6bdfc18964f81e33d",
+            "realName": "君不语",
+            "lastLoginTime": "2020-11-28 05:01:29",
+            "loginCount": 1,
+            "userStatus": 0,
+            "createTime": "2020-11-28 05:01:26",
+            "updateTime": "2020-11-28T05:01:26.000+00:00"
+        },
+        {
+            "id": "350db83ed5574164a666d11738ba01dd",
+            "userType": 2,
+            "username": "liudong",
+            "password": "123456",
+            "personId": "efb6f0eb3ba541429d80e83f1cb80e7c",
+            "realName": "刘东",
+            "lastLoginTime": "2020-11-24 08:28:37",
+            "loginCount": 8,
+            "userStatus": 0,
+            "createTime": "2020-10-12 06:31:27",
+            "updateTime": "2020-10-12T06:31:27.000+00:00"
+        },
+        {
+            "id": "4df4131efb4949a2a2ac3420b52e87f7",
+            "userType": 0,
+            "username": "SuperAdmin",
+            "password": "123456",
+            "personId": "4b6745b0c8684ee2bcbe68628bb84915",
+            "realName": "刘东",
+            "lastLoginTime": "2021-01-19 08:03:30",
+            "loginCount": 33,
+            "userStatus": 0,
+            "createTime": "2020-11-03 09:30:02",
+            "updateTime": "2020-11-03T09:30:02.000+00:00"
+        },
+        {
+            "id": "5b70c3a0715c4925a432090c0d635496",
+            "userType": 1,
+            "username": "admin",
+            "password": "123456",
+            "personId": "3e0468155a3f4679b060c904d6cc8d42",
+            "realName": "刘东",
+            "lastLoginTime": null,
+            "loginCount": 0,
+            "userStatus": 0,
+            "createTime": "2019-09-22 06:52:02",
+            "updateTime": null
+        },
+        {
+            "id": "7da1ee6de7434ada8614110d14faf7cd",
+            "userType": 2,
+            "username": "DONG",
+            "password": "123456789",
+            "personId": "b7baaee0c1e1493d9eec5f833c7bb51a",
+            "realName": "刘",
+            "lastLoginTime": null,
+            "loginCount": 0,
+            "userStatus": 0,
+            "createTime": "2020-10-12 07:48:39",
+            "updateTime": "2020-10-12T07:48:39.000+00:00"
+        },
+        {
+            "id": "94e6475af3eb419bbf693c3813e92675",
+            "userType": 2,
+            "username": "ld",
+            "password": "123456",
+            "personId": "7ba92ef0dab542e6bd1061770e11c4cb",
+            "realName": "刘东",
+            "lastLoginTime": null,
+            "loginCount": 0,
+            "userStatus": 0,
+            "createTime": "2020-10-12 07:34:57",
+            "updateTime": "2020-10-12T07:34:57.000+00:00"
+        },
+        {
+            "id": "fffc9e2e39ac4a54b32c346aa2ba1271",
+            "userType": 2,
+            "username": "liu-dong",
+            "password": "123456",
+            "personId": "600e5cff674e4594819674f624b3cf0c",
+            "realName": "刘东",
+            "lastLoginTime": "2020-10-12 08:50:17",
+            "loginCount": 1,
+            "userStatus": 1,
+            "createTime": "2020-10-12 05:34:15",
+            "updateTime": "2020-10-12T09:04:02.000+00:00"
+        }
+    ],
+    "total": 0
+}

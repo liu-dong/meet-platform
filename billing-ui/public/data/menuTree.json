@@ -1,0 +1,143 @@
+{
+    "code": 200,
+    "success": true,
+    "message": "查询成功!",
+    "data": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "",
+                    "id": "9437557a6b634a7d82938c1f8ecdcb59",
+                    "title": "订单列表",
+                    "url": "/orderList",
+                    "order": 1
+                }
+            ],
+            "icon": "",
+            "id": "19a2f346e74245e0a8d73f3425342d24",
+            "title": "订单管理",
+            "url": "/",
+            "order": 6
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "fa fa-user-circle-o",
+                    "id": "4ea793bc6f3f11eaa28400ff54d246f9",
+                    "title": "角色列表",
+                    "url": "/roleList",
+                    "order": 2
+                }
+            ],
+            "icon": "",
+            "id": "47e4c6d174df40babce84fb10d76fd3f",
+            "title": "角色管理",
+            "url": "/",
+            "order": 4
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "",
+                    "id": "8d112eace99d455e9ee59970f1a48299",
+                    "title": "生成代码",
+                    "url": "/generatorView",
+                    "order": 2
+                },
+                {
+                    "children": [],
+                    "icon": "",
+                    "id": "96d910ecf9054df8bdf605dac90fb16c",
+                    "title": "模板管理",
+                    "url": "/templateView",
+                    "order": 3
+                },
+                {
+                    "children": [],
+                    "icon": "",
+                    "id": "c6c732e6a55b4bbc8d3d606cbccffc5c",
+                    "title": "生成结果",
+                    "url": "/generatorResultView",
+                    "order": 1
+                }
+            ],
+            "icon": "",
+            "id": "4995d6ed8b424258bbce1e3554159011",
+            "title": "模块管理",
+            "url": "/",
+            "order": 5
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "",
+                    "id": "3c00fad6e46f4142804b1421190ab2a2",
+                    "title": "人员列表",
+                    "url": "/personList",
+                    "order": 1
+                }
+            ],
+            "icon": "img",
+            "id": "721ab33d901346cca58c54c7f64e1664",
+            "title": "人员管理",
+            "url": "/",
+            "order": 3
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "fa fa fa-institution",
+                    "id": "06c7e1107c0911ea851100ff54d246f9",
+                    "title": "菜单列表",
+                    "url": "/menuList",
+                    "order": 0
+                }
+            ],
+            "icon": "fa fa fa-institution",
+            "id": "d3d9e5e07c0811ea851100ff54d246f9",
+            "title": "菜单管理",
+            "url": "/",
+            "order": 1
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "img",
+                    "id": "f6bb1eeef206479f877969ca29331fe6",
+                    "title": "商品列表",
+                    "url": "/productList",
+                    "order": 1
+                }
+            ],
+            "icon": "img",
+            "id": "f2b77ba107b34d1f98f5d79d7c7c39b1",
+            "title": "商品管理",
+            "url": "/",
+            "order": 5
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "icon": "fa fa fa-user-secret",
+                    "id": "4ea07aac6f3f11eaa28400ff54d246f9",
+                    "title": "账号列表",
+                    "url": "/accountList",
+                    "order": 1
+                }
+            ],
+            "icon": "fa fa fa-user-secret",
+            "id": "f98889f86f3d11eaa28400ff54d246f9",
+            "title": "账号管理",
+            "url": "/",
+            "order": 2
+        }
+    ],
+    "total": 0
+}

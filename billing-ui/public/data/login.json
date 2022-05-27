@@ -1,0 +1,11 @@
+{
+    "code": 200,
+    "success": true,
+    "message": "登录成功!上次登录时间：第一次登录",
+    "data": {
+        "username": "SuperAdmin",
+        "realName": "刘东",
+        "lastLoginTime": "2020年10月8日 13时14分24秒"
+    },
+    "total": 0
+}
