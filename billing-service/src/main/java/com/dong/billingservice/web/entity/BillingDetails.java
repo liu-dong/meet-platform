@@ -16,15 +16,24 @@ public class BillingDetails implements Serializable {
 
 	private static final long serialVersionUID = 2401483565947127417L;
 
-	private String id;// 主键
-	private Date recordTime;// 记录时间
-	private Integer spendingType;// 支出类型 0：其他、1：餐饮、2：交通、3：房租、4：娱乐、5：通讯、6：学习、7：购物
-	private BigDecimal amountPaid;// 支出金额
-	private String remark;// 备注
-	private Date createTime;// 创建时间
-	private String createUserId;// 创建人
-	private Date updateTime;// 修改时间
-	private String updateUserId;// 修改人
+	/** 主键 */
+	private String id;
+	/** 记录时间 */
+	private Date recordTime;
+	/** 支出类型 0：其他、1：餐饮、2：交通、3：房租、4：娱乐、5：通讯、6：学习、7：购物 */
+	private Integer spendingType;
+	/** 支出金额 */
+	private BigDecimal amountPaid;
+	/** 备注 */
+	private String remark;
+	/** 创建时间 */
+	private Date createTime;
+	/** 创建人 */
+	private String createUserId;
+	/** 修改时间 */
+	private Date updateTime;
+	/** 修改人 */
+	private String updateUserId;
 
 	@Id
  	@Column(name = "id" )
