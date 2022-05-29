@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 账单明细
  *
- * @author zahng.jiaxin
+ * @author zhang.jiaxin
  * @since 2022-05-28
  */
 @Repository

@@ -1,5 +1,7 @@
 package com.dong.billingservice.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,6 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table (name = "billing_details")
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public class BillingDetails implements Serializable {
 
 	private static final long serialVersionUID = 2401483565947127417L;

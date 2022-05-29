@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 账单明细
  *
- * @author zahng.jiaxin
+ * @author zhang.jiaxin
  * @since 2022-05-28
  */
 @Data

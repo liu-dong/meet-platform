@@ -1,9 +1,14 @@
 package com.dong.billingservice.web.service.impl;
 
 import com.dong.billingservice.web.dao.BillingDetailsJpaDao;
+import com.dong.billingservice.web.dao.CommonDao;
 import com.dong.billingservice.web.entity.BillingDetails;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
+import com.dong.billingservice.web.model.Pager;
+import com.dong.billingservice.web.model.QueryParam;
 import com.dong.billingservice.web.service.BillingDetailsService;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +27,9 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
 
   @Autowired
   private BillingDetailsJpaDao billingDetailsJpaDao;
+
+  @Autowired
+  private CommonDao commonDao;
 
   @Override
   public BillingDetails saveBilling(BillingDetailsDTO dto) {
@@ -47,8 +55,23 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
   }
 
   @Override
-  public List<BillingDetails> findBillingList() {
-    return null;
+  public Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager) {
+    StringBuilder sql = new StringBuilder();
+    List<Object> params = new ArrayList<>();
+    sql.append(" SELECT id,record_time recordTime,spending_type spendingType,amount_paid amountPaid, ");
+    sql.append(" remark,create_time createTime,update_time updateTime ");
+    sql.append(" FROM billing_details ");
+    sql.append(" WHERE 1=1 ");
+    if (dto.getSpendingType() != null) {
+      sql.append(" AND spending_type = ? ");
+      params.add(dto.getSpendingType());
+    }
+    if (dto.getRecordTime() != null) {
+      sql.append(" AND record_time >= ? ");
+      params.add(dto.getRecordTime());
+    }
+    Pager<BillingDetailsDTO> listBySql = commonDao.findListBySql(pager, sql, params);
+    return listBySql;
   }
 
   private BillingDetails convertEntity(BillingDetailsDTO dto) {

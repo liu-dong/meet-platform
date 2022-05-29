@@ -2,7 +2,8 @@ package com.dong.billingservice.web.service;
 
 import com.dong.billingservice.web.entity.BillingDetails;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
-import java.util.List;
+import com.dong.billingservice.web.model.Pager;
+import com.dong.billingservice.web.model.QueryParam;
 
 /**
  * 账单明细表(BillingDetails)表服务接口
@@ -39,8 +40,9 @@ public interface BillingDetailsService {
 
   /**
    * 查询账单明细
+   * @return
    */
-  List<BillingDetails> findBillingList();
+  Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager);
 
 
 
