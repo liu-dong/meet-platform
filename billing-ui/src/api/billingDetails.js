@@ -2,7 +2,7 @@ import axios from '@/axios'
 
 export function findBillingDetailsList(data, params) {
     return axios({
-        url: '/billing-service/billingDetails/findBillingDetailsList',
+        url: '/billingDetails/findBillingList',
         method: 'post',
         data,
         params

@@ -21,9 +21,12 @@ const router = new Router({
         {path: '/success', name: 'success', component: Success},
         {path: '/error', name: 'error', component: Error},
         {path: '/test', name: 'test', component: Test},
-        {path: '/billingHome', name: 'billingHome', component: BillingHome},
-        {path: '/billingDetails', name: 'billingDetails', component: BillingDetails},
-        {path: '/billingDetailsList', name: 'billingDetailsList', component: BillingDetailsList}
+        {
+            path: '/billingHome', name: 'billingHome', component: BillingHome, children: [
+                {path: '/billingDetails', name: 'billingDetails', component: BillingDetails},
+                {path: '/billingDetailsList', name: 'billingDetailsList', component: BillingDetailsList}]
+        }
+
     ]
 })
 

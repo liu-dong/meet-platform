@@ -4,12 +4,7 @@
  * 通过 this.Global 调用
  */
 
-// 网关服务地址
-export const baseUrl = 'http://localhost:8480'
-// 认证授权服务地址
-export const uuaUrl = 'http://localhost:8580'
-// 用户服务地址
-export const accountUrl = 'http://localhost:8084'
+export const baseUrl = 'http://localhost:8181'
 // 项目环境
 export const env = 'dev'// 开发模式，需要开启后端应用
 
@@ -23,8 +18,6 @@ export const QRCodeUrl = '/authentication-server/authorization/getQRCode'
 
 export default {
     baseUrl,
-    uuaUrl,
-    accountUrl,
     env,
     kaptchaUrl,
     QRCodeUrl

@@ -6,7 +6,7 @@
                 <el-card class="box-card" shadow="always">
                     <div slot="header" class="clearfix">
                         <span>{{ item.recordTime }}账单</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">账单明细</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text" @click="toDetail">账单明细</el-button>
                     </div>
                     <div class="text item"
                          style="display: flex;flex-direction: column;">
@@ -23,11 +23,30 @@
 </template>
 
 <script>
+import {findBillingDetailsList} from "@/api/billingDetails";
+
 export default {
     name: "BillingDetailsList",
     data() {
         return {
             billingDetailsList: []
+        }
+    },
+    created() {
+        this.findBillingDetailsList()
+    },
+    methods: {
+        findBillingDetailsList() {
+            let data = {}
+            let params = {}
+            findBillingDetailsList(data, params).then(res => {
+                if (res.code === 200) {
+                    this.billingDetailsList = res.data.dataList
+                }
+            })
+        },
+        toDetail() {
+            this.$router.push({ name: "billingDetails"})
         }
     }
 }

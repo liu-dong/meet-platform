@@ -63,6 +63,17 @@ public class BillingDetailsController {
         }
     }
 
+    @ApiOperation("查询分组列表")
+    @PostMapping("/findBillingListGroup")
+    public ResponseResult findBillingListGroup(@RequestBody BillingDetailsDTO dto) {
+        try {
+            return ResponseResult.success(billingDetailsService.findBillingListGroup(dto), "查询成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(e.getMessage());
+        }
+    }
+
 
 }
 

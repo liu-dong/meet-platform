@@ -5,6 +5,9 @@ import com.dong.billingservice.web.model.BillingDetailsDTO;
 import com.dong.billingservice.web.model.Pager;
 import com.dong.billingservice.web.model.QueryParam;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 账单明细表(BillingDetails)表服务接口
  *
@@ -40,9 +43,18 @@ public interface BillingDetailsService {
 
   /**
    * 查询账单明细
-   * @return
+   * @param dto 查询参数
+   * @param pager 分页参数
+   * @return 账单明细列表
    */
   Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager);
+
+  /**
+   * 查询账单分组列表
+   * @param dto 查询参数
+   * @return 账单分组列表
+   */
+  Map<String, List<BillingDetailsDTO>> findBillingListGroup(BillingDetailsDTO dto);
 
 
 

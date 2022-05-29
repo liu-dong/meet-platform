@@ -1,20 +1,20 @@
 package com.dong.billingservice.web.service.impl;
 
+import com.alibaba.excel.util.StringUtils;
+import com.alibaba.fastjson.JSON;
+import com.dong.billingservice.util.DateFormUtils;
 import com.dong.billingservice.web.dao.BillingDetailsJpaDao;
 import com.dong.billingservice.web.dao.CommonDao;
 import com.dong.billingservice.web.entity.BillingDetails;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
 import com.dong.billingservice.web.model.Pager;
-import com.dong.billingservice.web.model.QueryParam;
 import com.dong.billingservice.web.service.BillingDetailsService;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * 账单明细表(BillingDetails)表服务实现类
@@ -25,70 +25,87 @@ import org.springframework.util.StringUtils;
 @Service
 public class BillingDetailsServiceImpl implements BillingDetailsService {
 
-  @Autowired
-  private BillingDetailsJpaDao billingDetailsJpaDao;
+    @Autowired
+    private BillingDetailsJpaDao billingDetailsJpaDao;
 
-  @Autowired
-  private CommonDao commonDao;
+    @Autowired
+    private CommonDao commonDao;
 
-  @Override
-  public BillingDetails saveBilling(BillingDetailsDTO dto) {
-    BillingDetails billingDetails = convertEntity(dto);
-    billingDetailsJpaDao.save(billingDetails);
-    return billingDetails;
-  }
+    @Override
+    public BillingDetails saveBilling(BillingDetailsDTO dto) {
+        BillingDetails billingDetails = convertEntity(dto);
+        billingDetailsJpaDao.save(billingDetails);
+        return billingDetails;
+    }
 
-  @Override
-  public BillingDetails findBilling(String id) throws Exception {
-    if (StringUtils.isEmpty(id)) {
-        throw new Exception("主键不能为空");
+    @Override
+    public BillingDetails findBilling(String id) throws Exception {
+        if (StringUtils.isEmpty(id)) {
+            throw new Exception("主键不能为空");
+        }
+        return billingDetailsJpaDao.getOne(id);
     }
-    return billingDetailsJpaDao.getOne(id);
-  }
 
-  @Override
-  public void deleteBilling(String id) throws Exception {
-    if (StringUtils.isEmpty(id)) {
-      throw new Exception("主键不能为空");
+    @Override
+    public void deleteBilling(String id) throws Exception {
+        if (StringUtils.isEmpty(id)) {
+            throw new Exception("主键不能为空");
+        }
+        billingDetailsJpaDao.deleteById(id);
     }
-    billingDetailsJpaDao.deleteById(id);
-  }
 
-  @Override
-  public Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager) {
-    StringBuilder sql = new StringBuilder();
-    List<Object> params = new ArrayList<>();
-    sql.append(" SELECT id,record_time recordTime,spending_type spendingType,amount_paid amountPaid, ");
-    sql.append(" remark,create_time createTime,update_time updateTime ");
-    sql.append(" FROM billing_details ");
-    sql.append(" WHERE 1=1 ");
-    if (dto.getSpendingType() != null) {
-      sql.append(" AND spending_type = ? ");
-      params.add(dto.getSpendingType());
+    @Override
+    public Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id,DATE_FORMAT(record_time,'%Y-%m-%d') recordTime,spending_type spendingType,amount_paid amountPaid, ");
+        sql.append(" remark,create_time createTime,update_time updateTime ");
+        sql.append(" FROM billing_details ");
+        sql.append(" WHERE 1=1 ");
+        if (dto.getSpendingType() != null) {
+            sql.append(" AND spending_type = ? ");
+            params.add(dto.getSpendingType());
+        }
+        if (StringUtils.isNotBlank(dto.getRecordTime())) {
+            int length = dto.getRecordTime().length();
+            if (length == 4) {//记录时间——年
+                sql.append(" AND DATE_FORMAT(record_time,'%Y') = ? ");
+            } else if (length == 7) {//记录时间——月
+                sql.append(" AND DATE_FORMAT(record_time,'%Y-%m') = ? ");
+            } else if (length == 10) {//记录时间——日
+                sql.append(" AND DATE_FORMAT(record_time,'%Y-%m-%d') = ? ");
+            } else {
+                sql.append(" AND DATE_FORMAT(record_time,'%Y-%m-%d') >= ? ");
+            }
+            params.add(dto.getRecordTime());
+        }
+        sql.append(" ORDER BY record_time DESC ");
+        return commonDao.findListBySql(pager, sql, params);
     }
-    if (dto.getRecordTime() != null) {
-      sql.append(" AND record_time >= ? ");
-      params.add(dto.getRecordTime());
-    }
-    Pager<BillingDetailsDTO> listBySql = commonDao.findListBySql(pager, sql, params);
-    return listBySql;
-  }
 
-  private BillingDetails convertEntity(BillingDetailsDTO dto) {
-    BillingDetails entity = new BillingDetails();
-    if (StringUtils.isEmpty(dto.getId())) {
-      entity.setId(UUID.randomUUID().toString());
-      entity.setCreateTime(new Date());
+    @Override
+    public Map<String, List<BillingDetailsDTO>> findBillingListGroup(BillingDetailsDTO dto) {
+        Pager<BillingDetailsDTO> pager = new Pager<>();
+        Pager<BillingDetailsDTO> resultPage = findBillingList(dto, pager);
+        List<BillingDetailsDTO> dataList = resultPage.getDataList();
+        Map<String, List<BillingDetailsDTO>> collect = dataList.stream().collect(Collectors.groupingBy(BillingDetailsDTO::getRecordTime));
+        return collect;
     }
-    else {
-      entity = billingDetailsJpaDao.getOne(dto.getId());
+
+    private BillingDetails convertEntity(BillingDetailsDTO dto) {
+        BillingDetails entity = new BillingDetails();
+        if (StringUtils.isEmpty(dto.getId())) {
+            entity.setId(UUID.randomUUID().toString());
+            entity.setCreateTime(new Date());
+        } else {
+            entity = billingDetailsJpaDao.getOne(dto.getId());
+        }
+        entity.setSpendingType(dto.getSpendingType());
+        entity.setAmountPaid(dto.getAmountPaid());
+        entity.setRemark(dto.getRemark());
+        entity.setRecordTime(new Date());
+        entity.setUpdateTime(new Date());
+        return entity;
     }
-    entity.setSpendingType(dto.getSpendingType());
-    entity.setAmountPaid(dto.getAmountPaid());
-    entity.setRemark(dto.getRemark());
-    entity.setRecordTime(new Date());
-    entity.setUpdateTime(new Date());
-    return entity;
-  }
 
 }
