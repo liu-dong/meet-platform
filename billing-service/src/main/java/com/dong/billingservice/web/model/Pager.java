@@ -2,6 +2,7 @@ package com.dong.billingservice.web.model;
 
 import lombok.Data;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -36,5 +37,9 @@ public class Pager<T> {
     public Pager() {
         this.page = 1;
         this.limit = 10000;
+    }
+
+    public Class<T> getClazz() {
+        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }

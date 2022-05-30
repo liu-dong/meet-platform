@@ -28,7 +28,7 @@ public class CommonDaoImpl implements CommonDao {
             query.setFirstResult((pager.getPage() - 1) * pager.getLimit());//起始数
             query.setMaxResults(pager.getLimit());
         }
-        query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.aliasToBean(pager.getClazz()));
         pager.setTotal(this.getTotalBySql(sql, params));
         pager.setDataList(query.getResultList());
         return pager;
