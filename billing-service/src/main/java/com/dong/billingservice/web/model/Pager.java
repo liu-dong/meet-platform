@@ -1,16 +1,15 @@
 package com.dong.billingservice.web.model;
 
-import lombok.Data;
+import com.dong.billingservice.util.CommonUtils;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分页
  *
  * @author LD
  */
-@Data
 public class Pager<T> {
 
     /**
@@ -37,5 +36,54 @@ public class Pager<T> {
     public Pager() {
         this.page = 1;
         this.limit = 10000;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public int getPageTotal() {
+        return pageTotal;
+    }
+
+    public void setPageTotal(int pageTotal) {
+        this.pageTotal = pageTotal;
+    }
+
+    public List<T> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<T> dataList) {
+        this.dataList = dataList;
+    }
+
+    public void setDataList(Map<String, Object> map) {
+        try {
+            this.dataList = (List<T>) CommonUtils.mapToObject(map);
+        } catch (IllegalAccessException e) {
+            System.err.println("分页数据转换失败");
+            e.printStackTrace();
+        }
     }
 }
