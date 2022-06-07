@@ -14,6 +14,15 @@ public interface CommonDao {
      * @param params
      * @return
      */
+    <T> Pager<T> findListBySql(Pager<T> pager, StringBuilder sql, List<Object> params, Class<T> clazz);
+    /**
+     * 分页列表查询
+     *
+     * @param pager
+     * @param sql
+     * @param params
+     * @return
+     */
     <T> Pager<T> findListBySql(Pager<T> pager, StringBuilder sql, List<Object> params);
 
 

@@ -38,8 +38,4 @@ public class Pager<T> {
         this.page = 1;
         this.limit = 10000;
     }
-
-    public Class<T> getClazz() {
-        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
 }

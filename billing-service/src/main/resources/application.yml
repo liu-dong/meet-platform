@@ -3,4 +3,4 @@ spring:
         name: billing-service
 
     profiles:
-        active: dev
+        active: prod

@@ -1,20 +1,17 @@
 package com.dong.billingservice.web.service.impl;
 
 import com.alibaba.excel.util.StringUtils;
-import com.alibaba.fastjson.JSON;
-import com.dong.billingservice.util.DateFormUtils;
 import com.dong.billingservice.web.dao.BillingDetailsJpaDao;
 import com.dong.billingservice.web.dao.CommonDao;
 import com.dong.billingservice.web.entity.BillingDetails;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
 import com.dong.billingservice.web.model.Pager;
 import com.dong.billingservice.web.service.BillingDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 账单明细表(BillingDetails)表服务实现类
@@ -68,11 +65,14 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         }
         if (StringUtils.isNotBlank(dto.getRecordTime())) {
             int length = dto.getRecordTime().length();
-            if (length == 4) {//记录时间——年
+            if (length == 4) {
+                //记录时间——年
                 sql.append(" AND DATE_FORMAT(record_time,'%Y') = ? ");
-            } else if (length == 7) {//记录时间——月
+            } else if (length == 7) {
+                //记录时间——月
                 sql.append(" AND DATE_FORMAT(record_time,'%Y-%m') = ? ");
-            } else if (length == 10) {//记录时间——日
+            } else if (length == 10) {
+                //记录时间——日
                 sql.append(" AND DATE_FORMAT(record_time,'%Y-%m-%d') = ? ");
             } else {
                 sql.append(" AND DATE_FORMAT(record_time,'%Y-%m-%d') >= ? ");
