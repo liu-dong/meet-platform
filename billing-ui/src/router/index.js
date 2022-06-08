@@ -6,7 +6,7 @@ import Login from '@/view/Login'
 import store from '@/store'
 import Test from "@/view/Test";
 import BillingHome from "@/view/billing/BillingHome";
-import BillingDetails from "@/view/billing/BillingDetails";
+import BillingDetailsGroup from "@/view/billing/BillingDetailsGroup";
 import BillingDetailsList from "@/view/billing/BillingDetailsList";
 
 Vue.use(Router)
@@ -23,7 +23,7 @@ const router = new Router({
         {path: '/test', name: 'test', component: Test},
         {
             path: '/billingHome', name: 'billingHome', component: BillingHome, children: [
-                {path: '/billingDetails', name: 'billingDetails', component: BillingDetails},
+                {path: '/billingDetailsGroup', name: 'billingDetailsGroup', component: BillingDetailsGroup},
                 {path: '/billingDetailsList', name: 'billingDetailsList', component: BillingDetailsList}]
         }
 
@@ -56,5 +56,11 @@ const router = new Router({
         next('/login') // 否则全部重定向到登录页
     }
 })*/
+/*
+const VueRouterPush = Router.prototype.push
+Router.prototype.push = function push (to) {
+    return VueRouterPush.call(this, to).catch(err => err)
+}
+*/
 
 export default router

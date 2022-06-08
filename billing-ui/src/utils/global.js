@@ -4,7 +4,7 @@
  * 通过 this.Global 调用
  */
 
-export const baseUrl = 'http://localhost:8181'
+export const baseUrl = 'http://localhost:9181'
 // 项目环境
 export const env = 'dev'// 开发模式，需要开启后端应用
 

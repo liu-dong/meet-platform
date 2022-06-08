@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-05-28 00:18:49
  */
 @RestController
-@RequestMapping("/billingDetails")
+@RequestMapping("/billing/billingDetails")
 public class BillingDetailsController {
 
     @Autowired

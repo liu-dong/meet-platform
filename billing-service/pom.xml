@@ -23,10 +23,10 @@
         <lombok.version>1.18.24</lombok.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>3.0.0</swagger.version>
-
         <jjwt.version>0.7.0</jjwt.version>
         <easyexcel.version>3.1.0</easyexcel.version>
         <fastjson.version>2.0.3</fastjson.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
     </properties>
     <dependencies>
         <dependency>
@@ -95,6 +95,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
         </dependency>
 
     </dependencies>

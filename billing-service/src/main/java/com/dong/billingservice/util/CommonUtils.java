@@ -1,5 +1,6 @@
 package com.dong.billingservice.util;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -89,8 +90,9 @@ public class CommonUtils {
                     boolean flag = field.isAccessible();
                     field.setAccessible(true);
                     Object object = map.get(field.getName());
-                    if (object != null && field.getType().isAssignableFrom(object.getClass())) {
-                        field.set(t, object);
+                    //&& field.getType().isAssignableFrom(object.getClass())
+                    if (object != null) {
+                        field.set(t, ConvertUtils.convert(object,field.getType()) );
                     }
                     field.setAccessible(flag);
                 }

@@ -20,7 +20,7 @@ export default {
         }
     },
     created() {
-        this.$router.push({name: "billingDetails"})
+        this.$router.push({name: "billingDetailsGroup"})
     },
     methods: {
     }
