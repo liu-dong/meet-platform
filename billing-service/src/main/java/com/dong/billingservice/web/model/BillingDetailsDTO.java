@@ -11,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author zhang.jiaxin
  * @since 2022-05-28
  */
-@Data
 public class BillingDetailsDTO {
 
   /** 主键 */
@@ -34,4 +33,75 @@ public class BillingDetailsDTO {
   /** 修改人 */
   private String updateUserId;
 
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getRecordTime() {
+    return recordTime;
+  }
+
+  public void setRecordTime(String recordTime) {
+    this.recordTime = recordTime;
+  }
+
+  public Integer getSpendingType() {
+    return spendingType;
+  }
+
+  public void setSpendingType(Integer spendingType) {
+    this.spendingType = spendingType;
+  }
+
+  public BigDecimal getAmountPaid() {
+    return amountPaid;
+  }
+
+  public void setAmountPaid(BigDecimal amountPaid) {
+    this.amountPaid = amountPaid;
+  }
+
+  public String getRemark() {
+    return remark;
+  }
+
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+
+  public String getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(String createTime) {
+    this.createTime = createTime;
+  }
+
+  public String getCreateUserId() {
+    return createUserId;
+  }
+
+  public void setCreateUserId(String createUserId) {
+    this.createUserId = createUserId;
+  }
+
+  public String getUpdateTime() {
+    return updateTime;
+  }
+
+  public void setUpdateTime(String updateTime) {
+    this.updateTime = updateTime;
+  }
+
+  public String getUpdateUserId() {
+    return updateUserId;
+  }
+
+  public void setUpdateUserId(String updateUserId) {
+    this.updateUserId = updateUserId;
+  }
 }

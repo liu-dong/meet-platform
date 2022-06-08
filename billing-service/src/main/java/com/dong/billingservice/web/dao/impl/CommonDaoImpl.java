@@ -23,9 +23,9 @@ public class CommonDaoImpl implements CommonDao {
 
     @Override
     public <T> Pager<T> findListBySql(Pager<T> pager, StringBuilder sql, List<Object> params, Class<T> clazz) {
-        Query query = getQuery(sql, params, pager.getPage(), pager.getLimit(), Transformers.aliasToBean(clazz));
+        Query query = getQuery(sql, params, pager.getPage(), pager.getLimit(), null);
         pager.setTotal(this.getTotalBySql(sql, params));
-        pager.setDataList(query.getResultList());
+        pager.convertDataList(query.getResultList(),clazz);
         return pager;
     }
 

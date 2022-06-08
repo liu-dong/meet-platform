@@ -51,7 +51,7 @@ public class CommonUtils {
     }
 
     /**
-     * Object转Map
+     * Map转Object
      *
      * @param object
      * @return
@@ -68,6 +68,41 @@ public class CommonUtils {
             field.set(object, map.get(field.getName()));
         }
         return object;
+    }
+
+    /**
+     * Map转Object
+     *
+     * @param object
+     * @return
+     */
+    public static <T> T mapToObject(Map<String, Object> map, Class<T> clazz) {
+        if (map == null) {
+            return null;
+        }
+        T t = null;
+        Field[] fields = clazz.getDeclaredFields();
+        try {
+            t = clazz.newInstance();
+            for (Field field : fields) {
+                if (map.containsKey(field.getName())) {
+                    boolean flag = field.isAccessible();
+                    field.setAccessible(true);
+                    Object object = map.get(field.getName());
+                    if (object != null && field.getType().isAssignableFrom(object.getClass())) {
+                        field.set(t, object);
+                    }
+                    field.setAccessible(flag);
+                }
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            System.err.println("map转换指定对象异常");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            System.err.println("map转换指定对象异常");
+        }
+        return t;
     }
 
     /**

@@ -80,7 +80,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             params.add(dto.getRecordTime());
         }
         sql.append(" ORDER BY record_time DESC ");
-        return commonDao.findListBySql(pager, sql, params);
+        return commonDao.findListBySql(pager, sql, params, BillingDetailsDTO.class);
     }
 
     @Override

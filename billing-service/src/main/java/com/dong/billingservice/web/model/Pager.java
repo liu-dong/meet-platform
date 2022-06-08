@@ -2,6 +2,7 @@ package com.dong.billingservice.web.model;
 
 import com.dong.billingservice.util.CommonUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,12 +79,13 @@ public class Pager<T> {
         this.dataList = dataList;
     }
 
-    public void setDataList(Map<String, Object> map) {
-        try {
-            this.dataList = (List<T>) CommonUtils.mapToObject(map);
-        } catch (IllegalAccessException e) {
-            System.err.println("分页数据转换失败");
-            e.printStackTrace();
+    public void convertDataList(List<Map<String, Object>> listMap, Class<T> clazz) {
+        List<T> list = new ArrayList<>();
+        for (Map<String, Object> map : listMap) {
+            T t = CommonUtils.mapToObject(map, clazz);
+            list.add(t);
         }
+        setDataList(list);
     }
+
 }
