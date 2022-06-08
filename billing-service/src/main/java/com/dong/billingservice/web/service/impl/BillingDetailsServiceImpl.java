@@ -88,8 +88,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         Pager<BillingDetailsDTO> pager = new Pager<>();
         Pager<BillingDetailsDTO> resultPage = findBillingList(dto, pager);
         List<BillingDetailsDTO> dataList = resultPage.getDataList();
-        Map<String, List<BillingDetailsDTO>> collect = dataList.stream().collect(Collectors.groupingBy(BillingDetailsDTO::getRecordTime));
-        return collect;
+        return dataList.stream().collect(Collectors.groupingBy(BillingDetailsDTO::getRecordTime));
     }
 
     private BillingDetails convertEntity(BillingDetailsDTO dto) {
