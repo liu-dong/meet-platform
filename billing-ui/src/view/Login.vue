@@ -54,7 +54,7 @@ export default {
     name: 'Login',
     data() {
         return {
-            loginWay: 1,//1：账号密码、2：邮箱验证、3：扫码
+            loginWay: 1,//validator.js：账号密码、2：邮箱验证、3：扫码
             getKaptcha: '/images/kaptcha.jpg',
             getQRCode: '/images/QRCode.png',
             username: '',
@@ -211,7 +211,7 @@ export default {
     /*居中*/
     display: flex;
     /*居中*/
-    /*box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); !*添加阴影*!*/
+    /*box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .validator.js); !*添加阴影*!*/
 }
 
 .form-input {

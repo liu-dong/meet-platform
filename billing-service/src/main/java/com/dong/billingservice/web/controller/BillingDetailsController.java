@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 /**
  * 账单明细表(BillingDetails)表控制层
  *
@@ -26,7 +28,13 @@ public class BillingDetailsController {
     @ApiOperation("保存账单")
     @PostMapping("/saveBillingDetails")
     public ResponseResult saveBillingDetails(@RequestBody BillingDetailsDTO dto) {
-        BillingDetails billingDetails = billingDetailsService.saveBilling(dto);
+        BillingDetails billingDetails;
+        try {
+            billingDetails = billingDetailsService.saveBilling(dto);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return ResponseResult.error("保存失败：" + e.getMessage());
+        }
         return ResponseResult.success(billingDetails, "保存成功！");
     }
 

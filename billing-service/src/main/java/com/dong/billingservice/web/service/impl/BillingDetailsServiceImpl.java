@@ -1,6 +1,7 @@
 package com.dong.billingservice.web.service.impl;
 
 import com.alibaba.excel.util.StringUtils;
+import com.dong.billingservice.util.DateFormUtils;
 import com.dong.billingservice.web.dao.BillingDetailsJpaDao;
 import com.dong.billingservice.web.dao.CommonDao;
 import com.dong.billingservice.web.entity.BillingDetails;
@@ -10,6 +11,7 @@ import com.dong.billingservice.web.service.BillingDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     private CommonDao commonDao;
 
     @Override
-    public BillingDetails saveBilling(BillingDetailsDTO dto) {
+    public BillingDetails saveBilling(BillingDetailsDTO dto) throws ParseException {
         BillingDetails billingDetails = convertEntity(dto);
         billingDetailsJpaDao.save(billingDetails);
         return billingDetails;
@@ -91,7 +93,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         return dataList.stream().collect(Collectors.groupingBy(BillingDetailsDTO::getRecordTime));
     }
 
-    private BillingDetails convertEntity(BillingDetailsDTO dto) {
+    private BillingDetails convertEntity(BillingDetailsDTO dto) throws ParseException {
         BillingDetails entity = new BillingDetails();
         if (StringUtils.isEmpty(dto.getId())) {
             entity.setId(UUID.randomUUID().toString());
@@ -102,7 +104,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         entity.setSpendingType(dto.getSpendingType());
         entity.setAmountPaid(dto.getAmountPaid());
         entity.setRemark(dto.getRemark());
-        entity.setRecordTime(new Date());
+        entity.setRecordTime(DateFormUtils.formatDate(dto.getRecordTime()));
         entity.setUpdateTime(new Date());
         return entity;
     }

@@ -5,6 +5,7 @@ import com.dong.billingservice.web.model.BillingDetailsDTO;
 import com.dong.billingservice.web.model.Pager;
 import com.dong.billingservice.web.model.QueryParam;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public interface BillingDetailsService {
    * @param dto 账单内容
    * @return 账单内容
    */
-  BillingDetails saveBilling(BillingDetailsDTO dto);
+  BillingDetails saveBilling(BillingDetailsDTO dto) throws ParseException;
 
   /**
    * 查询账单明细

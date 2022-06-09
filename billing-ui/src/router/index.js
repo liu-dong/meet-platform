@@ -50,7 +50,7 @@ const router = new Router({
         } else {
             next() // 当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入404页面
         }
-    } else if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
+    } else if (whiteList.indexOf(to.path) !== -validator.js) { // 在免登录白名单，直接进入
         next()
     } else {
         next('/login') // 否则全部重定向到登录页
