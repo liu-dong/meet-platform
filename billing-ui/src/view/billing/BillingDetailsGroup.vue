@@ -19,7 +19,7 @@
     <el-dialog :visible.sync="dialogTableVisible" title="当日账单明细">
       <el-button @click="dialogFormVisible = true">记账</el-button>
       <el-table :data="billingDetailsList" :border="true">
-        <el-table-column header-align="center" align="center" label="记录日期" a property="recordTime" width="150"></el-table-column>
+        <el-table-column header-align="center" align="center" label="活动时间" a property="recordTime" width="150"></el-table-column>
         <el-table-column header-align="center" align="center" label="支出类型" property="spendingType" :formatter="formatterType" width="200"></el-table-column>
         <el-table-column header-align="center" align="right" label="支出金额" property="amountPaid"></el-table-column>
         <el-table-column header-align="center" align="left" label="备注" property="remark"></el-table-column>
