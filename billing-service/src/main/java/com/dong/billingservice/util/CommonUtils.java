@@ -92,7 +92,7 @@ public class CommonUtils {
                     Object object = map.get(field.getName());
                     //&& field.getType().isAssignableFrom(object.getClass())
                     if (object != null) {
-                        field.set(t, ConvertUtils.convert(object,field.getType()) );
+                        field.set(t, ConvertUtils.convert(object, field.getType()));
                     }
                     field.setAccessible(flag);
                 }

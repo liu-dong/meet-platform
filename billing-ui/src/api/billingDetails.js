@@ -27,7 +27,7 @@ export function saveBillingDetails(data) {
 
 export function getBillingDetails(params) {
     return axios({
-        url: '/billing/billingDetails/getBillingDetails',
+        url: '/billing/billingDetails/getBilling',
         method: 'get',
         params
     })
@@ -35,7 +35,7 @@ export function getBillingDetails(params) {
 
 export function deleteBillingDetails(params) {
     return axios({
-        url: '/billing/billingDetails/deleteBillingDetails',
+        url: '/billing/billingDetails/deleteBilling',
         method: 'post',
         params
     })
