@@ -17,7 +17,7 @@
     </el-calendar>
     <!-- Table -->
     <el-dialog :visible.sync="dialogTableVisible" title="当日账单明细">
-      <el-button @click="dialogFormVisible = true">记账</el-button>
+      <el-button @click="charge">记账</el-button>
       <el-table :border="true" :data="billingDetailsList">
         <el-table-column a align="center" header-align="center" label="记录时间" property="recordTime"
                          width="150"></el-table-column>
@@ -43,7 +43,8 @@
     <el-dialog :visible.sync="dialogFormVisible" append-to-body center title="当日账单明细" width="25%">
       <el-form ref="billingDetailsForm" :model="billingDetails" :rules="billingDetailsRules" label-width="80px">
         <el-form-item label="记录时间" prop="recordTime">
-          <el-date-picker v-model="billingDetails.recordTime" :disabled="viewType==='detail'" format="yyyy-MM-dd HH:mm:ss"
+          <el-date-picker v-model="billingDetails.recordTime" :disabled="viewType==='detail'"
+                          format="yyyy-MM-dd HH:mm:ss"
                           placeholder="选择记录时间"
                           style="width: 100%" type="datetime"
                           value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
@@ -76,6 +77,7 @@
 <script>
 import {deleteBillingDetails, findBillingListGroup, getBillingDetails, saveBillingDetails} from "@/api/billingDetails";
 import staticData, {getName} from "@/constant/staticData.js";
+import {getCurrentTime} from "@/utils/datetime";
 
 export default {
   name: "BillingDetailsGroup",
@@ -108,6 +110,7 @@ export default {
       },
       spendingTypeOption: staticData.spendingType,
       viewType: 'add',//页面类型 add：新增，edit：编辑，detail：查看
+      selectDate: '',
     }
   },
   created() {
@@ -124,11 +127,10 @@ export default {
       })
     },
     findBillingDetailsList(date) {
-      console.log("date：", date)
       this.dialogTableVisible = true
+      this.selectDate = date
       this.billingDetailsList = this.billingDetailsGroup[date]
-      console.log("list：", this.billingDetailsList)
-      this.billingDetails.recordTime = date + ' 00:00:00'
+      // this.billingDetails.recordTime = date + " " + getCurrentTime()
     },
     saveBillingDetails(formName) {
       this.$refs[formName].validate((valid) => {
@@ -138,16 +140,8 @@ export default {
             if (res.code === 200) {
               this.$message({message: res.message, type: 'success'});
               this.dialogFormVisible = false
-              this.billingDetails = {
-                id: "",
-                recordTime: '',
-                spendingType: 1,
-                amountPaid: 0,
-                remark: ""
-              }
               await this.findBillingListGroup()
-              console.log(data.recordTime.slice(0, 10))
-              await this.findBillingDetailsList(data.recordTime.slice(0, 10))
+              await this.findBillingDetailsList(this.selectDate)
             } else {
               this.$message({message: res.message, type: 'error'});
             }
@@ -184,6 +178,21 @@ export default {
         }
       })
     },
+    charge() {
+      this.dialogFormVisible = true
+      this.resetBillingDetails()
+      this.billingDetails.recordTime = this.selectDate + " " + getCurrentTime()
+      this.viewType = "add"
+    },
+    resetBillingDetails() {
+      this.billingDetails = {
+        id: "",
+        recordTime: '',
+        spendingType: 1,
+        amountPaid: 0,
+        remark: ""
+      }
+    },
     formatterType(row) {
       return getName(row.spendingType, this.spendingTypeOption)
     },
@@ -207,7 +216,7 @@ export default {
 </style>
 <style>
 .message-z-index {
-  z-index:3000 !important;
+  z-index: 3000 !important;
 }
 </style>
 

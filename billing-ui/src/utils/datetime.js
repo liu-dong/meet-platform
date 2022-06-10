@@ -32,3 +32,42 @@ export function formatWithSeparator(datetime, dateSeparator, timeSeparator) {
     }
     return null
 }
+
+/**
+ * 获取当前日期时间
+ * @returns {string} yyyy-MM-dd HH:mm:ss
+ */
+export function getCurrentDateTime() {
+    const dateMat = new Date()
+    const year = dateMat.getFullYear()
+    const month = dateMat.getMonth() + 1
+    const day = dateMat.getDate()
+    const hh = dateMat.getHours()
+    const mm = dateMat.getMinutes()
+    const ss = dateMat.getSeconds()
+    return year + "-" + month + "-" + day + ' ' + hh + ":" + mm + ":" + ss
+}
+
+/**
+ * 获取当前日期
+ * @returns {string} yyyy-MM-dd
+ */
+export function getCurrentDate() {
+    const dateMat = new Date()
+    const year = dateMat.getFullYear()
+    const month = dateMat.getMonth() + 1
+    const day = dateMat.getDate()
+    return year + "-" + month + "-" + day
+}
+
+/**
+ * 获取当前时间
+ * @returns {string} HH:mm:ss
+ */
+export function getCurrentTime() {
+    const dateMat = new Date()
+    const hh = dateMat.getHours()
+    const mm = dateMat.getMinutes()
+    const ss = dateMat.getSeconds()
+    return hh + ":" + mm + ":" + ss
+}
