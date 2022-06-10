@@ -31,5 +31,6 @@ spring:
     jackson:
         date-format: yyyy-MM-dd HH:mm:ss
         time-zone: GMT+8
+        # 解决数据库有字段为null报错问题（相当于@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })配置）
         serialization:
             FAIL_ON_EMPTY_BEANS: false
