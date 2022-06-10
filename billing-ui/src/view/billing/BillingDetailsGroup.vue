@@ -122,7 +122,6 @@ export default {
       await findBillingListGroup(data).then(res => {
         if (res.code === 200) {
           this.billingDetailsGroup = res.data
-          console.log('billingDetailsGroup：', this.billingDetailsGroup)
         }
       })
     },
@@ -130,7 +129,6 @@ export default {
       this.dialogTableVisible = true
       this.selectDate = date
       this.billingDetailsList = this.billingDetailsGroup[date]
-      // this.billingDetails.recordTime = date + " " + getCurrentTime()
     },
     saveBillingDetails(formName) {
       this.$refs[formName].validate((valid) => {
