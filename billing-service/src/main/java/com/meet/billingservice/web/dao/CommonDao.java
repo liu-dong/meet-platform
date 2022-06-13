@@ -46,7 +46,7 @@ public interface CommonDao {
      * @param params
      * @return 返回list对象
      */
-    <T> List<T> findListBySql(StringBuilder sql, List<Object> params);
+    <T> List<T> findListBySql(StringBuilder sql, List<Object> params, Class<T> clazz);
 
     /**
      * 分页列表查询

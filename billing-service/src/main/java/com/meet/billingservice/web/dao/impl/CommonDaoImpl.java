@@ -1,7 +1,8 @@
-package com.meet.billingservice.web.dao.impl;
+package com.dong.billingservice.web.dao.impl;
 
-import com.meet.billingservice.web.dao.CommonDao;
-import com.meet.billingservice.web.model.Pager;
+import com.dong.billingservice.util.CommonUtils;
+import com.dong.billingservice.web.dao.CommonDao;
+import com.dong.billingservice.web.model.Pager;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +27,11 @@ public class CommonDaoImpl implements CommonDao {
 
     /**
      * 分页列表查询
+     *
      * @param pager
      * @param sql
      * @param params
-     * @param clazz 指定返回对象
+     * @param clazz  指定返回对象
      * @return 返回分页对象
      */
     @Override
@@ -78,8 +81,14 @@ public class CommonDaoImpl implements CommonDao {
      * @return 返回list对象
      */
     @Override
-    public <T> List<T> findListBySql(StringBuilder sql, List<Object> params) {
-        return this.findListBySql(sql, params, 0, 0);
+    public <T> List<T> findListBySql(StringBuilder sql, List<Object> params, Class<T> clazz) {
+        List<Map<String, Object>> listMap = this.findListBySql(sql, params, 0, 0);
+        List<T> list = new ArrayList<>();
+        for (Map<String, Object> map : listMap) {
+            T t = CommonUtils.mapToObject(map, clazz);
+            list.add(t);
+        }
+        return list;
     }
 
     /**
