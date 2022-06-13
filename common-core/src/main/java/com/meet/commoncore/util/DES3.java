@@ -1,4 +1,4 @@
-package com.meet.commoncore.utils;
+package com.meet.commoncore.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

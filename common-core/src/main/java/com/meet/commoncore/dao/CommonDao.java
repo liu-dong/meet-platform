@@ -13,7 +13,18 @@ public interface CommonDao {
      * @param pager
      * @param sql
      * @param params
-     * @return
+     * @param clazz  指定返回对象
+     * @return 返回分页对象
+     */
+    <T> Pager<T> findListBySql(Pager<T> pager, StringBuilder sql, List<Object> params, Class<T> clazz);
+
+    /**
+     * 分页列表查询
+     *
+     * @param pager
+     * @param sql
+     * @param params
+     * @return 返回分页对象
      */
     <T> Pager<T> findListBySql(Pager<T> pager, StringBuilder sql, List<Object> params);
 
@@ -25,9 +36,8 @@ public interface CommonDao {
      * @param params
      * @param page
      * @param limit
-     * @return
+     * @return 返回list对象
      */
-
     <T> List<T> findListBySql(StringBuilder sql, List<Object> params, int page, int limit);
 
     /**
@@ -35,10 +45,9 @@ public interface CommonDao {
      *
      * @param sql
      * @param params
-     * @return
+     * @return 返回list对象
      */
-
-    <T> List<T> findListBySql(StringBuilder sql, List<Object> params);
+    <T> List<T> findListBySql(StringBuilder sql, List<Object> params, Class<T> clazz);
 
     /**
      * 分页列表查询
@@ -47,9 +56,8 @@ public interface CommonDao {
      * @param params
      * @param page
      * @param limit
-     * @return
+     * @return 返回listMap对象
      */
-
     List<Map<String, Object>> findListMapBySql(StringBuilder sql, List<Object> params, int page, int limit);
 
     /**
@@ -57,9 +65,8 @@ public interface CommonDao {
      *
      * @param sql
      * @param params
-     * @return
+     * @return 返回listMap对象
      */
-
     List<Map<String, Object>> findListMapBySql(StringBuilder sql, List<Object> params);
 
     /**
@@ -67,9 +74,8 @@ public interface CommonDao {
      *
      * @param sql
      * @param params
-     * @return
+     * @return 返回记录数
      */
-
     Integer getTotalBySql(StringBuilder sql, List<Object> params);
 
 }
