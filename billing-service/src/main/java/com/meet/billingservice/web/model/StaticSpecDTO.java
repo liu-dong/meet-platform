@@ -1,4 +1,4 @@
-package com.dong.billingservice.web.model;
+package com.meet.billingservice.web.model;
 
 
 import java.util.List;

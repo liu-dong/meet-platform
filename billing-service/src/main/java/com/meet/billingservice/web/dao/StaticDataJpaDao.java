@@ -1,6 +1,6 @@
-package com.dong.billingservice.web.dao;
+package com.meet.billingservice.web.dao;
 
-import com.dong.billingservice.web.entity.StaticSpec;
+import com.meet.billingservice.web.entity.StaticSpec;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -29,7 +29,7 @@ public class ZIPUtils {
             zipFile.delete();
         }
         ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile));// 声明压缩流对象
-        zipOutputStream.setComment("com.dong.zipFile");//设置注释
+        zipOutputStream.setComment("com.meet.zipFile");//设置注释
         isFileFolder(file, zipOutputStream, "");
         zipOutputStream.close();//关闭输出流
         System.out.println("压缩成功");

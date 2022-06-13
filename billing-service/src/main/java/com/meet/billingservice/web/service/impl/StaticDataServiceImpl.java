@@ -1,9 +1,9 @@
-package com.dong.billingservice.web.service.impl;
+package com.meet.billingservice.web.service.impl;
 
-import com.dong.billingservice.web.dao.CommonDao;
-import com.dong.billingservice.web.model.StaticSpecDTO;
-import com.dong.billingservice.web.model.StaticValueDTO;
-import com.dong.billingservice.web.service.StaticDataService;
+import com.meet.billingservice.web.dao.CommonDao;
+import com.meet.billingservice.web.model.StaticSpecDTO;
+import com.meet.billingservice.web.model.StaticValueDTO;
+import com.meet.billingservice.web.service.StaticDataService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

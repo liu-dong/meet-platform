@@ -1,4 +1,4 @@
-package com.dong.billingservice.web.entity;
+package com.meet.billingservice.web.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

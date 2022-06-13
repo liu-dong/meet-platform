@@ -1,8 +1,8 @@
-package com.dong.billingservice.web.dao.impl;
+package com.meet.billingservice.web.dao.impl;
 
-import com.dong.billingservice.util.CommonUtils;
-import com.dong.billingservice.web.dao.CommonDao;
-import com.dong.billingservice.web.model.Pager;
+import com.meet.billingservice.util.CommonUtils;
+import com.meet.billingservice.web.dao.CommonDao;
+import com.meet.billingservice.web.model.Pager;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.jetbrains.annotations.NotNull;

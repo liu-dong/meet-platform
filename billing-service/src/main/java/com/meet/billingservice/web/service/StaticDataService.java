@@ -1,6 +1,6 @@
-package com.dong.billingservice.web.service;
+package com.meet.billingservice.web.service;
 
-import com.dong.billingservice.web.model.StaticSpecDTO;
+import com.meet.billingservice.web.model.StaticSpecDTO;
 
 /**
  * 数据字典规格表(StaticSpec)服务接口

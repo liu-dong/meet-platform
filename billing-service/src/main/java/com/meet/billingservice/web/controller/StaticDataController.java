@@ -1,8 +1,8 @@
-package com.dong.billingservice.web.controller;
+package com.meet.billingservice.web.controller;
 
-import com.dong.billingservice.web.model.ResponseResult;
-import com.dong.billingservice.web.model.StaticSpecDTO;
-import com.dong.billingservice.web.service.StaticDataService;
+import com.meet.billingservice.web.model.ResponseResult;
+import com.meet.billingservice.web.model.StaticSpecDTO;
+import com.meet.billingservice.web.service.StaticDataService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
