@@ -3,7 +3,6 @@ package com.meet.commoncore.dao.impl;
 import com.meet.commoncore.dao.CommonDao;
 import com.meet.commoncore.model.Pager;
 import com.meet.commoncore.util.CommonUtils;
-import com.sun.istack.internal.NotNull;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -144,7 +143,6 @@ public class CommonDaoImpl implements CommonDao {
      * @param limit
      * @return
      */
-    @NotNull
     private Query getQuery(StringBuilder sql, List<Object> params, int page, int limit) {
         Query query = entityManager.createNativeQuery(String.valueOf(sql));
         for (int i = 0; i < params.size(); i++) {

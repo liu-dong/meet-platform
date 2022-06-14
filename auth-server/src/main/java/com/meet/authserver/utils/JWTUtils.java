@@ -37,13 +37,21 @@ public class JWTUtils {
     private static final String RSA_PUBLIC_KEY = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtPnBH6zcvTiqM5zEbJu6SjBblZaPXEPjdjSO736Lq5gvNEFDj28I1InHsic5szBSNvBlmzkZy+5nwJsi/uFy+7FJHjaHojSDUIAPu88DNTX27pL5mXOzybTCiJDWUhFy951iuJCLD3j0yzAJeNoqRx5M/SS2GuqQX6A431yWlKYYTU9e5quh9rZPnFoHrhs5N2QLDapeSfAJIG2UUFCToVanL3ijr5u7ah5g4Sclf/cBFV3eoEKnPjLf9tyL0DCLbmw+Zb/6wqSfe2CSX2jKahQCXYpNekeagZ6QaJ4kz+hPGeKXukPiGqxFuMit/p8/Bsemnm/A1LNsyeYp54Ht0GWulu1qQ/unzIYNgFgUFPtVGynopDxooteBK6Rzr34avak8s7iWAzlDZFi8LMmBMeby4jYz+vzzk6rNEqK3+uKGrkBxlUDZBCph6AjGi+sGAwJj5f3e2X+W51k7GPtOQI1tOCEFumsmGoZQY5fI1bBVTf4j9ljlthDzDc72eOvPs5YQnVN5j4X0iyKMqA47zMhJzRxNUfaG1ASkZhvDQDbaUAQ75qnu4oVN5bR9lqzxf72PzAz8B1Z/kzb+uYVYMKqyVjlLV1tIMaszcuSm3BwIhbZDBhakL2kmtxFUwfIDYB4WQAnKOTR2FsQYg/zpQ6ELTzab4KlyLdhndDY5wnkCAwEAAQ==";
 
 
+    public static String getToken(String userId, String username, String realName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("username", username);
+        map.put("realName", realName);
+        return getJwtToken(map);
+    }
+
     /**
      * 生成JWT token
      *
      * @param map 自定义字段
      * @return JWT规则生成的token
      */
-    public static String getJwtToken(Map<String,Object> map) {
+    public static String getJwtToken(Map<String, Object> map) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
@@ -133,7 +141,7 @@ public class JWTUtils {
      * @param map
      * @return
      */
-    public static String getJwtTokenRsa(Map<String,Object> map){
+    public static String getJwtTokenRsa(Map<String, Object> map) {
         // 利用hutool创建RSA
         RSA rsa = new RSA();
         RSAPrivateKey privateKey = (RSAPrivateKey) rsa.getPrivateKey();
@@ -165,9 +173,9 @@ public class JWTUtils {
     }
 
     public static void main(String[] args) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("username","liudong");
-        map.put("phone","15170519059");
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", "liudong");
+        map.put("phone", "15170519059");
         String token = JWTUtils.getJwtToken(map);
         System.out.println(token);
         boolean b = JWTUtils.checkToken(token);
