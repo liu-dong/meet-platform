@@ -1,6 +1,6 @@
 package com.meet.commoncore.util;
 
-import com.alibaba.excel.util.StringUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,7 +29,7 @@ public class DateFormUtils {
 
     public static String dateToString(Date date,String format) throws ParseException {
         if (date==null){
-            return StringUtils.EMPTY;
+            return null;
         }
         DateFormat df = new SimpleDateFormat(format);
         return df.format(date);
