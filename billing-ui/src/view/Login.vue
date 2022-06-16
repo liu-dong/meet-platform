@@ -49,6 +49,7 @@
 <script>
 // import { getDataDic } from '@/utils/common'
 import {kaptchaUrl, QRCodeUrl} from '@/utils/global'
+import {login} from "@/api/login";
 
 export default {
     name: 'Login',
@@ -105,12 +106,12 @@ export default {
         // this.userType = getDataDic('dic:detail:admin:user.type')
     },
     methods: {
-        autoLogin() {
+/*        autoLogin() {
             let data = {}
             data.username = "SuperAdmin"
             data.password = "123456"
             data.kaptcha = "1"
-            /*login(data).then(res => {
+            /!*login(data).then(res => {
                 if (res.code === 200) {
                     this.$message.success(res.message)
                     this.$store.dispatch('SET_USER_INFO', res.data)
@@ -121,10 +122,10 @@ export default {
                 }
             }).catch(() => {
                 this.updateKaptcha()
-            })*/
+            })*!/
             this.$router.push({name: 'billingHome'})
-        },
-        /*login() {
+        },*/
+        login() {
             const data = {
                 username: this.username,
                 password: this.password,
@@ -142,8 +143,8 @@ export default {
             }).catch(() => {
                 this.updateKaptcha()
             })
-        },*/
-        /*register(form) { // 修改个人信息
+        },
+        register(form) { // 修改个人信息
             // eslint-disable-next-line consistent-return
             this.$refs[form].validate(valid => {
                 if (valid) {
@@ -159,22 +160,22 @@ export default {
                 }
             })
             this.dialogFormVisible = false
-        },*/
-        /*hello() {
+        },
+        hello() {
             const data = {'s': 'This damn world!'}
             hello(data).then(res => {
                 console.log(res)
             })
-        },*/
+        },
         // 刷新验证码
         updateKaptcha() {
             const time = new Date().getTime()
-            this.getKaptcha = process.env.VUE_APP_BASE_API + kaptchaUrl + '?t=' + time
+            this.getKaptcha = process.env.VUE_APP_AUTH_API + kaptchaUrl + '?t=' + time
         },
         // 刷新二维码
         updateQRCode() {
             const time = new Date().getTime()
-            this.getQRCode = process.env.VUE_APP_BASE_API + QRCodeUrl + '?t=' + time
+            this.getQRCode = process.env.VUE_APP_AUTH_API + QRCodeUrl + '?t=' + time
         },
     }
 }

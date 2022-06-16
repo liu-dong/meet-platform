@@ -5,7 +5,7 @@ import { Message, MessageBox } from 'element-ui'
 
 // 创建自定义axios 实例
 const service = axios.create({
-    baseURL: process.env.VUE_APP_AUTH_API,
+    baseURL: process.env.VUE_APP_BILLING_API,
     headers: config.headers, // 请求头信息
     timeout: config.timeout, // 设置超时时间
     withCredentials: config.withCredentials// 携带凭证
