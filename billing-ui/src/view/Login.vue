@@ -136,6 +136,7 @@ export default {
                     this.$message.success(res.message)
                     this.$store.dispatch('SET_USER_INFO', res.data)
                     console.log('用户信息：', res.data)
+                    this.$router.push({name: 'billingHome'})
                 } else {
                     this.$message.error(res.message)
                     this.updateKaptcha()
