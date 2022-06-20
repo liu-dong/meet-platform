@@ -98,9 +98,9 @@ export default {
         if (code) {
             this.getTokenByCode(code)
         }
-        this.updateKaptcha()
         ;*/
-        this.autoLogin()
+        this.updateKaptcha()
+        // this.autoLogin()
     },
     mounted() {
         // this.userType = getDataDic('dic:detail:admin:user.type')

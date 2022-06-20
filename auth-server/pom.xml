@@ -13,11 +13,6 @@
     <packaging>jar</packaging>
     <description>认证服务</description>
 
-    <modules>
-        <module>common-core</module>
-        <module>auth-server</module>
-    </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
