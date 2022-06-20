@@ -76,7 +76,7 @@ public class LoginController {
     public ResponseResult login(HttpServletRequest request, @RequestBody LoginDTO dto) {
         try {
             //验证码校验
-            verificationCode(request);
+            verificationCode(request, dto);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());
@@ -113,14 +113,14 @@ public class LoginController {
         return loginService.cancel(username);
     }
 
-    public void verificationCode(HttpServletRequest request) throws Exception {
-        String requestCode = request.getParameter("kaptcha");
+    public void verificationCode(HttpServletRequest request, LoginDTO dto) throws Exception {
+        String paramCaptcha = dto.getCaptcha();
         HttpSession session = request.getSession();
-        String savedCode = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
+        String savedCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         if (!StringUtils.isEmpty(savedCode)) {
-            session.removeAttribute("KAPTCHA_SESSION_KEY");
+            session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
         }
-        if (StringUtils.isEmpty(requestCode) || StringUtils.isEmpty(savedCode) || !requestCode.equalsIgnoreCase(savedCode)) {
+        if (StringUtils.isEmpty(paramCaptcha) || StringUtils.isEmpty(savedCode) || !paramCaptcha.equalsIgnoreCase(savedCode)) {
             throw new Exception("验证码校验失败");
         }
 

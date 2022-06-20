@@ -129,7 +129,7 @@ export default {
             const data = {
                 username: this.username,
                 password: this.password,
-                kaptcha: this.kaptcha
+                captcha: this.kaptcha
             }
             login(data).then(res => {
                 if (res.code === 200) {
