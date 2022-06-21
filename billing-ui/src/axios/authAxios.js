@@ -1,5 +1,5 @@
-import service from "@/axios/index";
+import builder from "@/axios/index";
 
-const request = service({ baseURL: process.env.VUE_APP_AUTH_API })
+const request = builder({ baseURL: process.env.VUE_APP_AUTH_API })
 
 export default request

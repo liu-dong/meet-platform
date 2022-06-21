@@ -1,4 +1,4 @@
-import request from '@/axios/billingAxios'
+import request from "@/axios/billingAxios";
 
 export function findBillingDetailsList(data, params) {
     return request({
