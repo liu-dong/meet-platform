@@ -17,8 +17,9 @@ const builder = function (config) {
     // request 请求拦截器
     service.interceptors.request.use(
         config => {
-            if (store.getters.authorization) {
-                config.headers.Authorization = store.getters.authorization
+            debugger
+            if (store.getters.accessToken) {
+                config.headers["ACCESS-TOKEN"] = store.getters.accessToken
             }
             return config
         },

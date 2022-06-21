@@ -94,7 +94,7 @@ public class JWTUtils {
      */
     public static boolean checkToken(HttpServletRequest request) {
         try {
-            String jwtToken = request.getHeader("token");
+            String jwtToken = request.getHeader("ACCESS-TOKEN");
             if (StringUtils.isEmpty(jwtToken)) {
                 return false;
             }
@@ -127,7 +127,7 @@ public class JWTUtils {
      * @return
      */
     public static Claims getClaims(HttpServletRequest request) {
-        String jwtToken = request.getHeader("token");
+        String jwtToken = request.getHeader("ACCESS-TOKEN");
         if (StringUtils.isEmpty(jwtToken)) {
             return null;
         }

@@ -6,10 +6,13 @@ import com.meet.authserver.web.entity.Account;
 import com.meet.authserver.web.model.LoginDTO;
 import com.meet.authserver.web.service.LoginService;
 import com.meet.commoncore.model.ResponseResult;
+import io.jsonwebtoken.Claims;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -51,5 +54,17 @@ public class LoginServiceImpl implements LoginService {
             return ResponseResult.success("注销成功!注销时间：" + sdf.format(new Date()));
         }
         return ResponseResult.success("用户名不能为空!");
+    }
+
+    @Override
+    public LoginDTO getUserInfo(HttpServletRequest request) {
+        Claims claims = JWTUtils.getClaims(request);
+        LoginDTO dto = new LoginDTO();
+        if (claims !=null){
+            dto.setId(String.valueOf(claims.get("userId")));
+            dto.setUsername(String.valueOf(claims.get("username")));
+            dto.setRealName(String.valueOf(claims.get("realName")));
+        }
+        return dto;
     }
 }

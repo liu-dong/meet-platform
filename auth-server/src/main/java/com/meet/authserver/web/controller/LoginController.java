@@ -2,6 +2,7 @@ package com.meet.authserver.web.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.meet.authserver.utils.JWTUtils;
 import com.meet.authserver.web.model.LoginDTO;
 import com.meet.authserver.web.service.LoginService;
 import com.meet.commoncore.model.ResponseResult;
@@ -87,6 +88,32 @@ public class LoginController {
         } else {
             return ResponseResult.success(token, "登录成功！");
         }
+    }
+
+    /**
+     * 校验token
+     *
+     * @param request
+     * @return
+     */
+    @ApiOperation("校验token")
+    @GetMapping("/checkToken")
+    public ResponseResult checkToken(HttpServletRequest request) {
+        boolean b = JWTUtils.checkToken(request);
+        return b ? ResponseResult.success("有效令牌") : ResponseResult.error("无效令牌");
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param request
+     * @return
+     */
+    @ApiOperation("获取用户信息")
+    @GetMapping("/getUserInfo")
+    public ResponseResult getUserInfo(HttpServletRequest request) {
+        LoginDTO dto = loginService.getUserInfo(request);
+        return ResponseResult.success(dto,"校验成功！");
     }
 
     /**

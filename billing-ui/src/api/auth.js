@@ -9,3 +9,11 @@ export function login(data) {
     })
 }
 
+// 登录
+export function getUserInfo() {
+    return request({
+        url: '/getUserInfo',
+        method: 'get'
+    })
+}
+

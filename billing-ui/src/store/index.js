@@ -10,21 +10,17 @@ const vuexSession = new VuexPersistence({
 
 const store = new Vuex.Store({
     state: {
-        count: 0,
         userInfo: {},
         roleInfo: {},
-        tokenInfo: {},
         accessToken: '',
-        refreshToken: '',
-        tokenType: ''
     },
     mutations: {
         INCREMENT(state) {
             state.count++
         },
         SET_USER_INFO(state, payload) {
-            state.userInfo = payload.userInfo
-            state.roleInfo = payload.roleInfo
+            state.userInfo = payload
+            // state.roleInfo = payload.roleInfo
         },
         // 移除token信息
         REMOVE_USER_INFO(state) {
@@ -33,24 +29,16 @@ const store = new Vuex.Store({
         },
         // 设置token信息
         SET_TOKEN_INFO(state, payload) {
-            state.tokenInfo = payload
-            state.accessToken = payload.access_token
-            state.refreshToken = payload.refresh_token
-            state.tokenType = payload.token_type
+            debugger
+            state.accessToken = payload
         },
         // 移除token信息
         REMOVE_TOKEN_INFO(state) {
-            state.tokenInfo = {}
             state.accessToken = ''
-            state.refreshToken = ''
-            state.tokenType = ''
         }
 
     },
     actions: {
-        increment(state) {
-            state.commit('INCREMENT')
-        },
         SET_USER_INFO(state, payload) {
             state.commit('SET_USER_INFO', payload)
         },
@@ -71,7 +59,6 @@ const store = new Vuex.Store({
     getters: {
         accessToken: state => state.accessToken,
         refreshToken: state => state.refreshToken,
-        authorization: state => state.tokenInfo.token_type + ' ' + state.tokenInfo.access_token,
         userInfo: state => state.userInfo,
         roles: state => state.roleInfo
 
