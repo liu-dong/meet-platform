@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div v-show="loginWay === 1" class="login-wrapper">
+        <div class="login-wrapper">
             <h1 style="height: 20%">Web登录页面</h1>
             <div style="height: 60%">
                 <el-input v-model="username" class="form-input" placeholder="请输入用户名"/>
@@ -48,14 +48,13 @@
 </template>
 <script>
 // import { getDataDic } from '@/utils/common'
-import {kaptchaUrl, QRCodeUrl} from '@/utils/global'
-import {login} from "@/api/login";
+import {kaptchaUrl} from '@/utils/global'
+import {login} from "@/api/auth";
 
 export default {
     name: 'Login',
     data() {
         return {
-            loginWay: 1,//validator.js：账号密码、2：邮箱验证、3：扫码
             getKaptcha: '/images/kaptcha.jpg',
             getQRCode: '/images/QRCode.png',
             username: '',
@@ -85,46 +84,12 @@ export default {
             userType: []
         }
     },
-    watch: {
-        loginWay: function (newQuestion) {
-            if (newQuestion === 1) {
-                // this.updateKaptcha()
-            }
-        }
-    },
     created() {
-        const code = this.$route.query.code
-        /*console.log('授权码：', code)
-        if (code) {
-            this.getTokenByCode(code)
-        }
-        ;*/
         this.updateKaptcha()
-        // this.autoLogin()
     },
     mounted() {
-        // this.userType = getDataDic('dic:detail:admin:user.type')
     },
     methods: {
-/*        autoLogin() {
-            let data = {}
-            data.username = "SuperAdmin"
-            data.password = "123456"
-            data.kaptcha = "1"
-            /!*login(data).then(res => {
-                if (res.code === 200) {
-                    this.$message.success(res.message)
-                    this.$store.dispatch('SET_USER_INFO', res.data)
-                    console.log('用户信息：', res.data)
-                } else {
-                    this.$message.error(res.message)
-                    this.updateKaptcha()
-                }
-            }).catch(() => {
-                this.updateKaptcha()
-            })*!/
-            this.$router.push({name: 'billingHome'})
-        },*/
         login() {
             const data = {
                 username: this.username,
@@ -162,21 +127,10 @@ export default {
             })
             this.dialogFormVisible = false
         },
-        hello() {
-            const data = {'s': 'This damn world!'}
-            hello(data).then(res => {
-                console.log(res)
-            })
-        },
         // 刷新验证码
         updateKaptcha() {
             const time = new Date().getTime()
             this.getKaptcha = process.env.VUE_APP_AUTH_API + kaptchaUrl + '?t=' + time
-        },
-        // 刷新二维码
-        updateQRCode() {
-            const time = new Date().getTime()
-            this.getQRCode = process.env.VUE_APP_AUTH_API + QRCodeUrl + '?t=' + time
         },
     }
 }
