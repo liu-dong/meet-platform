@@ -1,7 +1,7 @@
-import billingAxios from '@/axios/billingAxios'
+import request from '@/axios/billingAxios'
 
 export function findBillingDetailsList(data, params) {
-    return billingAxios({
+    return request({
         url: '/billing/billingDetails/findBillingList',
         method: 'post',
         data,
@@ -10,7 +10,7 @@ export function findBillingDetailsList(data, params) {
 }
 
 export function findBillingListGroup(data) {
-    return billingAxios({
+    return request({
         url: '/billing/billingDetails/findBillingListGroup',
         method: 'post',
         data
@@ -18,7 +18,7 @@ export function findBillingListGroup(data) {
 }
 
 export function saveBillingDetails(data) {
-    return billingAxios({
+    return request({
         url: '/billing/billingDetails/saveBillingDetails',
         method: 'post',
         data
@@ -26,7 +26,7 @@ export function saveBillingDetails(data) {
 }
 
 export function getBillingDetails(params) {
-    return billingAxios({
+    return request({
         url: '/billing/billingDetails/getBilling',
         method: 'get',
         params
@@ -34,7 +34,7 @@ export function getBillingDetails(params) {
 }
 
 export function deleteBillingDetails(params) {
-    return billingAxios({
+    return request({
         url: '/billing/billingDetails/deleteBilling',
         method: 'post',
         params

@@ -32,7 +32,9 @@
     </properties>
 
     <modules>
-
+        <module>common-core</module>
+        <module>auth-server</module>
+        <module>billing-service</module>
     </modules>
 
     <dependencies>

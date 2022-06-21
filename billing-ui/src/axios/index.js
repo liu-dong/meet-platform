@@ -1,14 +1,15 @@
 import axios from 'axios'
-import config from './config'
 import store from '@/store'
 import { Message, MessageBox } from 'element-ui'
 
 // 创建自定义axios 实例
 const service = axios.create({
     baseURL: process.env.VUE_APP_AUTH_API,
-    headers: config.headers, // 请求头信息
-    timeout: config.timeout, // 设置超时时间
-    withCredentials: config.withCredentials// 携带凭证
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+    }, // 请求头信息
+    timeout: 1000000, // 设置超时时间
+    withCredentials: true// 携带凭证
 })
 
 // request 请求拦截器
