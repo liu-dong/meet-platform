@@ -4,7 +4,7 @@ import com.meet.billingservice.web.dao.CommonDao;
 import com.meet.billingservice.web.model.StaticSpecDTO;
 import com.meet.billingservice.web.model.StaticValueDTO;
 import com.meet.billingservice.web.service.StaticDataService;
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class StaticDataServiceImpl implements StaticDataService {
     private CommonDao commonDao;
 
     @Override
-    public StaticSpecDTO findStaticSpec(String code) throws Exception {
+    public StaticSpecDTO findStaticSpec(String code) {
         StringBuilder specSql = new StringBuilder();
         List<Object> specParams = new ArrayList<>();
         specSql.append(" SELECT id,spec_code specCode,spec_name specName ");

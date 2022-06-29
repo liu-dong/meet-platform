@@ -3,4 +3,4 @@ spring:
         name: auth-server
 
     profiles:
-        active: prod
+        active: dev

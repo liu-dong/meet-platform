@@ -1,7 +1,5 @@
 package com.meet.billingservice.util;
 
-import com.alibaba.excel.util.StringUtils;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,21 +13,21 @@ import java.util.Date;
 public class DateFormUtils {
 
     public static Date formatDate(String date) throws ParseException {
-        return formatDate(date,"yyyy-MM-dd HH:mm:ss");
+        return formatDate(date, "yyyy-MM-dd HH:mm:ss");
     }
 
-    public static Date formatDate(String date,String format) throws ParseException {
+    public static Date formatDate(String date, String format) throws ParseException {
         DateFormat df = new SimpleDateFormat(format);
         return df.parse(date);
     }
 
-    public static String dateToString(Date date) throws ParseException {
-        return dateToString(date,"yyyy-MM-dd HH:mm:ss");
+    public static String dateToString(Date date) {
+        return dateToString(date, "yyyy-MM-dd HH:mm:ss");
     }
 
-    public static String dateToString(Date date,String format) throws ParseException {
-        if (date==null){
-            return StringUtils.EMPTY;
+    public static String dateToString(Date date, String format) {
+        if (date == null) {
+            return "";
         }
         DateFormat df = new SimpleDateFormat(format);
         return df.format(date);

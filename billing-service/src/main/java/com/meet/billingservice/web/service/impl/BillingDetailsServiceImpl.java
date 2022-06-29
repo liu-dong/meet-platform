@@ -1,6 +1,5 @@
 package com.meet.billingservice.web.service.impl;
 
-import com.alibaba.excel.util.StringUtils;
 import com.meet.billingservice.util.DateFormUtils;
 import com.meet.billingservice.web.dao.BillingDetailsJpaDao;
 import com.meet.billingservice.web.dao.CommonDao;
@@ -10,6 +9,7 @@ import com.meet.billingservice.web.model.Pager;
 import com.meet.billingservice.web.service.BillingDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.util.*;
@@ -65,7 +65,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             sql.append(" AND spending_type = ? ");
             params.add(dto.getSpendingType());
         }
-        if (StringUtils.isNotBlank(dto.getRecordTime())) {
+        if (!StringUtils.isEmpty(dto.getRecordTime())) {
             int length = dto.getRecordTime().length();
             if (length == 4) {
                 //记录时间——年
