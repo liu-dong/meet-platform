@@ -2,9 +2,9 @@ package com.meet.billingservice.web.controller;
 
 import com.meet.billingservice.web.entity.BillingDetails;
 import com.meet.billingservice.web.model.BillingDetailsDTO;
-import com.meet.billingservice.web.model.Pager;
-import com.meet.billingservice.web.model.ResponseResult;
 import com.meet.billingservice.web.service.BillingDetailsService;
+import com.meet.commoncore.model.Pager;
+import com.meet.commoncore.model.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

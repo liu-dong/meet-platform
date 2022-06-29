@@ -2,7 +2,7 @@ package com.meet.billingservice.web.service;
 
 import com.meet.billingservice.web.entity.BillingDetails;
 import com.meet.billingservice.web.model.BillingDetailsDTO;
-import com.meet.billingservice.web.model.Pager;
+import com.meet.commoncore.model.Pager;
 
 import java.text.ParseException;
 import java.util.List;

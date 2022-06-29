@@ -2,11 +2,11 @@ package com.meet.billingservice.web.service.impl;
 
 import com.meet.billingservice.util.DateFormUtils;
 import com.meet.billingservice.web.dao.BillingDetailsJpaDao;
-import com.meet.billingservice.web.dao.CommonDao;
 import com.meet.billingservice.web.entity.BillingDetails;
 import com.meet.billingservice.web.model.BillingDetailsDTO;
-import com.meet.billingservice.web.model.Pager;
 import com.meet.billingservice.web.service.BillingDetailsService;
+import com.meet.commoncore.dao.CommonDao;
+import com.meet.commoncore.model.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

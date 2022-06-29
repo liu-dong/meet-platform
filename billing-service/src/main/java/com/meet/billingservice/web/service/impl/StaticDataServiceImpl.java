@@ -1,9 +1,9 @@
 package com.meet.billingservice.web.service.impl;
 
-import com.meet.billingservice.web.dao.CommonDao;
 import com.meet.billingservice.web.model.StaticSpecDTO;
 import com.meet.billingservice.web.model.StaticValueDTO;
 import com.meet.billingservice.web.service.StaticDataService;
+import com.meet.commoncore.dao.CommonDao;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
