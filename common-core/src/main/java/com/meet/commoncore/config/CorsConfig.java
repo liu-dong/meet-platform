@@ -1,4 +1,4 @@
-package com.meet.authserver.config;
+package com.meet.commoncore.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

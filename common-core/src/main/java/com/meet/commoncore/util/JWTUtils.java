@@ -1,4 +1,4 @@
-package com.meet.authserver.utils;
+package com.meet.commoncore.util;
 
 import cn.hutool.crypto.asymmetric.RSA;
 import io.jsonwebtoken.Claims;
