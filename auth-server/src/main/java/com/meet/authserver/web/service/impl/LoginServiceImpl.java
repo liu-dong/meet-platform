@@ -1,13 +1,12 @@
 package com.meet.authserver.web.service.impl;
 
-import com.meet.authserver.utils.JWTUtils;
 import com.meet.authserver.web.dao.AccountJpaDao;
 import com.meet.authserver.web.entity.Account;
 import com.meet.authserver.web.model.LoginDTO;
 import com.meet.authserver.web.service.LoginService;
 import com.meet.commoncore.model.ResponseResult;
+import com.meet.commoncore.util.JWTUtils;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -60,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
     public LoginDTO getUserInfo(HttpServletRequest request) {
         Claims claims = JWTUtils.getClaims(request);
         LoginDTO dto = new LoginDTO();
-        if (claims !=null){
+        if (claims != null) {
             dto.setId(String.valueOf(claims.get("userId")));
             dto.setUsername(String.valueOf(claims.get("username")));
             dto.setRealName(String.valueOf(claims.get("realName")));

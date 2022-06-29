@@ -2,10 +2,10 @@ package com.meet.authserver.web.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.meet.authserver.utils.JWTUtils;
 import com.meet.authserver.web.model.LoginDTO;
 import com.meet.authserver.web.service.LoginService;
 import com.meet.commoncore.model.ResponseResult;
+import com.meet.commoncore.util.JWTUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

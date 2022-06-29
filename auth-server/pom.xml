@@ -33,11 +33,7 @@
             <artifactId>common-core</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
-        </dependency>
+
         <!-- kaptcha -->
         <dependency>
             <groupId>com.github.penggle</groupId>

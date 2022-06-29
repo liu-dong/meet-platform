@@ -8,10 +8,10 @@ import java.util.List;
  * @author liudong 2022/2/11
  */
 @Data
-public class UserInfoBean {
+public class UserDetails {
 
+    private String userId;
     private String username;
-    private String accountId;
     private String personId;
     private String realName;
     private String orgId;
