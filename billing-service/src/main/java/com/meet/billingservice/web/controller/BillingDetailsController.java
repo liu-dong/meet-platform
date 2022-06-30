@@ -1,15 +1,23 @@
 package com.meet.billingservice.web.controller;
 
+import com.meet.billingservice.util.SyncData;
+import com.meet.billingservice.web.dao.SsjJpaDao;
 import com.meet.billingservice.web.entity.BillingDetails;
+import com.meet.billingservice.web.entity.Suishouji;
 import com.meet.billingservice.web.model.BillingDetailsDTO;
+import com.meet.billingservice.web.model.DataDTO;
 import com.meet.billingservice.web.service.BillingDetailsService;
 import com.meet.commoncore.model.Pager;
 import com.meet.commoncore.model.ResponseResult;
+import com.meet.commoncore.util.SpringUtils;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 账单明细表(BillingDetails)表控制层
@@ -23,6 +31,8 @@ public class BillingDetailsController {
 
     @Autowired
     private BillingDetailsService billingDetailsService;
+    @Autowired
+    private SsjJpaDao ssjJpaDao;
 
     @ApiOperation("保存账单")
     @PostMapping("/saveBillingDetails")
@@ -47,6 +57,24 @@ public class BillingDetailsController {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());
         }
+    }
+
+    @GetMapping("/sync")
+    public Integer sync() {
+        List<DataDTO> dtoList = new ArrayList<>();
+        for (int i = 0; i < 36; i++) {
+            List<DataDTO> list = SyncData.post(i);
+            dtoList.addAll(list);
+        }
+
+        List<Suishouji> entityList = new ArrayList<>();
+        for (int i = 0; i < dtoList.size(); i++) {
+            Suishouji entity = new Suishouji();
+            BeanUtils.copyProperties(dtoList.get(i), entity);
+            entityList.add(entity);
+        }
+        ssjJpaDao.saveAll(entityList);
+        return dtoList.size();
     }
 
     @ApiOperation("删除账单")
