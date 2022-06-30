@@ -29,6 +29,7 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isEmpty(token)) {
             throw new GlobalException(401, "用户未登录");
         }
+        //用于开发测试
         if ("JWT-TOKEN".equals(token)){
             return true;
         }
@@ -48,7 +49,6 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
             //当前用户放到ThreadLocal变量变量中
             CurrentUserUtils.set(userDetails);
         }
-
         return true;
     }
 }

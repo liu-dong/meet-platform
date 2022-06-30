@@ -6,6 +6,7 @@ import com.meet.billingservice.web.model.BillingDetailsDTO;
 import com.meet.billingservice.web.service.BillingDetailsService;
 import com.meet.commoncore.dao.CommonDao;
 import com.meet.commoncore.model.Pager;
+import com.meet.commoncore.util.CurrentUserUtils;
 import com.meet.commoncore.util.DateFormUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,DATE_FORMAT(record_time,'%Y-%m-%d') recordTime,spending_type spendingType,amount_paid amountPaid, ");
-        sql.append(" remark,create_time createTime,update_time updateTime ");
+        sql.append(" remark,create_time createTime,update_time updateTime,create_user_id createUserId,update_user_id updateUserId ");
         sql.append(" FROM billing_details ");
         sql.append(" WHERE 1=1 ");
         if (dto.getSpendingType() != null) {
@@ -80,6 +81,10 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
                 sql.append(" AND DATE_FORMAT(record_time,'%Y-%m-%d') >= ? ");
             }
             params.add(dto.getRecordTime());
+        }
+        if (CurrentUserUtils.currentUser() != null){
+            sql.append("AND create_user_id = ? ");
+            params.add(CurrentUserUtils.getUsername());
         }
         sql.append(" ORDER BY record_time DESC ");
         return commonDao.findListBySql(pager, sql, params, BillingDetailsDTO.class);

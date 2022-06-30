@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.meet.authserver.web.model.LoginDTO;
 import com.meet.authserver.web.service.LoginService;
+import com.meet.commoncore.exception.GlobalException;
 import com.meet.commoncore.model.ResponseResult;
 import com.meet.commoncore.util.JWTUtils;
 import io.swagger.annotations.Api;
@@ -140,15 +141,19 @@ public class LoginController {
         return loginService.cancel(username);
     }
 
-    public void verificationCode(HttpServletRequest request, LoginDTO dto) throws Exception {
+    public void verificationCode(HttpServletRequest request, LoginDTO dto) {
         String paramCaptcha = dto.getCaptcha();
+        //用于开发测试
+        if ("1".equals(paramCaptcha)){
+            return;
+        }
         HttpSession session = request.getSession();
         String savedCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         if (!StringUtils.isEmpty(savedCode)) {
             session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
         }
         if (StringUtils.isEmpty(paramCaptcha) || StringUtils.isEmpty(savedCode) || !paramCaptcha.equalsIgnoreCase(savedCode)) {
-            throw new Exception("验证码校验失败");
+            throw new GlobalException(500, "验证码校验失败");
         }
 
     }
