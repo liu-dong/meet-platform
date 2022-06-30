@@ -1,5 +1,6 @@
 package com.meet.commoncore.model;
 
+import com.meet.commoncore.exception.GlobalException;
 import lombok.Data;
 
 import java.util.Collection;
@@ -60,6 +61,20 @@ public class ResponseResult {
         result.setCode(500);
         result.setSuccess(false);
         result.setMessage(message);
+        return result;
+    }
+
+    /**
+     * 操作
+     *
+     * @param exception
+     * @return
+     */
+    public static ResponseResult error(GlobalException exception) {
+        ResponseResult result = new ResponseResult();
+        result.setCode(exception.getCode());
+        result.setSuccess(false);
+        result.setMessage(exception.getMessage());
         return result;
     }
 

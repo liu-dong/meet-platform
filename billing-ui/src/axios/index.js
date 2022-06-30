@@ -19,7 +19,7 @@ const builder = function (config) {
         config => {
             debugger
             if (store.getters.accessToken) {
-                config.headers["ACCESS-TOKEN"] = store.getters.accessToken
+                config.headers["JWT-TOKEN"] = store.getters.accessToken
             }
             return config
         },

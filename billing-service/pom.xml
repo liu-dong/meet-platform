@@ -8,25 +8,11 @@
         <version>1.0.0</version>
         <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.dong</groupId>
     <artifactId>billing-service</artifactId>
-    <version>1.0.0</version>
     <name>billing-service</name>
+    <packaging>jar</packaging>
     <description>billing-service</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-
-        <lombok.version>1.18.24</lombok.version>
-        <kaptcha.version>2.3.2</kaptcha.version>
-        <swagger.version>3.0.0</swagger.version>
-        <jjwt.version>0.7.0</jjwt.version>
-        <easyexcel.version>3.1.0</easyexcel.version>
-        <fastjson.version>2.0.3</fastjson.version>
-        <commons-beanutils.version>1.9.4</commons-beanutils.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.meet</groupId>
@@ -39,7 +25,6 @@
             <artifactId>fastjson</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

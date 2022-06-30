@@ -3,10 +3,11 @@ package com.meet.billingservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.ComponentScan;
 
-@EnableJpaRepositories(basePackages = {"com.meet.**.dao", "com.meet.**.dao.impl"})
+//@EnableJpaRepositories(basePackages = {"com.meet.**.dao", "com.meet.**.dao.impl"})
 @EntityScan(basePackages = "com.meet.**.entity")
+@ComponentScan(basePackages = "com.meet.**")
 @SpringBootApplication
 public class BillingServiceApplication {
 

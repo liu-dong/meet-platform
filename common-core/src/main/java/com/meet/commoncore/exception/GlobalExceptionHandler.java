@@ -34,6 +34,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseResult error(GlobalException e) {
         e.printStackTrace();
-        return ResponseResult.error(e.getMessage());
+        return ResponseResult.error(e);
     }
 }
