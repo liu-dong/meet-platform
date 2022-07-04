@@ -29,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
         String token = "";
         if (!StringUtils.isEmpty(dto.getUsername()) && !StringUtils.isEmpty(dto.getPassword())) {
             Account account = accountJpaDao.getAccountByUsername(dto.getUsername());
-            if (dto.getPassword().equals(account.getPassword())) {
+            if (account != null && dto.getPassword().equals(account.getPassword())) {
                 //生成token
                 token = JWTUtils.getToken(account.getId(), account.getUsername(), account.getRealName());
             }
