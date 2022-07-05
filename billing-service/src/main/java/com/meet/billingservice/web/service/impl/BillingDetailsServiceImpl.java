@@ -103,6 +103,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         if (StringUtils.isEmpty(dto.getId())) {
             entity.setId(UUID.randomUUID().toString());
             entity.setCreateTime(new Date());
+            entity.setCreateUserId(CurrentUserUtils.getUsername());
         } else {
             entity = billingDetailsJpaDao.getOne(dto.getId());
         }
@@ -111,6 +112,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         entity.setRemark(dto.getRemark());
         entity.setRecordTime(DateFormUtils.formatDate(dto.getRecordTime()));
         entity.setUpdateTime(new Date());
+        entity.setUpdateUserId(CurrentUserUtils.getUsername());
         return entity;
     }
 

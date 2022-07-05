@@ -1,6 +1,7 @@
 package com.meet.billingservice.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.meet.commoncore.util.CurrentUserUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
