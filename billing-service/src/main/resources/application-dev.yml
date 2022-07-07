@@ -6,3 +6,11 @@ spring:
         url: jdbc:mysql://192.168.154.127:3306/billing?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         username: root
         password: 123456
+
+    # 日期类型转换成字符串返回
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        # 解决数据库有字段为null报错问题（相当于@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })配置）
+        serialization:
+            fail-on-empty-beans: false
