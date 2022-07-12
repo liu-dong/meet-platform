@@ -41,3 +41,11 @@ export function deleteBillingDetails(params) {
     })
 }
 
+export function batchGetStaticSpec(params) {
+    return request({
+        url: '/static/batchGetStaticSpec',
+        method: 'get',
+        params
+    })
+}
+

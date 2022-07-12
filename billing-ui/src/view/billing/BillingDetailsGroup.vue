@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import {deleteBillingDetails, findBillingListGroup, getBillingDetails, saveBillingDetails} from "@/api/billingDetails";
+import {deleteBillingDetails, findBillingListGroup, getBillingDetails, saveBillingDetails, batchGetStaticSpec} from "@/api/billingDetails";
 import staticData, {getName} from "@/constant/staticData.js";
 import {getCurrentTime} from "@/utils/datetime";
 
@@ -115,6 +115,7 @@ export default {
   },
   created() {
     this.findBillingListGroup()
+    this.batchGetStaticSpec()
   },
   methods: {
     async findBillingListGroup() {
@@ -190,6 +191,17 @@ export default {
         amountPaid: 0,
         remark: ""
       }
+    },
+    batchGetStaticSpec() {
+      let params = {}
+      batchGetStaticSpec(params).then(async res => {
+        this.$message({
+          customClass: 'message-z-index',
+          message: res.message,
+          type: 'success',
+          duration: 1000
+        });
+      })
     },
     formatterType(row) {
       return getName(row.spendingType, this.spendingTypeOption)
