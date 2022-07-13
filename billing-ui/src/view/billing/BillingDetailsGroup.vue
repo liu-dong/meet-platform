@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import {deleteBillingDetails, findBillingListGroup, getBillingDetails, saveBillingDetails, batchGetStaticSpec} from "@/api/billingDetails";
-import staticData, {getName} from "@/constant/staticData.js";
+import {deleteBillingDetails, findBillingListGroup, getBillingDetails, saveBillingDetails} from "@/api/billingDetails";
 import {getCurrentTime} from "@/utils/datetime";
+import staticData from "@/utils/staticData";
 
 export default {
   name: "BillingDetailsGroup",
@@ -108,14 +108,14 @@ export default {
           {validator: validatorAmountPaid, trigger: 'change'}
         ],
       },
-      spendingTypeOption: staticData.spendingType,
+      spendingTypeOption: [],
       viewType: 'add',//页面类型 add：新增，edit：编辑，detail：查看
       selectDate: '',
     }
   },
   created() {
     this.findBillingListGroup()
-    this.batchGetStaticSpec()
+    this.spendingTypeOption = staticData.getData('spendingType');
   },
   methods: {
     async findBillingListGroup() {
@@ -192,22 +192,11 @@ export default {
         remark: ""
       }
     },
-    batchGetStaticSpec() {
-      let params = {}
-      batchGetStaticSpec(params).then(async res => {
-        this.$message({
-          customClass: 'message-z-index',
-          message: res.message,
-          type: 'success',
-          duration: 1000
-        });
-      })
-    },
     formatterType(row) {
-      return getName(row.spendingType, this.spendingTypeOption)
+      return staticData.getName(row.spendingType, this.spendingTypeOption)
     },
     convertName(name) {
-      return getName(name, this.spendingTypeOption)
+      return staticData.getName(name, this.spendingTypeOption)
     }
   }
 }
