@@ -10,7 +10,8 @@ const staticData = {
                 return null
             }
         })
-        if (data.length > 0) {
+        if (data) {
+            console.log(data[name])
             return data[name]
         }
         return null
@@ -19,8 +20,8 @@ const staticData = {
     getName(value, data) {
         let result = '暂无内容'
         data.forEach(item => {
-            if (item.value === value) {
-                result = item.name
+            if (item.valueValue == value) {
+                result = item.valueName
             }
         })
         return result
@@ -29,8 +30,8 @@ const staticData = {
     getValue(name, data) {
         let result = ''
         data.forEach(item => {
-            if (item.name === name) {
-                result = item.value
+            if (item.valueName == name) {
+                result = item.valueValue
             }
         })
         return result

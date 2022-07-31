@@ -17,7 +17,6 @@ const builder = function (config) {
     // request 请求拦截器
     service.interceptors.request.use(
         config => {
-            debugger
             if (store.getters.accessToken) {
                 config.headers["JWT-TOKEN"] = store.getters.accessToken
             }

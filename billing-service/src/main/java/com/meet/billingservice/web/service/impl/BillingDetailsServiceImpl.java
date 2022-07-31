@@ -82,10 +82,10 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             }
             params.add(dto.getRecordTime());
         }
-        if (CurrentUserUtils.currentUser() != null){
+        /*if (CurrentUserUtils.currentUser() != null){
             sql.append("AND create_user_id = ? ");
             params.add(CurrentUserUtils.getUsername());
-        }
+        }*/
         sql.append(" ORDER BY record_time DESC ");
         return commonDao.findListBySql(pager, sql, params, BillingDetailsDTO.class);
     }
