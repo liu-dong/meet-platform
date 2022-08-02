@@ -1,26 +1,62 @@
 package com.meet.commoncore.domain;
 
+import cn.hutool.core.util.StrUtil;
+import com.meet.commoncore.util.CurrentUserUtils;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.util.Date;
+import java.util.UUID;
 
-public interface BaseEntity {
+@DynamicInsert
+@DynamicUpdate
+@MappedSuperclass
+public class BaseEntity extends AbstractBaseEntity {
 
-    String getId();
+    public BaseEntity() {
 
-    void setId(String id);
+    }
 
-    String getCreateUserId();
+    public BaseEntity(boolean initDefault) {
+        if (initDefault) {
+            this.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+            this.setUpdateTime(new Date());
+            this.setCreateTime(new Date());
+            if (CurrentUserUtils.currentUser()!=null){
+                this.setCreateUserId(CurrentUserUtils.getUserId());
+                this.setUpdateUserId(CurrentUserUtils.getUserId());
+            }
+        }
 
-    void setCreateUserId(final String createUserId);
+    }
 
-    Date getCreateTime();
+    @PrePersist
+    public void prePersist() {
+        if (StrUtil.isBlank(this.id)) {
+            this.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+        }
+        if (this.getUpdateTime() == null) {
+            this.setUpdateTime(new Date());
+        }
+        if (this.getCreateTime() == null) {
+            this.setCreateTime(new Date());
+        }
+        if (CurrentUserUtils.currentUser()!=null){
+            this.setUpdateUserId(CurrentUserUtils.getUserId());
+        }
+    }
 
-    void setCreateTime(Date createdTime);
-
-    String getUpdateUserId();
-
-    void setUpdateUserId(final String updateUserId);
-
-    Date getUpdateTime();
-
-    void setUpdateTime(Date lastModifiedTime);
+    @PreUpdate
+    public void preUpdate() {
+        if (this.getCreateTime() == null) {
+            this.setCreateTime(new Date());
+        }
+        this.setUpdateTime(new Date());
+        if (CurrentUserUtils.currentUser()!=null){
+            this.setUpdateUserId(CurrentUserUtils.getUserId());
+        }
+    }
 }

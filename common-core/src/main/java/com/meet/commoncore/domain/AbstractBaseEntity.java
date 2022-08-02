@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class AbstractBaseEntity implements BaseEntity, Serializable {
+public abstract class AbstractBaseEntity implements BaseEntityAttribute, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public abstract class AbstractBaseEntity implements BaseEntity, Serializable {
     protected String id;
 
     @Id
-    @Column(name = "id", nullable = false, length = 36)
+    @Column(name = "id")
     public String getId() {
         return id;
     }
