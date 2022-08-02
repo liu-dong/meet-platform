@@ -8,6 +8,8 @@ import Test from "@/view/Test";
 import BillingHome from "@/view/billing/BillingHome";
 import BillingDetailsGroup from "@/view/billing/BillingDetailsGroup";
 import BillingDetailsList from "@/view/billing/BillingDetailsList";
+import YearStatistics from "@/view/billing/YearStatistics";
+import MonthStatistics from "@/view/billing/MonthStatistics";
 
 Vue.use(Router)
 
@@ -24,7 +26,9 @@ const router = new Router({
         {
             path: '/billingHome', name: 'billingHome', component: BillingHome, children: [
                 {path: '/billingDetailsGroup', name: 'billingDetailsGroup', component: BillingDetailsGroup},
-                {path: '/billingDetailsList', name: 'billingDetailsList', component: BillingDetailsList}]
+                {path: '/billingDetailsList', name: 'billingDetailsList', component: BillingDetailsList},
+                {path: '/monthStatistics', name: 'MonthStatistics', component: MonthStatistics},
+                {path: '/yearStatistics', name: 'YearStatistics', component: YearStatistics}]
         }
 
     ]

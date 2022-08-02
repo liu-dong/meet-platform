@@ -8,12 +8,15 @@ import axios from '@/axios'
 import global from '@/utils/global'
 import moment from 'moment'
 import qs from 'qs'
+import * as echarts from 'echarts'
 
 Vue.use(ElementUI)
 Vue.prototype.$qs = qs
 Vue.prototype.$axios = axios
 Vue.prototype.global = global// 挂载全局配置
 Vue.prototype.$moment = moment
+Vue.prototype.$echarts = echarts;
+
 Vue.config.productionTip = false
 
 new Vue({
