@@ -78,7 +78,7 @@
 <script>
 import {deleteBillingDetails, findBillingListGroup, getBillingDetails, saveBillingDetails} from "@/api/billingDetails";
 import {getCurrentTime} from "@/utils/datetime";
-import staticData from "@/utils/staticData";
+import dataCatalog from "@/utils/dataCatalog";
 
 export default {
     name: "BillingDetailsGroup",
@@ -115,7 +115,7 @@ export default {
         }
     },
     async created() {
-        this.spendingTypeOption = await staticData.getData('spendingType');
+        this.spendingTypeOption = await dataCatalog.getData('spending_type');
         await this.findBillingListGroup()
     },
     methods: {
@@ -194,10 +194,10 @@ export default {
             }
         },
         formatterType(row) {
-            return staticData.getName(row.spendingType, this.spendingTypeOption)
+            return dataCatalog.getName(row.spendingType, this.spendingTypeOption)
         },
         convertName(name) {
-            return staticData.getName(name, this.spendingTypeOption)
+            return dataCatalog.getName(name, this.spendingTypeOption)
         }
     }
 }

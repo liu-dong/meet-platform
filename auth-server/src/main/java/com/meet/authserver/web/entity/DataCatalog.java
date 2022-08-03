@@ -1,17 +1,19 @@
 package com.meet.authserver.web.entity;
 
+import com.meet.commoncore.domain.BaseEntity;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 数据字典目录表 
- * 
- * @author liudong 2022/08/02 
+ * 数据字典目录表
+ *
+ * @author liudong 2022/08/02
  */
 @Entity
 @Table (name = "data_catalog")
-public class DataCatalog implements Serializable {
+public class DataCatalog extends BaseEntity {
 
 	private static final long serialVersionUID = 1286950572919799597L;
 

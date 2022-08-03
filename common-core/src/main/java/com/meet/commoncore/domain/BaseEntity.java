@@ -11,6 +11,11 @@ import javax.persistence.PreUpdate;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * 自动填充实体类通用字段
+ *
+ * @author liudong
+ */
 @DynamicInsert
 @DynamicUpdate
 @MappedSuperclass
@@ -25,7 +30,7 @@ public class BaseEntity extends AbstractBaseEntity {
             this.setId(UUID.randomUUID().toString().replaceAll("-", ""));
             this.setUpdateTime(new Date());
             this.setCreateTime(new Date());
-            if (CurrentUserUtils.currentUser()!=null){
+            if (CurrentUserUtils.currentUser() != null) {
                 this.setCreateUserId(CurrentUserUtils.getUserId());
                 this.setUpdateUserId(CurrentUserUtils.getUserId());
             }
@@ -44,7 +49,7 @@ public class BaseEntity extends AbstractBaseEntity {
         if (this.getCreateTime() == null) {
             this.setCreateTime(new Date());
         }
-        if (CurrentUserUtils.currentUser()!=null){
+        if (CurrentUserUtils.currentUser() != null) {
             this.setUpdateUserId(CurrentUserUtils.getUserId());
         }
     }
@@ -55,7 +60,7 @@ public class BaseEntity extends AbstractBaseEntity {
             this.setCreateTime(new Date());
         }
         this.setUpdateTime(new Date());
-        if (CurrentUserUtils.currentUser()!=null){
+        if (CurrentUserUtils.currentUser() != null) {
             this.setUpdateUserId(CurrentUserUtils.getUserId());
         }
     }

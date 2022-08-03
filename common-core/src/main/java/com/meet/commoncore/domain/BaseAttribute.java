@@ -2,7 +2,12 @@ package com.meet.commoncore.domain;
 
 import java.util.Date;
 
-public interface BaseEntityAttribute {
+/**
+ * 实体类通用属性
+ *
+ * @author liudong
+ */
+public interface BaseAttribute {
 
     String getId();
 

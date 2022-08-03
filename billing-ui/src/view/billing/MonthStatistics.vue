@@ -3,9 +3,9 @@
     <div class="block" style="align-self: start">
       <el-date-picker
         v-model="month"
-        value-format="yyyy-MM"
-        type="month"
         placeholder="选择月"
+        type="month"
+        value-format="yyyy-MM"
         @change="findMonthStatisticsData"
       >
       </el-date-picker>
@@ -16,36 +16,33 @@
 
 <script>
 
+import {statisticsBillingBySpendingType} from "@/api/billingDetails";
+import dataCatalog from "@/utils/dataCatalog";
+
 export default {
   name: "MonthStatistics",
   data() {
     return {
       month: '2022-08',
-      months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      spendingTypeOption: [],
     }
   },
-  mounted() {
+  async mounted() {
+    this.spendingTypeOption = await dataCatalog.getData('spending_type');
     this.findMonthStatisticsData();
   },
   methods: {
     findMonthStatisticsData() {
-      console.log(this.month)
-      console.log(this.month.slice(this.month.length - 1, this.month.length))
-      let data = [
-        {
-          value: 335 + parseInt(this.month.slice(this.month.length - 1, this.month.length)),
-          name: '直接访问'
-        },
-        {
-          value: 234 * parseInt(this.month.slice(this.month.length - 1, this.month.length)),
-          name: '联盟广告'
-        },
-        {
-          value: 1548,
-          name: '搜索引擎'
+      let params = {
+        date: this.month
+      }
+      statisticsBillingBySpendingType(params).then(res => {
+        if (res['code'] === 200) {
+          console.log(res.data)
+          let data = this.convertData(res.data)
+          this.drawCharts(data)
         }
-      ]
-      this.drawCharts(data)
+      })
     },
     drawCharts(data) {
       // 基于准备好的dom，初始化echarts实例
@@ -66,6 +63,17 @@ export default {
           }
         ]
       });
+    },
+    convertData(data) {
+      return data.map(item => {
+        let spending = dataCatalog.getName(item.spendingType, this.spendingTypeOption)
+        if (spending !== '暂无内容'){
+          return  {
+            value: item.sum,
+            name: spending
+          }
+        }
+      })
     }
   }
 }

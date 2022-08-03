@@ -36,16 +36,23 @@ export function getBillingDetails(params) {
 export function deleteBillingDetails(params) {
     return request({
         url: '/billing/billingDetails/deleteBilling',
-        method: 'post',
-        params
-    })
-}
-
-export function batchGetStaticSpec(params) {
-    return request({
-        url: '/static/batchGetStaticSpec',
         method: 'get',
         params
     })
 }
 
+export function statisticsBillingBySpendingType(params) {
+    return request({
+        url: '/billing/billingDetails/statisticsBillingBySpendingType',
+        method: 'get',
+        params
+    })
+}
+
+export function statisticsBillingByMonth(params) {
+    return request({
+        url: '/billing/billingDetails/statisticsBillingByMonth',
+        method: 'post',
+        params
+    })
+}

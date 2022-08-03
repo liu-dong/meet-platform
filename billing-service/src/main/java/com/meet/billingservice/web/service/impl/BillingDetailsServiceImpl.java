@@ -5,6 +5,7 @@ import com.meet.billingservice.web.entity.BillingDetails;
 import com.meet.billingservice.web.model.BillingDetailsDTO;
 import com.meet.billingservice.web.service.BillingDetailsService;
 import com.meet.commoncore.dao.CommonDao;
+import com.meet.commoncore.exception.GlobalException;
 import com.meet.commoncore.model.Pager;
 import com.meet.commoncore.util.CurrentUserUtils;
 import com.meet.commoncore.util.DateFormUtils;
@@ -116,4 +117,35 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         return entity;
     }
 
+    @Override
+    public List<Map<String, Object>> statisticsBillingBySpendingType(String date) {
+        if (StringUtils.isEmpty(date)) {
+            throw new GlobalException(500, "日期为空");
+        }
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT spending_type spendingType,SUM(amount_paid) sum FROM billing_details  ");
+        if (date.length() > 4) {
+            sql.append(" WHERE DATE_FORMAT(record_time,'%Y-%m') = ? ");
+        } else {
+            sql.append(" WHERE DATE_FORMAT(record_time,'%Y') = ? ");
+        }
+        params.add(date);
+        sql.append(" GROUP BY spending_type ");
+        return commonDao.findListMapBySql(sql, params);
+    }
+
+    @Override
+    public List<Map<String, Object>> statisticsBillingByMonth(String year) {
+        if (StringUtils.isEmpty(year)) {
+            throw new GlobalException(500, "日期为空");
+        }
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT DATE_FORMAT(record_time,'%Y-%m') monthly,SUM(amount_paid) sum FROM billing_details  ");
+        sql.append(" WHERE DATE_FORMAT(record_time,'%Y') = ? ");
+        params.add(year);
+        sql.append(" GROUP BY DATE_FORMAT(record_time,'%Y-%m') ");
+        return commonDao.findListMapBySql(sql, params);
+    }
 }

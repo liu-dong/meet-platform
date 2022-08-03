@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class AbstractBaseEntity implements BaseEntityAttribute, Serializable {
+public abstract class AbstractBaseEntity implements BaseAttribute, Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -5,9 +5,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 数据字典条目表 
- * 
- * @author liudong 2022/08/02 
+ * 数据字典条目表
+ *
+ * @author liudong 2022/08/02
  */
 @Entity
 @Table (name = "data_catalog_item")
@@ -26,7 +26,7 @@ public class DataCatalogItem implements Serializable {
 	/**  排序 */
 	private Integer sort;
 	/**  状态 0：禁用，1：启用 */
-	private Integer stauts;
+	private Integer status;
 	/**  备注 */
 	private String remark;
 	/**  创建时间 */
@@ -84,13 +84,13 @@ public class DataCatalogItem implements Serializable {
 		this.sort = sort;
 	}
 
- 	@Column(name = "stauts" )
-	public Integer getStauts() {
-		return this.stauts;
+ 	@Column(name = "status" )
+	public Integer getStatus() {
+		return this.status;
 	}
 
-	public void setStauts(Integer stauts) {
-		this.stauts = stauts;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
  	@Column(name = "remark" )

@@ -5,7 +5,7 @@
         v-model="year"
         value-format="yyyy"
         type="year"
-        placeholder="选择月"
+        placeholder="选择年"
         @change="findYearStatisticsData"
       >
       </el-date-picker>
@@ -16,34 +16,33 @@
 
 <script>
 
+import {statisticsBillingBySpendingType} from "@/api/billingDetails";
+import dataCatalog from "@/utils/dataCatalog";
+
 export default {
   name: "YearStatistics",
   data() {
     return {
-      year: '2022-08',
+      year: '2022',
+      spendingTypeOption: [],
     }
   },
-  mounted() {
+  async mounted() {
+    this.spendingTypeOption = await dataCatalog.getData('spending_type');
     this.findYearStatisticsData();
   },
   methods: {
     findYearStatisticsData() {
-      console.log(this.year)
-      let data = [
-        {
-          value: 335 + parseInt(this.year),
-          name: '直接访问'
-        },
-        {
-          value: 234 * parseInt(this.year),
-          name: '联盟广告'
-        },
-        {
-          value: 1548,
-          name: '搜索引擎'
+      let params = {
+        date: this.year
+      }
+      statisticsBillingBySpendingType(params).then(res => {
+        if (res['code'] === 200) {
+          console.log(res.data)
+          let data = this.convertData(res.data)
+          this.drawCharts(data)
         }
-      ]
-      this.drawCharts(data)
+      })
     },
     drawCharts(data) {
       // 基于准备好的dom，初始化echarts实例
@@ -64,6 +63,17 @@ export default {
           }
         ]
       });
+    },
+    convertData(data) {
+      return data.map(item => {
+        let spending = dataCatalog.getName(item.spendingType, this.spendingTypeOption)
+        if (spending !== '暂无内容'){
+          return  {
+            value: item.sum,
+            name: spending
+          }
+        }
+      })
     }
   }
 }

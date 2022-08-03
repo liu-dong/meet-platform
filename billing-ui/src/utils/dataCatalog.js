@@ -1,10 +1,10 @@
-import {batchGetStaticSpec} from "@/api/billingDetails";
+import {findDataCatalogItem} from "@/api/dataCatalog";
 
-const staticData = {
+const dataCatalog = {
 
     async getData(name) {
         debugger
-        let data = await batchGetStaticSpec({}).then(res => {
+        let data = await findDataCatalogItem({}).then(res => {
             debugger
             if (res['code'] === 200) {
                 return res['data']
@@ -22,8 +22,8 @@ const staticData = {
     getName(value, data) {
         let result = '暂无内容'
         data.forEach(item => {
-            if (item.valueValue == value) {
-                result = item.valueName
+            if (item.itemCode == value) {
+                result = item.itemName
             }
         })
         return result
@@ -32,12 +32,12 @@ const staticData = {
     getValue(name, data) {
         let result = ''
         data.forEach(item => {
-            if (item.valueName == name) {
-                result = item.valueValue
+            if (item.itemName == name) {
+                result = item.itemCode
             }
         })
         return result
     }
 }
 
-export default staticData
+export default dataCatalog

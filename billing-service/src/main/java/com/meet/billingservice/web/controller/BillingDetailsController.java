@@ -9,7 +9,7 @@ import com.meet.billingservice.web.model.DataDTO;
 import com.meet.billingservice.web.service.BillingDetailsService;
 import com.meet.commoncore.model.Pager;
 import com.meet.commoncore.model.ResponseResult;
-import com.meet.commoncore.util.SpringUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ import java.util.List;
  * @author makejava
  * @since 2022-05-28 00:18:49
  */
+@Api(tags = "账单模块")
 @RestController
 @RequestMapping("/billing/billingDetails")
 public class BillingDetailsController {
@@ -103,6 +104,28 @@ public class BillingDetailsController {
     public ResponseResult findBillingListGroup(@RequestBody BillingDetailsDTO dto) {
         try {
             return ResponseResult.success(billingDetailsService.findBillingListGroup(dto), "查询成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(e.getMessage());
+        }
+    }
+
+    @ApiOperation("统计账单月度各项支出")
+    @GetMapping("/statisticsBillingBySpendingType")
+    public ResponseResult statisticsBillingBySpendingType(String date) {
+        try {
+            return ResponseResult.success(billingDetailsService.statisticsBillingBySpendingType(date), "查询成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(e.getMessage());
+        }
+    }
+
+    @ApiOperation("统计账单年度各月支出")
+    @GetMapping("/statisticsBillingByMonth")
+    public ResponseResult statisticsBillingByMonth(String year) {
+        try {
+            return ResponseResult.success(billingDetailsService.statisticsBillingByMonth(year), "查询成功！");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());

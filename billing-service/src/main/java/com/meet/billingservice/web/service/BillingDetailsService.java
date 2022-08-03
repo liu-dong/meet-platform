@@ -56,6 +56,20 @@ public interface BillingDetailsService {
    */
   Map<String, List<BillingDetailsDTO>> findBillingListGroup(BillingDetailsDTO dto);
 
+  /**
+   * 统计账单月度各项支出
+   *
+   * @param date
+   * @return
+   */
+  List<Map<String,Object>> statisticsBillingBySpendingType(String date);
 
+  /**
+   * 统计账单年度各月支出
+   *
+   * @param year
+   * @return
+   */
+  List<Map<String,Object>> statisticsBillingByMonth(String year);
 
 }
