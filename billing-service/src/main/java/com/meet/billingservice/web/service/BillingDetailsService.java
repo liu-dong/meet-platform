@@ -4,6 +4,7 @@ import com.meet.billingservice.web.entity.BillingDetails;
 import com.meet.billingservice.web.model.BillingDetailsDTO;
 import com.meet.commoncore.model.Pager;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,6 @@ public interface BillingDetailsService {
    * @param year
    * @return
    */
-  List<Map<String,Object>> statisticsBillingByMonth(String year);
+  Map<String, BigDecimal> statisticsBillingByMonth(String year);
 
 }

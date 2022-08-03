@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -136,7 +137,8 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     }
 
     @Override
-    public List<Map<String, Object>> statisticsBillingByMonth(String year) {
+    public Map<String, BigDecimal> statisticsBillingByMonth(String year) {
+        Map<String, BigDecimal> result = buildMonthMap(year);
         if (StringUtils.isEmpty(year)) {
             throw new GlobalException(500, "日期为空");
         }
@@ -146,6 +148,28 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         sql.append(" WHERE DATE_FORMAT(record_time,'%Y') = ? ");
         params.add(year);
         sql.append(" GROUP BY DATE_FORMAT(record_time,'%Y-%m') ");
-        return commonDao.findListMapBySql(sql, params);
+        List<Map<String, Object>> listMap = commonDao.findListMapBySql(sql, params);
+        for (Map<String, Object> map : listMap) {
+            result.put((String) map.get("monthly"), (BigDecimal) map.get("sum"));
+        }
+        return result;
+    }
+
+    /**
+     * 构建12个月份Map
+     *
+     * @param year
+     * @return
+     */
+    private Map<String, BigDecimal> buildMonthMap(String year) {
+        Map<String, BigDecimal> result = new HashMap<>(12);
+        for (int i = 1; i <= 12; i++) {
+            if (i < 10) {
+                result.put(year + "-0" + i, BigDecimal.valueOf(0));
+            } else {
+                result.put(year + "-" + i, BigDecimal.valueOf(0));
+            }
+        }
+        return result;
     }
 }
