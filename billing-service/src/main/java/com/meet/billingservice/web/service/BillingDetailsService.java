@@ -73,4 +73,11 @@ public interface BillingDetailsService {
    */
   Map<String, BigDecimal> statisticsBillingByMonth(String year);
 
+  /**
+   * 统计单项支出
+   *
+   * @param date
+   * @return
+   */
+  Map<String, Object> statisticsBilling(String date);
 }

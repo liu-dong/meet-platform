@@ -63,7 +63,7 @@ public class BillingDetailsController {
     @GetMapping("/sync")
     public Integer sync() {
         List<DataDTO> dtoList = new ArrayList<>();
-        for (int i = 0; i < 36; i++) {
+        for (int i = 0; i < 42; i++) {
             List<DataDTO> list = SyncData.post(i);
             dtoList.addAll(list);
         }

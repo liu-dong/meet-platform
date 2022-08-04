@@ -155,6 +155,13 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         return result;
     }
 
+    @Override
+    public Map<String, Object> statisticsBilling(String date) {
+        List<BillingDetails> billingDetailsList = billingDetailsJpaDao.findByRecordTimeStartingWith(date);
+        //billingDetailsList.stream().filter()
+        return null;
+    }
+
     /**
      * 构建12个月份Map
      *

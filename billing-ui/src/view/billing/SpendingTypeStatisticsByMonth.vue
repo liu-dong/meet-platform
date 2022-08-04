@@ -1,6 +1,6 @@
 <template>
-  <div style="width: 100%; height: 100%;display: flex;flex-flow: column;justify-content: center;align-items: center;">
-    <div class="block" style="align-self: start">
+  <div class="container">
+    <div class="block top">
       <el-date-picker
         v-model="month"
         placeholder="选择月"
@@ -9,6 +9,11 @@
         @change="findMonthStatisticsData"
       >
       </el-date-picker>
+      <div class="top-right">
+        <el-tag effect="dark" type="danger">最大一类支出</el-tag>
+        <el-tag effect="dark" type="warning">最大一笔支出</el-tag>
+        <el-tag effect="dark" type="success">每日平均支出</el-tag>
+      </div>
     </div>
     <div id="main" style="width: 80%; height: 95%;"></div>
   </div>
@@ -80,5 +85,27 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.top {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-right {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 </style>
