@@ -52,7 +52,7 @@ export function statisticsBillingBySpendingType(params) {
 export function statisticsBillingByMonth(params) {
     return request({
         url: '/billing/billingDetails/statisticsBillingByMonth',
-        method: 'post',
+        method: 'get',
         params
     })
 }

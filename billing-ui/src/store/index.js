@@ -29,7 +29,6 @@ const store = new Vuex.Store({
         },
         // 设置token信息
         SET_TOKEN_INFO(state, payload) {
-            debugger
             state.accessToken = payload
         },
         // 移除token信息

@@ -3,9 +3,7 @@ import {findDataCatalogItem} from "@/api/dataCatalog";
 const dataCatalog = {
 
     async getData(name) {
-        debugger
         let data = await findDataCatalogItem({}).then(res => {
-            debugger
             if (res['code'] === 200) {
                 return res['data']
             } else {

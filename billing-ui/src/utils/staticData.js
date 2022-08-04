@@ -3,9 +3,7 @@ import {batchGetStaticSpec} from "@/api/billingDetails";
 const staticData = {
 
     async getData(name) {
-        debugger
         let data = await batchGetStaticSpec({}).then(res => {
-            debugger
             if (res['code'] === 200) {
                 return res['data']
             } else {

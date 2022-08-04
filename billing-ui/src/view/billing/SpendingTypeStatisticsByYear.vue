@@ -2,11 +2,11 @@
   <div style="width: 100%; height: 100%;display: flex;flex-flow: column;justify-content: center;align-items: center;">
     <div class="block" style="align-self: start">
       <el-date-picker
-        v-model="month"
-        placeholder="选择月"
-        type="month"
-        value-format="yyyy-MM"
-        @change="findMonthStatisticsData"
+        v-model="year"
+        value-format="yyyy"
+        type="year"
+        placeholder="选择年"
+        @change="findYearStatisticsData"
       >
       </el-date-picker>
     </div>
@@ -20,21 +20,21 @@ import {statisticsBillingBySpendingType} from "@/api/billingDetails";
 import dataCatalog from "@/utils/dataCatalog";
 
 export default {
-  name: "MonthStatistics",
+  name: "SpendingTypeStatisticsByYear",
   data() {
     return {
-      month: '2022-08',
+      year: '2022',
       spendingTypeOption: [],
     }
   },
   async mounted() {
     this.spendingTypeOption = await dataCatalog.getData('spending_type');
-    this.findMonthStatisticsData();
+    this.findYearStatisticsData();
   },
   methods: {
-    findMonthStatisticsData() {
+    findYearStatisticsData() {
       let params = {
-        date: this.month
+        date: this.year
       }
       statisticsBillingBySpendingType(params).then(res => {
         if (res['code'] === 200) {

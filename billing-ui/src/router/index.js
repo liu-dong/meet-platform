@@ -8,8 +8,9 @@ import Test from "@/view/Test";
 import BillingHome from "@/view/billing/BillingHome";
 import BillingDetailsGroup from "@/view/billing/BillingDetailsGroup";
 import BillingDetailsList from "@/view/billing/BillingDetailsList";
-import YearStatistics from "@/view/billing/YearStatistics";
-import MonthStatistics from "@/view/billing/MonthStatistics";
+import SpendingTypeStatisticsByYear from "@/view/billing/SpendingTypeStatisticsByYear";
+import SpendingTypeStatisticsByMonth from "@/view/billing/SpendingTypeStatisticsByMonth";
+import MonthlyStatisticsByYear from "@/view/billing/MonthlyStatisticsByYear";
 
 Vue.use(Router)
 
@@ -27,8 +28,9 @@ const router = new Router({
             path: '/billingHome', name: 'billingHome', component: BillingHome, children: [
                 {path: '/billingDetailsGroup', name: 'billingDetailsGroup', component: BillingDetailsGroup},
                 {path: '/billingDetailsList', name: 'billingDetailsList', component: BillingDetailsList},
-                {path: '/monthStatistics', name: 'MonthStatistics', component: MonthStatistics},
-                {path: '/yearStatistics', name: 'YearStatistics', component: YearStatistics}]
+                {path: '/spendingTypeStatisticsByMonth', name: 'SpendingTypeStatisticsByMonth', component: SpendingTypeStatisticsByMonth},
+                {path: '/spendingTypeStatisticsByYear', name: 'SpendingTypeStatisticsByYear', component: SpendingTypeStatisticsByYear},
+                {path: '/monthlyStatisticsByYear', name: 'MonthlyStatisticsByYear', component: MonthlyStatisticsByYear}]
         }
 
     ]
