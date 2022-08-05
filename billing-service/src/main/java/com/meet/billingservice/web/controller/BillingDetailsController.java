@@ -132,6 +132,17 @@ public class BillingDetailsController {
         }
     }
 
+    @ApiOperation("统计单项支出")
+    @GetMapping("/statisticsBilling")
+    public ResponseResult statisticsBilling(String date) {
+        try {
+            return ResponseResult.success(billingDetailsService.statisticsBilling(date), "查询成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(e.getMessage());
+        }
+    }
+
 
 }
 

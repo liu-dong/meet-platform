@@ -1,6 +1,8 @@
 package com.meet.billingservice.web.dao;
+
 import com.meet.billingservice.web.entity.BillingDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @Repository
 public interface BillingDetailsJpaDao extends JpaRepository<BillingDetails, String> {
 
+    @Query(value = "SELECT * FROM billing_details WHERE record_time LIKE :date", nativeQuery = true)
     List<BillingDetails> findByRecordTimeStartingWith(String date);
 
 }

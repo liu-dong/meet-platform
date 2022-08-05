@@ -79,5 +79,5 @@ public interface BillingDetailsService {
    * @param date
    * @return
    */
-  Map<String, Object> statisticsBilling(String date);
+  Map<String, BigDecimal> statisticsBilling(String date);
 }

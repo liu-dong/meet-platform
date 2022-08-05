@@ -156,26 +156,28 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     }
 
     @Override
-    public Map<String, Object> statisticsBilling(String date) {
-        List<BillingDetails> billingDetailsList = billingDetailsJpaDao.findByRecordTimeStartingWith(date);
+    public Map<String, BigDecimal> statisticsBilling(String date) {
+        Map<String, BigDecimal> result = new HashMap<>();
+        List<BillingDetails> list = billingDetailsJpaDao.findByRecordTimeStartingWith(date + "%");
         //总支出
-        BigDecimal amountSum = billingDetailsList.stream()
+        BigDecimal amountSum = list.stream()
                 // 将BillingDetails对象的amountPaid取出来map为BigDecimal
                 .map(BillingDetails::getAmountPaid)
                 // 使用reduce聚合函数,实现累加器
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        //最大一类支出
-        Map<Integer, List<BillingDetails>> collect = billingDetailsList.stream().collect(Collectors.groupingBy(BillingDetails::getSpendingType));
         //最大一笔支出
-        BigDecimal amountMax = billingDetailsList.stream().map(BillingDetails::getAmountPaid).reduce(BigDecimal.ZERO, BigDecimal::max);
+        BigDecimal amountMax = list.stream().map(BillingDetails::getAmountPaid).reduce(BigDecimal.ZERO, BigDecimal::max);
         //平均每日/月支出
-        BigDecimal amountAvg = BigDecimal.valueOf(0);
+        BigDecimal amountAvg;
         if (date.length() > 4) {
             amountAvg = amountSum.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_HALF_UP);
         } else {
             amountAvg = amountSum.divide(BigDecimal.valueOf(365), 2, BigDecimal.ROUND_HALF_UP);
         }
-        return null;
+        result.put("amountSum", amountSum);
+        result.put("amountMax", amountMax);
+        result.put("amountAvg", amountAvg);
+        return result;
     }
 
     /**
