@@ -10,9 +10,9 @@
       >
       </el-date-picker>
       <div class="top-right">
-        <el-tag effect="dark" type="danger">最大一类支出</el-tag>
-        <el-tag effect="dark" type="warning">最大一笔支出</el-tag>
-        <el-tag effect="dark" type="success">每月平均支出</el-tag>
+        <el-tag effect="dark" type="danger">年度总支出：{{ statisticsValue.amountSum}}</el-tag>
+        <el-tag effect="dark" type="warning">最大一笔支出：{{ statisticsValue.amountMax }}</el-tag>
+        <el-tag effect="dark" type="success">每日平均支出：{{ statisticsValue.amountAvg }}</el-tag>
       </div>
     </div>
     <div id="main" style="width: 80%; height: 95%;margin-bottom: -20px"></div>
@@ -21,7 +21,7 @@
 
 <script>
 
-import {statisticsBillingBySpendingType} from "@/api/billingDetails";
+import {statisticsBilling, statisticsBillingBySpendingType} from "@/api/billingDetails";
 import dataCatalog from "@/utils/dataCatalog";
 
 export default {
@@ -30,20 +30,36 @@ export default {
     return {
       year: '2022',
       spendingTypeOption: [],
+      statisticsValue: {
+        amountSum: 0,
+        amountMax: 0,
+        amountAvg: 0,
+      }
     }
   },
   async mounted() {
     this.spendingTypeOption = await dataCatalog.getData('spending_type');
-    this.findYearStatisticsData();
+    this.findYearStatisticsData()
   },
   methods: {
+    getStatisticsValue() {
+      let params = {
+        date: this.year
+      }
+      statisticsBilling(params).then(res => {
+        if (res['code'] === 200) {
+          console.log(res.data)
+          this.statisticsValue = res.data
+        }
+      })
+    },
     findYearStatisticsData() {
       let params = {
         date: this.year
       }
       statisticsBillingBySpendingType(params).then(res => {
         if (res['code'] === 200) {
-          console.log(res.data)
+          this.getStatisticsValue()
           let data = this.convertData(res.data)
           this.drawCharts(data)
         }

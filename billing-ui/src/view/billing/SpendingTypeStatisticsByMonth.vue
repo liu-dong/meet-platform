@@ -10,9 +10,9 @@
       >
       </el-date-picker>
       <div class="top-right">
-        <el-tag effect="dark" type="danger">最大一类支出</el-tag>
-        <el-tag effect="dark" type="warning">最大一笔支出</el-tag>
-        <el-tag effect="dark" type="success">每日平均支出</el-tag>
+        <el-tag effect="dark" type="danger">月度总支出：{{ statisticsValue.amountSum}}</el-tag>
+        <el-tag effect="dark" type="warning">最大一笔支出：{{ statisticsValue.amountMax }}</el-tag>
+        <el-tag effect="dark" type="success">每日平均支出：{{ statisticsValue.amountAvg }}</el-tag>
       </div>
     </div>
     <div id="main" style="width: 80%; height: 95%;"></div>
@@ -21,7 +21,7 @@
 
 <script>
 
-import {statisticsBillingBySpendingType} from "@/api/billingDetails";
+import {statisticsBilling, statisticsBillingBySpendingType} from "@/api/billingDetails";
 import dataCatalog from "@/utils/dataCatalog";
 
 export default {
@@ -30,6 +30,11 @@ export default {
     return {
       month: '2022-08',
       spendingTypeOption: [],
+      statisticsValue: {
+        amountSum: 0,
+        amountMax: 0,
+        amountAvg: 0,
+      }
     }
   },
   async mounted() {
@@ -37,6 +42,17 @@ export default {
     this.findMonthStatisticsData();
   },
   methods: {
+    getStatisticsValue() {
+      let params = {
+        date: this.month
+      }
+      statisticsBilling(params).then(res => {
+        if (res['code'] === 200) {
+          console.log(res.data)
+          this.statisticsValue = res.data
+        }
+      })
+    },
     findMonthStatisticsData() {
       let params = {
         date: this.month
@@ -44,6 +60,7 @@ export default {
       statisticsBillingBySpendingType(params).then(res => {
         if (res['code'] === 200) {
           console.log(res.data)
+          this.getStatisticsValue()
           let data = this.convertData(res.data)
           this.drawCharts(data)
         }
@@ -72,8 +89,8 @@ export default {
     convertData(data) {
       return data.map(item => {
         let spending = dataCatalog.getName(item.spendingType, this.spendingTypeOption)
-        if (spending !== '暂无内容'){
-          return  {
+        if (spending !== '暂无内容') {
+          return {
             value: item.sum,
             name: spending
           }

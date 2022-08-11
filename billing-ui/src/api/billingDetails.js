@@ -56,3 +56,11 @@ export function statisticsBillingByMonth(params) {
         params
     })
 }
+
+export function statisticsBilling(params) {
+    return request({
+        url: '/billing/billingDetails/statisticsBilling',
+        method: 'get',
+        params
+    })
+}
