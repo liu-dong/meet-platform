@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -170,9 +171,9 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         //平均每日/月支出
         BigDecimal amountAvg;
         if (date.length() > 4) {
-            amountAvg = amountSum.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_HALF_UP);
+            amountAvg = amountSum.divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP);
         } else {
-            amountAvg = amountSum.divide(BigDecimal.valueOf(365), 2, BigDecimal.ROUND_HALF_UP);
+            amountAvg = amountSum.divide(BigDecimal.valueOf(365), 2, RoundingMode.HALF_UP);
         }
         result.put("amountSum", amountSum);
         result.put("amountMax", amountMax);

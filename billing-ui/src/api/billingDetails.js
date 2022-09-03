@@ -36,7 +36,7 @@ export function getBillingDetails(params) {
 export function deleteBillingDetails(params) {
     return request({
         url: '/billing/billingDetails/deleteBilling',
-        method: 'get',
+        method: 'post',
         params
     })
 }

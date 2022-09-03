@@ -52,8 +52,8 @@
                 <el-form-item label="支出类型" prop="spendingType">
                     <el-select v-model="billingDetails.spendingType" :disabled="viewType==='detail'"
                                placeholder="请选择活动区域" style="width: 100%">
-                        <el-option v-for="(item,index) in spendingTypeOption" :key="index" :label="item.valueName"
-                                   :value="parseInt(item.valueValue)"></el-option>
+                        <el-option v-for="(item,index) in spendingTypeOption" :key="index" :label="item.itemName"
+                                   :value="parseInt(item.itemCode)"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="支出金额" prop="amountPaid">
@@ -116,6 +116,7 @@ export default {
     },
     async created() {
         this.spendingTypeOption = await dataCatalog.getData('spending_type');
+        console.log("支出类型：" + this.spendingTypeOption)
         await this.findBillingListGroup()
     },
     methods: {
