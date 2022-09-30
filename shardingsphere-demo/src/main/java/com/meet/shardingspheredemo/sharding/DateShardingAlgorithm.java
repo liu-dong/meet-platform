@@ -1,3 +1,4 @@
+/*
 package com.meet.shardingspheredemo.sharding;
 
 import org.apache.shardingsphere.sharding.api.sharding.standard.PreciseShardingValue;
@@ -9,9 +10,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
 
+*/
 /**
  * @author liudong 2022/9/29
- */
+ *//*
+
 //@Component
 public class DateShardingAlgorithm implements StandardShardingAlgorithm<Date> {
 
@@ -40,3 +43,4 @@ public class DateShardingAlgorithm implements StandardShardingAlgorithm<Date> {
 
     }
 }
+*/

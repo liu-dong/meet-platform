@@ -5,32 +5,25 @@ spring:
         name: demo
 
     datasource:
-        type: com.zaxxer.hikari.HikariDataSource
-        hikari:
-            # 个人测试数据库
-            jdbc-url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            username: root
-            password: 123456
+        url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
 
     #shardingjdbc主要配置
     shardingsphere:
-#        mode:
-#            type: Standalone
-#            repository:
-#                type: File
-#            overwrite: false
         props:
             #　是否显示sql
             sql-show: true
+            sql-simple: true
         datasource:
             names: ds #数据源名称，多个以逗号隔开
             ds:
-                type: ${spring.datasource.type}
-                driver-class-name: ${spring.datasource.hikari.driver-class-name}
-                url: ${spring.datasource.hikari.jdbc-url}
-                username: ${spring.datasource.hikari.username}
-                password: ${spring.datasource.hikari.password}
+                type: com.zaxxer.hikari.HikariDataSource
+                driver-class-name: ${spring.datasource.driver-class-name}
+                url: ${spring.datasource.url}
+                username: ${spring.datasource.username}
+                password: ${spring.datasource.password}
 
         rules:
             sharding:
@@ -54,7 +47,7 @@ spring:
                         type: INTERVAL
                         props:
                             datetime-pattern: 'yyyy-MM-dd HH:mm:ss'
-                            datetime-lower: '2020-01-01 00:00:00'
+                            datetime-lower: '2021-03-01 00:00:00'
                             datetime-upper: '2025-01-01 00:00:00'
                             sharding-suffix-pattern: 'yyyyMM'
                             datetime-interval-amount: 1

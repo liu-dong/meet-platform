@@ -11,11 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ShardingsphereDemoApplication {
 
     public static void main(String[] args) {
-        try {
-            SpringApplication.run(ShardingsphereDemoApplication.class, args);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        SpringApplication.run(ShardingsphereDemoApplication.class, args);
     }
 
 }

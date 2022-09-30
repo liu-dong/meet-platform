@@ -32,7 +32,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     @Autowired
     private BillingDetailsJpaDao billingDetailsJpaDao;
 
-    @Resource
+    @Autowired
     private CommonDao commonDao;
 
     @Override
