@@ -3,62 +3,19 @@ server:
 spring:
     application:
         name: demo
-
     datasource:
-        url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         driver-class-name: com.mysql.cj.jdbc.Driver
-        username: root
         password: 123456
+        url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        username: root
+    profiles:
+        include: custom-sharding
 
-    #shardingjdbc主要配置
-    shardingsphere:
-        props:
-            #　是否显示sql
-            sql-show: true
-            sql-simple: true
-        datasource:
-            names: ds #数据源名称，多个以逗号隔开
-            ds:
-                type: com.zaxxer.hikari.HikariDataSource
-                driver-class-name: ${spring.datasource.driver-class-name}
-                url: ${spring.datasource.url}
-                username: ${spring.datasource.username}
-                password: ${spring.datasource.password}
+    # 日期类型转换成字符串返回
+    jackson:
+        date-format: yyyy-mm-dd HH:mm:ss
+        time-zone: GMT+8
 
-        rules:
-            sharding:
-                tables:
-                    billing_details: # 分表，逻辑表名 数据库未分表的表名
-                        # 节点数据
-                        actual-data-nodes: ds.billing_details_20$->{20..30}0$->{1..9},ds.billing_details_20$->{20..30}$->{10..12},  #数据节点,均匀分布
-                        table-strategy: # 配置分表策略
-                            standard: # 用于单分片键的标准分片场景
-                                sharding-column: create_time # 分片列名称
-                                sharding-algorithm-name: database-interval # 分片算法名称 不能使用下划线
-                # 分片算法配置
-#                sharding-algorithms:
-#                    access-log-inline: # 分片算法名称 不能使用下划线
-#                        type: CLASS_BASED #自定义策略
-#                        props:
-#                            strategy: standard
-#                            algorithmClassName: com.meet.shardingspheredemo.sharding.DateShardingAlgorithm
-                sharding-algorithms:
-                    database-interval:
-                        type: INTERVAL
-                        props:
-                            datetime-pattern: 'yyyy-MM-dd HH:mm:ss'
-                            datetime-lower: '2021-03-01 00:00:00'
-                            datetime-upper: '2025-01-01 00:00:00'
-                            sharding-suffix-pattern: 'yyyyMM'
-                            datetime-interval-amount: 1
-                            datetime-interval-unit: 'MONTHS'
-
-#                binding-tables: billing_details
-                # 主键生成策略 也可以使用MP的主键生成
-                default-key-generate-strategy:
-                    column: id # 自增列名称
-                    key-generator-name: id-key  # 分布式序列算法名称
-                key-generators:
-                    id-key:
-                        type: UUID # 分布式序列算法类型
-
+        # 解决数据库有字段为null报错问题（相当于@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })配置）
+        serialization:
+            fail-on-empty-beans: false

@@ -1,19 +1,18 @@
 package com.meet.shardingspheredemo.web.service.impl;
 
-import com.meet.shardingspheredemo.web.dao.BillingDetailsJpaDao;
-import com.meet.shardingspheredemo.web.entity.BillingDetails;
-import com.meet.shardingspheredemo.web.model.BillingDetailsDTO;
-import com.meet.shardingspheredemo.web.service.BillingDetailsService;
 import com.meet.commoncore.dao.CommonDao;
 import com.meet.commoncore.exception.GlobalException;
 import com.meet.commoncore.model.Pager;
 import com.meet.commoncore.util.CurrentUserUtils;
 import com.meet.commoncore.util.DateFormUtils;
+import com.meet.shardingspheredemo.web.dao.BillingDetailsJpaDao;
+import com.meet.shardingspheredemo.web.entity.BillingDetails;
+import com.meet.shardingspheredemo.web.model.BillingDetailsDTO;
+import com.meet.shardingspheredemo.web.service.BillingDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
@@ -99,7 +98,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             params.add(CurrentUserUtils.getUsername());
         }*/
         sql.append(" ORDER BY record_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, BillingDetailsDTO.class);
+        return commonDao.findListBySql(pager, sql, params);
     }
 
     @Override
@@ -114,8 +113,10 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         BillingDetails entity = new BillingDetails();
         if (StringUtils.isEmpty(dto.getId())) {
             entity.setId(UUID.randomUUID().toString());
-            entity.setCreateTime(new Date());
-            entity.setCreateUserId(CurrentUserUtils.getUsername());
+            if (StringUtils.isEmpty(dto.getCreateTime())) {
+                entity.setCreateTime(new Date());
+            }
+            entity.setCreateUserId(dto.getCreateUserId());
         } else {
             entity = billingDetailsJpaDao.getOne(dto.getId());
         }
@@ -124,7 +125,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         entity.setRemark(dto.getRemark());
         entity.setRecordTime(DateFormUtils.formatDate(dto.getRecordTime()));
         entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(CurrentUserUtils.getUsername());
+        entity.setUpdateUserId(dto.getUpdateUserId());
         return entity;
     }
 
