@@ -9,35 +9,40 @@ spring:
 #                type: File
 #            overwrite: true
         datasource:
+            names: ds
             ds:
                 driver-class-name: com.mysql.cj.jdbc.Driver
                 jdbc-url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
                 password: 123456
                 type: com.zaxxer.hikari.HikariDataSource
                 username: root
-            names: ds
         rules:
             sharding:
                 tables:
                     billing_details:
 #                        actual-data-nodes: ds.billing_details_20$->{20..30}0$->{1..9},ds.billing_details_20$->{20..30}$->{10..12},
-                        actual-data-nodes: ds.billing_details_$->{202103..202112},ds.billing_details_$->{202201..202209},
+                        actual-data-nodes: ds.billing_details_$->{202103..202112},ds.billing_details_$->{202201..202210},
+#                        key-generate-strategy:
+#                            column: id
+#                            key-generator-name: snowflake
                         table-strategy:
                             standard:
-                                sharding-algorithm-name: database-interval
                                 sharding-column: create_time
+                                sharding-algorithm-name: database-interval
                 sharding-algorithms:
                     database-interval:
+                        type: INTERVAL
                         props:
-                            datetime-interval-amount: 1
-                            datetime-interval-unit: MONTHS
+                            datetime-pattern: 'yyyy-MM-dd HH:mm:ss'
                             datetime-lower: '2021-03-01 00:00:00'
-                            datetime-pattern: yyyy-MM-dd HH:mm:ss
                             datetime-upper: '2022-10-01 00:00:00'
                             sharding-suffix-pattern: yyyyMM
-                        type: INTERVAL
+                            datetime-interval-amount: 1
+                            datetime-interval-unit: 'MONTHS'
 
-
+#                key-generators:
+#                    snowflake:
+#                        type: SNOWFLAKE
 #                default-key-generate-strategy:
 #                    column: id
 #                    key-generator-name: id-key

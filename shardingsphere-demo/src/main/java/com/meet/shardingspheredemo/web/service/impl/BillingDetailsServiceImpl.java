@@ -115,6 +115,8 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             entity.setId(UUID.randomUUID().toString());
             if (StringUtils.isEmpty(dto.getCreateTime())) {
                 entity.setCreateTime(new Date());
+            }else {
+                entity.setCreateTime(DateFormUtils.formatDate(dto.getCreateTime()));
             }
             entity.setCreateUserId(dto.getCreateUserId());
         } else {

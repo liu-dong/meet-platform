@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * @author liudong 2022/9/29
  */
-@Component
+//@Component
 public class DateShardingAlgorithm implements StandardShardingAlgorithm<String> {
 
     @Override

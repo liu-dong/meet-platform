@@ -9,7 +9,7 @@ spring:
         url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         username: root
     profiles:
-        include: custom-sharding
+        include: sharding
 
     # 日期类型转换成字符串返回
     jackson:
