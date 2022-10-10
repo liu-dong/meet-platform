@@ -1,10 +1,12 @@
 package com.meet.commoncore.dao;
 
 import com.meet.commoncore.model.Pager;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 import java.util.Map;
 
+@NoRepositoryBean
 public interface CommonDao {
 
     /**
