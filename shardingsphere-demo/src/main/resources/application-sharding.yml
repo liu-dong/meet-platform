@@ -3,28 +3,33 @@ spring:
         props:
             sql-show: true
         #            sql-simple: true
-#        mode:
-#            type: Standalone
-#            repository:
-#                type: File
-#            overwrite: true
+        #        mode:
+        #            type: Standalone
+        #            repository:
+        #                type: File
+        #            overwrite: true
         datasource:
             names: ds
             ds:
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbc-url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
-                password: 123456
-                type: com.zaxxer.hikari.HikariDataSource
+                url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+                type: com.alibaba.druid.pool.DruidDataSource
                 username: root
+                password: 123456
+        #                driver-class-name: com.mysql.cj.jdbc.Driver
+        #                jdbc-url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        #                type: com.zaxxer.hikari.HikariDataSource
+        #                username: root
+        #                password: 123456
         rules:
             sharding:
                 tables:
                     billing_details:
-#                        actual-data-nodes: ds.billing_details_20$->{20..30}0$->{1..9},ds.billing_details_20$->{20..30}$->{10..12},
+                        #                        actual-data-nodes: ds.billing_details_20$->{20..30}0$->{1..9},ds.billing_details_20$->{20..30}$->{10..12},
                         actual-data-nodes: ds.billing_details_$->{202103..202112},ds.billing_details_$->{202201..202210},
-#                        key-generate-strategy:
-#                            column: id
-#                            key-generator-name: snowflake
+                        #                        key-generate-strategy:
+                        #                            column: id
+                        #                            key-generator-name: snowflake
                         table-strategy:
                             standard:
                                 sharding-column: create_time
