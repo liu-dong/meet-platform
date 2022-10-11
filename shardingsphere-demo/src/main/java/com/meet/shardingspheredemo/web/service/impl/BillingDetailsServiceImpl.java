@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
@@ -31,7 +32,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     @Autowired
     private BillingDetailsJpaDao billingDetailsJpaDao;
 
-    @Autowired
+    @Resource
     private CommonDao commonDao;
 
     @Override

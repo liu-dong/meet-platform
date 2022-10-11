@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author LD
  */
 @Data
-@ConfigurationProperties(prefix = "spring.datasource.druid")
-public class DataSourcePropertiesConfig {
+@ConfigurationProperties(prefix = "spring.datasource.meet")
+public class DruidDataSourcePropertiesConfig {
     //基本属性
     private String driverClassName;//驱动名称
     private String url;//数据库地址

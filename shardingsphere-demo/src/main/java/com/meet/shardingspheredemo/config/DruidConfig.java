@@ -41,7 +41,7 @@ import java.util.*;
  * @date 2019/12/30 11:24
  */
 @Configuration
-@EnableConfigurationProperties({DataSourcePropertiesConfig.class})
+@EnableConfigurationProperties({DruidDataSourcePropertiesConfig.class})
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "transactionManager",
@@ -49,7 +49,7 @@ import java.util.*;
 public class DruidConfig {
 
     @Resource
-    private DataSourcePropertiesConfig properties;
+    private DruidDataSourcePropertiesConfig properties;
     @Autowired
     private JpaProperties jpaProperties;
 
@@ -78,18 +78,20 @@ public class DruidConfig {
         druidDataSource.setTestOnReturn(properties.isTestOnReturn());
         druidDataSource.setPoolPreparedStatements(properties.isPoolPreparedStatements());
         druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(properties.getMaxPoolPreparedStatementPerConnectionSize());
-
         try {
             druidDataSource.setFilters(properties.getFilters());
             druidDataSource.init();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return getDataSource(druidDataSource);
+    }
 
+    private DataSource getDataSource(DruidDataSource druidDataSource) throws SQLException {
         Properties properties = new Properties();
         properties.put("sql-show", true);
         Map<String, DataSource> dataSourceMap = new HashMap<>();
-        dataSourceMap.put("ds",druidDataSource);
+        dataSourceMap.put("ds", druidDataSource);
         return ShardingSphereDataSourceFactory.createDataSource(dataSourceMap, createShardingRuleConfiguration(), properties);
     }
 
