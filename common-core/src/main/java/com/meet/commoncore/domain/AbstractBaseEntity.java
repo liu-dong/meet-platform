@@ -27,7 +27,7 @@ public abstract class AbstractBaseEntity implements BaseAttribute, Serializable 
      */
     protected String updateUserId;
 
-    public AbstractBaseEntity() {
+    protected AbstractBaseEntity() {
 
     }
 

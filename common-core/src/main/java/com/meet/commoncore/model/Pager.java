@@ -1,11 +1,7 @@
 package com.meet.commoncore.model;
 
 
-import com.meet.commoncore.util.CommonUtils;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 分页

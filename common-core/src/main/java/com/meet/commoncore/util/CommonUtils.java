@@ -97,10 +97,7 @@ public class CommonUtils {
                     field.setAccessible(flag);
                 }
             }
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            System.err.println("map转换指定对象异常");
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
             System.err.println("map转换指定对象异常");
         }

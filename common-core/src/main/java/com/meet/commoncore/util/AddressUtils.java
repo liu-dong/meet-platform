@@ -6,11 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * @author liudong 2022/2/9
  */
 public class AddressUtils {
+
+    private AddressUtils() {}
 
     /**
      * 获取用户ip地址

@@ -1,8 +1,6 @@
 package com.meet.commoncore.dao;
 
 import com.meet.commoncore.model.Pager;
-import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;

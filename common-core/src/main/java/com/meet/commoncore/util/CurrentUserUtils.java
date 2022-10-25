@@ -6,7 +6,7 @@ import com.meet.commoncore.model.UserDetails;
 /**
  * @author liudong 2022/6/29
  */
-public class CurrentUserUtils {
+public final class CurrentUserUtils {
 
     private CurrentUserUtils() {
     }
@@ -26,18 +26,18 @@ public class CurrentUserUtils {
     }
 
     public static String getUserId() {
-        if (CURRENT_USER_DETAIL.get() != null){
+        if (CURRENT_USER_DETAIL.get() != null) {
             return CURRENT_USER_DETAIL.get().getUserId();
-        }else {
-            throw new GlobalException(500,"无用户登录信息");
+        } else {
+            throw new GlobalException(500, "无用户登录信息");
         }
     }
 
     public static String getUsername() {
-        if (CURRENT_USER_DETAIL.get() != null){
+        if (CURRENT_USER_DETAIL.get() != null) {
             return CURRENT_USER_DETAIL.get().getUsername();
-        }else {
-            throw new GlobalException(500,"无用户登录信息");
+        } else {
+            throw new GlobalException(500, "无用户登录信息");
         }
     }
 }
