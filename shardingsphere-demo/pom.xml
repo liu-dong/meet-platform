@@ -11,7 +11,7 @@
     <artifactId>shardingsphere-demo</artifactId>
     <version>1.0.0</version>
     <name>shardingsphere-demo</name>
-    <description>Demo project for Spring Boot</description>
+    <description>分表demo</description>
     <dependencies>
         <dependency>
             <groupId>com.meet</groupId>
@@ -26,19 +26,14 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-dbcp</artifactId>
-            <version>10.0.16</version>
+            <version>10.1.2</version>
         </dependency>
         <!-- 使用druid需要注意artifactId， -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.9 </version>
+            <version>1.2.15</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba</groupId>-->
-<!--            <artifactId>druid</artifactId>-->
-<!--            <version>1.2.9 </version>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
