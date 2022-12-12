@@ -1,9 +1,9 @@
 package com.dong.commoncore.util;
 
+import cn.hutool.core.date.DateUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.http.entity.ContentType;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -61,7 +61,7 @@ public class UploadDownloadUtils {
         }
         if (file != null) {
             // 取得当前上传文件的文件名称
-            String myFileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS") + file.getOriginalFilename();
+            String myFileName = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS") + file.getOriginalFilename();
             result.put("fileName", file.getOriginalFilename());
             result.put("newFileName", myFileName);
             // 如果名称不为“”,说明该文件存在，否则说明该文件不存在
@@ -136,7 +136,7 @@ public class UploadDownloadUtils {
         Map<String, Object> result = new HashMap<>();
         System.out.println("fileName：" + file.getOriginalFilename());
         //获取输出流
-        OutputStream outputStream = new FileOutputStream(PATH + "/" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS")
+        OutputStream outputStream = new FileOutputStream(PATH + "/" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS")
                 + file.getOriginalFilename());
         //获取输入流 CommonsMultipartFile 中可以直接得到文件的流
         InputStream inputStream = file.getInputStream();

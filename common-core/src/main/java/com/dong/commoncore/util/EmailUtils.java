@@ -1,8 +1,12 @@
 package com.dong.commoncore.util;
 
-import com.google.common.collect.Maps;
 import org.springframework.util.CollectionUtils;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.*;
 
 /**
@@ -28,8 +32,8 @@ public class EmailUtils {
      * @throws Exception
      */
     public static String sendSecurityCode(String receiveMail, String receiveName) throws Exception {
-        HashMap<String, Object> map = Maps.newHashMap();
-        List<Map<String, Object>> recipientList = Lists.newArrayList();
+        HashMap<String, Object> map = new HashMap<>();
+        List<Map<String, Object>> recipientList = new ArrayList<>();
         recipientList.add(createTO(receiveMail, receiveName));//接收人
         map.put("recipientList", recipientList);
         map.put("subject", "【meet】");//主题
@@ -140,7 +144,7 @@ public class EmailUtils {
      * @return
      */
     public static Map<String, Object> createTO(String receiveMail, String receiveName) {
-        HashMap<String, Object> recipient = Maps.newHashMap();
+        HashMap<String, Object> recipient = new HashMap<>(3);
         recipient.put("receiveType", MimeMessage.RecipientType.TO);//接收人类型
         recipient.put("receiveMail", receiveMail);//接收人邮箱
         recipient.put("receiveName", receiveName);//接收人名称
@@ -155,7 +159,7 @@ public class EmailUtils {
      * @return
      */
     public static Map<String, Object> createCC(String receiveMail, String receiveName) {
-        HashMap<String, Object> recipient = Maps.newHashMap();
+        HashMap<String, Object> recipient = new HashMap<>(3);
         recipient.put("receiveType", MimeMessage.RecipientType.CC);//接收人类型
         recipient.put("receiveMail", receiveMail);//接收人邮箱
         recipient.put("receiveName", receiveName);//接收人名称
@@ -170,7 +174,7 @@ public class EmailUtils {
      * @return
      */
     public static Map<String, Object> createBCC(String receiveMail, String receiveName) {
-        HashMap<String, Object> recipient = Maps.newHashMap();
+        HashMap<String, Object> recipient = new HashMap<>(3);
         recipient.put("receiveType", MimeMessage.RecipientType.BCC);//接收人类型
         recipient.put("receiveMail", receiveMail);//接收人邮箱
         recipient.put("receiveName", receiveName);//接收人名称
@@ -178,8 +182,8 @@ public class EmailUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        HashMap<String, Object> map = Maps.newHashMap();
-        ArrayList<Map<String, Object>> recipientList = Lists.newArrayList();
+        HashMap<String, Object> map = new HashMap<>();
+        ArrayList<Map<String, Object>> recipientList = new ArrayList<>();
         recipientList.add(createTO("473932705@qq.com", "妖姬"));//接收人
         recipientList.add(createTO("964708273@qq.com", "霸王"));//接收人
         recipientList.add(createCC("473932705@qq.com", "妖姬"));//抄送人
