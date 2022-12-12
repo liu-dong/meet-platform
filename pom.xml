@@ -22,19 +22,36 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <!--spring-->
         <!--        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>-->
+
+        <!--apache-->
+        <commons-beanutils-version>1.9.4</commons-beanutils-version>
+        <commons-fileupload-version>1.4</commons-fileupload-version>
+        <httpclient-version>4.5.13</httpclient-version>
+        <httpcore-version>4.4.15</httpcore-version>
+        <shardingsphere.version>5.1.0</shardingsphere.version>
+
+        <!--alibaba-->
+        <easyexcel.version>3.0.5</easyexcel.version>
+        <fastjson.version>2.0.3</fastjson.version>
+        <aliyun-sdk-oss.version>3.10.2</aliyun-sdk-oss.version>
+
+        <!--google-->
+        <QRcode.version>3.4.1</QRcode.version>
+
+        <!--other-->
         <lombok.version>1.18.24</lombok.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>3.0.0</swagger.version>
-        <fastjson.version>1.2.79</fastjson.version>
         <mail.version>1.5.0-b01</mail.version>
-        <QRcode.version>3.4.1</QRcode.version>
-        <jjwt.version>0.9.1</jjwt.version>
-        <easyexcel.version>3.0.5</easyexcel.version>
+        <jedis-version>3.8.0</jedis-version>
         <mysql-version>5.1.47</mysql-version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <amqp-client-version>5.14.2</amqp-client-version>
         <hutool-version>5.8.10</hutool-version>
-        <shardingsphere.version>5.1.0</shardingsphere.version>
-        <commons-beanutils-version>1.9.4</commons-beanutils-version>
+
+
     </properties>
 
     <modules>
@@ -60,6 +77,14 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!--  配置文件处理器  -->
+        <!--让自定义的配置在application.yaml进行自动提示-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -121,7 +146,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>javax.mail</groupId>
@@ -156,14 +180,46 @@
                 <version>${commons-beanutils-version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool-version}</version>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${amqp-client-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
                 <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
                 <version>${shardingsphere.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-version}</version>
+            </dependency>
+            <!--阿里云文件管理-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
