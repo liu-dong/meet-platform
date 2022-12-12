@@ -3,20 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.meet</groupId>
+        <groupId>com.dong</groupId>
         <artifactId>meet-platform</artifactId>
-        <version>1.0.0</version>
+        <version>3.0.0</version>
         <!-- lookup parent from repository -->
     </parent>
     <artifactId>shardingsphere-demo</artifactId>
-    <version>1.0.0</version>
     <name>shardingsphere-demo</name>
     <description>分表demo</description>
     <dependencies>
         <dependency>
-            <groupId>com.meet</groupId>
+            <groupId>com.dong</groupId>
             <artifactId>common-core</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
