@@ -34,6 +34,7 @@
         <mysql-version>5.1.47</mysql-version>
         <hutool-version>5.8.10</hutool-version>
         <shardingsphere.version>5.1.0</shardingsphere.version>
+        <commons-beanutils-version>1.9.4</commons-beanutils-version>
     </properties>
 
     <modules>
@@ -152,7 +153,7 @@
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
-                <version>1.9.4</version>
+                <version>${commons-beanutils-version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>

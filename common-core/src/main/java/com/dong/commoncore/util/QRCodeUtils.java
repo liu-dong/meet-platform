@@ -116,7 +116,6 @@ public class QRCodeUtils {
      *
      * @param codeContent 内容
      * @return 图片缓存流
-     * @throws WriterException
      */
     private static BufferedImage getBufferedImage(String codeContent) throws WriterException {
         /*
