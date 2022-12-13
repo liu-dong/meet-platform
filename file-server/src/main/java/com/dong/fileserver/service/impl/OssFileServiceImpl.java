@@ -4,18 +4,22 @@ import cn.hutool.core.date.DateTime;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.aliyun.oss.model.ObjectListing;
 import com.dong.fileserver.config.OssProperties;
-import com.dong.fileserver.service.FileService;
+import com.dong.fileserver.service.OssFileService;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * @author liudong 2022/9/24
  */
 @Service
-public class FileServiceImpl implements FileService {
+public class OssFileServiceImpl implements OssFileService {
 
     /**
      * 文件上传至阿里云
@@ -74,5 +78,46 @@ public class FileServiceImpl implements FileService {
 
         // 关闭OSSClient。
         ossClient.shutdown();
+    }
+
+    @Override
+    public boolean exist(String fileName) {
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(
+                OssProperties.ENDPOINT,
+                OssProperties.KEY_ID,
+                OssProperties.KEY_SECRET);
+
+        boolean result = ossClient.doesObjectExist(OssProperties.BUCKET_NAME, fileName);
+        // 关闭OSSClient。
+        ossClient.shutdown();
+        return result;
+    }
+
+    @Override
+    public ObjectListing listObjects(String keyPrefix) {
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(
+                OssProperties.ENDPOINT,
+                OssProperties.KEY_ID,
+                OssProperties.KEY_SECRET);
+        ObjectListing objectListing = ossClient.listObjects(OssProperties.BUCKET_NAME, keyPrefix);
+        List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
+        for (OSSObjectSummary s : sums) {
+            System.out.println("\t" + s.getKey());
+        }
+        return objectListing;
+    }
+
+    @Override
+    public OSSObject getObject(String fileName) {
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(
+                OssProperties.ENDPOINT,
+                OssProperties.KEY_ID,
+                OssProperties.KEY_SECRET);
+        OSSObject object = ossClient.getObject(OssProperties.BUCKET_NAME, fileName);
+        ossClient.shutdown();
+        return object;
     }
 }
