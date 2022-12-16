@@ -1,5 +1,6 @@
 package com.dong.fileserver.controller;
 
+import com.dong.commoncore.contant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.UploadDownloadUtils;
 import io.swagger.annotations.Api;
@@ -12,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +47,35 @@ public class LocalFileController {
             path = localFilePath + path;
         }
         Map<String, Object> map = UploadDownloadUtils.uploadFirst(file, path);
-        return ResponseResult.success(map, "请求成功！");
+        if ((boolean) map.get("success")) {
+            return ResponseResult.success(map.get("data"), ResponseMessageConstant.UPLOAD_SUCCESS);
+        } else {
+            return ResponseResult.error(ResponseMessageConstant.UPLOAD_ERROR);
+        }
+    }
+
+    @PostMapping("/batch/upload")
+    public ResponseResult batchUpload(MultipartFile[] files, String path) throws IllegalStateException, IOException {
+
+        if (StringUtils.isEmpty(path)) {
+            path = localFilePath;
+        } else {
+            path = localFilePath + path;
+        }
+        List<Map<String, Object>> successList = new ArrayList<>();
+        List<String> errorList = new ArrayList<>();
+        Map<String, Object> result = new HashMap<>();
+        for (MultipartFile file : files) {
+            Map<String, Object> map = UploadDownloadUtils.uploadFirst(file, path);
+            if ((boolean) map.get("success")) {
+                successList.add((Map<String, Object>) map.get("data"));
+            } else {
+                errorList.add(file.getOriginalFilename());
+            }
+        }
+        result.put("success", successList);
+        result.put("error", errorList);
+        return ResponseResult.success(result, ResponseMessageConstant.UPLOAD_SUCCESS);
     }
 
     @PostMapping("/upload/second")

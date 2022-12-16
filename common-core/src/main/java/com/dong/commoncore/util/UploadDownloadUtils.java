@@ -52,6 +52,7 @@ public class UploadDownloadUtils {
      */
     public static Map<String, Object> uploadFirst(MultipartFile file, String path) throws IllegalStateException, IOException {
         Map<String, Object> result = new HashMap<>();
+
         File filePath = new File(path);
         // 如果文件夹不存在则创建
         if (!filePath.exists() && !filePath.isDirectory()) {
@@ -60,11 +61,10 @@ public class UploadDownloadUtils {
             }
         }
         if (file != null) {
+            Map<String, Object> fileData = new HashMap<>();
             // 取得当前上传文件的文件名称
             String myFileName = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS") + file.getOriginalFilename();
-            result.put("fileName", file.getOriginalFilename());
-            result.put("newFileName", myFileName);
-            // 如果名称不为“”,说明该文件存在，否则说明该文件不存在
+            // 如果名称不为"",说明该文件存在，否则说明该文件不存在
             if (!StringUtils.isEmpty(myFileName.trim())) {
                 // 定义上传路径
                 File localFile = new File(path + "/" + myFileName);
@@ -74,7 +74,13 @@ public class UploadDownloadUtils {
                         result.put("message", "文件夹创建失败！");
                     }
                 }
+
                 file.transferTo(localFile);
+
+                fileData.put("fileName", file.getOriginalFilename());
+                fileData.put("newFileName", myFileName);
+                fileData.put("filePath", localFile.getPath());
+                result.put("data", fileData);
                 result.put("message", "上传成功");
                 result.put("success", true);
             }
