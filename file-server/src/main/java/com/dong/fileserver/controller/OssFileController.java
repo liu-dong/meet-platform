@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
 /**
  * @author liudong 2022/9/24
  */
-@Api(tags = "阿里云文件管理")
+@Api(tags = "阿里云OSS文件管理")
 @RestController
 @RequestMapping("/oss/file")
 public class OssFileController {

@@ -8,7 +8,6 @@ import org.apache.http.entity.ContentType;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -30,13 +29,13 @@ public class UploadDownloadUtils {
 
     private static final String PATH = "F:\\MyUploadFile";//上传文件的存储路径
 
+
     /**
      * 上传附件到本地 (transferTo)
      *
      * @param file
      * @return
      * @throws IllegalStateException
-     * @throws IOException
      */
     public static Map<String, Object> uploadFirst(MultipartFile file) throws IllegalStateException, IOException {
         return uploadFirst(file, PATH);
@@ -45,7 +44,8 @@ public class UploadDownloadUtils {
     /**
      * 上传附件到本地 (transferTo)
      *
-     * @param file
+     * @param file SpringBoot 使用MultipartFile，SpringMVC 使用CommonsMultipartFile
+     * @param path 指定路径
      * @return
      * @throws IllegalStateException
      * @throws IOException
@@ -90,9 +90,20 @@ public class UploadDownloadUtils {
      *
      * @param request
      * @return
-     * @throws IOException
      */
     public static Map<String, Object> uploadSecond(HttpServletRequest request) throws IOException {
+        return uploadSecond(request, null);
+    }
+
+    /**
+     * 上传附件到本地 (Spring)
+     *
+     * @param request
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public static Map<String, Object> uploadSecond(HttpServletRequest request, String path) throws IOException {
         long startTime = System.currentTimeMillis();
         Map<String, Object> result = new HashMap<>();
         //将当前上下文初始化给  CommonsMultipartResolver （多部分解析器）
@@ -107,17 +118,15 @@ public class UploadDownloadUtils {
                 //一次遍历所有文件
                 MultipartFile file = multiRequest.getFile(fileNames.next().toString());
                 if (file != null) {
-                    /*String path = PATH +"\\" + file.getOriginalFilename();
-                    //上传
-                    file.transferTo(new File(path));
-                    result.put("message", "上传成功");
-                    result.put("success", true);*/
-                    uploadFirst(file);
+                    result = StringUtils.isEmpty(path) ? uploadFirst(file) : uploadFirst(file, path);
                 } else {
                     result.put("message", "上传失败");
                     result.put("success", false);
                 }
             }
+        } else {
+            result.put("message", "上传失败");
+            result.put("success", false);
         }
         long endTime = System.currentTimeMillis();
         System.out.println("Spring方法的运行时间：" + (endTime - startTime) + "ms");
@@ -131,12 +140,12 @@ public class UploadDownloadUtils {
      * @return
      * @throws IOException
      */
-    public static Map<String, Object> uploadThird(@RequestParam("file") CommonsMultipartFile file) throws IOException {
+    public static Map<String, Object> uploadThird(CommonsMultipartFile file, String path) throws IOException {
         long startTime = System.currentTimeMillis();
         Map<String, Object> result = new HashMap<>();
         System.out.println("fileName：" + file.getOriginalFilename());
         //获取输出流
-        OutputStream outputStream = new FileOutputStream(PATH + "/" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS")
+        OutputStream outputStream = new FileOutputStream(path + "/" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS")
                 + file.getOriginalFilename());
         //获取输入流 CommonsMultipartFile 中可以直接得到文件的流
         InputStream inputStream = file.getInputStream();
