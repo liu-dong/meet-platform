@@ -10,7 +10,7 @@
 ### 文件系统
     模块名称：file-server
 
-    包含内容：alibaba-oss，minio，普通上传下载，excel导入导出
+    包含内容：alibaba-oss(已完成)，minio，普通上传下载(已完成)，excel导入导出
 
 ### 消息系统
     模块名称：message-server
