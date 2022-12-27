@@ -13,8 +13,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -166,6 +171,55 @@ public class UploadDownloadUtils {
         long endTime = System.currentTimeMillis();
         System.out.println("采用流上传的方式的运行时间：" + (endTime - startTime) + "ms");
         return result;
+    }
+
+    public static void download(File file, HttpServletResponse response) throws IOException {
+        // 获取文件名
+        String filename = file.getName();
+        // 将文件写入输入流
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStream fis = new BufferedInputStream(fileInputStream);
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        // 清空response
+        response.reset();
+        // 设置response的Header
+        response.setCharacterEncoding("UTF-8");
+        /**
+         * Content-Disposition的作用：告知浏览器以何种方式显示响应返回的文件，
+         * 用浏览器打开还是以附件的形式下载到本地保存
+         *      attachment表示以附件方式下载
+         *      inline表示在线打开 "Content-Disposition: inline; filename=文件名.mp3"
+         *
+         * filename表示文件的默认名称，因为网络传输只支持URL编码的相关支付，
+         * 因此需要将文件名URL编码后进行传输,前端收到后需要反编码才能获取到真正的名称
+         *
+         */
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
+        // 告知浏览器文件的大小
+        response.addHeader("Content-Length", "" + file.length());
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        response.setContentType("application/octet-stream");
+        outputStream.write(buffer);
+        outputStream.flush();
+    }
+
+    public static void download(String allPath, HttpServletResponse response) throws IOException {
+        // 读到流中
+        InputStream inputStream = Files.newInputStream(Paths.get(allPath));// 文件的存放路径
+        response.reset();
+        response.setContentType("application/octet-stream");
+        String filename = new File(allPath).getName();
+        response.addHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(filename, "UTF-8"));
+        ServletOutputStream outputStream = response.getOutputStream();
+        byte[] b = new byte[1024];
+        int len;
+        //从输入流中读取一定数量的字节，并将其存储在缓冲区字节数组中，读到末尾返回-1
+        while ((len = inputStream.read(b)) > 0) {
+            outputStream.write(b, 0, len);
+        }
+        inputStream.close();
     }
 
 
