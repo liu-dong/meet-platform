@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 
-@ComponentScan(basePackages = {"com.dong.fileserver.**", "com.dong.logserver.**"})
+@ComponentScan(basePackages = {"com.dong.logserver.**"})
 @SpringBootApplication
 public class LogServerApplication {
 
