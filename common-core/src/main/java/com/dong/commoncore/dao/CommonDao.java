@@ -41,10 +41,21 @@ public interface CommonDao {
     <T> List<T> findListBySql(StringBuilder sql, List<Object> params, int page, int limit);
 
     /**
-     * 列表查询
+     * 列表查询(不分页)
      *
      * @param sql
      * @param params
+     * @return 返回list对象
+     */
+    <T> List<T> findListBySql(StringBuilder sql, List<Object> params);
+
+    /**
+     * 列表查询(不分页)
+     *
+     * @param sql
+     * @param params
+     * @param clazz
+     * @param <T>    指定返回对象
      * @return 返回list对象
      */
     <T> List<T> findListBySql(StringBuilder sql, List<Object> params, Class<T> clazz);

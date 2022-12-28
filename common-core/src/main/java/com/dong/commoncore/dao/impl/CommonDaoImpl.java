@@ -73,6 +73,11 @@ public class CommonDaoImpl implements CommonDao {
         return query.getResultList();
     }
 
+    @Override
+    public <T> List<T> findListBySql(StringBuilder sql, List<Object> params) {
+        return findListBySql(sql, params, 0, 0);
+    }
+
     /**
      * 列表查询
      *
@@ -82,7 +87,7 @@ public class CommonDaoImpl implements CommonDao {
      */
     @Override
     public <T> List<T> findListBySql(StringBuilder sql, List<Object> params, Class<T> clazz) {
-        List<Map<String, Object>> listMap = this.findListBySql(sql, params, 0, 0);
+        List<Map<String, Object>> listMap = findListBySql(sql, params, 0, 0);
         return convertDataList(listMap, clazz);
     }
 
@@ -157,6 +162,14 @@ public class CommonDaoImpl implements CommonDao {
         return query;
     }
 
+    /**
+     * 转换数据对象
+     *
+     * @param listMap
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     private <T> List<T> convertDataList(List<Map<String, Object>> listMap, Class<T> clazz) {
         List<T> result = new ArrayList<>();
         for (Map<String, Object> map : listMap) {
