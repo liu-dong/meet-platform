@@ -1,27 +1,28 @@
 package com.dong.logserver.web.service;
 
-import com.dong.commoncore.model.ResponseResult;
-import com.dong.logserver.web.model.LoginLogsBean;
+import com.dong.commoncore.model.Pager;
+import com.dong.logserver.web.entity.LoginLogs;
+import com.dong.logserver.web.model.LoginLogsVO;
+import com.dong.logserver.web.model.dto.LoginLogsDTO;
 
 public interface LoginLogsService {
 
     /**
      * 查询登录日志信息列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param vo
+     * @param pager
      * @return
      */
-    ResponseResult findLoginLogsList(LoginLogsBean bean, Integer limit, Integer page);
+    Pager<LoginLogsVO> findLoginLogsList(LoginLogsVO vo, Pager<LoginLogsVO> pager);
 
     /**
      * 保存登录日志信息
      *
-     * @param bean
+     * @param dto
      * @return
      */
-    ResponseResult saveLoginLogs(LoginLogsBean bean);
+    LoginLogs saveLoginLogs(LoginLogsDTO dto);
 
     /**
      * 查询登录日志详请
@@ -29,7 +30,7 @@ public interface LoginLogsService {
      * @param id
      * @return
      */
-    ResponseResult getLoginLogsInfo(String id);
+    LoginLogs getLoginLogs(String id);
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -38,7 +39,12 @@ import java.util.Objects;
 @Configuration
 @EnableConfigurationProperties({DruidDataSourcePropertiesConfig.class})
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"com.dong.commoncore.dao", "com.dong.logserver.web.dao"})
+@EnableJpaRepositories(
+        entityManagerFactoryRef = "logEntityManagerFactory",
+        transactionManagerRef = "logTransactionManager",
+        basePackages = {"com.dong.logserver.web.dao"}
+)
+@ComponentScan(basePackages = {"com.dong.commoncore.**"})
 public class DruidDataSourceConfig {
 
     @Resource
@@ -90,7 +96,9 @@ public class DruidDataSourceConfig {
      */
     @Primary
     @Bean(name = "logEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean logEntityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("logDataSource") DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean logEntityManagerFactory(
+            EntityManagerFactoryBuilder builder,
+            @Qualifier("logDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
                 .properties(getVendorProperties())

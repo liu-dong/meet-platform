@@ -1,8 +1,12 @@
 package com.dong.logserver.web.controller;
 
+import com.dong.commoncore.contant.ResponseMessageConstant;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.logserver.web.model.LoginLogsBean;
+import com.dong.logserver.web.entity.LoginLogs;
+import com.dong.logserver.web.model.LoginLogsVO;
 import com.dong.logserver.web.model.OperateLogsBean;
+import com.dong.logserver.web.model.dto.LoginLogsDTO;
 import com.dong.logserver.web.service.LoginLogsService;
 import com.dong.logserver.web.service.OperateLogsService;
 import io.swagger.annotations.Api;
@@ -27,20 +31,30 @@ public class LogsController {
 
 
     @ApiOperation("查询登录日志信息列表")
-    @GetMapping("/findLoginLogsList")
-    public ResponseResult findLoginLogsList(@RequestBody LoginLogsBean bean, Integer limit, Integer page) {
-        return loginLogsService.findLoginLogsList(bean, limit, page);
+    @PostMapping("/findLoginLogsList")
+    public ResponseResult findLoginLogsList(@RequestBody LoginLogsVO vo, Pager<LoginLogsVO> pager) {
+        Pager<LoginLogsVO> loginLogsList = loginLogsService.findLoginLogsList(vo, pager);
+        return ResponseResult.success(loginLogsList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     @ApiOperation("保存登录日志")
     @PostMapping("/saveLoginLogs")
-    public ResponseResult saveLoginLogs(@RequestBody LoginLogsBean bean) {
-        return loginLogsService.saveLoginLogs(bean);
+    public ResponseResult saveLoginLogs(@RequestBody LoginLogsDTO dto) {
+        LoginLogs loginLogs = loginLogsService.saveLoginLogs(dto);
+        return ResponseResult.success(loginLogs, ResponseMessageConstant.SAVE_SUCCESS);
+
+    }
+
+    @ApiOperation("查询登录日志详情")
+    @GetMapping("/getLoginLogs")
+    public ResponseResult getLoginLogs(String id) {
+        LoginLogs loginLogs = loginLogsService.getLoginLogs(id);
+        return ResponseResult.success(loginLogs, ResponseMessageConstant.SAVE_SUCCESS);
 
     }
 
     /**
-     * 查询登录日志列表
+     * 查询操作日志列表
      *
      * @param bean
      * @param limit

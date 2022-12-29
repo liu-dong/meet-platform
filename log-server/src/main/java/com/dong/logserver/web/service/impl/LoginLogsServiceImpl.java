@@ -1,16 +1,20 @@
 package com.dong.logserver.web.service.impl;
 
-import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.dao.CommonDao;
+import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.logserver.web.dao.LoginLogsJpaDao;
 import com.dong.logserver.web.entity.LoginLogs;
-import com.dong.logserver.web.model.LoginLogsBean;
+import com.dong.logserver.web.model.LoginLogsVO;
+import com.dong.logserver.web.model.dto.LoginLogsDTO;
 import com.dong.logserver.web.service.LoginLogsService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,33 +24,39 @@ import java.util.List;
 @Service
 public class LoginLogsServiceImpl implements LoginLogsService {
 
-    @Autowired
+    @Resource
+    CommonDao commonDao;
+    @Resource
     LoginLogsJpaDao loginLogsJpaDao;
 
     @Override
-    public ResponseResult findLoginLogsList(LoginLogsBean bean, Integer limit, Integer page) {
-        List<LoginLogs> loginLogsList = loginLogsJpaDao.findAll();
-        return ResponseResult.success(null, "查询成功!");
+    public Pager<LoginLogsVO> findLoginLogsList(LoginLogsVO vo, Pager<LoginLogsVO> pager) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id, account, login_type loginType, login_time loginTime, login_address loginAddress, ");
+        sql.append(" login_ip loginIp, remark, create_time createTime ");
+        sql.append(" FROM sys_login_logs ");
+        sql.append(" ORDER BY create_time DESC ");
+        return commonDao.findListBySql(pager, sql, params, LoginLogsVO.class);
     }
 
     @Override
-    public ResponseResult saveLoginLogs(LoginLogsBean bean) {
+    public LoginLogs saveLoginLogs(LoginLogsDTO dto) {
         LoginLogs entity = new LoginLogs();
-        BeanUtils.copyProperties(bean, entity);
+        BeanUtils.copyProperties(dto, entity);
         entity.setId(CommonUtils.getUUID());
-        entity.setAccount(bean.getAccount());
         entity.setLoginTime(new Date());
         entity.setCreateTime(new Date());
+        entity.setUpdateTime(new Date());
         entity = loginLogsJpaDao.save(entity);
-        return ResponseResult.success(entity, "保存成功!");
+        return entity;
     }
 
     @Override
-    public ResponseResult getLoginLogsInfo(String id) {
-        if (!StringUtils.isEmpty(id)) {
-            LoginLogs entity = loginLogsJpaDao.getOne(id);
-            return ResponseResult.success(null, "查询成功!");
+    public LoginLogs getLoginLogs(String id) {
+        if (StringUtils.isEmpty(id)) {
+            throw new GlobalException("id不能为空");
         }
-        return ResponseResult.error("查询失败，id不能为空!");
+        return loginLogsJpaDao.getById(id);
     }
 }

@@ -2,8 +2,6 @@ package com.dong.commoncore.model;
 
 import com.dong.commoncore.exception.GlobalException;
 
-import java.util.Collection;
-
 /**
  * @author LD
  * @date 2020/3/22 21:57
@@ -14,7 +12,6 @@ public class ResponseResult {
     private boolean success = true;
     private String message;
     private Object data;
-    private int total;
 
     /**
      * 操作成功
@@ -28,9 +25,6 @@ public class ResponseResult {
         result.setCode(200);
         result.setSuccess(true);
         result.setData(data);
-        if (data instanceof Collection){
-            result.setTotal(((Collection<?>) data).size());
-        }
         result.setMessage(message);
         return result;
     }
@@ -109,11 +103,4 @@ public class ResponseResult {
         this.data = data;
     }
 
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
 }

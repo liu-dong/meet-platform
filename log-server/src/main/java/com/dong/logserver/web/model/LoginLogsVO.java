@@ -10,7 +10,7 @@ import java.util.Date;
  * @author LD
  */
 @Data
-public class LoginLogsBean {
+public class LoginLogsVO {
     private String id;//主键id
     private String account;//登录账号
     private Integer loginType;//登录方式 （1：账号密码登录、2：邮箱快捷登录、3：扫码登录）

@@ -32,7 +32,7 @@ public class LoginLogs implements Serializable {
 	/**
 	 * 登录方式 （1：账号密码登录、2：邮箱快捷登录、3：扫码登录）
 	 */
-	private Long loginType;
+	private Integer loginType;
 
 	/**
 	 * 登录时间
@@ -78,11 +78,11 @@ public class LoginLogs implements Serializable {
 	}
 
 	@Column(name = "login_type")
-	public Long getLoginType() {
+	public Integer getLoginType() {
 		return this.loginType;
 	}
 
-	public void setLoginType(Long loginType) {
+	public void setLoginType(Integer loginType) {
 		this.loginType = loginType;
 	}
 
