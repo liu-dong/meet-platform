@@ -1,41 +1,43 @@
 package com.dong.logserver.web.service;
 
-import com.dong.commoncore.model.ResponseResult;
-import com.dong.logserver.web.model.OperateLogsBean;
+import com.dong.commoncore.model.Pager;
+import com.dong.logserver.web.entity.OperateLogs;
+import com.dong.logserver.web.model.dto.OperateLogsDTO;
+import com.dong.logserver.web.model.vo.OperateLogsVO;
 
 public interface OperateLogsService {
 
     /**
-     * 查询登录日志列表
+     * 查询操作日志列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param vo
+     * @param pager
      * @return
      */
-    ResponseResult findOperateLogsList(OperateLogsBean bean, Integer limit, Integer page);
+    Pager<OperateLogsVO> findOperateLogsList(OperateLogsVO vo, Pager<OperateLogsVO> pager);
 
     /**
-     * 保存登录日志
+     * 保存操作日志
      *
-     * @param bean
+     * @param dto
      * @return
      */
-    ResponseResult saveOperateLogs(OperateLogsBean bean);
+    OperateLogs saveOperateLogs(OperateLogsDTO dto);
 
     /**
-     * 查询登录日志详情
+     * 查询操作日志详情
      *
      * @param id
      * @return
      */
-    ResponseResult getOperateLogs(String id);
+    OperateLogs getOperateLogs(String id);
 
     /**
-     * 删除登录日志
+     * 删除操作日志
      *
      * @param id
      * @return
      */
-    ResponseResult deleteOperateLogs(String id);
+    void deleteOperateLogs(String id);
+
 }

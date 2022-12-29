@@ -4,9 +4,11 @@ import com.dong.commoncore.contant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.logserver.web.entity.LoginLogs;
-import com.dong.logserver.web.model.LoginLogsVO;
-import com.dong.logserver.web.model.OperateLogsBean;
+import com.dong.logserver.web.entity.OperateLogs;
 import com.dong.logserver.web.model.dto.LoginLogsDTO;
+import com.dong.logserver.web.model.dto.OperateLogsDTO;
+import com.dong.logserver.web.model.vo.LoginLogsVO;
+import com.dong.logserver.web.model.vo.OperateLogsVO;
 import com.dong.logserver.web.service.LoginLogsService;
 import com.dong.logserver.web.service.OperateLogsService;
 import io.swagger.annotations.Api;
@@ -56,27 +58,28 @@ public class LogsController {
     /**
      * 查询操作日志列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param vo
+     * @param pager
      * @return
      */
     @ApiOperation("查询操作日志列表")
     @PostMapping("/findOperateLogsList")
-    public ResponseResult findOperateLogsList(OperateLogsBean bean, Integer limit, Integer page) {
-        return operateLogsService.findOperateLogsList(bean, limit, page);
+    public ResponseResult findOperateLogsList(@RequestBody OperateLogsVO vo, Pager<OperateLogsVO> pager) {
+        Pager<OperateLogsVO> operateLogsList = operateLogsService.findOperateLogsList(vo, pager);
+        return ResponseResult.success(operateLogsList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
      * 保存操作日志
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @ApiOperation("保存操作日志")
     @PostMapping("/saveOperateLogs")
-    public ResponseResult saveOperateLogs(OperateLogsBean bean) {
-        return operateLogsService.saveOperateLogs(bean);
+    public ResponseResult saveOperateLogs(@RequestBody OperateLogsDTO dto) {
+        OperateLogs operateLogs = operateLogsService.saveOperateLogs(dto);
+        return ResponseResult.success(operateLogs, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
     /**
@@ -88,7 +91,8 @@ public class LogsController {
     @ApiOperation("查询操作日志")
     @GetMapping("/getOperateLogs")
     public ResponseResult getOperateLogs(String id) {
-        return operateLogsService.getOperateLogs(id);
+        OperateLogs operateLogs = operateLogsService.getOperateLogs(id);
+        return ResponseResult.success(operateLogs, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -100,6 +104,7 @@ public class LogsController {
     @ApiOperation("删除操作日志")
     @PostMapping("/deleteOperateLogs")
     public ResponseResult deleteOperateLogs(String id) {
-        return operateLogsService.deleteOperateLogs(id);
+        operateLogsService.deleteOperateLogs(id);
+        return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 }

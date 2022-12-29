@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OperateLogsJpaDao extends JpaRepository<OperateLogs, String> {
 
+    OperateLogs getById(String id);
 }

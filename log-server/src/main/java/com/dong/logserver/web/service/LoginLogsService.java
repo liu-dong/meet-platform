@@ -2,8 +2,8 @@ package com.dong.logserver.web.service;
 
 import com.dong.commoncore.model.Pager;
 import com.dong.logserver.web.entity.LoginLogs;
-import com.dong.logserver.web.model.LoginLogsVO;
 import com.dong.logserver.web.model.dto.LoginLogsDTO;
+import com.dong.logserver.web.model.vo.LoginLogsVO;
 
 public interface LoginLogsService {
 
