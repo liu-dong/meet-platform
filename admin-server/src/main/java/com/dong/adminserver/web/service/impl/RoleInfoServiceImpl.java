@@ -120,10 +120,10 @@ public class RoleInfoServiceImpl implements RoleInfoService {
         if (total > 0) {
             List<Map<String, Object>> dataList = commonDao.findListBySql(sql, param);
             result.setData(dataList);
-            result.setTotal(dataList.size());
+
             result.setMessage("查询成功！");
         }
-        result.setTotal(total);
+
         return result;
     }
 

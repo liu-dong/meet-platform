@@ -172,10 +172,8 @@ public class AccountInfoServiceImpl implements AccountInfoService {
         if (total > 0) {
             List<Map<String, Object>> dataList = commonDao.findListMapBySql(sql, param);
             result.setData(dataList);
-            result.setTotal(dataList.size());
             result.setMessage("查询成功！");
         }
-        result.setTotal(total);
         return result;
     }
 
