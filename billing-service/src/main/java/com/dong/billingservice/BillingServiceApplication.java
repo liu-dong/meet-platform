@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 //@EnableJpaRepositories(basePackages = {"com.meet.**.dao", "com.meet.**.dao.impl"})
-@EntityScan(basePackages = "com.meet.**.entity")
+@EntityScan(basePackages = "com.dong.**.entity")
 @ComponentScan(basePackages = "com.dong.**")
 @SpringBootApplication
 public class BillingServiceApplication {

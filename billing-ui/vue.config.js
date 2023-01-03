@@ -1,8 +1,8 @@
 module.exports = {
     // 修改的配置
     devServer: {
-        port: 8081,
-        proxy: {
+        port: 8082,
+        /*proxy: {
             '/apiAuth': {
                 target: 'http://localhost:8180',
                 changeOrigin: true,
@@ -13,6 +13,6 @@ module.exports = {
                 changeOrigin: true,
                 pathRewrite: {'^/apiBilling': ''}
             }
-        }
+        }*/
     }
 }

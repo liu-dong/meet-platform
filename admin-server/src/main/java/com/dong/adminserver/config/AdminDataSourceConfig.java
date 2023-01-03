@@ -64,7 +64,6 @@ public class AdminDataSourceConfig {
      * @param builder
      * @return
      */
-    @Primary
     @Bean(name = "adminEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean adminEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
@@ -76,7 +75,6 @@ public class AdminDataSourceConfig {
                 .build();
     }
 
-    @Primary
     @Bean(name = "adminEntityManager")
     public EntityManager adminEntityManager(@Qualifier("adminEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()).createEntityManager();
@@ -101,12 +99,10 @@ public class AdminDataSourceConfig {
      * @return
      */
     @Bean(name = "adminTransactionManager")
-    @Primary
     PlatformTransactionManager adminTransactionManager(@Qualifier("adminEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return new JpaTransactionManager(Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()));
     }
 
-    @Primary
     @Bean(name = "adminJdbcTemplate")
     public JdbcTemplate adminJdbcTemplate(@Qualifier("adminDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);

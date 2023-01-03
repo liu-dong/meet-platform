@@ -54,7 +54,6 @@ public class LogDataSourceConfig {
      *
      * @return
      */
-    @Primary
     @Bean(name = "logDataSource")
     @ConditionalOnMissingBean
     public DataSource logDataSource() {
@@ -90,7 +89,6 @@ public class LogDataSourceConfig {
      * @param builder
      * @return
      */
-    @Primary
     @Bean(name = "logEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean logEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
@@ -102,7 +100,6 @@ public class LogDataSourceConfig {
                 .build();
     }
 
-    @Primary
     @Bean(name = "logEntityManager")
     public EntityManager logEntityManager(@Qualifier("logEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()).createEntityManager();
@@ -127,12 +124,10 @@ public class LogDataSourceConfig {
      * @return
      */
     @Bean(name = "logTransactionManager")
-    @Primary
     PlatformTransactionManager logTransactionManager(@Qualifier("logEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return new JpaTransactionManager(Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()));
     }
 
-    @Primary
     @Bean(name = "logJdbcTemplate")
     public JdbcTemplate logJdbcTemplate(@Qualifier("logDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);

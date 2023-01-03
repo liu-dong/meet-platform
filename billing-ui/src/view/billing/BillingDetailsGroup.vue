@@ -58,7 +58,7 @@
                 </el-form-item>
                 <el-form-item label="支出金额" prop="amountPaid">
                     <el-input v-model="billingDetails.amountPaid" :disabled="viewType==='detail'"
-                              autocomplete="off"></el-input>
+                              autocomplete="on"></el-input>
                 </el-form-item>
                 <el-form-item label="备注" prop="remark">
                     <el-input v-model="billingDetails.remark" :disabled="viewType==='detail'"
@@ -100,7 +100,7 @@ export default {
                 id: "",
                 recordTime: '',
                 spendingType: 1,
-                amountPaid: 0,
+                amountPaid: '',
                 remark: ""
             },
             billingDetailsList: [],
@@ -190,7 +190,7 @@ export default {
                 id: "",
                 recordTime: '',
                 spendingType: 1,
-                amountPaid: 0,
+                amountPaid: '',
                 remark: ""
             }
         },
