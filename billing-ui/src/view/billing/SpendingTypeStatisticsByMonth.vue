@@ -28,7 +28,7 @@ export default {
   name: "SpendingTypeStatisticsByMonth",
   data() {
     return {
-      month: '2022-08',
+      month: '2023-01',
       spendingTypeOption: [],
       statisticsValue: {
         amountSum: 0,
