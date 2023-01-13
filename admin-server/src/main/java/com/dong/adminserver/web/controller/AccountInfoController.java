@@ -1,7 +1,11 @@
 package com.dong.adminserver.web.controller;
 
-import com.dong.adminserver.web.model.AccountInfoBean;
+import com.dong.adminserver.web.entity.Account;
+import com.dong.adminserver.web.model.dto.AccountDTO;
+import com.dong.adminserver.web.model.vo.AccountVO;
 import com.dong.adminserver.web.service.AccountInfoService;
+import com.dong.commoncore.contant.ResponseMessageConstant;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,13 +34,13 @@ public class AccountInfoController {
     /**
      * 注册用户
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @ApiOperation("注册用户")
     @PostMapping("/register")
-    public ResponseResult register(@RequestBody AccountInfoBean bean) {
-        return accountInfoService.register(bean);
+    public ResponseResult register(@RequestBody AccountDTO dto) {
+        return accountInfoService.register(dto);
     }
 
     /**
@@ -79,15 +83,15 @@ public class AccountInfoController {
     /**
      * 查询用户信息列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param dto
+     * @param pager
      * @return
      */
     @ApiOperation("查询用户信息列表")
     @PostMapping("/findAccountInfoList")
-    public ResponseResult findAccountInfoList(@RequestBody AccountInfoBean bean, Integer limit, Integer page) {
-        return accountInfoService.findAccountInfoList(bean, limit, page);
+    public ResponseResult findAccountInfoList(@RequestBody AccountDTO dto, Pager<AccountVO> pager) {
+        Pager<AccountVO> accountInfoList = accountInfoService.findAccountInfoList(dto, pager);
+        return ResponseResult.success(accountInfoList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -99,7 +103,8 @@ public class AccountInfoController {
     @ApiOperation("查询用户信息")
     @GetMapping("/getAccountInfo")
     public ResponseResult getAccountInfo(String id) {
-        return accountInfoService.getAccountInfo(id);
+        Account accountInfo = accountInfoService.getAccountInfo(id);
+        return ResponseResult.success(accountInfo, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -117,26 +122,26 @@ public class AccountInfoController {
     /**
      * 根据账号id查询角色信息
      *
-     * @param bean
+     * @param dto
      * @return
      */
 
     @ApiOperation("查询角色账号信息")
     @PostMapping("/findAccountRoleInfoList")
-    public ResponseResult findAccountRoleInfoList(@RequestBody AccountInfoBean bean) {
-        return accountInfoService.findAccountRoleInfoList(bean);
+    public ResponseResult findAccountRoleInfoList(@RequestBody AccountDTO dto) {
+        return accountInfoService.findAccountRoleInfoList(dto);
     }
 
     /**
      * 分派角色
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @ApiOperation("分派角色")
     @PostMapping("/assignRoles")
-    public ResponseResult assignRoles(@RequestBody AccountInfoBean bean) {
-        return accountInfoService.assignRoles(bean);
+    public ResponseResult assignRoles(@RequestBody AccountDTO dto) {
+        return accountInfoService.assignRoles(dto);
     }
 
 }

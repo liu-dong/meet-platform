@@ -7,17 +7,20 @@ import com.dong.adminserver.web.dao.RoleJpaDao;
 import com.dong.adminserver.web.entity.Account;
 import com.dong.adminserver.web.entity.AccountRole;
 import com.dong.adminserver.web.entity.Person;
-import com.dong.adminserver.web.model.AccountInfoBean;
+import com.dong.adminserver.web.model.dto.AccountDTO;
+import com.dong.adminserver.web.model.vo.AccountVO;
 import com.dong.adminserver.web.service.AccountInfoService;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.enums.UserTypeEnum;
+import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,15 +48,15 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
     @Override
     @Transactional
-    public ResponseResult register(AccountInfoBean bean) {
+    public ResponseResult register(AccountDTO dto) {
         Account entity = new Account();
-        if (StringUtils.isEmpty(bean.getId())) {//新增
+        if (StringUtils.isEmpty(dto.getId())) {//新增
             String accountId = CommonUtils.getUUID();
             //新增用户时保存一条人员信息
             Person person = new Person();
             person.setId(CommonUtils.getUUID());
-            person.setName(bean.getRealName());
-            person.setIdentityCard(bean.getIdentityCard());
+            person.setName(dto.getRealName());
+            person.setIdentityCard(dto.getIdentityCard());
             person.setCreateTime(new Date());
             String personId = personJpaDao.save(person).getId();
             //新增用户时默认分配普通用户权限
@@ -61,29 +64,29 @@ public class AccountInfoServiceImpl implements AccountInfoService {
             accountRole.setId(CommonUtils.getUUID());
             accountRole.setAccountId(accountId);
             String roleId = "32047ea768ff4c72a784e0bc02650eaa";
-            if (!StringUtils.isEmpty(bean.getUserType())) {
+            if (dto.getUserType() != null) {
                 //根据用户类型获取角色id
-                roleId = roleJpaDao.getByRoleName(UserTypeEnum.getNameByRole(bean.getUserType())).getId();
+                roleId = roleJpaDao.getByRoleName(UserTypeEnum.getNameByRole(dto.getUserType())).getId();
             }
             accountRole.setRoleId(roleId);
             accountRoleJpaDao.save(accountRole);
 
             entity.setId(accountId);
-            entity.setUsername(bean.getUsername());
-            entity.setPassword(bean.getPassword());
+            entity.setUsername(dto.getUsername());
+            entity.setPassword(dto.getPassword());
             entity.setCreateTime(new Date());
             entity.setPersonId(personId);
         } else {
-            entity = accountJpaDao.getOne(bean.getId());
+            entity = accountJpaDao.getOne(dto.getId());
             //如果修改了名称并同时修改人员表的名称
-            if (!StringUtils.isEmpty(bean.getRealName()) && !entity.getRealName().equals(bean.getRealName())) {
+            if (!StringUtils.isEmpty(dto.getRealName()) && !entity.getRealName().equals(dto.getRealName())) {
                 Person person = personJpaDao.getOne(entity.getPersonId());
-                person.setName(bean.getRealName());
+                person.setName(dto.getRealName());
                 personJpaDao.save(person);
             }
         }
-        entity.setUserType(bean.getUserType());
-        entity.setRealName(bean.getRealName());
+        entity.setUserType(dto.getUserType());
+        entity.setRealName(dto.getRealName());
         entity.setUpdateTime(new Date());
         entity = accountJpaDao.save(entity);
         return ResponseResult.success(entity, "注册成功!");
@@ -97,7 +100,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
                 return ResponseResult.error("无此用户！");
             }
             String lastLoginTime = "第一次登录";
-            if (!StringUtils.isEmpty(user.getLastLoginTime())) {
+            if (user.getLastLoginTime() != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
                 lastLoginTime = sdf.format(user.getLastLoginTime());
             }
@@ -130,18 +133,22 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public ResponseResult findAccountInfoList(AccountInfoBean bean, Integer limit, Integer page) {
-        List<Account> userList = accountJpaDao.findAll();
-        return ResponseResult.success(userList, "查询成功");
+    public Pager<AccountVO> findAccountInfoList(AccountDTO dto, Pager<AccountVO> pager) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id, username, user_type userType, person_id personId, real_name realName, ");
+        sql.append(" user_status userStatus, last_login_time lastLoginTime, create_time createTime ");
+        sql.append(" FROM sys_account ");
+        sql.append(" ORDER BY create_time DESC ");
+        return commonDao.findListBySql(pager, sql, params, AccountVO.class);
     }
 
     @Override
-    public ResponseResult getAccountInfo(String id) {
-        if (!StringUtils.isEmpty(id)) {
-            Account entity = accountJpaDao.getOne(id);
-            return ResponseResult.success(entity, "查询成功!");
+    public Account getAccountInfo(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new GlobalException("id不能为空");
         }
-        return ResponseResult.error("查询失败，id不能为空!");
+        return accountJpaDao.getById(id);
     }
 
     @Override
@@ -154,7 +161,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public ResponseResult findAccountRoleInfoList(AccountInfoBean bean) {
+    public ResponseResult findAccountRoleInfoList(AccountDTO dto) {
         ResponseResult result = new ResponseResult();
         StringBuilder sql = new StringBuilder();
         List<Object> param = new ArrayList<>();
@@ -163,10 +170,10 @@ public class AccountInfoServiceImpl implements AccountInfoService {
         sql.append(" INNER JOIN account_role ar ON ar.role_id = r.id ");
         sql.append(" INNER JOIN account a ON a.id = ar.account_id ");
         sql.append(" WHERE a.id = ? ");
-        if (StringUtils.isEmpty(bean.getAccountId())) {
+        if (StringUtils.isEmpty(dto.getAccountId())) {
             return ResponseResult.error("账号id不能为空！");
         }
-        param.add(bean.getAccountId());
+        param.add(dto.getAccountId());
         sql.append(" ORDER BY r.create_time DESC ");
         int total = commonDao.getTotalBySql(sql, param);
         if (total > 0) {
@@ -179,17 +186,17 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
     @Transactional
     @Override
-    public ResponseResult assignRoles(AccountInfoBean bean) {
-        if (StringUtils.isEmpty(bean.getAccountId())) {
+    public ResponseResult assignRoles(AccountDTO dto) {
+        if (StringUtils.isEmpty(dto.getAccountId())) {
             return ResponseResult.error("账号id不能为空");
         }
-        accountRoleJpaDao.deleteAccountRoleByAccountId(bean.getAccountId());
+        accountRoleJpaDao.deleteAccountRoleByAccountId(dto.getAccountId());
         List<AccountRole> entityList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(bean.getRoleIdList())) {
-            for (String roleId : bean.getRoleIdList()) {
+        if (!CollectionUtils.isEmpty(dto.getRoleIdList())) {
+            for (String roleId : dto.getRoleIdList()) {
                 AccountRole entity = new AccountRole();
                 entity.setId(CommonUtils.getUUID());
-                entity.setAccountId(bean.getAccountId());
+                entity.setAccountId(dto.getAccountId());
                 entity.setRoleId(roleId);
                 entityList.add(entity);
             }

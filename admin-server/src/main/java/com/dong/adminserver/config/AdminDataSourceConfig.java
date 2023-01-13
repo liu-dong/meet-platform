@@ -2,7 +2,6 @@ package com.dong.adminserver.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -51,7 +50,6 @@ public class AdminDataSourceConfig {
      * @return
      */
     @Primary
-    @ConditionalOnMissingBean
     @ConfigurationProperties(prefix = "spring.datasource.admin")
     @Bean(name = "adminDataSource")
     public DataSource adminDataSource() {
@@ -64,6 +62,7 @@ public class AdminDataSourceConfig {
      * @param builder
      * @return
      */
+    @Primary
     @Bean(name = "adminEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean adminEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
@@ -75,6 +74,7 @@ public class AdminDataSourceConfig {
                 .build();
     }
 
+    @Primary
     @Bean(name = "adminEntityManager")
     public EntityManager adminEntityManager(@Qualifier("adminEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()).createEntityManager();
@@ -98,11 +98,13 @@ public class AdminDataSourceConfig {
      *
      * @return
      */
+    @Primary
     @Bean(name = "adminTransactionManager")
     PlatformTransactionManager adminTransactionManager(@Qualifier("adminEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return new JpaTransactionManager(Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()));
     }
 
+    @Primary
     @Bean(name = "adminJdbcTemplate")
     public JdbcTemplate adminJdbcTemplate(@Qualifier("adminDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);

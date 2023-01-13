@@ -1,6 +1,9 @@
 package com.dong.adminserver.web.service;
 
-import com.dong.adminserver.web.model.AccountInfoBean;
+import com.dong.adminserver.web.entity.Account;
+import com.dong.adminserver.web.model.dto.AccountDTO;
+import com.dong.adminserver.web.model.vo.AccountVO;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 
 /**
@@ -12,10 +15,10 @@ public interface AccountInfoService {
     /**
      * 注册用户
      *
-     * @param bean
+     * @param dto
      * @return
      */
-    ResponseResult register(AccountInfoBean bean);
+    ResponseResult register(AccountDTO dto);
 
     /**
      * 登录
@@ -45,12 +48,11 @@ public interface AccountInfoService {
     /**
      * 查询用户信息列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param dto
+     * @param pager
      * @return
      */
-    ResponseResult findAccountInfoList(AccountInfoBean bean, Integer limit, Integer page);
+    Pager<AccountVO> findAccountInfoList(AccountDTO dto, Pager<AccountVO> pager);
 
     /**
      * 查询用户信息
@@ -58,7 +60,7 @@ public interface AccountInfoService {
      * @param id
      * @return
      */
-    ResponseResult getAccountInfo(String id);
+    Account getAccountInfo(String id);
 
     /**
      * 删除用户
@@ -71,16 +73,16 @@ public interface AccountInfoService {
     /**
      * 根据账号id查询角色信息
      *
-     * @param bean
+     * @param dto
      * @return
      */
-    ResponseResult findAccountRoleInfoList(AccountInfoBean bean);
+    ResponseResult findAccountRoleInfoList(AccountDTO dto);
 
     /**
      * 分配角色
      *
-     * @param bean
+     * @param dto
      * @return
      */
-    ResponseResult assignRoles(AccountInfoBean bean);
+    ResponseResult assignRoles(AccountDTO dto);
 }

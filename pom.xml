@@ -26,6 +26,7 @@
         <!--        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>-->
 
         <!--apache-->
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-beanutils-version>1.9.4</commons-beanutils-version>
         <commons-fileupload-version>1.4</commons-fileupload-version>
         <httpclient-version>4.5.13</httpclient-version>
@@ -227,6 +228,11 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
