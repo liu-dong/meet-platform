@@ -41,6 +41,7 @@
 
         <!--google-->
         <QRcode.version>3.4.1</QRcode.version>
+        <guava.version>20.0</guava.version>
 
         <!--other-->
         <lombok.version>1.18.24</lombok.version>
@@ -66,6 +67,7 @@
         <module>data-processing-server</module>
         <module>admin-server</module>
         <module>shardingsphere-demo</module>
+        <module>cache-server</module>
     </modules>
 
     <dependencies>
@@ -159,6 +161,11 @@
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>${mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <!--二维码-->
             <dependency>
