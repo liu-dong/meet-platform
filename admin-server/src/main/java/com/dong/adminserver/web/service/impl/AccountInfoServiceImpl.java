@@ -17,7 +17,9 @@ import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -48,7 +50,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
     @Override
     @Transactional
-    public ResponseResult register(AccountDTO dto) {
+    public Account register(AccountDTO dto) {
         Account entity = new Account();
         if (StringUtils.isEmpty(dto.getId())) {//新增
             String accountId = CommonUtils.getUUID();
@@ -77,10 +79,10 @@ public class AccountInfoServiceImpl implements AccountInfoService {
             entity.setCreateTime(new Date());
             entity.setPersonId(personId);
         } else {
-            entity = accountJpaDao.getOne(dto.getId());
+            entity = accountJpaDao.getById(dto.getId());
             //如果修改了名称并同时修改人员表的名称
             if (!StringUtils.isEmpty(dto.getRealName()) && !entity.getRealName().equals(dto.getRealName())) {
-                Person person = personJpaDao.getOne(entity.getPersonId());
+                Person person = personJpaDao.getById(entity.getPersonId());
                 person.setName(dto.getRealName());
                 personJpaDao.save(person);
             }
@@ -88,30 +90,37 @@ public class AccountInfoServiceImpl implements AccountInfoService {
         entity.setUserType(dto.getUserType());
         entity.setRealName(dto.getRealName());
         entity.setUpdateTime(new Date());
-        entity = accountJpaDao.save(entity);
-        return ResponseResult.success(entity, "注册成功!");
+        return accountJpaDao.save(entity);
     }
 
     @Override
-    public ResponseResult login(String username, String password) {
+    public AccountVO login(String username, String password) {
         if (!StringUtils.isEmpty(username)) {
-            Account user = accountJpaDao.getAccountByUsername(username);
-            if (user == null) {
-                return ResponseResult.error("无此用户！");
-            }
-            String lastLoginTime = "第一次登录";
-            if (user.getLastLoginTime() != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-                lastLoginTime = sdf.format(user.getLastLoginTime());
-            }
-            if (user.getPassword().equals(password)) {
-                user.setLastLoginTime(new Date());
-                user.setLoginCount(user.getLoginCount() + 1);
-                accountJpaDao.save(user);
-            }
-            return ResponseResult.success(user, "登录成功!上次登录时间：" + lastLoginTime);
+            throw new GlobalException("用户名不能为空!");
         }
-        return ResponseResult.error("用户名不能为空!");
+        Account user = accountJpaDao.getAccountByUsername(username);
+        if (user == null) {
+            throw new GlobalException("无此用户！");
+        }
+        String lastLoginTime = "第一次登录";
+        if (user.getLastLoginTime() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+            lastLoginTime = sdf.format(user.getLastLoginTime());
+        }
+        if (!user.getPassword().equals(password)) {
+            throw new GlobalException("密码错误!");
+        }
+        user.setLastLoginTime(new Date());
+        user.setLoginCount(user.getLoginCount() + 1);
+        Account account = accountJpaDao.save(user);
+        return convertAccountVO(account, lastLoginTime);
+    }
+
+    private AccountVO convertAccountVO(Account account, String lastLoginTime) {
+        AccountVO accountVO = new AccountVO();
+        BeanUtils.copyProperties(account, accountVO);
+        accountVO.setLastLoginTime(lastLoginTime);
+        return accountVO;
     }
 
     @Override
@@ -120,16 +129,16 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public ResponseResult cancel(String username) {
-        if (!StringUtils.isEmpty(username)) {
-            Account user = accountJpaDao.getAccountByUsername(username);
-            user.setUserStatus(1);//注销
-            user.setUpdateTime(new Date());
-            accountJpaDao.save(user);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-            return ResponseResult.success("注销成功!注销时间：" + sdf.format(new Date()));
+    public String cancel(String username) {
+        if (StringUtils.isEmpty(username)) {
+            throw new GlobalException("用户名不能为空!");
         }
-        return ResponseResult.success("用户名不能为空!");
+        Account user = accountJpaDao.getAccountByUsername(username);
+        user.setUserStatus(1);//注销
+        user.setUpdateTime(new Date());
+        accountJpaDao.save(user);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+        return "注销成功!注销时间：" + sdf.format(new Date());
     }
 
     @Override
@@ -152,17 +161,16 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public ResponseResult deleteAccountInfo(String id) {
+    public void deleteAccountInfo(String id) {
         if (!StringUtils.isEmpty(id)) {
-            accountJpaDao.deleteById(id);
-            return ResponseResult.success("删除成功!");
+            throw new GlobalException("删除失败，id不能为空!");
         }
-        return ResponseResult.error("删除失败，id不能为空!");
+        accountJpaDao.deleteById(id);
     }
 
     @Override
-    public ResponseResult findAccountRoleInfoList(AccountDTO dto) {
-        ResponseResult result = new ResponseResult();
+    public List<Map<String, Object>> findAccountRoleInfoList(AccountDTO dto) {
+        List<Map<String, Object>> dataList = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
         List<Object> param = new ArrayList<>();
         sql.append(" SELECT r.id,r.role_code roleCode,r.role_name roleName ");
@@ -171,24 +179,22 @@ public class AccountInfoServiceImpl implements AccountInfoService {
         sql.append(" INNER JOIN account a ON a.id = ar.account_id ");
         sql.append(" WHERE a.id = ? ");
         if (StringUtils.isEmpty(dto.getAccountId())) {
-            return ResponseResult.error("账号id不能为空！");
+            throw new GlobalException("账号id不能为空！");
         }
         param.add(dto.getAccountId());
         sql.append(" ORDER BY r.create_time DESC ");
         int total = commonDao.getTotalBySql(sql, param);
         if (total > 0) {
-            List<Map<String, Object>> dataList = commonDao.findListMapBySql(sql, param);
-            result.setData(dataList);
-            result.setMessage("查询成功！");
+            dataList = commonDao.findListMapBySql(sql, param);
         }
-        return result;
+        return dataList;
     }
 
     @Transactional
     @Override
-    public ResponseResult assignRoles(AccountDTO dto) {
+    public List<AccountRole> assignRoles(AccountDTO dto) {
         if (StringUtils.isEmpty(dto.getAccountId())) {
-            return ResponseResult.error("账号id不能为空");
+            throw new GlobalException("账号id不能为空");
         }
         accountRoleJpaDao.deleteAccountRoleByAccountId(dto.getAccountId());
         List<AccountRole> entityList = new ArrayList<>();
@@ -202,6 +208,6 @@ public class AccountInfoServiceImpl implements AccountInfoService {
             }
             entityList = accountRoleJpaDao.saveAll(entityList);
         }
-        return ResponseResult.success(entityList, "分配成功!");
+        return entityList;
     }
 }

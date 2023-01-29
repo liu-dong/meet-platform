@@ -1,10 +1,14 @@
 package com.dong.adminserver.web.service;
 
 import com.dong.adminserver.web.entity.Account;
+import com.dong.adminserver.web.entity.AccountRole;
 import com.dong.adminserver.web.model.dto.AccountDTO;
 import com.dong.adminserver.web.model.vo.AccountVO;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author LD
@@ -18,7 +22,7 @@ public interface AccountInfoService {
      * @param dto
      * @return
      */
-    ResponseResult register(AccountDTO dto);
+    Account register(AccountDTO dto);
 
     /**
      * 登录
@@ -27,7 +31,7 @@ public interface AccountInfoService {
      * @param password
      * @return
      */
-    ResponseResult login(String username, String password);
+    AccountVO login(String username, String password);
 
     /**
      * 退出登录
@@ -43,7 +47,7 @@ public interface AccountInfoService {
      * @param username
      * @return
      */
-    ResponseResult cancel(String username);
+    String cancel(String username);
 
     /**
      * 查询用户信息列表
@@ -68,7 +72,7 @@ public interface AccountInfoService {
      * @param id
      * @return
      */
-    ResponseResult deleteAccountInfo(String id);
+    void deleteAccountInfo(String id);
 
     /**
      * 根据账号id查询角色信息
@@ -76,7 +80,7 @@ public interface AccountInfoService {
      * @param dto
      * @return
      */
-    ResponseResult findAccountRoleInfoList(AccountDTO dto);
+    List<Map<String, Object>> findAccountRoleInfoList(AccountDTO dto);
 
     /**
      * 分配角色
@@ -84,5 +88,5 @@ public interface AccountInfoService {
      * @param dto
      * @return
      */
-    ResponseResult assignRoles(AccountDTO dto);
+    List<AccountRole> assignRoles(AccountDTO dto);
 }

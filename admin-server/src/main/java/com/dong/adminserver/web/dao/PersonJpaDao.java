@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface PersonJpaDao extends JpaRepository<Person, String> {
 
+    Person getById(String id);
+
     List<Person> findPersonByCompanyId(String companyId);
 
     Person getPersonByEmail(String email);

@@ -1,6 +1,7 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.adminserver.web.entity.Account;
+import com.dong.adminserver.web.entity.AccountRole;
 import com.dong.adminserver.web.model.dto.AccountDTO;
 import com.dong.adminserver.web.model.vo.AccountVO;
 import com.dong.adminserver.web.service.AccountInfoService;
@@ -12,6 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户登录模块
@@ -26,14 +30,6 @@ public class AccountInfoController {
 
     @Autowired
     private AccountInfoService accountInfoService;
-    @Value("${platform.common}")
-    private String name;
-
-    @GetMapping("/hello")
-    public String hello(String s) {
-
-        return s + name;
-    }
 
     /**
      * 注册用户
@@ -44,7 +40,8 @@ public class AccountInfoController {
     @ApiOperation("注册用户")
     @PostMapping("/register")
     public ResponseResult register(@RequestBody AccountDTO dto) {
-        return accountInfoService.register(dto);
+        Account account = accountInfoService.register(dto);
+        return ResponseResult.success(account, ResponseMessageConstant.REGISTER_SUCCESS);
     }
 
     /**
@@ -57,7 +54,8 @@ public class AccountInfoController {
     @ApiOperation("用户登录")
     @PostMapping(value = "/login")
     public ResponseResult login(String username, String password) {
-        return accountInfoService.login(username, password);
+        AccountVO accountVO = accountInfoService.login(username, password);
+        return ResponseResult.success(accountVO, ResponseMessageConstant.LOGIN_SUCCESS);
     }
 
     /**
@@ -81,7 +79,8 @@ public class AccountInfoController {
     @ApiOperation("注销用户")
     @PostMapping("/cancel")
     public ResponseResult cancel(String username) {
-        return accountInfoService.cancel(username);
+        String cancel = accountInfoService.cancel(username);
+        return ResponseResult.success(cancel);
     }
 
     /**
@@ -120,7 +119,8 @@ public class AccountInfoController {
     @ApiOperation("删除用户信息")
     @PostMapping("/deleteAccountInfo")
     public ResponseResult deleteAccountInfo(String id) {
-        return accountInfoService.deleteAccountInfo(id);
+        accountInfoService.deleteAccountInfo(id);
+        return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 
     /**
@@ -133,7 +133,8 @@ public class AccountInfoController {
     @ApiOperation("查询角色账号信息")
     @PostMapping("/findAccountRoleInfoList")
     public ResponseResult findAccountRoleInfoList(@RequestBody AccountDTO dto) {
-        return accountInfoService.findAccountRoleInfoList(dto);
+        List<Map<String, Object>> dataList = accountInfoService.findAccountRoleInfoList(dto);
+        return ResponseResult.success(dataList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -145,7 +146,8 @@ public class AccountInfoController {
     @ApiOperation("分派角色")
     @PostMapping("/assignRoles")
     public ResponseResult assignRoles(@RequestBody AccountDTO dto) {
-        return accountInfoService.assignRoles(dto);
+        List<AccountRole> accountRoles = accountInfoService.assignRoles(dto);
+        return ResponseResult.success(accountRoles, ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
 }
