@@ -1,9 +1,8 @@
 package com.dong.cacheserver.config;
 
-import com.dong.cacheserver.ConfigUtil;
-import com.dong.cacheserver.constant.AppField;
 import com.dong.cacheserver.constant.CacheConstant;
 import com.dong.cacheserver.service.CacheProviderService;
+import com.dong.cacheserver.util.ConfigUtil;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,9 +19,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
-/*
+/**
  * 支持多缓存提供程序多级缓存的缓存帮助类
- * */
+ */
 @Configuration
 @ComponentScan(basePackages = CacheConstant.BASE_PACKAGE_NAME)
 public class CacheBuilder {
@@ -37,57 +36,48 @@ public class CacheBuilder {
     @Autowired
     private CacheProviderService redisCacheService;
 
-    private static List<CacheProviderService> _listCacheProvider = Lists.newArrayList();
+    private static List<CacheProviderService> listCacheProvider = Lists.newArrayList();
 
     private static final Lock providerLock = new ReentrantLock();
 
     /**
      * 初始化缓存提供者 默认优先级：先本地缓存，后分布式缓存
-     **/
+     *
+     * @return
+     */
     private List<CacheProviderService> getCacheProviders() {
-
-        if (_listCacheProvider.size() > 0) {
-            return _listCacheProvider;
+        if (listCacheProvider.size() > 0) {
+            return listCacheProvider;
         }
-
         //线程安全
         try {
             providerLock.tryLock(1000, TimeUnit.MILLISECONDS);
-
-            if (_listCacheProvider.size() > 0) {
-                return _listCacheProvider;
+            if (listCacheProvider.size() > 0) {
+                return listCacheProvider;
+            }
+            //判断是否启用本地缓存
+            String enableCache = ConfigUtil.getConfigVal(CacheConstant.ENABLE_LOCAL_CACHE);
+            if ("1".equalsIgnoreCase(enableCache)) {
+                listCacheProvider.add(localCacheService);
             }
 
-            String isUseCache = ConfigUtil.getConfigVal(AppField.IS_USE_LOCAL_CACHE);
 
-            CacheProviderService cacheProviderService = null;
-
-            //启用本地缓存
-            if ("1".equalsIgnoreCase(isUseCache)) {
-                _listCacheProvider.add(localCacheService);
-            }
-
-            isUseCache = ConfigUtil.getConfigVal(AppField.IS_USE_REDIS_CACHE);
-
-            //启用Redis缓存
-            if ("1".equalsIgnoreCase(isUseCache)) {
-                _listCacheProvider.add(redisCacheService);
-
+            //判断是否启用Redis缓存
+            enableCache = ConfigUtil.getConfigVal(CacheConstant.ENABLE_REDIS_CACHE);
+            if ("1".equalsIgnoreCase(enableCache)) {
+                listCacheProvider.add(redisCacheService);
                 resetCacheVersion();//设置分布式缓存版本号
             }
 
-            logger.info("初始化缓存提供者成功，共有" + _listCacheProvider.size() + "个");
+            logger.info("初始化缓存提供者成功，共有" + listCacheProvider.size() + "个");
         } catch (Exception e) {
             e.printStackTrace();
-
-            _listCacheProvider = Lists.newArrayList();
-
+            listCacheProvider = Lists.newArrayList();
             logger.error("初始化缓存提供者发生异常：{}", e);
         } finally {
             providerLock.unlock();
         }
-
-        return _listCacheProvider;
+        return listCacheProvider;
     }
 
     /**
@@ -101,14 +91,11 @@ public class CacheBuilder {
         //key = generateVerKey(key);//构造带版本的缓存键
 
         for (CacheProviderService provider : getCacheProviders()) {
-
             obj = provider.get(key);
-
             if (obj != null) {
                 return obj;
             }
         }
-
         return obj;
     }
 
@@ -304,10 +291,10 @@ public class CacheBuilder {
      **/
     public String getCacheVersion() {
         String version = "";
-        boolean isUseCache = checkUseRedisCache();
+        boolean enableCache = checkEnableRedisCache();
 
         //未启用Redis缓存
-        if (isUseCache == false) {
+        if (enableCache == false) {
             return version;
         }
 
@@ -318,20 +305,20 @@ public class CacheBuilder {
 
     /**
      * 重置分布式缓存版本 如果启用分布式缓存，设置缓存版本
-     **/
+     *
+     * @return
+     */
     public String resetCacheVersion() {
         String version = "";
-        boolean isUseCache = checkUseRedisCache();
-
+        boolean enableCache = checkEnableRedisCache();
         //未启用Redis缓存
-        if (isUseCache == false) {
+        if (!enableCache) {
             return version;
         }
-
-        //设置缓存版本
+        //生成缓存版本号
         version = String.valueOf(Math.abs(UUID.randomUUID().hashCode()));
+        //设置缓存版本
         redisCacheService.set(CacheConstant.CACHE_VERSION_KEY, version);
-
         return version;
     }
 
@@ -347,10 +334,10 @@ public class CacheBuilder {
             return result;
         }
 
-        boolean isUseCache = checkUseRedisCache();
+        boolean enableCache = checkEnableRedisCache();
 
         //没有启用分布式缓存，缓存key不做修改，直接返回
-        if (isUseCache == false) {
+        if (enableCache == false) {
             return result;
         }
 
@@ -367,12 +354,8 @@ public class CacheBuilder {
     /**
      * 验证是否启用分布式缓存
      **/
-    private boolean checkUseRedisCache() {
-        boolean isUseCache = false;
-        String strIsUseCache = ConfigUtil.getConfigVal(AppField.IS_USE_REDIS_CACHE);
-
-        isUseCache = "1".equalsIgnoreCase(strIsUseCache);
-
-        return isUseCache;
+    private boolean checkEnableRedisCache() {
+        String enableRedisCache = ConfigUtil.getConfigVal(CacheConstant.ENABLE_REDIS_CACHE);
+        return "1".equalsIgnoreCase(enableRedisCache);
     }
 }
