@@ -2,37 +2,21 @@ package com.dong.cacheserver.service.impl;
 
 import com.dong.cacheserver.constant.CacheConstant;
 import com.dong.cacheserver.service.CacheProviderService;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
-/*
- * 本地缓存提供者服务 (Guava Cache)
- * */
-@Service("localCacheService")
-public class LocalCacheProviderImpl implements CacheProviderService {
+@Service("redisCacheService")
+public class RedisCacheProviderImpl implements CacheProviderService {
 
-    private static final Map<String, Cache<String, Object>> CACHE_MAP = Maps.newConcurrentMap();
-
-    static {
-
-        Cache<String, Object> cacheContainer = CacheBuilder.newBuilder()
-                .maximumSize(CacheConstant.CACHE_MAXIMUM_SIZE)
-                .expireAfterWrite(CacheConstant.CACHE_MINUTE, TimeUnit.MILLISECONDS)//最后一次写入后的一段时间移出
-                //.expireAfterAccess(CacheConstant.CACHE_MINUTE, TimeUnit.MILLISECONDS) //最后一次访问后的一段时间移出
-                .recordStats()//开启统计功能
-                .build();
-
-        CACHE_MAP.put(String.valueOf(CacheConstant.CACHE_MINUTE), cacheContainer);
-    }
+    @Resource
+    private RedisTemplate<Serializable, Object> redisTemplate;
 
     /**
      * 查询缓存
@@ -93,23 +77,21 @@ public class LocalCacheProviderImpl implements CacheProviderService {
      **/
     public <T extends Object, M extends Object> T get(String key, Function<M, T> function, M funcParm, Long expireTime) {
         T obj = null;
-        if (StringUtils.isEmpty(key) == true) {
+        if (StringUtils.isEmpty(key)) {
             return obj;
         }
 
         expireTime = getExpireTime(expireTime);
 
-        Cache<String, Object> cacheContainer = getCacheContainer(expireTime);
-
         try {
-            if (function == null) {
-                obj = (T) cacheContainer.getIfPresent(key);
-            } else {
-                final Long cachedTime = expireTime;
-                obj = (T) cacheContainer.get(key, () -> {
-                    T retObj = function.apply(funcParm);
-                    return retObj;
-                });
+
+            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
+            obj = (T) operations.get(key);
+            if (function != null && obj == null) {
+                obj = function.apply(funcParm);
+                if (obj != null) {
+                    set(key, obj, expireTime);//设置缓存信息
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +119,7 @@ public class LocalCacheProviderImpl implements CacheProviderService {
      * @param expireTime 过期时间（单位：毫秒） 可为空
      **/
     public <T extends Object> void set(String key, T obj, Long expireTime) {
-        if (StringUtils.isEmpty(key) == true) {
+        if (StringUtils.isEmpty(key)) {
             return;
         }
 
@@ -147,9 +129,11 @@ public class LocalCacheProviderImpl implements CacheProviderService {
 
         expireTime = getExpireTime(expireTime);
 
-        Cache<String, Object> cacheContainer = getCacheContainer(expireTime);
+        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
 
-        cacheContainer.put(key, obj);
+        operations.set(key, obj);
+
+        redisTemplate.expire(key, expireTime, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -162,11 +146,7 @@ public class LocalCacheProviderImpl implements CacheProviderService {
             return;
         }
 
-        long expireTime = getExpireTime(CacheConstant.CACHE_MINUTE);
-
-        Cache<String, Object> cacheContainer = getCacheContainer(expireTime);
-
-        cacheContainer.invalidate(key);
+        redisTemplate.delete(key);
     }
 
     /**
@@ -187,40 +167,6 @@ public class LocalCacheProviderImpl implements CacheProviderService {
         }
 
         return exists;
-    }
-
-    private static Lock lock = new ReentrantLock();
-
-    private Cache<String, Object> getCacheContainer(Long expireTime) {
-
-        Cache<String, Object> cacheContainer = null;
-        if (expireTime == null) {
-            return cacheContainer;
-        }
-
-        String mapKey = String.valueOf(expireTime);
-
-        if (CACHE_MAP.containsKey(mapKey) == true) {
-            cacheContainer = CACHE_MAP.get(mapKey);
-            return cacheContainer;
-        }
-
-        try {
-            lock.lock();
-            cacheContainer = CacheBuilder.newBuilder()
-                    .maximumSize(CacheConstant.CACHE_MAXIMUM_SIZE)
-                    .expireAfterWrite(expireTime, TimeUnit.MILLISECONDS)//最后一次写入后的一段时间移出
-                    //.expireAfterAccess(CacheConstant.CACHE_MINUTE, TimeUnit.MILLISECONDS) //最后一次访问后的一段时间移出
-                    .recordStats()//开启统计功能
-                    .build();
-
-            CACHE_MAP.put(mapKey, cacheContainer);
-
-        } finally {
-            lock.unlock();
-        }
-
-        return cacheContainer;
     }
 
     /**

@@ -12,4 +12,6 @@ public class CacheConstant {
      * 缓存时间 5分钟
      */
     public static final long CACHE_MINUTE = 5 * 60 * 1000;
+
+    public static final String CACHE_VERSION_KEY = "first";
 }
