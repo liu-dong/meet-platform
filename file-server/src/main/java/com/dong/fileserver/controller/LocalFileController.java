@@ -1,6 +1,6 @@
 package com.dong.fileserver.controller;
 
-import com.dong.commoncore.contant.ResponseMessageConstant;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.UploadDownloadUtils;
 import io.swagger.annotations.Api;

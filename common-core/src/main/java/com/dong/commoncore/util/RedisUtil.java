@@ -1,7 +1,7 @@
 package com.dong.commoncore.util;
 
 
-import com.dong.commoncore.contant.CommonConstant;
+import com.dong.commoncore.constant.CommonConstant;
 import redis.clients.jedis.Jedis;
 
 /**

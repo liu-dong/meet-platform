@@ -5,13 +5,12 @@ import com.dong.adminserver.web.entity.AccountRole;
 import com.dong.adminserver.web.model.dto.AccountDTO;
 import com.dong.adminserver.web.model.vo.AccountVO;
 import com.dong.adminserver.web.service.AccountInfoService;
-import com.dong.commoncore.contant.ResponseMessageConstant;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

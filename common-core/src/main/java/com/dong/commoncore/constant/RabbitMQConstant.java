@@ -1,4 +1,4 @@
-package com.dong.commoncore.contant;
+package com.dong.commoncore.constant;
 
 /**
  * rabbitmq常量定义

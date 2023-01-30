@@ -2,7 +2,7 @@ package com.dong.fileserver.controller;
 
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectListing;
-import com.dong.commoncore.contant.ResponseCodeConstant;
+import com.dong.commoncore.constant.ResponseCodeConstant;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.fileserver.service.OssFileService;

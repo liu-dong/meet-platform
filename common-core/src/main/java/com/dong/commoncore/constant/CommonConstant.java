@@ -1,4 +1,4 @@
-package com.dong.commoncore.contant;
+package com.dong.commoncore.constant;
 
 /**
  * @author LD 2021/5/28

@@ -1,6 +1,6 @@
 package com.dong.logserver.web.controller;
 
-import com.dong.commoncore.contant.ResponseMessageConstant;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.logserver.web.entity.LoginLogs;
