@@ -41,7 +41,7 @@
 
         <!--google-->
         <QRcode.version>3.4.1</QRcode.version>
-        <guava.version>20.0</guava.version>
+        <guava.version>30.0-android</guava.version>
 
         <!--other-->
         <lombok.version>1.18.24</lombok.version>
