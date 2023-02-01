@@ -1,5 +1,6 @@
 package com.dong.adminserver.web.controller;
 
+import com.dong.adminserver.web.entity.Role;
 import com.dong.adminserver.web.model.dto.RoleDTO;
 import com.dong.adminserver.web.model.vo.RoleVO;
 import com.dong.adminserver.web.service.RoleService;
@@ -59,8 +60,9 @@ public class RoleController {
      */
     @ApiOperation("查询角色信息")
     @GetMapping("/getRole")
-    public ResponseResult getRole(String id) {
-        return roleService.getRole(id);
+    public ResponseResult getRoleDetail(String id) {
+        Role role = roleService.getRoleDetail(id);
+        return ResponseResult.success(role, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**

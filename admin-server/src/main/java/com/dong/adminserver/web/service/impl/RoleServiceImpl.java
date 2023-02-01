@@ -10,6 +10,7 @@ import com.dong.adminserver.web.model.dto.RoleDTO;
 import com.dong.adminserver.web.model.vo.RoleVO;
 import com.dong.adminserver.web.service.RoleService;
 import com.dong.commoncore.dao.CommonDao;
+import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.CommonUtils;
@@ -75,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         } else {
-            entity = roleJpaDao.getOne(dto.getId());
+            entity = roleJpaDao.getById(dto.getId());
         }
         entity.setRoleName(dto.getRoleName());
         entity.setRemark(dto.getRemark());
@@ -91,12 +92,11 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public ResponseResult getRole(String id) {
-        if (!StringUtils.isBlank(id)) {
-            Role entity = roleJpaDao.getOne(id);
-            return ResponseResult.success(entity, "查询成功!");
+    public Role getRoleDetail(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new GlobalException("id不能为空");
         }
-        return ResponseResult.error("查询失败，id不能为空!");
+        return roleJpaDao.getById(id);
     }
 
     /**

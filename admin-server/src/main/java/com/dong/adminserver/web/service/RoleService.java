@@ -1,5 +1,6 @@
 package com.dong.adminserver.web.service;
 
+import com.dong.adminserver.web.entity.Role;
 import com.dong.adminserver.web.model.dto.RoleDTO;
 import com.dong.adminserver.web.model.vo.RoleVO;
 import com.dong.commoncore.model.Pager;
@@ -30,7 +31,7 @@ public interface RoleService {
      * @param id
      * @return
      */
-    ResponseResult getRole(String id);
+    Role getRoleDetail(String id);
 
     /**
      * 删除角色信息

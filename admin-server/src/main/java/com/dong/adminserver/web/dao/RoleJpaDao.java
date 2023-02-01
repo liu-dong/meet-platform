@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface RoleJpaDao extends JpaRepository<Role, String> {
 
+    Role getById(String id);
+
     Role getByRoleName(String roleName);
 
     /**
