@@ -6,16 +6,18 @@ import com.dong.adminserver.web.dao.RolePermissionJpaDao;
 import com.dong.adminserver.web.entity.AccountRole;
 import com.dong.adminserver.web.entity.Role;
 import com.dong.adminserver.web.entity.RolePermission;
-import com.dong.adminserver.web.model.RoleInfoBean;
-import com.dong.adminserver.web.service.RoleInfoService;
+import com.dong.adminserver.web.model.dto.RoleDTO;
+import com.dong.adminserver.web.model.vo.RoleVO;
+import com.dong.adminserver.web.service.RoleService;
 import com.dong.commoncore.dao.CommonDao;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RoleInfoServiceImpl implements RoleInfoService {
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
     RoleJpaDao roleJpaDao;
@@ -31,41 +33,52 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     AccountRoleJpaDao accountRoleJpaDao;
     @Autowired
     RolePermissionJpaDao rolePermissionJpaDao;
-
     @Autowired
     CommonDao commonDao;
 
     /**
      * 查询角色信息列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param dto
+     * @param pager
      * @return
      */
     @Override
-    public ResponseResult findRoleInfoList(RoleInfoBean bean, Integer limit, Integer page) {
-        List<Role> roleList = roleJpaDao.findAll();
-        return ResponseResult.success(roleList, "查询成功");
+    public Pager<RoleVO> findRoleList(RoleDTO dto, Pager<RoleVO> pager) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id,role_code roleCode,role_name roleName,remark,create_time createTime ");
+        sql.append(" FROM sys_role ");
+        sql.append(" WHERE 1=1 ");
+        if (StringUtils.isNotBlank(dto.getRoleName())) {
+            sql.append(" AND role_name LIKE ? ");
+            params.add("%" + dto.getRoleName().trim() + "%");
+        }
+        if (StringUtils.isNotBlank(dto.getRoleCode())) {
+            sql.append(" AND role_code LIKE ? ");
+            params.add("%" + dto.getRoleCode().trim() + "%");
+        }
+        sql.append(" ORDER BY create_time DESC ");
+        return commonDao.findListBySql(pager, sql, params, RoleVO.class);
     }
 
     /**
      * 保存角色信息
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @Override
-    public ResponseResult saveRoleInfo(RoleInfoBean bean) {
+    public ResponseResult saveRole(RoleDTO dto) {
         Role entity = new Role();
-        if (StringUtils.isEmpty(bean.getId())) {//新增
+        if (StringUtils.isBlank(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         } else {
-            entity = roleJpaDao.getOne(bean.getId());
+            entity = roleJpaDao.getOne(dto.getId());
         }
-        entity.setRoleName(bean.getRoleName());
-        entity.setRemark(bean.getRemark());
+        entity.setRoleName(dto.getRoleName());
+        entity.setRemark(dto.getRemark());
         entity.setUpdateTime(new Date());
         entity = roleJpaDao.save(entity);
         return ResponseResult.success(entity, "保存成功!");
@@ -78,8 +91,8 @@ public class RoleInfoServiceImpl implements RoleInfoService {
      * @return
      */
     @Override
-    public ResponseResult getRoleInfo(String id) {
-        if (!StringUtils.isEmpty(id)) {
+    public ResponseResult getRole(String id) {
+        if (!StringUtils.isBlank(id)) {
             Role entity = roleJpaDao.getOne(id);
             return ResponseResult.success(entity, "查询成功!");
         }
@@ -93,8 +106,8 @@ public class RoleInfoServiceImpl implements RoleInfoService {
      * @return
      */
     @Override
-    public ResponseResult deleteRoleInfo(String id) {
-        if (!StringUtils.isEmpty(id)) {
+    public ResponseResult deleteRole(String id) {
+        if (!StringUtils.isBlank(id)) {
             roleJpaDao.deleteById(id);
             return ResponseResult.success("删除成功!");
         }
@@ -102,7 +115,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public ResponseResult findRoleAccountInfoList(RoleInfoBean bean) {
+    public ResponseResult findRoleAccountList(RoleDTO dto) {
         ResponseResult result = new ResponseResult();
         StringBuilder sql = new StringBuilder();
         List<Object> param = new ArrayList<>();
@@ -111,10 +124,10 @@ public class RoleInfoServiceImpl implements RoleInfoService {
         sql.append(" INNER JOIN account_role ar ON ar.account_id = a.id ");
         sql.append(" INNER JOIN role r ON r.id = ar.role_id ");
         sql.append(" WHERE r.role_code = ? ");
-        if (StringUtils.isEmpty(bean.getRoleCode())) {
+        if (StringUtils.isBlank(dto.getRoleCode())) {
             return ResponseResult.error("角色编码不能为空！");
         }
-        param.add(bean.getRoleCode());
+        param.add(dto.getRoleCode());
         sql.append(" ORDER BY a.create_time DESC ");
         int total = commonDao.getTotalBySql(sql, param);
         if (total > 0) {
@@ -128,10 +141,10 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public ResponseResult findRolePermissionInfoList(RoleInfoBean bean) {
-        RoleInfoBean result = new RoleInfoBean();
+    public ResponseResult findRolePermissionList(RoleDTO dto) {
+        RoleDTO result = new RoleDTO();
         //根据角色id查询出所有权限
-        List<RolePermission> rolePermissionList = rolePermissionJpaDao.findByRoleId(bean.getRoleId());
+        List<RolePermission> rolePermissionList = rolePermissionJpaDao.findByRoleId(dto.getRoleId());
         List<String> permissionIdList = new ArrayList<>();
         //查询权限id集合
         for (RolePermission rolePermission : rolePermissionList) {
@@ -144,18 +157,18 @@ public class RoleInfoServiceImpl implements RoleInfoService {
 
     @Transactional
     @Override
-    public ResponseResult assignAccounts(RoleInfoBean bean) {
-        if (StringUtils.isEmpty(bean.getRoleId())) {
+    public ResponseResult assignAccounts(RoleDTO dto) {
+        if (StringUtils.isBlank(dto.getRoleId())) {
             return ResponseResult.error("角色id不能为空");
         }
-        accountRoleJpaDao.deleteAccountRoleByRoleId(bean.getRoleId());
+        accountRoleJpaDao.deleteAccountRoleByRoleId(dto.getRoleId());
         List<AccountRole> entityList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(bean.getAccountIdList())) {
-            for (String accountId : bean.getAccountIdList()) {
+        if (!CollectionUtils.isEmpty(dto.getAccountIdList())) {
+            for (String accountId : dto.getAccountIdList()) {
                 AccountRole entity = new AccountRole();
                 entity.setId(CommonUtils.getUUID());
                 entity.setAccountId(accountId);
-                entity.setRoleId(bean.getRoleId());
+                entity.setRoleId(dto.getRoleId());
                 entityList.add(entity);
             }
             entityList = accountRoleJpaDao.saveAll(entityList);
@@ -165,18 +178,18 @@ public class RoleInfoServiceImpl implements RoleInfoService {
 
     @Transactional
     @Override
-    public ResponseResult assignPermissions(RoleInfoBean bean) {
-        if (StringUtils.isEmpty(bean.getRoleId())) {
+    public ResponseResult assignPermissions(RoleDTO dto) {
+        if (StringUtils.isBlank(dto.getRoleId())) {
             return ResponseResult.error("角色id不能为空");
         }
-        rolePermissionJpaDao.deleteRolePermissionByRoleId(bean.getRoleId());
+        rolePermissionJpaDao.deleteRolePermissionByRoleId(dto.getRoleId());
         List<RolePermission> entityList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(bean.getPermissionIdList())) {
-            for (String permission : bean.getPermissionIdList()) {
+        if (!CollectionUtils.isEmpty(dto.getPermissionIdList())) {
+            for (String permission : dto.getPermissionIdList()) {
                 RolePermission entity = new RolePermission();
                 entity.setId(CommonUtils.getUUID());
                 entity.setPermissionId(permission);
-                entity.setRoleId(bean.getRoleId());
+                entity.setRoleId(dto.getRoleId());
                 entityList.add(entity);
             }
             entityList = rolePermissionJpaDao.saveAll(entityList);
