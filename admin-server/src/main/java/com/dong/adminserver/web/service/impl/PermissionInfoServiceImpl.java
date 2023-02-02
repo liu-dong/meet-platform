@@ -2,13 +2,16 @@ package com.dong.adminserver.web.service.impl;
 
 import com.dong.adminserver.web.dao.PermissionJpaDao;
 import com.dong.adminserver.web.entity.Permission;
-import com.dong.adminserver.web.model.PermissionInfoBean;
+import com.dong.adminserver.web.model.dto.PermissionDTO;
+import com.dong.adminserver.web.model.vo.PermissionVO;
 import com.dong.adminserver.web.service.PermissionInfoService;
-import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.dao.CommonDao;
+import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,23 +23,37 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
 
     @Autowired
     PermissionJpaDao permissionJpaDao;
+    @Autowired
+    CommonDao commonDao;
 
     /**
      * 查询权限信息列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param dto
+     * @param pager
      * @return
      */
     @Override
-    public ResponseResult findPermissionInfoList(PermissionInfoBean bean, Integer limit, Integer page) {
-        List<Permission> permissionList = permissionJpaDao.findAll();
-        return ResponseResult.success(permissionList, "查询成功");
+    public Pager<PermissionVO> findPermissionInfoList(PermissionDTO dto, Pager<PermissionVO> pager) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id,permission_code permissionCode,permission_name permissionName,permission_type permissionType,create_time createTime ");
+        sql.append(" FROM sys_permission ");
+        sql.append(" WHERE 1=1 ");
+        if (StringUtils.isNotBlank(dto.getPermissionCode())) {
+            sql.append(" AND permission_code LIKE ? ");
+            params.add("%" + dto.getPermissionCode().trim() + "%");
+        }
+        if (StringUtils.isNotBlank(dto.getPermissionName())) {
+            sql.append(" AND permission_name LIKE ? ");
+            params.add("%" + dto.getPermissionName().trim() + "%");
+        }
+        sql.append(" ORDER BY create_time DESC ");
+        return commonDao.findListBySql(pager, sql, params, PermissionVO.class);
     }
 
     @Override
-    public ResponseResult getPermissionTree(PermissionInfoBean bean) {
+    public List<Map<String, Object>> getPermissionTree(PermissionDTO dto) {
         List<Permission> permissionList = permissionJpaDao.findAll();
         List<Map<String, Object>> listMap = new ArrayList<>();
         //实体类list转map对象list
@@ -46,34 +63,33 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
             listMap.add(map);
         }
         //递归生成树结构
-        List<Map<String, Object>> result = CommonUtils.listToTreeByRecursive(listMap);
-        return ResponseResult.success(result, "查询成功");
+        return CommonUtils.listToTreeByRecursive(listMap);
     }
 
     /**
      * 保存权限信息
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @Override
-    public ResponseResult savePermissionInfo(PermissionInfoBean bean) {
+    public Permission savePermissionInfo(PermissionDTO dto) {
         Permission entity = new Permission();
-        if (StringUtils.isEmpty(bean.getId())) {//新增
+        if (StringUtils.isEmpty(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         } else {
-            entity = permissionJpaDao.getOne(bean.getId());
+            entity = permissionJpaDao.findById(dto.getId()).orElse(new Permission());
             entity.setUpdateTime(new Date());
         }
-        entity.setPermissionCode(bean.getPermissionCode());
-        entity.setPermissionName(bean.getPermissionName());
-        entity.setPermissionType(bean.getPermissionType());
-        entity.setParentId(bean.getParentId());
-        entity.setResourceId(bean.getResourceId());
+        entity.setPermissionCode(dto.getPermissionCode());
+        entity.setPermissionName(dto.getPermissionName());
+        entity.setPermissionType(dto.getPermissionType());
+        entity.setParentId(dto.getParentId());
+        entity.setResourceId(dto.getResourceId());
         entity.setUpdateTime(new Date());
         entity = permissionJpaDao.save(entity);
-        return ResponseResult.success(entity, "保存成功!");
+        return permissionJpaDao.save(entity);
     }
 
     /**
@@ -83,28 +99,24 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
      * @return
      */
     @Override
-    public ResponseResult getPermissionInfo(String id) {
+    public Permission getPermissionInfo(String id) {
         if (StringUtils.isEmpty(id)) {
-            return ResponseResult.error("查询失败，id不能为空!");
-        } else {
-            Permission entity = permissionJpaDao.getOne(id);
-            return ResponseResult.success(entity, "查询成功!");
+            throw new GlobalException("查询失败，id不能为空!");
         }
+        return permissionJpaDao.findById(id).orElse(new Permission());
     }
 
     /**
      * 删除权限信息
      *
      * @param id
-     * @return
      */
     @Override
-    public ResponseResult deletePermissionInfo(String id) {
-        if (!StringUtils.isEmpty(id)) {
-            permissionJpaDao.deleteById(id);
-            return ResponseResult.success("删除成功!");
+    public void deletePermissionInfo(String id) {
+        if (StringUtils.isEmpty(id)) {
+            throw new GlobalException("删除失败，id不能为空!");
         }
-        return ResponseResult.error("删除失败，id不能为空!");
+        permissionJpaDao.deleteById(id);
     }
 
 }

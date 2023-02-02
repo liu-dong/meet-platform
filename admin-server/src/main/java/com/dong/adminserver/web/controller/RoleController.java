@@ -49,7 +49,8 @@ public class RoleController {
     @ApiOperation("保存角色信息")
     @PostMapping("/saveRole")
     public ResponseResult saveRole(@RequestBody RoleDTO dto) {
-        return roleService.saveRole(dto);
+        Role role = roleService.saveRole(dto);
+        return ResponseResult.success(role, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
     /**
@@ -59,7 +60,7 @@ public class RoleController {
      * @return
      */
     @ApiOperation("查询角色信息")
-    @GetMapping("/getRole")
+    @GetMapping("/getRoleDetail")
     public ResponseResult getRoleDetail(String id) {
         Role role = roleService.getRoleDetail(id);
         return ResponseResult.success(role, ResponseMessageConstant.QUERY_SUCCESS);
@@ -74,7 +75,8 @@ public class RoleController {
     @ApiOperation("删除角色信息")
     @PostMapping("/deleteRole")
     public ResponseResult deleteRole(String id) {
-        return roleService.deleteRole(id);
+        roleService.deleteRole(id);
+        return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 
     /**

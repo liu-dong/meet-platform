@@ -23,7 +23,7 @@ public interface RoleService {
      * @param dto
      * @return
      */
-    ResponseResult saveRole(RoleDTO dto);
+    Role saveRole(RoleDTO dto);
 
     /**
      * 查询角色信息详细页面
@@ -37,9 +37,8 @@ public interface RoleService {
      * 删除角色信息
      *
      * @param id
-     * @return
      */
-    ResponseResult deleteRole(String id);
+    void deleteRole(String id);
 
     /**
      * 查询当前角色下账号信息

@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public ResponseResult saveRole(RoleDTO dto) {
+    public Role saveRole(RoleDTO dto) {
         Role entity = new Role();
         if (StringUtils.isBlank(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
@@ -78,11 +78,11 @@ public class RoleServiceImpl implements RoleService {
         } else {
             entity = roleJpaDao.getById(dto.getId());
         }
+        entity.setRoleCode(dto.getRoleCode());
         entity.setRoleName(dto.getRoleName());
         entity.setRemark(dto.getRemark());
         entity.setUpdateTime(new Date());
-        entity = roleJpaDao.save(entity);
-        return ResponseResult.success(entity, "保存成功!");
+        return roleJpaDao.save(entity);
     }
 
     /**
@@ -96,22 +96,21 @@ public class RoleServiceImpl implements RoleService {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("id不能为空");
         }
-        return roleJpaDao.getById(id);
+
+        return roleJpaDao.findById(id).orElse(null);
     }
 
     /**
      * 删除角色信息
      *
      * @param id
-     * @return
      */
     @Override
-    public ResponseResult deleteRole(String id) {
-        if (!StringUtils.isBlank(id)) {
-            roleJpaDao.deleteById(id);
-            return ResponseResult.success("删除成功!");
+    public void deleteRole(String id) {
+        if (StringUtils.isEmpty(id)) {
+            throw new GlobalException("删除失败，id不能为空!");
         }
-        return ResponseResult.error("删除失败，id不能为空!");
+        roleJpaDao.deleteById(id);
     }
 
     @Override
