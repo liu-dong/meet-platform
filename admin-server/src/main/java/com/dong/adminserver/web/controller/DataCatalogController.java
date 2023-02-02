@@ -1,7 +1,8 @@
-package com.dong.authserver.web.controller;
+package com.dong.adminserver.web.controller;
 
-import com.dong.authserver.web.model.DataCatalogDTO;
-import com.dong.authserver.web.service.DataCatalogService;
+import com.dong.adminserver.web.model.dto.DataCatalogDTO;
+import com.dong.adminserver.web.service.DataCatalogService;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
@@ -39,23 +40,23 @@ public class DataCatalogController {
     @PostMapping("/findDataCatalogList")
     public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogDTO> pager) {
         try {
-            return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pager), "查询成功！");
+            return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pager), ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
         }
     }
 
     /**
-     * 查询数据字典条目
+     * 查询所有数据字典条目
      *
      * @return 返回数据目录编码与数据条目键值对
      */
-    @ApiOperation("查询数据字典条目")
-    @GetMapping("/findDataCatalogItem")
-    public ResponseResult findDataCatalogItem() {
+    @ApiOperation("查询所有数据字典条目")
+    @GetMapping("/findDataCatalogItemList")
+    public ResponseResult findDataCatalogItemList() {
         try {
-            Map<String, Object> dataCatalogItem = dataCatalogService.findDataCatalogItem();
-            return ResponseResult.success(dataCatalogItem, "查询成功！");
+            Map<String, Object> dataCatalogItem = dataCatalogService.findDataCatalogItemList();
+            return ResponseResult.success(dataCatalogItem, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
         }
@@ -72,7 +73,7 @@ public class DataCatalogController {
     public ResponseResult getDataCatalogItem(String catalogCode) {
         try {
             List<Map<String, Object>> mapList = dataCatalogService.getDataCatalogItem(catalogCode);
-            return ResponseResult.success(mapList, "查询成功！");
+            return ResponseResult.success(mapList, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
         }

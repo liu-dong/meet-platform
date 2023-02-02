@@ -1,6 +1,6 @@
-package com.dong.authserver.web.dao;
+package com.dong.adminserver.web.dao;
 
-import com.dong.authserver.web.entity.DataCatalogItem;
+import com.dong.adminserver.web.entity.DataCatalogItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

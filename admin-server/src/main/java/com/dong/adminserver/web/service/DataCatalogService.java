@@ -1,10 +1,10 @@
-package com.dong.authserver.web.service;
+package com.dong.adminserver.web.service;
 
-import com.dong.authserver.web.entity.DataCatalog;
-import com.dong.authserver.web.model.DataCatalogDTO;
+import com.dong.adminserver.web.entity.DataCatalog;
+import com.dong.adminserver.web.model.dto.DataCatalogDTO;
+import com.dong.adminserver.web.model.vo.DataCatalogVO;
 import com.dong.commoncore.model.Pager;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,16 +16,16 @@ public interface DataCatalogService {
     /**
      * 保存数据目录
      *
-     * @param dto 账单内容
-     * @return 账单内容
+     * @param dto
+     * @return
      */
-    DataCatalog saveDataCatalog(DataCatalogDTO dto) throws ParseException;
+    DataCatalogVO saveDataCatalog(DataCatalogDTO dto);
 
     /**
      * 查询数据目录
      *
      * @param id 主键
-     * @return 账单内容
+     * @return
      * @throws Exception 异常
      */
     DataCatalog findDataCatalog(String id) throws Exception;
@@ -52,7 +52,7 @@ public interface DataCatalogService {
      *
      * @return 返回数据目录编码与数据条目键值对
      */
-    Map<String, Object> findDataCatalogItem();
+    Map<String, Object> findDataCatalogItemList();
 
     /**
      * 根据数据目录编码查询数据条目
