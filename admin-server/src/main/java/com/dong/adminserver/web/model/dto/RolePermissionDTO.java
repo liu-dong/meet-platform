@@ -1,4 +1,4 @@
-package com.dong.adminserver.web.model;
+package com.dong.adminserver.web.model.dto;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * @author Lenovo
  */
 @Data
-public class RolePermissionInfoBean {
+public class RolePermissionDTO {
     private String id;//
     private String roleId;//角色id
     private String permissionId;//权限id

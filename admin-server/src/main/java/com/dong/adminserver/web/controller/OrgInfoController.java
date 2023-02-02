@@ -1,9 +1,9 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.adminserver.web.entity.Org;
-import com.dong.adminserver.web.model.PersonInfoBean;
 import com.dong.adminserver.web.model.dto.OrgDTO;
 import com.dong.adminserver.web.model.vo.OrgVO;
+import com.dong.adminserver.web.model.vo.PersonVO;
 import com.dong.adminserver.web.service.OrgInfoService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
@@ -119,7 +119,7 @@ public class OrgInfoController {
     @GetMapping("/findOrgPersonInfoList")
     public ResponseResult findOrgPersonInfoList(String orgId) {
         try {
-            List<PersonInfoBean> result = orgInfoService.findOrgPersonInfoList(orgId);
+            List<PersonVO> result = orgInfoService.findOrgPersonInfoList(orgId);
             return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

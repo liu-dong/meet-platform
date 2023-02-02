@@ -27,7 +27,7 @@ public class Person implements Serializable {
     /**
      * 所属单位id
      */
-    private String companyId;
+    private String orgId;
 
     private String name;
 
@@ -96,14 +96,15 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "company_id")
-    public String getCompanyId() {
-        return this.companyId;
+    @Column(name = "org_id")
+    public String getOrgId() {
+        return orgId;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
+
 
     @Column(name = "name")
     public String getName() {

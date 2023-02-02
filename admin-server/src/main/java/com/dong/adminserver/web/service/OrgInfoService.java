@@ -1,9 +1,9 @@
 package com.dong.adminserver.web.service;
 
 import com.dong.adminserver.web.entity.Org;
-import com.dong.adminserver.web.model.PersonInfoBean;
 import com.dong.adminserver.web.model.dto.OrgDTO;
 import com.dong.adminserver.web.model.vo.OrgVO;
+import com.dong.adminserver.web.model.vo.PersonVO;
 import com.dong.commoncore.model.Pager;
 
 import java.util.List;
@@ -47,5 +47,5 @@ public interface OrgInfoService {
 
     Integer deletePerson(String orgId, List<String> personIds) throws Exception;
 
-    List<PersonInfoBean> findOrgPersonInfoList(String orgId);
+    List<PersonVO> findOrgPersonInfoList(String orgId);
 }

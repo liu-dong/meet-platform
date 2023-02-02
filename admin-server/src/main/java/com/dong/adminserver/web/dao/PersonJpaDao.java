@@ -12,7 +12,7 @@ public interface PersonJpaDao extends JpaRepository<Person, String> {
 
     Person getById(String id);
 
-    List<Person> findPersonByCompanyId(String companyId);
+    List<Person> findPersonByOrgId(String orgId);
 
     Person getPersonByEmail(String email);
 }

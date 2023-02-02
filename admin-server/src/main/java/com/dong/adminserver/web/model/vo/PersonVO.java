@@ -1,7 +1,5 @@
-package com.dong.adminserver.web.model;
+package com.dong.adminserver.web.model.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,7 +11,7 @@ import java.util.Date;
  * @author LD
  */
 @Data
-public class PersonInfoBean {
+public class PersonVO {
     private String id;//
     private String orgName;//所属单位
     private String orgId;//所属单位id
@@ -22,15 +20,13 @@ public class PersonInfoBean {
     private Integer age;//
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;//出生日期
-    private String sex;//0：男、1：女
+    private Integer sex;//0：男、1：女
     private String phone;//
     private String email;//
     private String presentAddress;//现住址
     private String nativePlace;//籍贯
     private String individualResume;//个人简介
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private String createTime;//
-    private String updateTime;//
+    private Date createTime;//
+    private Date updateTime;//
 
 }

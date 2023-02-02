@@ -5,9 +5,9 @@ import com.dong.adminserver.web.dao.OrgJpaDao;
 import com.dong.adminserver.web.dao.OrgPersonJpaDao;
 import com.dong.adminserver.web.entity.Org;
 import com.dong.adminserver.web.entity.OrgPerson;
-import com.dong.adminserver.web.model.PersonInfoBean;
 import com.dong.adminserver.web.model.dto.OrgDTO;
 import com.dong.adminserver.web.model.vo.OrgVO;
+import com.dong.adminserver.web.model.vo.PersonVO;
 import com.dong.adminserver.web.service.OrgInfoService;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.enums.DeleteStatusEnum;
@@ -146,18 +146,18 @@ public class OrgInfoServiceImpl implements OrgInfoService {
     }
 
     @Override
-    public List<PersonInfoBean> findOrgPersonInfoList(String orgId) {
+    public List<PersonVO> findOrgPersonInfoList(String orgId) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT t1.id,t1.company_id orgId,t1.`name`,t1.age, ");
         sql.append(" t1.sex,t1.phone,t1.email,t1.present_address presentAddress, ");
         sql.append(" t1.native_place nativePlace,t1.update_time updateTime ");
-        sql.append(" FROM `person` t1 ");
-        sql.append(" INNER JOIN org_person t2 ON t2.person_id=t1.id ");
+        sql.append(" FROM `sys_person` t1 ");
+        sql.append(" INNER JOIN sys_org_person t2 ON t2.person_id=t1.id ");
         sql.append(" INNER JOIN sys_org t3 ON t3.id=t2.org_id ");
         sql.append(" WHERE t1.delete_status = 0 ");
         sql.append(" AND t3.id = ? ");
         params.add(orgId);
-        return commonDao.findListBySql(sql, params, PersonInfoBean.class);
+        return commonDao.findListBySql(sql, params, PersonVO.class);
     }
 }
