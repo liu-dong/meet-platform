@@ -1,9 +1,11 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.adminserver.web.entity.Org;
-import com.dong.adminserver.web.model.OrgInfoBean;
 import com.dong.adminserver.web.model.PersonInfoBean;
+import com.dong.adminserver.web.model.dto.OrgDTO;
+import com.dong.adminserver.web.model.vo.OrgVO;
 import com.dong.adminserver.web.service.OrgInfoService;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
@@ -29,28 +31,28 @@ public class OrgInfoController {
     /**
      * 查询组织机构列表
      *
-     * @param bean
+     * @param dto
      * @param pager
      * @return
      */
     @ApiOperation("查询组织机构列表")
     @PostMapping("/findOrgInfoList")
-    public ResponseResult findOrgInfoList(@RequestBody OrgInfoBean bean, Pager<OrgInfoBean> pager) {
-        Pager<OrgInfoBean> orgInfoList = orgInfoService.findOrgInfoList(bean, pager);
-        return ResponseResult.success(orgInfoList, "保存成功!");
+    public ResponseResult findOrgInfoList(@RequestBody OrgDTO dto, Pager<OrgVO> pager) {
+        Pager<OrgVO> orgInfoList = orgInfoService.findOrgInfoList(dto, pager);
+        return ResponseResult.success(orgInfoList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
      * 保存组织机构
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @ApiOperation("保存组织机构")
     @PostMapping("/saveOrgInfo")
-    public ResponseResult saveOrgInfo(@RequestBody OrgInfoBean bean) {
-        Org org = orgInfoService.saveOrgInfo(bean);
-        return ResponseResult.success(org, "保存成功!");
+    public ResponseResult saveOrgInfo(@RequestBody OrgDTO dto) {
+        Org org = orgInfoService.saveOrgInfo(dto);
+        return ResponseResult.success(org, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
     /**
@@ -64,7 +66,7 @@ public class OrgInfoController {
     public ResponseResult getOrgInfo(String id) {
         try {
             Org org = orgInfoService.getOrgInfo(id);
-            return ResponseResult.success(org, "查询成功!");
+            return ResponseResult.success(org, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());
@@ -82,7 +84,7 @@ public class OrgInfoController {
     public ResponseResult deleteOrgInfo(String id) {
         try {
             orgInfoService.deleteOrgInfo(id);
-            return ResponseResult.success("删除成功!");
+            return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());
@@ -92,19 +94,19 @@ public class OrgInfoController {
     /**
      * 添加人员
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @ApiOperation("添加人员")
     @PostMapping("/addPerson")
-    public ResponseResult addPerson(@RequestBody OrgInfoBean bean) {
+    public ResponseResult addPerson(@RequestBody OrgDTO dto) {
         try {
-            orgInfoService.addPerson(bean.getId(), bean.getPersonIds());
+            orgInfoService.addPerson(dto.getId(), dto.getPersonIds());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());
         }
-        return ResponseResult.success("添加成功!");
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
     /**
@@ -118,7 +120,7 @@ public class OrgInfoController {
     public ResponseResult findOrgPersonInfoList(String orgId) {
         try {
             List<PersonInfoBean> result = orgInfoService.findOrgPersonInfoList(orgId);
-            return ResponseResult.success(result, "查询成功!");
+            return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());

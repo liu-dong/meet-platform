@@ -5,11 +5,13 @@ import com.dong.adminserver.web.dao.OrgJpaDao;
 import com.dong.adminserver.web.dao.OrgPersonJpaDao;
 import com.dong.adminserver.web.entity.Org;
 import com.dong.adminserver.web.entity.OrgPerson;
-import com.dong.adminserver.web.model.OrgInfoBean;
 import com.dong.adminserver.web.model.PersonInfoBean;
+import com.dong.adminserver.web.model.dto.OrgDTO;
+import com.dong.adminserver.web.model.vo.OrgVO;
 import com.dong.adminserver.web.service.OrgInfoService;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.enums.DeleteStatusEnum;
+import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,49 +35,49 @@ public class OrgInfoServiceImpl implements OrgInfoService {
     /**
      * 查询组织机构列表
      *
-     * @param bean
+     * @param dto
      * @param pager
      * @return
      */
     @Override
-    public Pager<OrgInfoBean> findOrgInfoList(OrgInfoBean bean, Pager<OrgInfoBean> pager) {
+    public Pager<OrgVO> findOrgInfoList(OrgDTO dto, Pager<OrgVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT t1.id,t1.org_name orgName,t1.org_code orgCode,t1.org_type orgType, ");
         sql.append(" t1.create_time createTime,count(t2.person_id) personSum ");
         sql.append(" FROM sys_org t1 ");
-        sql.append(" LEFT JOIN org_person t2 ON t2.org_id=t1.id ");
+        sql.append(" LEFT JOIN sys_org_person t2 ON t2.org_id=t1.id ");
         sql.append(" WHERE t1.delete_status = 0 ");
-        if (StringUtils.isNotBlank(bean.getOrgName())) {
+        if (StringUtils.isNotBlank(dto.getOrgName())) {
             sql.append(" AND t1.org_name LIKE ? ");
-            params.add("%" + bean.getOrgName().trim() + "%");
+            params.add("%" + dto.getOrgName().trim() + "%");
         }
         sql.append(" GROUP BY t1.id ");
         sql.append(" ORDER BY t1.create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params);
+        return commonDao.findListBySql(pager, sql, params, OrgVO.class);
     }
 
     /**
      * 保存组织机构
      *
-     * @param bean
+     * @param dto
      * @return
      */
     @Override
-    public Org saveOrgInfo(OrgInfoBean bean) {
+    public Org saveOrgInfo(OrgDTO dto) {
         Org entity = new Org();
-        if (StringUtils.isEmpty(bean.getId())) {
+        if (StringUtils.isEmpty(dto.getId())) {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         } else {
-            entity = orgJpaDao.getOne(bean.getId());
+            entity = orgJpaDao.getOne(dto.getId());
         }
-        entity.setOrgName(bean.getOrgName());
-        entity.setOrgCode(bean.getOrgCode());
-        entity.setOrgType(bean.getOrgType());
-        entity.setOrgDivisionCode(bean.getOrgDivisionCode());
+        entity.setOrgName(dto.getOrgName());
+        entity.setOrgCode(dto.getOrgCode());
+        entity.setOrgType(dto.getOrgType());
+        entity.setOrgDivisionCode(dto.getOrgDivisionCode());
         entity.setDeleteStatus(DeleteStatusEnum.valid.ordinal());
-        entity.setOrgAddress(bean.getOrgAddress());
+        entity.setOrgAddress(dto.getOrgAddress());
         entity.setUpdateTime(new Date());
         orgJpaDao.save(entity);
         return entity;
@@ -88,11 +90,11 @@ public class OrgInfoServiceImpl implements OrgInfoService {
      * @return
      */
     @Override
-    public Org getOrgInfo(String id) throws Exception {
+    public Org getOrgInfo(String id) {
         if (StringUtils.isEmpty(id)) {
-            throw new Exception("查询失败，id不能为空!");
+            throw new GlobalException("查询失败，id不能为空!");
         }
-        return orgJpaDao.getOne(id);
+        return orgJpaDao.findById(id).orElse(new Org());
     }
 
     /**

@@ -21,7 +21,7 @@ public class Pager<T> {
     /**
      * 记录总数
      */
-    private long total;
+    private int total;
     /**
      * 页码总数
      */
@@ -61,8 +61,9 @@ public class Pager<T> {
         return total;
     }
 
-    public void setTotal(long total) {
+    public void setTotal(int total) {
         this.total = total;
+        this.pageTotal = (int) Math.ceil((double) total / limit);
     }
 
     public int getPageTotal() {

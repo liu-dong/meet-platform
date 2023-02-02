@@ -1,16 +1,19 @@
 package com.dong.adminserver.web.service.impl;
 
+import com.dong.adminserver.constant.MenuConstant;
 import com.dong.adminserver.web.dao.MenuJpaDao;
 import com.dong.adminserver.web.entity.Menu;
-import com.dong.adminserver.web.model.MenuInfoBean;
+import com.dong.adminserver.web.model.dto.MenuDTO;
+import com.dong.adminserver.web.model.vo.MenuVO;
 import com.dong.adminserver.web.service.MenuInfoService;
 import com.dong.commoncore.dao.CommonDao;
-import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -26,43 +29,29 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     /**
      * 查询菜单列表
      *
-     * @param bean
-     * @param limit
-     * @param page
+     * @param dto
+     * @param pager
      * @return
      */
     @Override
-    public ResponseResult findMenuInfoList(MenuInfoBean bean, Integer limit, Integer page) {
-        ResponseResult result = new ResponseResult();
+    public Pager<MenuVO> findMenuInfoList(MenuDTO dto, Pager<MenuVO> pager) {
         StringBuilder sql = new StringBuilder();
-        List<Object> param = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
         sql.append(" SELECT sm.id, sm.parent_id parentId, sm.menu_name menuName, sm.menu_level menuLevel, ");
         sql.append(" sm.menu_icon menuIcon, sm.menu_order menuOrder, sm.menu_url menuUrl, ");
-        sql.append(" sm.menu_path menuPath, sm.menu_status menuStatus, sm.has_child hasChild ");
+        sql.append(" sm.menu_path menuPath, sm.menu_status menuStatus, sm.has_child hasChild,sm.create_time createTime ");
         sql.append(" FROM sys_menu sm ");
-        sql.append(" INNER JOIN permission p ON p.resource_id = sm.id ");
-        sql.append(" INNER JOIN role_permission rp ON rp.permission_id = p.id ");
-        sql.append(" INNER JOIN account_role ar ON ar.role_id = rp.role_id ");
-        sql.append(" INNER JOIN account a ON a.id = ar.account_id ");
         sql.append(" WHERE 1 = 1 ");
-        if (!StringUtils.isEmpty(bean.getMenuStatus())) {
+        if (dto.getMenuStatus() != null) {
             sql.append(" AND sm.menu_status = ? ");
-            param.add(bean.getMenuStatus());
+            params.add(dto.getMenuStatus());
         }
-        if (!StringUtils.isEmpty(bean.getHasChild())) {
+        if (dto.getHasChild() != null) {
             sql.append(" AND sm.has_child = ? ");
-            param.add(bean.getHasChild());
+            params.add(dto.getHasChild());
         }
         sql.append(" ORDER BY sm.menu_level,sm.menu_order ASC ");
-        int total = commonDao.getTotalBySql(sql, param);
-        if (total > 0) {
-            List<Map<String, Object>> dataList = commonDao.findListMapBySql(sql, param, page, limit);
-            result.setData(dataList);
-
-            result.setMessage("查询成功！");
-        }
-
-        return result;
+        return commonDao.findListBySql(pager, sql, params, MenuVO.class);
     }
 
     /**
@@ -72,69 +61,68 @@ public class MenuInfoServiceImpl implements MenuInfoService {
      * @return
      */
     @Override
-    public ResponseResult getMenuTree(int type) {
+    public List<Map<String, Object>> getMenuTree(int type) {
+        List<Map<String, Object>> result = new ArrayList<>();
         if (1 == type) {
-            return ResponseResult.success(getMenuTreeByRecursion(""), "查询成功!");
+            // 根据递归获取菜单树(多次访问数据库)
+            result = getMenuTreeByRecursion("");
         } else if (2 == type) {
-            List<Menu> sysMenuList = menuJpaDao.findAllByOrderByMenuOrderAsc();
-            return ResponseResult.success(getMenuTreeByALL(sysMenuList), "查询成功!");
+            // 根据所有菜单数据生成菜单树
+            List<Menu> menuList = menuJpaDao.findAllByOrderByMenuOrderAsc();
+            result = getMenuTreeByALL(menuList);
         }
-        return ResponseResult.error("查询失败!");
+        return result;
     }
 
     @Override
-    public ResponseResult saveMenuInfo(MenuInfoBean bean) {
+    public Menu saveMenuInfo(MenuDTO dto) {
         Menu entity = new Menu();
-        if (StringUtils.isEmpty(bean.getId())) {//新增
+        if (StringUtils.isEmpty(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         } else {
-            entity = menuJpaDao.getOne(bean.getId());
+            entity = menuJpaDao.findById(dto.getId()).orElse(new Menu());
             entity.setUpdateTime(new Date());
         }
-        entity.setParentId(bean.getParentId());
-        entity.setMenuName(bean.getMenuName());
-        entity.setMenuLevel(bean.getMenuLevel());
-        entity.setMenuIcon(bean.getMenuIcon());
-        entity.setMenuOrder(bean.getMenuOrder());
-        entity.setMenuUrl(bean.getMenuUrl());
-        entity.setMenuPath(bean.getMenuPath());
-        entity.setMenuStatus(bean.getMenuStatus());
-        entity.setHasChild(bean.getHasChild());
+        entity.setParentId(dto.getParentId());
+        entity.setMenuName(dto.getMenuName());
+        entity.setMenuLevel(dto.getMenuLevel());
+        entity.setMenuIcon(dto.getMenuIcon());
+        entity.setMenuOrder(dto.getMenuOrder());
+        entity.setMenuUrl(dto.getMenuUrl());
+        entity.setMenuPath(dto.getMenuPath());
+        entity.setMenuStatus(dto.getMenuStatus());
+        entity.setHasChild(dto.getHasChild());
         entity.setUpdateTime(new Date());
-        entity = menuJpaDao.save(entity);
-        return ResponseResult.success(entity, "保存成功!");
+        return menuJpaDao.save(entity);
     }
 
     @Override
-    public ResponseResult getMenuInfo(String id) {
-        if (StringUtils.isEmpty(id)) {
-            return ResponseResult.error("查询失败，id不能为空!");
-        } else {
-            Menu entity = menuJpaDao.getOne(id);
-            return ResponseResult.success(entity, "查询成功!");
+    public Menu getMenuInfo(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new GlobalException("查询失败，id不能为空!");
         }
+        return menuJpaDao.findById(id).orElse(new Menu());
+
     }
 
     @Override
-    public ResponseResult deleteMenuInfo(String id) {
+    public void deleteMenuInfo(String id) {
         if (StringUtils.isEmpty(id)) {
-            return ResponseResult.error("删除失败，id不能为空!");
-        } else {
-            List<Menu> sysMenus = new ArrayList<>();
-            Menu entity = menuJpaDao.getOne(id);
-            sysMenus.add(entity);
-            //判断是否有子菜单
-            sysMenus.addAll(findChildrenMenuInfoList(id));
-            //menuJpaDao.deleteAll(sysMenus);
-            return ResponseResult.success(null, "删除成功!");
+            throw new GlobalException("删除失败，id不能为空!");
         }
+        List<Menu> sysMenus = new ArrayList<>();
+        Menu entity = menuJpaDao.findById(id).orElse(new Menu());
+        sysMenus.add(entity);
+        //判断是否有子菜单
+        sysMenus.addAll(findChildrenMenuInfoList(id));
+        menuJpaDao.deleteAll(sysMenus);
+
     }
 
     @Override
-    public ResponseResult findParentMenuInfoList() {
-        List<Menu> menuList = menuJpaDao.getAllByMenuLevel(1);
-        return ResponseResult.success(menuList, "查询成功!");
+    public List<Menu> findParentMenuInfoList() {
+        return menuJpaDao.getAllByMenuLevel(MenuConstant.FIRST_LEVEL_MENU);
     }
 
     /**
@@ -155,7 +143,6 @@ public class MenuInfoServiceImpl implements MenuInfoService {
 
         }
         return result;
-
     }
 
     /**
@@ -165,41 +152,43 @@ public class MenuInfoServiceImpl implements MenuInfoService {
      * @return
      */
     private List<Map<String, Object>> getMenuTreeByRecursion(String parentId) {
-        List<Map<String, Object>> menuList = new ArrayList<>();
-        List<Menu> sysMenuList;
+        List<Map<String, Object>> menuMapList = new ArrayList<>();
+        List<Menu> menuList;
         if (StringUtils.isEmpty(parentId)) {//如果父菜单主键为空说明找的是一级菜单
-            sysMenuList = menuJpaDao.getAllByMenuLevel(1);
+            menuList = menuJpaDao.getAllByMenuLevel(1);
         } else {
-            sysMenuList = menuJpaDao.getAllByParentId(parentId);
+            menuList = menuJpaDao.getAllByParentId(parentId);
         }
-        if (!CollectionUtils.isEmpty(sysMenuList)) {
-            for (Menu sysMenu : sysMenuList) {
+        if (!CollectionUtils.isEmpty(menuList)) {
+            for (Menu sysMenu : menuList) {
                 parentId = sysMenu.getId();
                 List<Map<String, Object>> childrenList = new ArrayList<>();
                 if (sysMenu.getHasChild() == 1) {
+                    //递归获取子菜单
                     childrenList = getMenuTreeByRecursion(parentId);
                 }
-                Map<String, Object> map = setMenu(sysMenu, childrenList);//生成菜单对象
-                menuList.add(map);
+                //转换菜单对象
+                Map<String, Object> map = convertMapMenu(sysMenu, childrenList);
+                menuMapList.add(map);
             }
         }
-        return menuList;
+        return menuMapList;
     }
 
     /**
      * 根据所有菜单数据生成菜单树（访问一次菜单）
      *
-     * @param sysMenuList
+     * @param menuList
      * @return
      */
-    @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
-    public List<Map<String, Object>> getMenuTreeByALL(List<Menu> sysMenuList) {
+    public List<Map<String, Object>> getMenuTreeByALL(List<Menu> menuList) {
         List<Map<String, Object>> result = new ArrayList<>();
-        for (Menu sysMenu : sysMenuList) {
-            if (sysMenu.getMenuLevel() == 1) {
-                Map<String, Object> map = setMenu(sysMenu, null);
-                if (sysMenu.getHasChild() == 1) {
-                    map.put("children", getChildrenMenuByRecursion(sysMenuList, map));//获取子菜单
+        for (Menu menu : menuList) {
+            if (menu.getMenuLevel() == 1) {
+                //转换菜单对象
+                Map<String, Object> map = convertMapMenu(menu, null);
+                if (menu.getHasChild() == 1) {
+                    map.put("children", getChildrenMenuByRecursion(menuList, map));//获取子菜单
                 }
                 result.add(map);
             }
@@ -210,16 +199,17 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     /**
      * 递归获取子菜单
      *
-     * @param sysMenuList
+     * @param menuList
      * @param parentMenu
      * @return
      */
-    private List<Map<String, Object>> getChildrenMenuByRecursion(List<Menu> sysMenuList, Map<String, Object> parentMenu) {
+    private List<Map<String, Object>> getChildrenMenuByRecursion(List<Menu> menuList, Map<String, Object> parentMenu) {
         List<Map<String, Object>> childrenList = new ArrayList<>();//子菜单列表
-        for (Menu menu : sysMenuList) {
-            if (!StringUtils.isEmpty(menu.getParentId()) && parentMenu.get("id").equals(menu.getParentId())) {
-                Map<String, Object> childrenMenu = setMenu(menu, null);
-                childrenMenu.put("children", getChildrenMenuByRecursion(sysMenuList, childrenMenu));
+        for (Menu menu : menuList) {
+            if (StringUtils.isNotBlank(menu.getParentId()) && parentMenu.get("id").equals(menu.getParentId())) {
+                Map<String, Object> childrenMenu = convertMapMenu(menu, null);
+                //递归获取子菜单
+                childrenMenu.put("children", getChildrenMenuByRecursion(menuList, childrenMenu));
                 childrenList.add(childrenMenu);
             }
         }
@@ -229,17 +219,17 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     /**
      * 生成一个菜单对象
      *
-     * @param sysMenu
+     * @param menu
      * @param childrenList
      * @return
      */
-    private Map<String, Object> setMenu(Menu sysMenu, List<Map<String, Object>> childrenList) {
+    private Map<String, Object> convertMapMenu(Menu menu, List<Map<String, Object>> childrenList) {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", sysMenu.getId());
-        map.put("title", sysMenu.getMenuName());
-        map.put("url", sysMenu.getMenuUrl());
-        map.put("icon", sysMenu.getMenuIcon());
-        map.put("order", sysMenu.getMenuOrder());
+        map.put("id", menu.getId());
+        map.put("title", menu.getMenuName());
+        map.put("url", menu.getMenuUrl());
+        map.put("icon", menu.getMenuIcon());
+        map.put("order", menu.getMenuOrder());
         map.put("children", childrenList);
         return map;
     }
