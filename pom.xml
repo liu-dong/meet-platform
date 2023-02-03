@@ -46,7 +46,7 @@
         <!--other-->
         <lombok.version>1.18.24</lombok.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <swagger.version>3.0.0</swagger.version>
+        <swagger.version>2.9.2</swagger.version>
         <mail.version>1.5.0-b01</mail.version>
         <jedis-version>3.8.0</jedis-version>
         <mysql-version>5.1.47</mysql-version>
