@@ -1,6 +1,7 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
+import com.dong.adminserver.web.model.vo.DataCatalogVO;
 import com.dong.adminserver.web.service.DataCatalogService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
@@ -8,10 +9,7 @@ import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -77,6 +75,55 @@ public class DataCatalogController {
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
         }
+    }
+
+    /**
+     * 查询数据字典详情
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("查询数据字典详情")
+    @GetMapping("/getDataCatalogDetail")
+    public ResponseResult getDataCatalogDetail(String id) {
+        DataCatalogVO detail = dataCatalogService.getDataCatalogDetail(id);
+        return ResponseResult.success(detail, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 保存数据字典
+     *
+     * @param dto
+     */
+    @ApiOperation("保存数据字典")
+    @PostMapping("/saveDataCatalog")
+    public ResponseResult saveDataCatalog(@RequestBody DataCatalogDTO dto) {
+        DataCatalogVO vo = dataCatalogService.saveDataCatalog(dto);
+        return ResponseResult.success(vo, ResponseMessageConstant.SAVE_SUCCESS);
+    }
+
+    /**
+     * 删除数据目录
+     *
+     * @param id
+     */
+    @ApiOperation("删除数据目录")
+    @PostMapping("/deleteDataCatalog")
+    public ResponseResult deleteDataCatalog(String id) {
+        dataCatalogService.deleteDataCatalog(id);
+        return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
+    }
+
+    /**
+     * 删除数据字典条目
+     *
+     * @param id
+     */
+    @ApiOperation("删除数据字典条目")
+    @PostMapping("/deleteDataCatalogItem")
+    public ResponseResult deleteDataCatalogItem(String id) {
+        dataCatalogService.deleteDataCatalogItem(id);
+        return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 }
 

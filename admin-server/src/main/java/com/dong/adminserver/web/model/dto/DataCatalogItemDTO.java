@@ -38,4 +38,9 @@ public class DataCatalogItemDTO {
      * 备注
      */
     private String remark;
+
+    /**
+     * 是否删除
+     */
+    private Integer isDelete = 0;
 }

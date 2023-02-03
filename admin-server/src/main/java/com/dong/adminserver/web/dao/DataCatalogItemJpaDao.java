@@ -12,4 +12,6 @@ public interface DataCatalogItemJpaDao extends JpaRepository<DataCatalogItem, St
     List<DataCatalogItem> findByCatalogId(String catalogId);
 
     List<DataCatalogItem> findByCatalogIdAndStatus(String catalogId, Integer status);
+
+    void deleteByCatalogId(String catalogId);
 }

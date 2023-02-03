@@ -1,6 +1,5 @@
 package com.dong.adminserver.web.model.dto;
 
-import com.dong.adminserver.web.entity.DataCatalogItem;
 import lombok.Data;
 
 import java.util.List;
@@ -36,5 +35,5 @@ public class DataCatalogDTO {
      */
     private String remark;
 
-    private List<DataCatalogItem> itemList;
+    private List<DataCatalogItemDTO> itemList;
 }

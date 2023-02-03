@@ -1,6 +1,5 @@
 package com.dong.adminserver.web.service;
 
-import com.dong.adminserver.web.entity.DataCatalog;
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
 import com.dong.adminserver.web.model.vo.DataCatalogVO;
 import com.dong.commoncore.model.Pager;
@@ -14,7 +13,7 @@ import java.util.Map;
 public interface DataCatalogService {
 
     /**
-     * 保存数据目录
+     * 保存数据字典
      *
      * @param dto
      * @return
@@ -22,21 +21,26 @@ public interface DataCatalogService {
     DataCatalogVO saveDataCatalog(DataCatalogDTO dto);
 
     /**
-     * 查询数据目录
+     * 查询数据字典详情
      *
      * @param id 主键
      * @return
-     * @throws Exception 异常
      */
-    DataCatalog findDataCatalog(String id) throws Exception;
+    DataCatalogVO getDataCatalogDetail(String id);
 
     /**
      * 删除数据目录
      *
      * @param id 主键
-     * @throws Exception 异常
      */
-    void deleteDataCatalog(String id) throws Exception;
+    void deleteDataCatalog(String id);
+
+    /**
+     * 删除数据字典条目
+     *
+     * @param id 主键
+     */
+    void deleteDataCatalogItem(String id);
 
     /**
      * 查询数据目录

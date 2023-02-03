@@ -5,8 +5,10 @@ import com.dong.adminserver.web.dao.DataCatalogJpaDao;
 import com.dong.adminserver.web.entity.DataCatalog;
 import com.dong.adminserver.web.entity.DataCatalogItem;
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
+import com.dong.adminserver.web.model.dto.DataCatalogItemDTO;
 import com.dong.adminserver.web.model.vo.DataCatalogVO;
 import com.dong.adminserver.web.service.DataCatalogService;
+import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
@@ -15,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -38,6 +41,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
      * @param dto
      * @return
      */
+    @Transactional
     @Override
     public DataCatalogVO saveDataCatalog(DataCatalogDTO dto) {
         DataCatalog entity = new DataCatalog();
@@ -48,15 +52,43 @@ public class DataCatalogServiceImpl implements DataCatalogService {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         }
-        BeanUtils.copyProperties(dto, entity);
+        convertEntity(dto, entity);
         //保存数据字典目录
         DataCatalog dataCatalog = dataCatalogJpaDao.save(entity);
         //保存数据字典条目
         List<DataCatalogItem> itemList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(dto.getItemList())) {
-            itemList = saveDataCatalogItem(dto.getItemList());
+            itemList = saveDataCatalogItemList(dto.getItemList(), entity.getId());
         }
         return convertDataCatalogVO(dataCatalog, itemList);
+    }
+
+    /**
+     * 转换实体类
+     *
+     * @param dto
+     * @param entity
+     */
+    private void convertEntity(DataCatalogDTO dto, DataCatalog entity) {
+        entity.setCatalogCode(dto.getCatalogCode());
+        entity.setCatalogName(dto.getCatalogName());
+        entity.setDescription(dto.getDescription());
+        entity.setRemark(dto.getRemark());
+        entity.setStatus(CommonConstant.YES);//默认是
+    }
+
+    /**
+     * 转换实体类
+     *
+     * @param dto
+     * @param entity
+     */
+    private void convertEntity(DataCatalogItemDTO dto, DataCatalogItem entity) {
+        entity.setItemCode(dto.getItemCode());
+        entity.setItemName(dto.getItemName());
+        entity.setSort(dto.getSort());
+        entity.setRemark(dto.getRemark());
+        entity.setStatus(CommonConstant.YES);//默认是
     }
 
     /**
@@ -73,32 +105,71 @@ public class DataCatalogServiceImpl implements DataCatalogService {
         return result;
     }
 
+
     /**
-     * 保存数据字典条目
+     * 保存数据字典条目集合
      *
      * @param itemList
      * @return
      */
-    private List<DataCatalogItem> saveDataCatalogItem(List<DataCatalogItem> itemList) {
-        for (DataCatalogItem item : itemList) {
-            if (StringUtils.isNotBlank(item.getId())) {
-                item.setUpdateTime(new Date());
+    private List<DataCatalogItem> saveDataCatalogItemList(List<DataCatalogItemDTO> itemList, String catalogId) {
+        List<DataCatalogItem> entityList = new ArrayList<>();
+        for (DataCatalogItemDTO dto : itemList) {
+            //判断是否删除
+            if (dto.getIsDelete() == CommonConstant.YES) {
+                deleteDataCatalogItem(dto.getId());
             } else {
-                item.setId(CommonUtils.getUUID());
-                item.setCreateTime(new Date());
+                DataCatalogItem entity = buildDataCatalogItem(catalogId, dto);
+                entityList.add(entity);
             }
         }
-        return dataCatalogItemJpaDao.saveAll(itemList);
+        return dataCatalogItemJpaDao.saveAll(entityList);
+    }
+
+    /**
+     * 构建数据字典条目实体对象
+     *
+     * @param catalogId
+     * @param dto
+     * @return
+     */
+    private DataCatalogItem buildDataCatalogItem(String catalogId, DataCatalogItemDTO dto) {
+        DataCatalogItem entity = new DataCatalogItem();
+        if (StringUtils.isNotBlank(dto.getId())) {
+            entity = dataCatalogItemJpaDao.findById(dto.getId()).orElse(new DataCatalogItem());
+            entity.setUpdateTime(new Date());
+        } else {
+            entity.setId(CommonUtils.getUUID());
+            entity.setCreateTime(new Date());
+        }
+        //转换实体类
+        convertEntity(dto, entity);
+        entity.setCatalogId(catalogId);
+        return entity;
     }
 
     @Override
-    public DataCatalog findDataCatalog(String id) throws Exception {
-        return null;
+    public DataCatalogVO getDataCatalogDetail(String id) {
+        DataCatalog dataCatalog = dataCatalogJpaDao.findById(id).orElse(new DataCatalog());
+        List<DataCatalogItem> catalogItemList = dataCatalogItemJpaDao.findByCatalogIdAndStatus(id, CommonConstant.YES);
+        return convertDataCatalogVO(dataCatalog, catalogItemList);
     }
 
     @Override
-    public void deleteDataCatalog(String id) throws Exception {
+    public void deleteDataCatalog(String id) {
+        if (dataCatalogJpaDao.existsById(id)) {
+            //删除数据字典条目
+            dataCatalogItemJpaDao.deleteByCatalogId(id);
+            //删除数据字典目录
+            dataCatalogJpaDao.deleteById(id);
+        }
+    }
 
+    @Override
+    public void deleteDataCatalogItem(String id) {
+        if (dataCatalogItemJpaDao.existsById(id)) {
+            dataCatalogItemJpaDao.deleteById(id);
+        }
     }
 
     @Override

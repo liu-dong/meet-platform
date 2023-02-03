@@ -22,4 +22,14 @@ public class CommonConstant {
 
     public static final String SUCCESS = "success";//成功
     public static final String FAILURE = "failure";//失败
+
+    /**
+     * 是
+     */
+    public static final int YES = 1;
+
+    /**
+     * 否
+     */
+    public static final int NO = 0;
 }
