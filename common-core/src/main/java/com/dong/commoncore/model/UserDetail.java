@@ -1,4 +1,4 @@
-package com.dong.authserver.web.model;
+package com.dong.commoncore.model;
 
 
 import lombok.Data;

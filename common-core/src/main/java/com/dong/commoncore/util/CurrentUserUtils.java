@@ -1,7 +1,7 @@
 package com.dong.commoncore.util;
 
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.UserDetails;
+import com.dong.commoncore.model.UserDetail;
 
 /**
  * @author liudong 2022/6/29
@@ -11,17 +11,17 @@ public final class CurrentUserUtils {
     private CurrentUserUtils() {
     }
 
-    private static final ThreadLocal<UserDetails> CURRENT_USER_DETAIL = new ThreadLocal<>();
+    private static final ThreadLocal<UserDetail> CURRENT_USER_DETAIL = new ThreadLocal<>();
 
-    public static void set(UserDetails userDetails) {
-        CURRENT_USER_DETAIL.set(userDetails);
+    public static void set(UserDetail userDetail) {
+        CURRENT_USER_DETAIL.set(userDetail);
     }
 
     public static void remove() {
         CURRENT_USER_DETAIL.remove();
     }
 
-    public static UserDetails currentUser() {
+    public static UserDetail currentUser() {
         return CURRENT_USER_DETAIL.get();
     }
 

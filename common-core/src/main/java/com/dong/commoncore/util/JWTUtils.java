@@ -1,11 +1,12 @@
 package com.dong.commoncore.util;
 
 import cn.hutool.crypto.asymmetric.RSA;
+import com.dong.commoncore.exception.GlobalException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.interfaces.RSAPrivateKey;
@@ -129,7 +130,7 @@ public class JWTUtils {
     public static Claims getClaims(HttpServletRequest request) {
         String jwtToken = request.getHeader("JWT-TOKEN");
         if (StringUtils.isEmpty(jwtToken)) {
-            return null;
+            throw new GlobalException("token为空");
         }
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         return claimsJws.getBody();

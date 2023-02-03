@@ -2,8 +2,8 @@ package com.dong.authserver.web.service;
 
 
 import com.dong.authserver.web.model.LoginDTO;
-import com.dong.authserver.web.model.UserDetail;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.model.UserDetail;
 
 import javax.servlet.http.HttpServletRequest;
 

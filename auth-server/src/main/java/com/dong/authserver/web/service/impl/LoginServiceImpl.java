@@ -1,10 +1,10 @@
 package com.dong.authserver.web.service.impl;
 
 import com.dong.authserver.web.model.LoginDTO;
-import com.dong.authserver.web.model.UserDetail;
 import com.dong.authserver.web.service.LoginService;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.JWTUtils;
 import com.dong.securitycore.dao.AccountJpaDao;
 import com.dong.securitycore.entity.Account;
