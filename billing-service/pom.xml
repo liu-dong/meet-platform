@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.dong</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>security-core</artifactId>
         </dependency>
         <!--EasyExcel相关依赖-->
         <dependency>

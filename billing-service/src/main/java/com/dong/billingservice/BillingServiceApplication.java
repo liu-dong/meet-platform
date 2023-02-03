@@ -11,9 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-//@EnableJpaRepositories(basePackages = {"com.meet.**.dao", "com.meet.**.dao.impl"})
+@EnableJpaRepositories(basePackages = {"com.dong.**.dao"})
 @EntityScan(basePackages = "com.dong.**.entity")
 @ComponentScan(basePackages = "com.dong.**")
 @SpringBootApplication
