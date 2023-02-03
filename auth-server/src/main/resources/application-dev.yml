@@ -2,7 +2,7 @@ server:
     port: 8180
 spring:
     datasource:
-        driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.154.127:3306/my_data?useUnicode=true&characterEncoding=utf-8
+      driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.154.127:3306/meet?useUnicode=true&characterEncoding=utf-8
         username: root
         password: 123456

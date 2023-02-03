@@ -1,6 +1,7 @@
 package com.dong.authserver.web.controller;
 
 import com.dong.authserver.web.model.LoginDTO;
+import com.dong.authserver.web.model.UserDetail;
 import com.dong.authserver.web.service.LoginService;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
@@ -9,8 +10,8 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -54,8 +56,11 @@ public class LoginController {
         String text = producer.createText();
         // 生成图片验证码
         BufferedImage image = producer.createImage(text);
-        // 保存到验证码到 session
+        // 保存验证码到 session
         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
+        // 保存验证码到 cookies
+        Cookie cookie = new Cookie("kaptcha", text);
+        response.addCookie(cookie);
         ServletOutputStream out = response.getOutputStream();
         //使用支持给定格式的任意 ImageWriter写入图像到 File 。
         ImageIO.write(image, "jpg", out);
@@ -111,10 +116,10 @@ public class LoginController {
      * @return
      */
     @ApiOperation("获取用户信息")
-    @GetMapping("/getUserInfo")
-    public ResponseResult getUserInfo(HttpServletRequest request) {
-        LoginDTO dto = loginService.getUserInfo(request);
-        return ResponseResult.success(dto,"校验成功！");
+    @GetMapping("/getUserDetail")
+    public ResponseResult getUserDetail(HttpServletRequest request) {
+        UserDetail user = loginService.getUserDetail(request);
+        return ResponseResult.success(user, "校验成功！");
     }
 
     /**
@@ -144,15 +149,15 @@ public class LoginController {
     public void verificationCode(HttpServletRequest request, LoginDTO dto) {
         String paramCaptcha = dto.getCaptcha();
         //用于开发测试
-        if ("1".equals(paramCaptcha)){
+        if ("1".equals(paramCaptcha)) {
             return;
         }
         HttpSession session = request.getSession();
         String savedCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        if (!StringUtils.isEmpty(savedCode)) {
+        if (StringUtils.isNotBlank(savedCode)) {
             session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
         }
-        if (StringUtils.isEmpty(paramCaptcha) || StringUtils.isEmpty(savedCode) || !paramCaptcha.equalsIgnoreCase(savedCode)) {
+        if (StringUtils.isBlank(paramCaptcha) || StringUtils.isBlank(savedCode) || !paramCaptcha.equalsIgnoreCase(savedCode)) {
             throw new GlobalException(500, "验证码校验失败");
         }
 
