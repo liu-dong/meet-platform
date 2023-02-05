@@ -1,4 +1,4 @@
-import request from "@/axios/authAxios";
+import request from "@/axios/adminAxios";
 
 // 查询数据字典目录列表
 export function findDataCatalogList(data, params) {
