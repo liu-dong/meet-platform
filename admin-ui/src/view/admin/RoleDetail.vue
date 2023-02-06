@@ -4,7 +4,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>角色管理</el-breadcrumb-item>
-        <el-breadcrumb-item>添加账号</el-breadcrumb-item>
+        <el-breadcrumb-item>角色信息详情页</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="bottom">
@@ -18,21 +18,8 @@
         <el-form-item label="角色描述" prop="remark" style="width: 70%;">
           <el-input v-model="ruleForm.remark" type="textarea"/>
         </el-form-item>
-        <el-form-item prop="remark" style="width: 70%;height: 65%; overflow: auto">
-          <el-transfer
-              v-model="roleAccount.accountIdList"
-              :button-texts="['删除账号', '添加账号']"
-              :data="accountList"
-              :format="{noChecked: '${total}',hasChecked: '${checked}/${total}'}"
-              :props="{key: 'id',label: 'username'}"
-              :render-content="renderFunc"
-              :titles="['账号列表', '所属账号']"
-              filterable
-              filter-placeholder="请输入账号"
-              @change="addAccount"
-          />
-        </el-form-item>
         <el-form-item>
+          <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
           <el-button @click="goBack()">返回</el-button>
         </el-form-item>
       </el-form>
@@ -41,33 +28,31 @@
 </template>
 
 <script>
-import {getCategoryName, getDataDic} from '@/utils/common'
-import {findAccountInfoList} from '@/api/account'
-import {assignAccounts, findRoleAccountInfoList, getRoleInfo} from '@/api/role'
+import {getCategoryName, getDataDic} from '@/util/common'
+import {findRoleAccountInfoList, getRoleInfo, saveRoleInfo} from '@/api/role'
 
 export default {
-  name: 'RoleAccountDetail',
+  name: 'RoleDetail',
   data() {
     return {
       ruleForm: {},
-      userType: [],
-      accountList: [], // 账号信息列表
-      roleAccount: { // 角色账号信息
-        roleId: '',
-        accountIdList: []// 账号id集合
+      rules: {
+        roleName: [
+          {required: true, message: '请填写角色名称', trigger: 'blur'}
+        ],
+        remark: [
+          {required: true, message: '请填写角色描述', trigger: 'blur'}
+        ]
       },
-      renderFunc(h, option) { // 自定义列项名称
-        return <span>{option.username}({option.realName})</span>
-      }
+      userType: []
     }
   },
   async created() {
     this.userType = await getDataDic('dic:detail:admin:user.type')
-    this.roleAccount.roleId = this.$route.params.id
-    if (this.roleAccount.roleId) {
-      this.getRoleInfo(this.roleAccount.roleId)
+    const id = this.$route.params.id
+    if (id) {
+      this.getRoleInfo(id)
     }
-    this.findAccountList()
   },
   methods: {
     // 查询角色信息
@@ -93,32 +78,21 @@ export default {
     formatType: function (row) {
       return getCategoryName(this.userType, row.userType)
     },
-    toAccountDetail(row) {
-      const id = row.id
-      this.$router.push({name: 'accountDetail', params: {id: id}})
-    },
-    toPersonDetail: function (row) {
-      const id = row.personId
-      alert(id)
-      this.$router.push({name: 'personDetail', params: {id: id}})
+    saveForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          saveRoleInfo(this.ruleForm).then(res => {
+            this.$message({message: res.message, duration: 2000})
+            if (res.code === 200) {
+              this.ruleForm = res.data
+            }
+          })
+        }
+        return false
+      })
     },
     goBack() {
       this.$router.go(-1)// 返回上一层
-    },
-    findAccountList: function () {
-      findAccountInfoList({}).then(res => {
-        if (res.code === 200) {
-          this.accountList = res.data
-        }
-      })
-    },
-    // 分配账号
-    addAccount() {
-      assignAccounts(this.roleAccount).then(res => {
-        if (res.code === 200) {
-          console.log(res)
-        }
-      })
     }
   }
 }

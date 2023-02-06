@@ -58,7 +58,7 @@
 
 <script>
 import qs from 'qs'
-import {logout} from '@/api/login'
+import {logout} from '@/api/auth'
 import {getMenuTree} from '@/api/menu'
 import {savePersonInfo} from '@/api/person'
 

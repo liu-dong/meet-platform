@@ -16,7 +16,7 @@ export const env = 'dev'// 开发模式，需要开启后端应用
 // export const env = 'test';//演示模式，不需要开启后端应用
 
 // 图片校验码地址
-export const kaptchaUrl = '/authentication-server/authorization/getKaptcha'
+export const kaptchaUrl = '/getKaptcha'
 
 // 图片二维码地址
 export const QRCodeUrl = '/authentication-server/authorization/getQRCode'

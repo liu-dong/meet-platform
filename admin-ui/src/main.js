@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from '@/axios'
-import global from '@/utils/global'
+import global from '@/util/global'
 import moment from 'moment'
 import qs from 'qs'
 

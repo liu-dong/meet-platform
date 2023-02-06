@@ -1,15 +1,19 @@
-import axios from '@/axios'
-/* 系统登录模块 */
+import request from "@/axios/authAxios";
 
 // 登录
 export function login(data) {
-    return axios({
-        url: '/admin-server/accountInfo/login',
+    return request({
+        url: '/login',
         method: 'post',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
         data
+    })
+}
+
+// 获取用户信息
+export function getUserInfo() {
+    return request({
+        url: '/getUserDetail',
+        method: 'get'
     })
 }
 

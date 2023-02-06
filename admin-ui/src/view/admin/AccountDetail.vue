@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import {getDataDic} from '@/utils/common'
+import {getDataDic} from '@/util/common'
 import {assignRoles, findAccountRoleInfoList, getAccountInfo, saveAccountInfo} from '@/api/account'
 import {findRoleInfoList} from '@/api/role'
 

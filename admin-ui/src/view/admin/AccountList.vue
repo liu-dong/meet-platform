@@ -67,7 +67,7 @@
 
 <script>
 import qs from 'qs'
-import {getCategoryName, getDataDic} from '@/utils/common'
+import {getCategoryName, getDataDic} from '@/util/common'
 import {deleteAccountInfo, findAccountInfoList} from '@/api/account'
 
 export default {
