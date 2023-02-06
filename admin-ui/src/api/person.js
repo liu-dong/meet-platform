@@ -1,8 +1,8 @@
-import axios from '@/axios/authAxios'
+import axios from '@/axios/adminAxios'
 
 export function findPersonInfoList(data, params) {
     return axios({
-        url: '/admin-server/personInfo/findPersonInfoList',
+        url: '/personInfo/findPersonInfoList',
         method: 'post',
         data,
         params
@@ -11,7 +11,7 @@ export function findPersonInfoList(data, params) {
 
 export function savePersonInfo(data) {
     return axios({
-        url: '/admin-server/personInfo/savePersonInfo',
+        url: '/personInfo/savePersonInfo',
         method: 'post',
         data
     })
@@ -19,7 +19,7 @@ export function savePersonInfo(data) {
 
 export function getPersonInfo(params) {
     return axios({
-        url: '/admin-server/personInfo/getPersonInfo',
+        url: '/personInfo/getPersonInfo',
         method: 'get',
         params
     })
@@ -27,7 +27,7 @@ export function getPersonInfo(params) {
 
 export function deletePersonInfo(params) {
     return axios({
-        url: '/admin-server/personInfo/deletePersonInfo',
+        url: '/personInfo/deletePersonInfo',
         method: 'post',
         params
     })

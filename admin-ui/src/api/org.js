@@ -1,8 +1,8 @@
-import axios from '@/axios/authAxios'
+import axios from '@/axios/adminAxios'
 
 export function findOrgInfoList(data, params) {
     return axios({
-        url: '/admin-server/orgInfo/findOrgInfoList',
+        url: '/orgInfo/findOrgInfoList',
         method: 'post',
         data,
         params
@@ -11,7 +11,7 @@ export function findOrgInfoList(data, params) {
 
 export function getOrgInfo(params) {
     return axios({
-        url: '/admin-server/orgInfo/getOrgInfo',
+        url: '/orgInfo/getOrgInfo',
         method: 'get',
         params
     })
@@ -19,7 +19,7 @@ export function getOrgInfo(params) {
 
 export function saveOrgInfo(data) {
     return axios({
-        url: '/admin-server/orgInfo/saveOrgInfo',
+        url: '/orgInfo/saveOrgInfo',
         method: 'post',
         data
     })
@@ -27,7 +27,7 @@ export function saveOrgInfo(data) {
 
 export function deleteOrgInfo(params) {
     return axios({
-        url: '/admin-server/orgInfo/deleteOrgInfo',
+        url: '/orgInfo/deleteOrgInfo',
         method: 'post',
         params
     })
@@ -35,7 +35,7 @@ export function deleteOrgInfo(params) {
 
 export function addPerson(data) {
     return axios({
-        url: '/admin-server/orgInfo/addPerson',
+        url: '/orgInfo/addPerson',
         method: 'post',
         data
     })
@@ -43,7 +43,7 @@ export function addPerson(data) {
 
 export function findOrgPersonInfoList(params) {
     return axios({
-        url: '/admin-server/orgInfo/findOrgPersonInfoList',
+        url: '/orgInfo/findOrgPersonInfoList',
         method: 'get',
         params
     })

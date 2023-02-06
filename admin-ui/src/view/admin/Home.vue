@@ -87,7 +87,6 @@ export default {
   created() {
     this.initUserInfo()
     this.initMenuTree()
-    this.$router.push({name: 'index'})
   },
   methods: {
     initUserInfo() { // 初始化用户信息

@@ -20,7 +20,7 @@ export function getUserInfo() {
 // 登出
 export function logout(data) {
     return axios({
-        url: '/admin-server/accountInfo/logout',
+        url: '/accountInfo/logout',
         method: 'post',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

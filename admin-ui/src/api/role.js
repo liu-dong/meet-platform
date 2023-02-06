@@ -1,8 +1,8 @@
-import axios from '@/axios/authAxios'
+import axios from '@/axios/adminAxios'
 
 export function findRoleInfoList(data, params) {
     return axios({
-        url: '/admin-server/roleInfo/findRoleInfoList',
+        url: '/roleInfo/findRoleInfoList',
         method: 'post',
         data,
         params
@@ -11,7 +11,7 @@ export function findRoleInfoList(data, params) {
 
 export function getRoleInfo(params) {
     return axios({
-        url: '/admin-server/roleInfo/getRoleInfo',
+        url: '/roleInfo/getRoleInfo',
         method: 'get',
         params
     })
@@ -19,7 +19,7 @@ export function getRoleInfo(params) {
 
 export function saveRoleInfo(data) {
     return axios({
-        url: '/admin-server/roleInfo/saveRoleInfo',
+        url: '/roleInfo/saveRoleInfo',
         method: 'post',
         data
     })
@@ -27,7 +27,7 @@ export function saveRoleInfo(data) {
 
 export function deleteRoleInfo(params) {
     return axios({
-        url: '/admin-server/roleInfo/deleteRoleInfo',
+        url: '/roleInfo/deleteRoleInfo',
         method: 'post',
         params
     })
@@ -35,7 +35,7 @@ export function deleteRoleInfo(params) {
 
 export function findRoleAccountInfoList(data) {
     return axios({
-        url: '/admin-server/roleInfo/findRoleAccountInfoList',
+        url: '/roleInfo/findRoleAccountInfoList',
         method: 'post',
         data
     })
@@ -43,7 +43,7 @@ export function findRoleAccountInfoList(data) {
 
 export function findRolePermissionInfoList(data) {
     return axios({
-        url: '/admin-server/roleInfo/findRolePermissionInfoList',
+        url: '/roleInfo/findRolePermissionInfoList',
         method: 'post',
         data
     })
@@ -52,7 +52,7 @@ export function findRolePermissionInfoList(data) {
 // 分配账号
 export function assignAccounts(data) {
     return axios({
-        url: '/admin-server/roleInfo/assignAccounts',
+        url: '/roleInfo/assignAccounts',
         method: 'post',
         data
     })
@@ -61,7 +61,7 @@ export function assignAccounts(data) {
 // 分配权限
 export function assignPermissions(data) {
     return axios({
-        url: '/admin-server/roleInfo/assignPermissions',
+        url: '/roleInfo/assignPermissions',
         method: 'post',
         data
     })
