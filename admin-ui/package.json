@@ -1,5 +1,5 @@
 {
-    "name": "billing-ui",
+    "name": "admin-ui",
     "version": "1.0.0",
     "private": true,
     "scripts": {
@@ -27,7 +27,6 @@
         "@vue/cli-service": "~4.5.0",
         "axios": "^0.21.0",
         "babel-eslint": "^10.1.0",
-        "echarts": "^5.3.3",
         "eslint": "^6.7.2",
         "eslint-plugin-vue": "^6.2.2",
         "vue-router": "^3.4.9",

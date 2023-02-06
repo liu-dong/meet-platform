@@ -1,0 +1,29 @@
+{
+  "code": 200,
+  "success": true,
+  "message": "查询成功",
+  "data": [
+    {
+      "id": "32047ea768ff4c72a784e0bc02650eaa",
+      "roleName": "普通用户",
+      "remark": "普通用户权限，注册账号默认该权限",
+      "createTime": "2020-11-03 08:40:58",
+      "updateTime": "2020-11-03T08:40:58.000+00:00"
+    },
+    {
+      "id": "55456caee85c4537b309f3ba72bc1096",
+      "roleName": "超级管理员",
+      "remark": "超级管理员，具备最大权限",
+      "createTime": "2019-09-22 06:52:02",
+      "updateTime": "2020-11-03T08:55:22.000+00:00"
+    },
+    {
+      "id": "9ab25edf8c624bd391ddeb9275bc97f8",
+      "roleName": "管理员",
+      "remark": "普通管理员权限",
+      "createTime": "2020-11-03 08:40:18",
+      "updateTime": "2020-11-03T08:40:18.000+00:00"
+    }
+  ],
+  "total": 0
+}
