@@ -1,13 +1,13 @@
 import store from '@/store'
-import { getDataDictionaryInfo } from '@/api/dataDictionary'
-import { checkToken } from '@/api/authorize'
+import {getDataDictionaryInfo} from '@/api/dataDictionary'
+import {checkToken} from '@/api/authorize'
 
 /**
  * 获取分类编码数据字典
  * @param params
  * @returns {Promise<T>}
  */
-export const getDataDic = (params) => getDataDictionaryInfo({ categoryCode: params }).then(res => {
+export const getDataDic = (params) => getDataDictionaryInfo({categoryCode: params}).then(res => {
     if (res.code === 200) {
         const data = res.data
         if (data && data.dataType === 'string') {
