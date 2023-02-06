@@ -2,15 +2,15 @@
   <div class="container">
     <div class="block top">
       <el-date-picker
-        v-model="month"
-        placeholder="选择月"
-        type="month"
-        value-format="yyyy-MM"
-        @change="findMonthStatisticsData"
+          v-model="month"
+          placeholder="选择月"
+          type="month"
+          value-format="yyyy-MM"
+          @change="findMonthStatisticsData"
       >
       </el-date-picker>
       <div class="top-right">
-        <el-tag effect="dark" type="danger">月度总支出：{{ statisticsValue.amountSum}}</el-tag>
+        <el-tag effect="dark" type="danger">月度总支出：{{ statisticsValue.amountSum }}</el-tag>
         <el-tag effect="dark" type="warning">最大一笔支出：{{ statisticsValue.amountMax }}</el-tag>
         <el-tag effect="dark" type="success">每日平均支出：{{ statisticsValue.amountAvg }}</el-tag>
       </div>
@@ -22,7 +22,8 @@
 <script>
 
 import {statisticsBilling, statisticsBillingBySpendingType} from "@/api/billingDetails";
-import dataCatalog from "@/utils/dataCatalog";
+import dataCatalogUtils from "@/util/dataCatalogUtils";
+import DataCatalog from "@/constant/dataCatalog";
 
 export default {
   name: "SpendingTypeStatisticsByMonth",
@@ -38,7 +39,7 @@ export default {
     }
   },
   async mounted() {
-    this.spendingTypeOption = await dataCatalog.getData('spending_type');
+    this.spendingTypeOption = await dataCatalogUtils.getData(DataCatalog.spendingType);
     this.findMonthStatisticsData();
   },
   methods: {
@@ -88,7 +89,7 @@ export default {
     },
     convertData(data) {
       return data.map(item => {
-        let spending = dataCatalog.getName(item.spendingType, this.spendingTypeOption)
+        let spending = dataCatalogUtils.getName(item.spendingType, this.spendingTypeOption)
         if (spending !== '暂无内容') {
           return {
             value: item.sum,

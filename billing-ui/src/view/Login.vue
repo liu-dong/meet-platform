@@ -48,7 +48,7 @@
 </template>
 <script>
 // import { getDataDic } from '@/utils/common'
-import {kaptchaUrl} from '@/utils/global'
+import {kaptchaUrl} from '@/util/global'
 import {getUserInfo, login} from "@/api/auth";
 
 export default {

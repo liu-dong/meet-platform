@@ -21,9 +21,9 @@ export const kaptchaUrl = '/getKaptcha'
 export const QRCodeUrl = '/authentication-server/authorization/getQRCode'
 
 export default {
-    billingUrl,
-    authUrl,
-    env,
-    kaptchaUrl,
-    QRCodeUrl
+  billingUrl,
+  authUrl,
+  env,
+  kaptchaUrl,
+  QRCodeUrl
 }

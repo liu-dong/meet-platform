@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from '@/axios'
-import global from '@/utils/global'
+import global from '@/util/global'
 import moment from 'moment'
 import qs from 'qs'
 import * as echarts from 'echarts'
@@ -20,7 +20,7 @@ Vue.prototype.$echarts = echarts;
 Vue.config.productionTip = false
 
 new Vue({
-    store,
-    router,
-    render: h => h(App)
+  store,
+  router,
+  render: h => h(App)
 }).$mount('#app')
