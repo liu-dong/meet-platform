@@ -1,9 +1,9 @@
-import {findDataCatalogItem} from "@/api/dataCatalog";
+import {findDataCatalogItemList} from "@/api/dataCatalog";
 
 const dataCatalog = {
 
     async getData(name) {
-        let data = await findDataCatalogItem({}).then(res => {
+        let data = await findDataCatalogItemList({}).then(res => {
             if (res['code'] === 200) {
                 return res['data']
             } else {

@@ -11,9 +11,9 @@ export function findDataCatalogList(data, params) {
 }
 
 // 查询数据字典条目
-export function findDataCatalogItem() {
+export function findDataCatalogItemList() {
     return request({
-        url: '/dataCatalog/findDataCatalogItem',
+        url: '/dataCatalog/findDataCatalogItemList',
         method: 'get'
     })
 }

@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 不拦截的路径
      */
-    private static String[] excludePathPatterns = {"/test/**", "/login", "/getKaptcha", "/checkToken", "/logout"};
+    private static String[] excludePathPatterns = {"/test/**", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径
