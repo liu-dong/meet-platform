@@ -17,6 +17,11 @@ public class WebConfig implements WebMvcConfigurer {
      */
     private static String[] excludePathPatterns = {"/test/**", "/login", "/getKaptcha", "/checkToken", "/logout"};
 
+    /**
+     * swagger路径
+     */
+    private static final String[] swaggerPath = {"/csrf", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html", "/swagger-ui.html/**"};
+
     @Bean
     public JwtTokenInterceptor jwtTokenInterceptor() {
         return new JwtTokenInterceptor();
@@ -25,6 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtTokenInterceptor())
-                .addPathPatterns("/**").excludePathPatterns(excludePathPatterns);
+                .addPathPatterns("/**")
+                .excludePathPatterns(swaggerPath)
+                .excludePathPatterns(excludePathPatterns);
     }
 }
