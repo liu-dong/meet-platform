@@ -67,8 +67,9 @@
 
 <script>
 import qs from 'qs'
-import {getCategoryName, getDataDic} from '@/util/common'
 import {deleteAccountInfo, findAccountInfoList} from '@/api/account'
+import dataCatalogUtils from "@/util/dataCatalogUtils";
+import DataCatalog from "@/constant/dataCatalog";
 
 export default {
   name: 'AccountList',
@@ -80,11 +81,11 @@ export default {
       pageSize: 10, // 每页的数据
       total: 1000,
       currentRow: {},
-      userType: []
+      userTypeOption: []
     }
   },
   async created() {
-    this.userType = await getDataDic('dic:detail:admin:user.type')
+    this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType);
     this.findAccountList()
   },
   methods: {
@@ -92,7 +93,7 @@ export default {
       return row.userStatus === 0 ? '正常' : '已注销'
     },
     formatType: function (row) {
-      return getCategoryName(this.userType, row.userType)
+      return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     findAccountList: function () {
       findAccountInfoList({}).then(res => {

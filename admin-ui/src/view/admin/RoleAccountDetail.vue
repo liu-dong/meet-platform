@@ -41,16 +41,17 @@
 </template>
 
 <script>
-import {getCategoryName, getDataDic} from '@/util/common'
 import {findAccountInfoList} from '@/api/account'
 import {assignAccounts, findRoleAccountInfoList, getRoleInfo} from '@/api/role'
+import dataCatalogUtils from "@/util/dataCatalogUtils";
+import DataCatalog from "@/constant/dataCatalog";
 
 export default {
   name: 'RoleAccountDetail',
   data() {
     return {
       ruleForm: {},
-      userType: [],
+      userTypeOption: [],
       accountList: [], // 账号信息列表
       roleAccount: { // 角色账号信息
         roleId: '',
@@ -62,7 +63,7 @@ export default {
     }
   },
   async created() {
-    this.userType = await getDataDic('dic:detail:admin:user.type')
+    this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType);
     this.roleAccount.roleId = this.$route.params.id
     if (this.roleAccount.roleId) {
       this.getRoleInfo(this.roleAccount.roleId)
@@ -91,7 +92,7 @@ export default {
       })
     },
     formatType: function (row) {
-      return getCategoryName(this.userType, row.userType)
+      return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     toAccountDetail(row) {
       const id = row.id

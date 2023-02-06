@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import {getDataDictionaryInfo, saveDataDictionary} from '@/api/dataDictionary'
+import {getDataCatalogDetail, saveDataCatalog} from '@/api/dataCatalog'
 
 export default {
   name: 'DictionaryDetail',
@@ -101,7 +101,7 @@ export default {
   created() {
     const categoryCode = this.$route.params.categoryCode
     if (categoryCode) {
-      this.getDataDictionaryInfo(categoryCode)
+      this.getDataCatalogDetail(categoryCode)
     }
   },
   methods: {
@@ -117,8 +117,8 @@ export default {
       this.form.propertyList.splice(index, 1)
       console.log('删除：', this.form.propertyList)
     },
-    getDataDictionaryInfo(categoryCode) { // 获取菜单信息
-      getDataDictionaryInfo({categoryCode: categoryCode}).then(res => {
+    getDataCatalogDetail(categoryCode) { // 获取菜单信息
+      getDataCatalogDetail({categoryCode: categoryCode}).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
@@ -130,7 +130,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.form)
-          saveDataDictionary(this.form).then(res => {
+          saveDataCatalog(this.form).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
               this.form = res.data

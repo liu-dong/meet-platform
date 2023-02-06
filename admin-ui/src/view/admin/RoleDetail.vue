@@ -28,8 +28,9 @@
 </template>
 
 <script>
-import {getCategoryName, getDataDic} from '@/util/common'
 import {findRoleAccountInfoList, getRoleInfo, saveRoleInfo} from '@/api/role'
+import dataCatalogUtils from "@/util/dataCatalogUtils";
+import DataCatalog from "@/constant/dataCatalog";
 
 export default {
   name: 'RoleDetail',
@@ -44,11 +45,11 @@ export default {
           {required: true, message: '请填写角色描述', trigger: 'blur'}
         ]
       },
-      userType: []
+      userTypeOption: []
     }
   },
   async created() {
-    this.userType = await getDataDic('dic:detail:admin:user.type')
+    this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType);
     const id = this.$route.params.id
     if (id) {
       this.getRoleInfo(id)
@@ -76,7 +77,7 @@ export default {
       })
     },
     formatType: function (row) {
-      return getCategoryName(this.userType, row.userType)
+      return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {

@@ -15,7 +15,7 @@
           <el-input v-model="keyName"/>
         </el-form-item>
         <el-form-item>
-          <el-button round type="primary" @click="findDataDictionaryList">查询</el-button>
+          <el-button round type="primary" @click="findDataCatalogList">查询</el-button>
           <el-button plain type="primary" @click="toDetail">新增</el-button>
           <el-button type="danger" icon="el-icon-delete" circle @click="deleteInfo"/>
         </el-form-item>
@@ -56,7 +56,7 @@
 
 <script>
 
-import {deleteDataDictionaryInfo, findDataDictionaryList} from '@/api/dataDictionary'
+import {deleteDataCatalog, findDataCatalogList} from '@/api/dataCatalog'
 
 export default {
   name: 'AccountList',
@@ -71,11 +71,11 @@ export default {
     }
   },
   created() {
-    this.findDataDictionaryList()
+    this.findDataCatalogList()
   },
   methods: {
-    findDataDictionaryList: function () {
-      findDataDictionaryList({}).then(res => {
+    findDataCatalogList: function () {
+      findDataCatalogList({}).then(res => {
         console.log(res)
         if (res.code === 200) {
           this.tableData = res.data
@@ -86,7 +86,7 @@ export default {
     toDetail: function (row) {
       const categoryCode = row.categoryCode
       this.$router.push({
-        name: 'dictionaryDetail',
+        name: 'dataCatalogDetail',
         params: {categoryCode: categoryCode}
       })
     },
@@ -96,11 +96,11 @@ export default {
         this.$message({message: '请选择要删除的数据', duration: 2000})
         return
       }
-      deleteDataDictionaryInfo({categoryCode: currentRow.categoryCode}).then(res => {
+      deleteDataCatalog({id: currentRow.id}).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
-          this.findDataDictionaryList()
+          this.findDataCatalogList()
         }
       })
     },

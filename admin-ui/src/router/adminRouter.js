@@ -9,8 +9,8 @@ import RoleDetail from '@/view/admin/RoleDetail'
 import RoleAccountDetail from '@/view/admin/RoleAccountDetail'
 import RolePermissionDetail from '@/view/admin/RolePermissionDetail'
 import Home from '@/view/admin/Home'
-import DictionaryList from '@/view/admin/DictionaryList'
-import DictionaryDetail from '@/view/admin/DictionaryDetail'
+import DataCatalogList from '@/view/admin/DataCatalogList'
+import DataCatalogDetail from '@/view/admin/DataCatalogDetail'
 import MenuTree from '@/view/admin/MenuTree'
 import PermissionList from '@/view/admin/PermissionList'
 import PermissionTree from '@/view/admin/PermissionTree'
@@ -33,8 +33,8 @@ export const adminRouter = [
       {path: '/roleDetail', name: 'roleDetail', component: RoleDetail},
       {path: '/roleAccountDetail', name: 'roleAccountDetail', component: RoleAccountDetail},
       {path: '/rolePermissionDetail', name: 'rolePermissionDetail', component: RolePermissionDetail},
-      {path: '/dictionaryDetail', name: 'dictionaryDetail', component: DictionaryDetail},
-      {path: '/dictionaryList', name: 'dictionaryList', component: DictionaryList},
+      {path: '/dataCatalogDetail', name: 'dataCatalogDetail', component: DataCatalogDetail},
+      {path: '/dataCatalogList', name: 'dataCatalogList', component: DataCatalogList},
       {path: '/permissionList', name: 'permissionList', component: PermissionList},
       {path: '/permissionTree', name: 'permissionTree', component: PermissionTree},
       {path: '/permissionDetail', name: 'permissionDetail', component: PermissionDetail},

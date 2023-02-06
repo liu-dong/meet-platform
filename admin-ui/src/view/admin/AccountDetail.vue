@@ -18,7 +18,7 @@
         <el-form-item label="用户类型" prop="userType">
           <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">
             <el-option
-                v-for="item in userType"
+                v-for="item in userTypeOption"
                 :key="item.propertyCode"
                 :label="item.propertyName"
                 :value="item.propertyCode-0"
@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import {getDataDic} from '@/util/common'
 import {assignRoles, findAccountRoleInfoList, getAccountInfo, saveAccountInfo} from '@/api/account'
 import {findRoleInfoList} from '@/api/role'
 
@@ -79,7 +78,7 @@ export default {
           {required: true, message: '请填写真实姓名', trigger: 'blur'}
         ]
       },
-      userType: [],
+      userTypeOption: [],
       roleList: [], // 账号信息列表
       roleAccount: { // 角色账号信息
         accountId: '',
@@ -91,7 +90,7 @@ export default {
     }
   },
   async created() {
-    this.userType = await getDataDic('dic:detail:admin:user.type')
+    this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType);
     this.roleAccount.accountId = this.$route.params.id
     if (this.roleAccount.accountId) {
       this.getAccountInfo(this.roleAccount.accountId)

@@ -1,4 +1,4 @@
-import axios from '@/axios'
+import axios from '@/axios/authAxios'
 
 export function findRoleInfoList(data, params) {
     return axios({

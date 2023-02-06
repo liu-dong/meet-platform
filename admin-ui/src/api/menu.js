@@ -1,4 +1,4 @@
-import axios from '@/axios'
+import axios from '@/axios/authAxios'
 
 export function testUserInfo(params) {
     return axios({
