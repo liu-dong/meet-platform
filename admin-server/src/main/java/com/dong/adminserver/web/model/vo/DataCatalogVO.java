@@ -3,6 +3,7 @@ package com.dong.adminserver.web.model.vo;
 import com.dong.adminserver.web.entity.DataCatalogItem;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,5 +42,6 @@ public class DataCatalogVO {
      */
     private List<DataCatalogItem> itemList;
 
+    private Date createTime;
 
 }

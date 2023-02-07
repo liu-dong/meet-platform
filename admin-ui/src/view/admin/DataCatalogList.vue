@@ -11,8 +11,11 @@
           class="demo-form-inline"
           style="padding-left: 15px;padding-bottom: 10px;"
       >
-        <el-form-item label="键名">
-          <el-input v-model="keyName"/>
+        <el-form-item label="目录名称">
+          <el-input v-model="dataCatalog.catalogCode"/>
+        </el-form-item>
+        <el-form-item label="目录编码">
+          <el-input v-model="dataCatalog.catalogName"/>
         </el-form-item>
         <el-form-item>
           <el-button round type="primary" @click="findDataCatalogList">查询</el-button>
@@ -23,19 +26,21 @@
     </div>
     <div class="bottom">
       <el-table
-          :data="tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
-          :default-sort="{prop: 'categoryCode', order: 'ascending'}"
+          :data="tableData"
+          :default-sort="{prop: 'catalogCode', order: 'ascending'}"
           :header-cell-style="{background:'#303133','text-align':'center'}"
           height="0px"
           highlight-current-row
           @current-change="getCurrentRow"
       >
-        <el-table-column align="center" label="分类名称" prop="categoryName"/>
-        <el-table-column label="分类编码" prop="categoryCode">
+        <el-table-column align="center" label="目录编码" prop="catalogCode">
           <template slot-scope="{row}">
-            <span style="color: #409EFF;" @click="toDetail(row)">{{ row.categoryCode }}</span>
+            <span style="color: #409EFF;" @click="toDetail(row)">{{ row.catalogCode }}</span>
           </template>
         </el-table-column>
+        <el-table-column align="center" label="目录名称" prop="catalogName"/>
+        <el-table-column align="center" label="状态" prop="status"/>
+        <el-table-column align="center" label="创建时间" prop="createTime"/>
       </el-table>
       <el-pagination
           :current-page="currentPage"
@@ -62,7 +67,10 @@ export default {
   name: 'AccountList',
   data() {
     return {
-      keyName: '',
+      dataCatalog: {
+        catalogCode: '',
+        catalogName: '',
+      },
       tableData: [],
       currentPage: 1, // 初始页
       pageSize: 10, // 每页的数据
@@ -74,9 +82,12 @@ export default {
     this.findDataCatalogList()
   },
   methods: {
-    findDataCatalogList: function () {
-      findDataCatalogList({}).then(res => {
-        console.log(res)
+    findDataCatalogList() {
+      let param = {
+        limit: this.pageSize,
+        page: this.currentPage
+      }
+      findDataCatalogList(this.dataCatalog, param).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.dataList
           this.total = res.data.total
@@ -84,10 +95,9 @@ export default {
       })
     },
     toDetail: function (row) {
-      const categoryCode = row.categoryCode
       this.$router.push({
         name: 'dataCatalogDetail',
-        params: {categoryCode: categoryCode}
+        params: {id: row.id}
       })
     },
     deleteInfo: function () {

@@ -36,7 +36,7 @@ public class DataCatalogController {
      */
     @ApiOperation("查询数据字典目录列表")
     @PostMapping("/findDataCatalogList")
-    public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogDTO> pager) {
+    public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager) {
         try {
             return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pager), ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {

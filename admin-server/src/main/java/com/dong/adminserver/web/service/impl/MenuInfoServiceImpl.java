@@ -47,11 +47,15 @@ public class MenuInfoServiceImpl implements MenuInfoService {
             sql.append(" AND sm.menu_status = ? ");
             params.add(dto.getMenuStatus());
         }
+        if (dto.getMenuLevel() != null) {
+            sql.append(" AND sm.menu_level = ? ");
+            params.add(dto.getMenuLevel());
+        }
         if (dto.getHasChild() != null) {
             sql.append(" AND sm.has_child = ? ");
             params.add(dto.getHasChild());
         }
-        sql.append(" ORDER BY sm.menu_level,sm.menu_order ASC ");
+        sql.append(" ORDER BY sm.menu_level,sm.menu_order,sm.menu_status ASC ");
         return commonDao.findListBySql(pager, sql, params, MenuVO.class);
     }
 

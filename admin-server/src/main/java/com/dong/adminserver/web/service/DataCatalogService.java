@@ -49,7 +49,7 @@ public interface DataCatalogService {
      * @param pager 分页参数
      * @return 数据目录列表
      */
-    Pager<DataCatalogDTO> findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogDTO> pager);
+    Pager<DataCatalogVO> findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager);
 
     /**
      * 查询数据字典条目集合

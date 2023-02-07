@@ -173,7 +173,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     }
 
     @Override
-    public Pager<DataCatalogDTO> findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogDTO> pager) {
+    public Pager<DataCatalogVO> findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,catalog_code catalogCode,catalog_name catalogName,description,`status`,create_time createTime ");
@@ -187,8 +187,12 @@ public class DataCatalogServiceImpl implements DataCatalogService {
             sql.append(" AND `catalog_name` LIKE ? ");
             params.add("%" + dto.getCatalogName() + "%");
         }
+        if (dto.getCatalogCode() != null) {
+            sql.append(" AND `catalog_code` LIKE ? ");
+            params.add("%" + dto.getCatalogCode() + "%");
+        }
         sql.append(" ORDER BY create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, DataCatalogDTO.class);
+        return commonDao.findListBySql(pager, sql, params, DataCatalogVO.class);
     }
 
     @Override

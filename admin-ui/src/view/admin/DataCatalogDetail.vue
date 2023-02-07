@@ -9,57 +9,89 @@
     </div>
     <div class="bottom">
       <el-form
-          ref="form"
-          :model="form"
+          ref="dataCatalog"
+          :model="dataCatalog"
           :rules="rules"
           class="demo-ruleForm el-form"
           label-width="100px"
           style="height: 100%"
       >
         <div class="row">
-          <el-form-item label="模块名称">
-            <el-select v-model="form.moduleName" style="width:100% !important">
-              <el-option value="admin">管理系统</el-option>
-              <el-option value="blog">博客系统</el-option>
-              <el-option value="shop">购物系统</el-option>
-              <el-option value="billing">记账系统</el-option>
-            </el-select>
+          <el-form-item label="目录名称" prop="catalogName">
+            <el-input v-model="dataCatalog.catalogName"/>
           </el-form-item>
-          <el-form-item label="数据类型">
-            <el-select v-model="form.dataType" style="width:100% !important">
-              <el-option value="string">字符串</el-option>
-              <el-option value="hash">哈希</el-option>
-              <el-option value="list">列表</el-option>
-              <el-option value="set">集合</el-option>
-              <el-option value="zset">有序集合</el-option>
+          <el-form-item label="目录编码" prop="catalogCode">
+            <el-input v-model="dataCatalog.catalogCode"/>
+          </el-form-item>
+          <el-form-item label="状态" prop="status">
+            <el-select v-model="dataCatalog.status">
+              <el-option label="禁用" :value="0"></el-option>
+              <el-option label="启用" :value="1"></el-option>
             </el-select>
           </el-form-item>
         </div>
         <div class="row">
-          <el-form-item label="分类名称" prop="categoryName">
-            <el-input v-model="form.categoryName"/>
-          </el-form-item>
-          <el-form-item label="分类编码" prop="categoryCode">
-            <el-input v-model="form.categoryCode"/>
+          <el-form-item label="描述" prop="description" style="width: 100%">
+            <el-input v-model="dataCatalog.description"/>
           </el-form-item>
         </div>
-        <div class="row" style="height: 40%">
-          <div class="property-div">
-            <el-link type="primary" @click="addRow">添加行</el-link>
-            <div v-for="(item,index) in form.propertyList" :key="index" class="property-row">
-              <el-form-item :label="'属性名称'+(index+1)" prop="propertyName">
-                <el-input v-model="item.propertyName"/>
-              </el-form-item>
-              <el-form-item :label="'属性编码'+(index+1)" prop="propertyCode">
-                <el-input v-model="item.propertyCode"/>
-              </el-form-item>
-              <el-button circle icon="el-icon-delete" type="danger" @click="deleteRow(index)"/>
-            </div>
-          </div>
+        <div class="row">
+          <el-form-item label="备注" prop="remark" style="width: 100%">
+            <el-input v-model="dataCatalog.remark"/>
+          </el-form-item>
         </div>
+
+        <el-link type="primary" @click="addRow">添加行</el-link>
+        <div class="item-div">
+          <el-table :data="dataCatalog.itemList" :header-cell-style="{background:'rgb(113 167 228)',color:'#fff'}"
+                    border style="width: 100%; cursor: pointer;" :row-style="{height: '0'}"
+                    :cell-style="{padding: '0'}">
+            <el-table-column label="序号" type="index" align="center" width="50"/>
+            <el-table-column prop="sort" align="center" width="80" :required="true" label="排序">
+              <template slot-scope="{row,$index}">
+                <span v-if="!isEdit[$index]">{{ row.sort }}</span>
+                <el-input v-else v-model="dataCatalog.itemList[$index].sort" placeholder="排序"/>
+              </template>
+            </el-table-column>
+            <el-table-column prop="itemCode" align="center" width="180" :required="true" label="条目编码">
+              <template slot-scope="{row,$index}">
+                <span v-if="!isEdit[$index]">{{ row.itemCode }}</span>
+                <el-input v-else v-model="dataCatalog.itemList[$index].itemCode" placeholder="请输入条目编码"/>
+              </template>
+            </el-table-column>
+            <el-table-column prop="itemName" align="center" width="180" :required="true" label="条目名称">
+              <template slot-scope="{row,$index}">
+                <span v-if="!isEdit[$index]">{{ row.itemName }}</span>
+                <el-input v-else v-model="dataCatalog.itemList[$index].itemName" placeholder="请输入条目名称"/>
+              </template>
+            </el-table-column>
+            <el-table-column prop="remark" align="center" label="备注">
+              <template slot-scope="{row,$index}">
+                <span v-if="! isEdit[$index]">{{ row.remark }}</span>
+                <el-input v-else v-model="dataCatalog.itemList[$index].remark"/>
+              </template>
+            </el-table-column>
+            <el-table-column prop="status" align="center" width="150" label="状态">
+              <template slot-scope="{row,$index}">
+                <el-select v-model="dataCatalog.itemList[$index].status" :aria-readonly="!isEdit[$index]">
+                  <el-option label="禁用" :value="0"></el-option>
+                  <el-option label="启用" :value="1"></el-option>
+                </el-select>
+              </template>
+            </el-table-column>
+            <el-table-column header-align="center" align="center" width="100" label="操作">
+              <template slot-scope="{row,$index}">
+                <el-button type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" style="color: red;">删除</el-button>
+                <!--                <el-button type="text" size="small" style="color: red;">取消</el-button>-->
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
         <div class="row">
           <el-form-item>
-            <el-button type="primary" @click="saveForm('form')">保存</el-button>
+            <el-button type="primary" @click="saveForm('dataCatalog')">保存</el-button>
             <el-button @click="goBack()">返回</el-button>
           </el-form-item>
         </div>
@@ -75,65 +107,81 @@ export default {
   name: 'DictionaryDetail',
   data() {
     return {
-      form: {
-        categoryName: '',
-        categoryCode: '',
-        propertyList: [
-          {
-            propertyName: '',
-            propertyCode: ''
-          }
-        ],
+      isEdit: [],
+      dataCatalog: {
+        id: '',
+        catalogName: '',
+        catalogCode: '',
+        description: '',
+        remark: '',
         status: 1,
-        dataType: 'string',
-        moduleName: ''
+        itemList: [
+          {
+            id: '',
+            catalogId: '',
+            itemCode: '',
+            itemName: '',
+            sort: 0,
+            remark: '',
+            status: '',
+            isDelete: 0,
+          }
+        ]
       },
       rules: {
-        categoryName: [
-          {required: true, message: '请填写属性名称', trigger: 'blur'}
+        catalogName: [
+          {required: true, message: '请填写目录名称', trigger: 'blur'}
         ],
-        categoryCode: [
-          {required: true, message: '请填写属性编码', trigger: 'blur'}
+        catalogCode: [
+          {required: true, message: '请填写目录编码', trigger: 'blur'}
         ]
       }
     }
   },
   created() {
-    const categoryCode = this.$route.params.categoryCode
-    if (categoryCode) {
-      this.getDataCatalogDetail(categoryCode)
+    const id = this.$route.params.id
+    if (id) {
+      this.getDataCatalogDetail(id)
     }
   },
   methods: {
     // 添加一行数据
     addRow() {
-      this.form.propertyList.push({
-        propertyName: '',
-        propertyCode: ''
-      })
+      this.dataCatalog.itemList.push(
+          {
+            id: '',
+            catalogId: '',
+            itemCode: '',
+            itemName: '',
+            sort: 0,
+            remark: '',
+            status: '',
+            isDelete: 0,
+          }
+      )
     },
     // 删除一行数据
     deleteRow(index) {
-      this.form.propertyList.splice(index, 1)
-      console.log('删除：', this.form.propertyList)
+      this.this.dataCatalog.itemList.splice(index, 1)
+      console.log('删除：', this.dataCatalog.itemList)
     },
-    getDataCatalogDetail(categoryCode) { // 获取菜单信息
-      getDataCatalogDetail({categoryCode: categoryCode}).then(res => {
+    getDataCatalogDetail(id) { // id
+      getDataCatalogDetail({id: id}).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
-          this.form = res.data
+          this.dataCatalog = res.data
         }
       })
     },
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.form)
-          saveDataCatalog(this.form).then(res => {
+          console.log(this.dataCatalog)
+          saveDataCatalog(this.dataCatalog).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
-              this.form = res.data
+              this.dataCatalog = res.data
             }
           })
         }
@@ -165,12 +213,12 @@ export default {
 
 }
 
-.property-div {
+.item-div {
   width: 100%;
-  height: 100%;
+  height: 60%;
   overflow: auto;
-  display: flex;
-  flex-direction: column;
+  /*display: flex;*/
+  /*flex-direction: column;*/
 }
 
 .property-row {

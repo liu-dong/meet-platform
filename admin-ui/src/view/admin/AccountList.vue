@@ -96,6 +96,7 @@ export default {
       return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     findAccountList: function () {
+
       findAccountInfoList({}).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.dataList
