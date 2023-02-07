@@ -1,12 +1,12 @@
 package com.dong.adminserver.web.controller;
 
-import com.dong.adminserver.web.entity.Role;
-import com.dong.adminserver.web.model.dto.RoleDTO;
-import com.dong.adminserver.web.model.vo.RoleVO;
-import com.dong.adminserver.web.service.RoleService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.securitycore.entity.Role;
+import com.dong.securitycore.model.dto.RoleDTO;
+import com.dong.securitycore.model.vo.RoleVO;
+import com.dong.securitycore.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

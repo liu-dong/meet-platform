@@ -2,7 +2,7 @@ import axios from '@/axios/adminAxios'
 
 export function findRoleInfoList(data, params) {
     return axios({
-        url: '/roleInfo/findRoleInfoList',
+        url: '/role/findRoleList',
         method: 'post',
         data,
         params
@@ -11,7 +11,7 @@ export function findRoleInfoList(data, params) {
 
 export function getRoleInfo(params) {
     return axios({
-        url: '/roleInfo/getRoleInfo',
+        url: '/role/getRoleDetail',
         method: 'get',
         params
     })
@@ -19,7 +19,7 @@ export function getRoleInfo(params) {
 
 export function saveRoleInfo(data) {
     return axios({
-        url: '/roleInfo/saveRoleInfo',
+        url: '/role/saveRole',
         method: 'post',
         data
     })
@@ -27,7 +27,7 @@ export function saveRoleInfo(data) {
 
 export function deleteRoleInfo(params) {
     return axios({
-        url: '/roleInfo/deleteRoleInfo',
+        url: '/role/deleteRole',
         method: 'post',
         params
     })
@@ -35,7 +35,7 @@ export function deleteRoleInfo(params) {
 
 export function findRoleAccountInfoList(data) {
     return axios({
-        url: '/roleInfo/findRoleAccountInfoList',
+        url: '/role/findRoleAccountList',
         method: 'post',
         data
     })
@@ -43,7 +43,7 @@ export function findRoleAccountInfoList(data) {
 
 export function findRolePermissionInfoList(data) {
     return axios({
-        url: '/roleInfo/findRolePermissionInfoList',
+        url: '/role/findRolePermissionList',
         method: 'post',
         data
     })
@@ -52,7 +52,7 @@ export function findRolePermissionInfoList(data) {
 // 分配账号
 export function assignAccounts(data) {
     return axios({
-        url: '/roleInfo/assignAccounts',
+        url: '/role/assignAccounts',
         method: 'post',
         data
     })
@@ -61,7 +61,7 @@ export function assignAccounts(data) {
 // 分配权限
 export function assignPermissions(data) {
     return axios({
-        url: '/roleInfo/assignPermissions',
+        url: '/role/assignPermissions',
         method: 'post',
         data
     })

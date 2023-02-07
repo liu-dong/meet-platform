@@ -87,8 +87,8 @@ export default {
     findPermissionList: function () { // 获取菜单信息
       findPermissionList({}).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
-          this.total = res.data.length
+          this.tableData = res.data.dataList
+          this.total = res.data.total
         }
       })
     },

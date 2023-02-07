@@ -1,12 +1,12 @@
 package com.dong.adminserver.web.controller;
 
-import com.dong.adminserver.web.entity.Permission;
-import com.dong.adminserver.web.model.dto.PermissionDTO;
-import com.dong.adminserver.web.model.vo.PermissionVO;
-import com.dong.adminserver.web.service.PermissionInfoService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.securitycore.entity.Permission;
+import com.dong.securitycore.model.dto.PermissionDTO;
+import com.dong.securitycore.model.vo.PermissionVO;
+import com.dong.securitycore.service.PermissionInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

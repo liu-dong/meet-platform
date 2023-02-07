@@ -1,13 +1,13 @@
 package com.dong.adminserver.web.controller;
 
-import com.dong.adminserver.web.entity.Org;
-import com.dong.adminserver.web.model.dto.OrgDTO;
-import com.dong.adminserver.web.model.vo.OrgVO;
-import com.dong.adminserver.web.model.vo.PersonVO;
-import com.dong.adminserver.web.service.OrgInfoService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.securitycore.entity.Org;
+import com.dong.securitycore.model.dto.OrgDTO;
+import com.dong.securitycore.model.vo.OrgVO;
+import com.dong.securitycore.model.vo.PersonVO;
+import com.dong.securitycore.service.OrgInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

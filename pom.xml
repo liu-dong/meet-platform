@@ -68,7 +68,7 @@
 <!--        <module>data-processing-server</module>-->
         <module>admin-server</module>
 <!--        <module>shardingsphere-demo</module>-->
-        <module>cache-server</module>
+<!--        <module>cache-server</module>-->
     </modules>
 
     <dependencies>

@@ -119,9 +119,9 @@ public class RoleServiceImpl implements RoleService {
         StringBuilder sql = new StringBuilder();
         List<Object> param = new ArrayList<>();
         sql.append(" SELECT a.id,a.username,a.real_name realName,a.user_type userType ");
-        sql.append(" FROM account a ");
-        sql.append(" INNER JOIN account_role ar ON ar.account_id = a.id ");
-        sql.append(" INNER JOIN role r ON r.id = ar.role_id ");
+        sql.append(" FROM sys_account a ");
+        sql.append(" INNER JOIN sys_account_role ar ON ar.account_id = a.id ");
+        sql.append(" INNER JOIN sys_role r ON r.id = ar.role_id ");
         sql.append(" WHERE r.role_code = ? ");
         if (StringUtils.isBlank(dto.getRoleCode())) {
             return ResponseResult.error("角色编码不能为空！");

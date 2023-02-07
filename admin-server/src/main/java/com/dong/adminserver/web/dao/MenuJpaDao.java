@@ -9,10 +9,10 @@ import java.util.List;
 @Repository
 public interface MenuJpaDao extends JpaRepository<Menu, String> {
 
-    List<Menu> getAllByParentId(String parentId);
+    List<Menu> getAllByParentIdAndMenuStatus(String parentId, Integer menuStatus);
 
-    List<Menu> getAllByMenuLevel(int menuLevel);
+    List<Menu> getAllByMenuLevelAndMenuStatus(Integer menuLevel, Integer menuStatus);
 
-    List<Menu> findAllByOrderByMenuOrderAsc();
+    List<Menu> findAllByMenuStatusOrderByMenuOrderAsc(Integer menuStatus);
 
 }

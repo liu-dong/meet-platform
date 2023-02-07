@@ -49,7 +49,7 @@ export function deleteMenuInfo(params) {
 export function findParentMenuInfoList(params) {
     return axios({
         url: '/menuInfo/findParentMenuInfoList',
-        method: 'post',
+        method: 'get',
         params
     })
 }

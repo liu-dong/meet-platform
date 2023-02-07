@@ -1,13 +1,13 @@
 package com.dong.adminserver.web.controller;
 
-import com.dong.adminserver.web.entity.Account;
-import com.dong.adminserver.web.entity.AccountRole;
-import com.dong.adminserver.web.model.dto.AccountDTO;
-import com.dong.adminserver.web.model.vo.AccountVO;
-import com.dong.adminserver.web.service.AccountInfoService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.securitycore.entity.Account;
+import com.dong.securitycore.entity.AccountRole;
+import com.dong.securitycore.model.dto.AccountDTO;
+import com.dong.securitycore.model.vo.AccountVO;
+import com.dong.securitycore.service.AccountInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,9 +130,9 @@ public class AccountInfoController {
      */
 
     @ApiOperation("查询角色账号信息")
-    @PostMapping("/findAccountRoleInfoList")
-    public ResponseResult findAccountRoleInfoList(@RequestBody AccountDTO dto) {
-        List<Map<String, Object>> dataList = accountInfoService.findAccountRoleInfoList(dto);
+    @GetMapping("/findAccountRoleInfoList")
+    public ResponseResult findAccountRoleInfoList(String accountId) {
+        List<Map<String, Object>> dataList = accountInfoService.findAccountRoleInfoList(accountId);
         return ResponseResult.success(dataList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

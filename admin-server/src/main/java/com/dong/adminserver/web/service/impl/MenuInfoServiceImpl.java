@@ -6,6 +6,7 @@ import com.dong.adminserver.web.entity.Menu;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
 import com.dong.adminserver.web.service.MenuInfoService;
+import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
@@ -68,7 +69,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
             result = getMenuTreeByRecursion("");
         } else if (2 == type) {
             // 根据所有菜单数据生成菜单树
-            List<Menu> menuList = menuJpaDao.findAllByOrderByMenuOrderAsc();
+            List<Menu> menuList = menuJpaDao.findAllByMenuStatusOrderByMenuOrderAsc(CommonConstant.YES);
             result = getMenuTreeByALL(menuList);
         }
         return result;
@@ -122,7 +123,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
 
     @Override
     public List<Menu> findParentMenuInfoList() {
-        return menuJpaDao.getAllByMenuLevel(MenuConstant.FIRST_LEVEL_MENU);
+        return menuJpaDao.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
     }
 
     /**
@@ -134,7 +135,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     public List<Menu> findChildrenMenuInfoList(String id) {
         List<Menu> result = new ArrayList<>();
         //判断是否有子菜单
-        List<Menu> childrenList = menuJpaDao.getAllByParentId(id);
+        List<Menu> childrenList = menuJpaDao.getAllByParentIdAndMenuStatus(id, CommonConstant.YES);
         if (!CollectionUtils.isEmpty(childrenList)) {
             result.addAll(childrenList);
             for (Menu sysMenu : childrenList) {
@@ -155,9 +156,9 @@ public class MenuInfoServiceImpl implements MenuInfoService {
         List<Map<String, Object>> menuMapList = new ArrayList<>();
         List<Menu> menuList;
         if (StringUtils.isEmpty(parentId)) {//如果父菜单主键为空说明找的是一级菜单
-            menuList = menuJpaDao.getAllByMenuLevel(1);
+            menuList = menuJpaDao.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
         } else {
-            menuList = menuJpaDao.getAllByParentId(parentId);
+            menuList = menuJpaDao.getAllByParentIdAndMenuStatus(parentId, CommonConstant.YES);
         }
         if (!CollectionUtils.isEmpty(menuList)) {
             for (Menu sysMenu : menuList) {

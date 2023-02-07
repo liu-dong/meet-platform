@@ -5,7 +5,6 @@
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>菜单管理</el-breadcrumb-item>
         <el-breadcrumb-item>菜单列表</el-breadcrumb-item>
-        <!--                <el-breadcrumb-item>活动详情</el-breadcrumb-item>-->
       </el-breadcrumb>
       <el-form
           :inline="true"
@@ -118,8 +117,8 @@ export default {
       }
       findMenuList(this.menuInfo, param).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
-          this.total = res.total
+          this.tableData = res.data.dataList
+          this.total = res.data.total
         }
       })
     },

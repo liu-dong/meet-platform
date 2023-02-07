@@ -98,8 +98,8 @@ export default {
     findAccountList: function () {
       findAccountInfoList({}).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
-          this.total = res.data.length
+          this.tableData = res.data.dataList
+          this.total = res.data.total
         }
       })
     },
