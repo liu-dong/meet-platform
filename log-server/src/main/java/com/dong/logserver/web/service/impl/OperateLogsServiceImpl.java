@@ -9,9 +9,9 @@ import com.dong.logserver.web.entity.OperateLogs;
 import com.dong.logserver.web.model.dto.OperateLogsDTO;
 import com.dong.logserver.web.model.vo.OperateLogsVO;
 import com.dong.logserver.web.service.OperateLogsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("id不能为空");
         }
-        return operateLogsJpaDao.getById(id);
+        return operateLogsJpaDao.findById(id).get();
     }
 
     /**
@@ -88,7 +88,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("id不能为空");
         }
-        operateLogsJpaDao.getById(id);
+        operateLogsJpaDao.deleteById(id);
     }
 
 }

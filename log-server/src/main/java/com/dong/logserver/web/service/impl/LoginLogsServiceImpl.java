@@ -9,9 +9,9 @@ import com.dong.logserver.web.entity.LoginLogs;
 import com.dong.logserver.web.model.dto.LoginLogsDTO;
 import com.dong.logserver.web.model.vo.LoginLogsVO;
 import com.dong.logserver.web.service.LoginLogsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -57,6 +57,6 @@ public class LoginLogsServiceImpl implements LoginLogsService {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("id不能为空");
         }
-        return loginLogsJpaDao.getById(id);
+        return loginLogsJpaDao.findById(id).get();
     }
 }
