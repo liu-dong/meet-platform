@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.NoSuchElementException;
+
 /**
  * @author liudong 2022/6/28
  */
@@ -35,5 +37,11 @@ public class GlobalExceptionHandler {
     public ResponseResult error(GlobalException e) {
         e.printStackTrace();
         return ResponseResult.error(e);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseBody
+    public ResponseResult error() {
+        return ResponseResult.error("无值存在");
     }
 }
