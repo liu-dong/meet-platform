@@ -8,6 +8,7 @@ import com.dong.commoncore.model.UserDetail;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,9 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/session")
 public class LoginSessionController {
+
+    @Value("${session.expiration.time}")
+    private Integer expirationTime;
 
     @Autowired
     LoginService loginService;
@@ -43,7 +47,7 @@ public class LoginSessionController {
         //用户信息放入session
         session.setAttribute("userDetail", userDetail);
         //设置session过期时间，以秒为单位
-        session.setMaxInactiveInterval(2 * 60);
+        session.setMaxInactiveInterval(expirationTime);
         return ResponseResult.success(userDetail.getUsername() + ResponseMessageConstant.LOGIN_SUCCESS);
     }
 

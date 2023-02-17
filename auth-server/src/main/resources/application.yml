@@ -6,5 +6,6 @@ spring:
         active: dev
         include: common,auth
 
-
-
+session:
+    expiration:
+        time: 3600
