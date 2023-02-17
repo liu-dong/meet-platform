@@ -49,6 +49,31 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    public String loginJwt(LoginDTO dto) {
+        Account account = getAccount(dto);
+        //生成token
+        return JWTUtils.getToken(account.getId(), account.getUsername(), account.getRealName());
+    }
+
+    @Override
+    public Account getAccount(LoginDTO dto) {
+        if (StringUtils.isBlank(dto.getUsername())) {
+            throw new GlobalException("用户名为空");
+        }
+        if (StringUtils.isBlank(dto.getPassword())) {
+            throw new GlobalException("密码为空");
+        }
+        Account account = accountJpaDao.getAccountByUsername(dto.getUsername());
+        if (account == null) {
+            throw new GlobalException("无此用户");
+        }
+        if (!dto.getPassword().equals(account.getPassword())) {
+            throw new GlobalException("密码错误");
+        }
+        return account;
+    }
+
+    @Override
     public ResponseResult logout(String username) {
         return ResponseResult.success("退出登录成功!");
     }
@@ -74,6 +99,24 @@ public class LoginServiceImpl implements LoginService {
             user.setUserId(String.valueOf(claims.get("userId")));
             user.setUsername(String.valueOf(claims.get("username")));
             user.setRealName(String.valueOf(claims.get("realName")));
+            //查询账号角色
+            List<Map<String, Object>> roles = accountInfoService.findAccountRoleInfoList(user.getUserId());
+            user.setRoles(roles);
+            //查询账号权限
+            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionInfoList(user.getUserId());
+            user.setPermissions(permissions);
+        }
+        return user;
+    }
+
+    @Override
+    public UserDetail getUserDetail(LoginDTO dto) {
+        UserDetail user = new UserDetail();
+        Account account = getAccount(dto);
+        if (account != null) {
+            user.setUserId(account.getId());
+            user.setUsername(account.getUsername());
+            user.setRealName(account.getRealName());
             //查询账号角色
             List<Map<String, Object>> roles = accountInfoService.findAccountRoleInfoList(user.getUserId());
             user.setRoles(roles);

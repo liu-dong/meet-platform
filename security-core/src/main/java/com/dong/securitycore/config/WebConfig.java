@@ -1,8 +1,10 @@
 package com.dong.securitycore.config;
 
-import com.dong.securitycore.interceptor.JwtTokenInterceptor;
+import com.dong.securitycore.interceptor.AuthenticationInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,9 +15,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     /**
+     * 认证模式
+     */
+    @Value("${auth.mode}")
+    private String authMode;
+
+    /**
      * 不拦截的路径
      */
-    private static String[] excludePathPatterns = {"/test/**", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
+    private static String[] excludePathPatterns = {"/test/**", "/login", "/**/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径
@@ -23,13 +31,13 @@ public class WebConfig implements WebMvcConfigurer {
     private static final String[] swaggerPath = {"/csrf", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html", "/swagger-ui.html/**"};
 
     @Bean
-    public JwtTokenInterceptor jwtTokenInterceptor() {
-        return new JwtTokenInterceptor();
+    public HandlerInterceptor authenticationInterceptor() {
+        return new AuthenticationInterceptor();
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtTokenInterceptor())
+        registry.addInterceptor(authenticationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerPath)
                 .excludePathPatterns(excludePathPatterns);
