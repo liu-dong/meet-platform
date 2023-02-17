@@ -8,22 +8,22 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author liudong 2022/6/29
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    /**
-     * 认证模式
-     */
-    @Value("${auth.mode}")
-    private String authMode;
+    @Value("${exclude.path}")
+    private String excludePath;
 
     /**
      * 不拦截的路径
      */
-    private static String[] excludePathPatterns = {"/test/**", "/login", "/**/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
+    private static List<String> excludePathPatterns = Arrays.asList("/test/**", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error");
 
     /**
      * swagger路径
@@ -40,6 +40,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerPath)
-                .excludePathPatterns(excludePathPatterns);
+                .excludePathPatterns(excludePathPatterns)
+                .excludePathPatterns(excludePath.split(","));
     }
 }

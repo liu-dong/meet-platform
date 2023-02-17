@@ -31,8 +31,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (AuthModeConstant.SESSION.equals(authMode)) {
+            System.out.println("session认证");
             return sessionAuth(request);
         } else {
+            System.out.println("jwt认证");
             return jwtAuth(request);
         }
     }
