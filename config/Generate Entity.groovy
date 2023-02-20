@@ -71,15 +71,15 @@ def generate(out, className, fields, table) {
     out.println genSerialID()
     out.println ""
     fields.each() {
-//        out.println ""
+        out.println ""
         // 输出注释
-//        if (isNotEmpty(it.commoent)) {
-//            out.println "\t/**"
-//            out.println "\t * ${it.commoent.toString()}"
-//            out.println "\t */"
-//        }
+        if (isNotEmpty(it.commoent)) {
+            out.println "\t/**"
+            out.println "\t * ${it.commoent.toString()}"
+            out.println "\t */"
+        }
         // 输出成员变量
-        out.println "\tprivate ${it.type} ${it.name};// ${it.commoent.toString()}"
+        out.println "\tprivate ${it.type} ${it.name};"
     }
 
     // 输出get/set方法
