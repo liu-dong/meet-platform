@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dong.orderservice.web.mapper.OrderMapper">
+
+  <insert id="insertOrder">
+    insert into order_form (
+    id,
+    order_code,
+    order_type,
+    order_time,
+    order_status,
+    receiver_id,
+    receiver_name,
+    receive_address,
+    shipper_id,
+    shipper_name,
+    ship_address,
+    order_price,
+    remark,
+    create_time,
+    create_user_id,
+    update_time,
+    update_user_id)
+    value (
+    #{id},
+    #{orderCode},
+    #{orderType},
+    #{orderTime},
+    #{orderStatus},
+    #{receiverId},
+    #{receiverName},
+    #{receiveAddress},
+    #{shipperId},
+    #{shipperName},
+    #{shipAddress},
+    #{orderPrice},
+    #{remark},
+    #{createTime},
+    #{createUserId},
+    #{updateTime},
+    #{updateUserId}
+    );
+  </insert>
+
+  <update id = "updateOrderById">
+    update order_form
+    set
+    order_code = #{orderCode},
+    order_type = #{orderType},
+    order_time = #{orderTime},
+    order_status = #{orderStatus},
+    update_time = #{updateTime},
+    update_user_id = #{updateUserId}
+    where id = #{id}
+  </update>
+
+  <select id="queryOrderById" resultType="com.dong.orderservice.web.entity.OrderForm">
+    select
+      id,
+      order_code,
+      order_type,
+      order_time,
+      order_status,
+      receiver_id,
+      receiver_name,
+      receive_address,
+      shipper_id,
+      shipper_name,
+      ship_address,
+      order_price,
+      remark,
+      create_time,
+      create_user_id,
+      update_time,
+      update_user_id
+    from order_form
+    where id = #{id}
+  </select>
+
+  <select id="queryOrderList" resultType="com.dong.orderservice.web.entity.OrderForm">
+    select
+       id,
+      order_code,
+      order_type,
+      order_time,
+      order_status,
+      receiver_id,
+      receiver_name,
+      receive_address,
+      shipper_id,
+      shipper_name,
+      ship_address,
+      order_price,
+      remark,
+      create_time,
+      create_user_id,
+      update_time,
+      update_user_id
+    from order_form
+    where 1=1
+    order by create_time desc
+  </select>
+
+  <delete id="deleteOrderById">
+    delete from order_form
+    where id = #{id}
+  </delete>
+
+  <select id="count" resultType="int">
+    select count(*)
+    from order_form
+  </select>
+
+  <select id="queryOrdersByArray" resultType="com.dong.orderservice.web.entity.OrderForm">
+    select
+    id,
+    order_code,
+    order_type,
+    order_time,
+    order_status,
+    receiver_id,
+    receiver_name,
+    receive_address,
+    shipper_id,
+    shipper_name,
+    ship_address,
+    order_price,
+    remark,
+    create_time,
+    create_user_id,
+    update_time,
+    update_user_id
+    from order_form
+    where 1=1
+    order by create_time desc
+  </select>
+  
+  <resultMap id="orderFormMap" type="com.dong.orderservice.web.entity.OrderForm">
+    <!--要是实体类属性和表字段一致的可以不用映射-->
+    <result column="id" property="id"/>
+    <result column="order_code" property="orderCode"/>
+    <result column="order_type" property="orderType"/>
+    <result column="order_time" property="orderTime"/>
+    <result column="order_status" property="orderStatus"/>
+  </resultMap>
+
+  <!--orderFormMap 绑定 resultMap-->
+  <select id="queryOrderBySql" resultMap="orderFormMap">
+    select
+      id,
+      order_code,
+      order_type,
+      order_time,
+      order_status,
+      receiver_id,
+      receiver_name,
+      receive_address,
+      shipper_id,
+      shipper_name,
+      ship_address,
+      order_price,
+      remark,
+      create_time,
+      create_user_id,
+      update_time,
+      update_user_id
+    from order_form
+    where 1=1
+    order by create_time desc
+    limit #{offset}, #{pageSize}
+  </select>
+
+  <select id="queryOrderByPage" resultType="com.dong.orderservice.web.entity.OrderForm">
+    select
+      id,
+      order_code,
+      order_type,
+      order_time,
+      order_status,
+      receiver_id,
+      receiver_name,
+      receive_address,
+      shipper_id,
+      shipper_name,
+      ship_address,
+      order_price,
+      remark,
+      create_time,
+      create_user_id,
+      update_time,
+      update_user_id
+    from order_form
+    where 1=1
+    order by create_time desc
+  </select>
+
+  <select id="queryOrderByRowBounds" resultType="com.dong.orderservice.web.entity.OrderForm">
+    select
+      id,
+      order_code,
+      order_type,
+      order_time,
+      order_status,
+      receiver_id,
+      receiver_name,
+      receive_address,
+      shipper_id,
+      shipper_name,
+      ship_address,
+      order_price,
+      remark,
+      create_time,
+      create_user_id,
+      update_time,
+      update_user_id
+    from order_form
+    where 1=1
+    order by create_time desc
+  </select>
+
+</mapper>
