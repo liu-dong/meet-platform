@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板代码生成</title>
+    <script src="/plugin/vue.min.js"></script>
+    <script src="/plugin/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <h1>Hello World!</h1>
+        <div>
+            <label>模板：</label>
+            <input type="checkbox" id="controller" value="controller.ftl" v-model="templateName">
+            <label for="controller">controller控制层代码</label>
+            <input type="checkbox" id="service" value="service.ftl" v-model="templateName">
+            <label for="service">service业务接口层代码</label>
+            <input type="checkbox" id="service.impl" value="service.impl.ftl" v-model="templateName">
+            <label for="service.impl">service业务实现层代码</label>
+            <input type="checkbox" id="dao" value="dao.ftl" v-model="templateName">
+            <label for="dao">dao数据访问层代码</label>
+            <input type="checkbox" id="model" value="model.ftl" v-model="templateName">
+            <label for="model">model数据模型层代码</label>
+        </div>
+        <br>
+        <div>
+            <label for="tableNames">表名：</label>
+            <input type="text" id="tableNames" v-model="tableNames" placeholder="请输入表名">
+            <label for="classAnnotations">表名注释：</label>
+            <input type="text" id="classAnnotations" v-model="classAnnotations" placeholder="请输入表名中文注释">
+            <label for="generatePath">生成路径：</label>
+            <input type="text" id="generatePath" v-model="generatePath" placeholder="请输入代码生成的路径">
+            <label for="packageName">包名：</label>
+            <input type="text" id="packageName" v-model="packageName" placeholder="请输入代码包名">
+            <button v-on:click="generate">生成</button>
+        </div>
+    </div>
+    <div>
+        <h1>提示信息：</h1>
+        <span>已选模板: {{ templateName }}</span>
+        <ul v-for="result in results">
+            生成代码的路径：
+            <li>{{ result }}</li>
+        </ul>
+    </div>
+</div>
+</body>
+<script>
+  let vm = new Vue({
+    el: '#app',
+    data() {
+      return {
+        classAnnotations: '',
+        tableNames: '',
+        generatePath: 'F:\\Work\\',
+        packageName: 'com.dong.web',
+        templateName: [],
+        results: []
+      }
+    },
+    methods: {
+      generate() {
+        let classAnnotation = this.classAnnotations.split(',');
+        let tableName = this.tableNames.split(',');
+        let data = {
+          "classAnnotation": classAnnotation,
+          "tableName": tableName,
+          "generatePath": this.generatePath,
+          "packageName": this.packageName,
+          "templateName": this.templateName
+        }
+        axios.post("http://localhost:8088/batchGenerate", data
+        ).then(res => {
+          this.results = res.data;
+        })
+      }
+    }
+  });
+</script>
+</html>

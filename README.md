@@ -12,6 +12,7 @@
     ·admin-server(8181)：后台管理服务
     ·log-server(8182)：日志管理
     ·common-server(8183)：公共模块
+    ·generator-server(8184)：公共模块
 
 #### Service(8280—8299)
 
