@@ -4,6 +4,7 @@ import com.dong.commoncore.model.ResponseResult;
 import com.dong.generator.web.model.DatabasesInfoBean;
 import com.dong.generator.web.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class DatabaseInfoController {
      * @param bean
      * @return
      */
-    @PostMapping("/findDatabasesInfoList")
+    @GetMapping("/findDatabasesList")
     public ResponseResult findDatabasesInfoList(DatabasesInfoBean bean) {
         return databaseService.findDatabasesInfoList(bean);
     }
@@ -35,7 +36,7 @@ public class DatabaseInfoController {
      * @param bean
      * @return
      */
-    @PostMapping("/findTableInfoList")
+    @GetMapping("/findTableList")
     public ResponseResult findTableInfoList(DatabasesInfoBean bean) {
         return databaseService.findTableInfoList(bean);
     }

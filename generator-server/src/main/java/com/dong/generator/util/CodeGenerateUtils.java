@@ -135,7 +135,7 @@ public class CodeGenerateUtils {
             //获取元数据
             for (int i = 0; i < dto.getTableNameList().size(); i++) {
                 //获取类属性
-                Map<String, Object> classProperty = getClassProperty("meet_chat", dto.getTableNameList().get(i), dto.getTableCommentList().get(i));
+                Map<String, Object> classProperty = getClassProperty("my_data", dto.getTableNameList().get(i), dto.getTableCommentList().get(i));
                 //获取文件名
                 String fileName = getFileName(dto.getTableNameList().get(i), template);
                 dto.setFileName(fileName);

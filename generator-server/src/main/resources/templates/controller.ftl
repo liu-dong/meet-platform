@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/${className}")
 public class ${className?cap_first}Controller {
 
-@Autowired
-private ${className?cap_first}Service ${className}Service;
+    @Autowired
+    private ${className?cap_first}Service ${className}Service;
 
     /**
     * 查询${classComment}列表
