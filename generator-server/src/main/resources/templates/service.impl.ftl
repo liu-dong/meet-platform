@@ -1,6 +1,7 @@
 package ${packageName};
 
 import org.springframework.stereotype.Service;
+import com.dong.commoncore.model.Pager;
 
 @Service
 public class ${className?cap_first}ServiceImpl implements ${className?cap_first}Service {

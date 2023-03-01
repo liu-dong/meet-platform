@@ -65,13 +65,14 @@
         <module>billing-service</module>
         <module>order-service</module>
         <module>file-server</module>
-<!--        <module>message-server</module>-->
+        <!--        <module>message-server</module>-->
         <module>log-server</module>
-<!--        <module>data-processing-server</module>-->
+        <!--        <module>data-processing-server</module>-->
         <module>admin-server</module>
         <module>generator-server</module>
-<!--        <module>shardingsphere-demo</module>-->
-<!--        <module>cache-server</module>-->
+        <module>chat-service</module>
+        <!--        <module>shardingsphere-demo</module>-->
+        <!--        <module>cache-server</module>-->
     </modules>
 
     <dependencies>

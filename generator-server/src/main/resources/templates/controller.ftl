@@ -1,5 +1,7 @@
 package ${packageName};
 
+import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

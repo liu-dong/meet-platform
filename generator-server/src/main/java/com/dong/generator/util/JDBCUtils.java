@@ -1,6 +1,7 @@
 package com.dong.generator.util;
 
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * JDBC工具类
@@ -9,21 +10,29 @@ import java.sql.*;
  */
 public class JDBCUtils {
 
-    //获得驱动
-    public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    //获得url
-    public static final String URL = "jdbc:mysql://192.168.154.127:3306/my_data";
-    //获得连接数据库的用户名  
+    /**
+     * 驱动
+     */
+    public static final String DRIVER = "com.mysql.jdbc.Driver";
+    /**
+     * 数据库连接地址
+     */
+    public static final String URL = "jdbc:mysql://192.168.154.127:3306/meet_chat";
+    /**
+     * 数据库的用户名
+     */
     public static final String USER = "root";
-    //获得连接数据库的密码  
+    /**
+     * 数据库的密码
+     */
     public static final String PASSWORD = "123456";
 
 
     public static void main(String[] args) {
-        getDataBaseInfo();  //获取数据库信息
-        getSchemasInfo(); //获取数据库所有Schema
+//        getDataBaseInfo();  //获取数据库信息
+//        getSchemasInfo(); //获取数据库所有Schema
         getTablesList();  //获取某用户下所有的表
-//        getTablesInfo();  //获取表信息
+        getTablesInfo();  //获取表信息
 //        getPrimaryKeysInfo(); //获取表主键信息
 //        getIndexInfo();  //获取表索引信息
 //        getColumnsInfo(); //获取表中列值信息
@@ -42,14 +51,15 @@ public class JDBCUtils {
         Connection conn = null;
         try {
             //连接数据库  
-	       /*
-	        * 设置可获取REMARK备注信息
-	       Properties props =new Properties();
-	       props.put("remarksReporting","true");
-	       props.put("user", USER);
-	       props.put("password", PASS);
-	       conn =DriverManager.getConnection(URL,props);*/
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            // 设置可获取REMARK备注信息
+            Properties props = new Properties();
+            props.put("user", USER);
+            props.put("password", PASSWORD);
+            props.put("remarks", "true");
+            props.put("useInformationSchema", "true");
+            conn = DriverManager.getConnection(URL, props);
+
+//            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             conn.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -183,10 +193,6 @@ public class JDBCUtils {
         Connection conn = getConnection();
         ResultSet rs = null;
         try {
-            /**
-             * 设置连接属性,使得可获取到表的REMARK(备注)
-             */
-//            ((OracleConnection) conn).setRemarksReporting(true);
             DatabaseMetaData metaData = conn.getMetaData();
             /**
              * 获取给定类别中使用的表的描述。
@@ -196,7 +202,7 @@ public class JDBCUtils {
              * tableNamePattern - 表名称;可包含单字符通配符("_"),或多字符通配符("%");
              * types - 表类型数组; "TABLE"、"VIEW"、"SYSTEM TABLE"、"GLOBAL TEMPORARY"、"LOCAL TEMPORARY"、"ALIAS" 和 "SYNONYM";null表示包含所有的表类型;可包含单字符通配符("_"),或多字符通配符("%"); 
              */
-            rs = metaData.getTables(null, null, "CUST_INTER_TF_SERVICE_REQ", new String[]{"TABLE", "VIEW"});
+            rs = metaData.getTables(null, null, "group_chat", new String[]{"TABLE", "VIEW"});
             while (rs.next()) {
                 String tableCat = rs.getString("TABLE_CAT");  //表类别(可为null) 
                 String tableSchemaName = rs.getString("TABLE_SCHEM");//表模式（可能为空）,在oracle中获取的是命名空间,其它数据库未知     
@@ -229,7 +235,7 @@ public class JDBCUtils {
              * schema - 表所在的模式名称(oracle中对应于Tablespace);""表示获取没有模式的列,null标识获取所有模式的列; 可包含单字符通配符("_"),或多字符通配符("%");
              * table - 表名称;可包含单字符通配符("_"),或多字符通配符("%");
              */
-            rs = metaData.getPrimaryKeys(null, null, "CUST_INTER_TF_SERVICE_REQ");
+            rs = metaData.getPrimaryKeys(null, null, "group_chat");
 
             while (rs.next()) {
                 String tableCat = rs.getString("TABLE_CAT");  //表类别(可为null) 
@@ -323,7 +329,7 @@ public class JDBCUtils {
              * tableNamePattern - 表名称;可包含单字符通配符("_"),或多字符通配符("%");
              * columnNamePattern - 列名称; ""表示获取列名为""的列(当然获取不到);null表示获取所有的列;可包含单字符通配符("_"),或多字符通配符("%");
              */
-            rs = metaData.getColumns(null, null, "CUST_INTER_TF_SERVICE_REQ", null);
+            rs = metaData.getColumns(null, null, "group_chat", null);
 
             while (rs.next()) {
                 String tableCat = rs.getString("TABLE_CAT");  //表类别（可能为空）                  

@@ -1,5 +1,7 @@
 package ${packageName};
 
+import com.dong.commoncore.model.Pager;
+
 public interface ${className?cap_first}Service {
 
 /**
@@ -10,7 +12,7 @@ public interface ${className?cap_first}Service {
 * @return
 */
 Pager
-<${className?cap_first}DTO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager);
+<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager);
 
     /**
     * 保存${classAnnotation}
@@ -35,4 +37,5 @@ Pager
     * @return
     */
     void delete${className?cap_first}(String id);
+
     }

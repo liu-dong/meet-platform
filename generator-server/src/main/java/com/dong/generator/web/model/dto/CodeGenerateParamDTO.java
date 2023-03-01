@@ -1,4 +1,4 @@
-package com.dong.generator.web.model;
+package com.dong.generator.web.model.dto;
 
 import lombok.Data;
 
@@ -7,10 +7,11 @@ import java.util.List;
 /**
  * 代码生成参数信息
  *
- * @author LD
+ * @author liudong
+ * @date 2023/3/1 10:39
  */
 @Data
-public class GenerateParamInfoBean {
+public class CodeGenerateParamDTO {
 
     /**
      * 包名
@@ -20,22 +21,22 @@ public class GenerateParamInfoBean {
     /**
      * 表名
      */
-    private List<String> tableName;
+    private List<String> tableNameList;
 
     /**
      * 表注释
      */
-    private List<String> classAnnotation;
+    private List<String> tableComment;
 
     /**
      * 模板名称
      */
-    private List<String> templateName;
+    private List<String> templateNameList;
 
     /**
      * 模板名称
      */
-    private String template;
+    private String templateName;
 
     /**
      * 生成路径
@@ -43,8 +44,7 @@ public class GenerateParamInfoBean {
     private String generatePath;
 
     /**
-     * 文件名
+     * 类名
      */
-    private String fileName;
-
+    private String className;
 }

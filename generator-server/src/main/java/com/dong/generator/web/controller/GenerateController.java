@@ -31,6 +31,7 @@ public class GenerateController {
     public ResponseResult batchGenerate(@RequestBody GenerateParamInfoBean bean) {
         List<String> list = new ArrayList<>();
         try {
+
             list = CodeGenerateUtils.batchGenerate(bean);
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,7 +26,7 @@ public class CodeGenerateUtils {
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("数据库连接失败！");
@@ -54,7 +54,8 @@ public class CodeGenerateUtils {
     private static void openConnection() {
         try {
             if (conn == null || conn.isClosed()) {
-                conn = DriverManager.getConnection(JDBCUtils.URL, JDBCUtils.USER, JDBCUtils.PASSWORD);
+//                conn = DriverManager.getConnection(JDBCUtils.URL, JDBCUtils.USER, JDBCUtils.PASSWORD);
+                conn = JDBCUtils.getConnection();
                 meta = conn.getMetaData();
             }
         } catch (SQLException e) {
@@ -73,7 +74,7 @@ public class CodeGenerateUtils {
      */
     public static String generate(Map<String, Object> map, GenerateParamInfoBean bean) throws IOException, TemplateException {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_22);
-        configuration.setDirectoryForTemplateLoading(new File("generator-service\\src\\main\\resources\\templates"));
+        configuration.setDirectoryForTemplateLoading(new File("generator-server\\src\\main\\resources\\templates"));
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         Template template = configuration.getTemplate(bean.getTemplate());
@@ -105,6 +106,7 @@ public class CodeGenerateUtils {
      * @throws Exception 异常
      */
     public static List<String> batchGenerate(GenerateParamInfoBean bean) throws Exception {
+        CodeGenerateUtils.openConnection();
         List<String> result = new ArrayList<>();
         if (bean.getTemplateName() == null) {
             return result;
@@ -129,15 +131,13 @@ public class CodeGenerateUtils {
     /**
      * 获取数据表的列信息
      *
-     * @param tableName 表名
+     * @param databaseName 库名
+     * @param tableName    表名
      * @return 返回字段信息，列信息数组的集合。List中每个元素是一个数组，代表一个列的信息；
      * 每个数组的元素1是列名，元素2是注释，元素3是类型
      */
-    public static List<String[]> getTableColumnsInfo(String tableName) throws Exception {
-        if (meta == null) {
-            openConnection();
-        }
-        ResultSet rs = meta.getColumns("my_data", "%", tableName, "%");
+    public static List<String[]> getTableColumnsInfo(String databaseName, String tableName) throws SQLException {
+        ResultSet rs = meta.getColumns(databaseName, "%", tableName, "%");
         List<String[]> columnInfoList = new ArrayList<>();
         while (rs.next()) {
             String[] colInfo = new String[3];
@@ -161,7 +161,7 @@ public class CodeGenerateUtils {
         result.put("className", toCamel(tableName));
         result.put("classAnnotation", classAnnotation);
         result.put("author", System.getenv().get("USERNAME"));//获取电脑名称为创建人
-        List<String[]> tableColumnsInfo = getTableColumnsInfo(tableName);
+        List<String[]> tableColumnsInfo = getTableColumnsInfo("meet_chat", tableName);
         List<AttributeBean> attributeList = new ArrayList<>();
         for (String[] strings : tableColumnsInfo) {
             attributeList.add(new AttributeBean(toCamel(strings[0]), convertDataType(strings[1]), strings[2]));
