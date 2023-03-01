@@ -4,15 +4,14 @@ import com.dong.commoncore.model.Pager;
 
 public interface ${className?cap_first}Service {
 
-/**
-* 查询${classAnnotation}列表
-*
-* @param dto
-* @param pager
-* @return
-*/
-Pager
-<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager);
+    /**
+    * 查询${classAnnotation}列表
+    *
+    * @param dto
+    * @param pager
+    * @return
+    */
+    Pager<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager);
 
     /**
     * 保存${classAnnotation}
@@ -38,4 +37,4 @@ Pager
     */
     void delete${className?cap_first}(String id);
 
-    }
+}
