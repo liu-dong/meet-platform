@@ -3,6 +3,7 @@ package com.dong.generator.web.model.dto;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成参数信息
@@ -19,6 +20,11 @@ public class CodeGenerateParamDTO {
     private String packageName;
 
     /**
+     * 表名—表注释
+     */
+    private Map<String,String> tableMap;
+
+    /**
      * 表名
      */
     private List<String> tableNameList;
@@ -26,7 +32,7 @@ public class CodeGenerateParamDTO {
     /**
      * 表注释
      */
-    private List<String> tableComment;
+    private List<String> tableCommentList;
 
     /**
      * 模板名称

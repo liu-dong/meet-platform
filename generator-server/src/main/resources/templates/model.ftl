@@ -11,7 +11,7 @@ import java.util.Date;
 public class ${className?cap_first}DTO {
 <#list propertyList as property>
     /**
-    * ${property.remark}
+    * ${property.comment}
     */
     private ${property.typeName} ${property.columnName};
 </#list>

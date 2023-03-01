@@ -31,7 +31,6 @@ public class GenerateController {
     public ResponseResult batchGenerate(@RequestBody CodeGenerateParamDTO dto) {
         List<String> list = new ArrayList<>();
         try {
-
             list = CodeGenerateUtils.batchGenerate(dto);
         } catch (Exception e) {
             e.printStackTrace();

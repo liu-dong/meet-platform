@@ -8,6 +8,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.util.CollectionUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -122,7 +123,7 @@ public class CodeGenerateUtils {
     public static List<String> batchGenerate(CodeGenerateParamDTO dto) throws Exception {
         CodeGenerateUtils.openConnection();
         List<String> result = new ArrayList<>();
-        if (dto.getTemplateName() == null) {
+        if (CollectionUtils.isEmpty(dto.getTemplateNameList())) {
             return result;
         }
         String packageName = dto.getPackageName();
@@ -134,7 +135,7 @@ public class CodeGenerateUtils {
             //获取元数据
             for (int i = 0; i < dto.getTableNameList().size(); i++) {
                 //获取类属性
-                Map<String, Object> classProperty = getClassProperty("meet_chat", dto.getTableNameList().get(i), dto.getTableComment().get(i));
+                Map<String, Object> classProperty = getClassProperty("meet_chat", dto.getTableNameList().get(i), dto.getTableCommentList().get(i));
                 //获取文件名
                 String fileName = getFileName(dto.getTableNameList().get(i), template);
                 dto.setFileName(fileName);
@@ -201,7 +202,7 @@ public class CodeGenerateUtils {
      * @throws Exception 异常
      */
     public static Map<String, Object> getClassProperty(String databaseName, String tableName, String classComment) throws Exception {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(4);
         result.put("className", toCamel(tableName));
         result.put("classComment", classComment);
         //获取电脑名称为创建人

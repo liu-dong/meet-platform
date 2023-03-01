@@ -17,7 +17,7 @@ public class JDBCUtils {
     /**
      * 数据库连接地址
      */
-    public static final String URL = "jdbc:mysql://192.168.154.127:3306/meet_chat";
+    public static final String URL = "jdbc:mysql://192.168.154.127:3306";
     /**
      * 数据库的用户名
      */
@@ -172,7 +172,7 @@ public class JDBCUtils {
 //            ((MySQLDialect) conn).setRemarksReporting(true);
             DatabaseMetaData metaData = conn.getMetaData();
             String[] types = {"TABLE"};
-            rs = metaData.getTables(null, null, "%", types);
+            rs = metaData.getTables("meet_chat", null, "%", types);
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");  //表名  
                 String tableType = rs.getString("TABLE_TYPE");  //表类型  
@@ -202,7 +202,7 @@ public class JDBCUtils {
              * tableNamePattern - 表名称;可包含单字符通配符("_"),或多字符通配符("%");
              * types - 表类型数组; "TABLE"、"VIEW"、"SYSTEM TABLE"、"GLOBAL TEMPORARY"、"LOCAL TEMPORARY"、"ALIAS" 和 "SYNONYM";null表示包含所有的表类型;可包含单字符通配符("_"),或多字符通配符("%"); 
              */
-            rs = metaData.getTables(null, null, "group_chat", new String[]{"TABLE", "VIEW"});
+            rs = metaData.getTables("meet_chat", null, "group_chat", new String[]{"TABLE", "VIEW"});
             while (rs.next()) {
                 String tableCat = rs.getString("TABLE_CAT");  //表类别(可为null) 
                 String tableSchemaName = rs.getString("TABLE_SCHEM");//表模式（可能为空）,在oracle中获取的是命名空间,其它数据库未知     
