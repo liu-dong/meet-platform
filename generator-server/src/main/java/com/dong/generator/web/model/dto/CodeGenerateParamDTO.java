@@ -44,7 +44,7 @@ public class CodeGenerateParamDTO {
     private String generatePath;
 
     /**
-     * 类名
+     * 类名/文件名
      */
-    private String className;
+    private String fileName;
 }

@@ -2,8 +2,6 @@ package ${packageName};
 
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
-*  ${classAnnotation}
+*  ${classComment}
 *
 *  @author ${author}
 */
-@Api(tags = "${classAnnotation}管理模块")
 @RestController
 @RequestMapping("/${className}")
 public class ${className?cap_first}Controller {
@@ -24,13 +21,12 @@ public class ${className?cap_first}Controller {
 private ${className?cap_first}Service ${className}Service;
 
     /**
-    * 查询${classAnnotation}列表
+    * 查询${classComment}列表
     *
     * @param dto
     * @param pager
     * @return
     */
-    @ApiOperation("查询${classAnnotation}列表")
     @PostMapping("/find${className?cap_first}List")
     public ResponseResult find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager) {
     Pager<${className?cap_first}DTO> dtoList = ${className}Service.find${className?cap_first}List(dto, pager);
@@ -38,12 +34,11 @@ private ${className?cap_first}Service ${className}Service;
     }
 
     /**
-    * 保存${classAnnotation}
+    * 保存${classComment}
     *
     * @param dto
     * @return
     */
-    @ApiOperation("保存${classAnnotation}")
     @PostMapping("/save${className?cap_first}")
     public ResponseResult save${className?cap_first}(${className?cap_first}DTO dto) {
         ${className?cap_first}DTO result = ${className}Service.save${className?cap_first}(dto);
@@ -51,12 +46,11 @@ private ${className?cap_first}Service ${className}Service;
     }
 
     /**
-    * 查询${classAnnotation}
+    * 查询${classComment}
     *
     * @param id
     * @return
     */
-    @ApiOperation("查询${classAnnotation}")
     @GetMapping("/get${className?cap_first}")
     public ResponseResult get${className?cap_first}(String id) {
         ${className?cap_first}DTO result = ${className}Service.get${className?cap_first}(id);
@@ -64,12 +58,11 @@ private ${className?cap_first}Service ${className}Service;
     }
 
     /**
-    * 删除${classAnnotation}
+    * 删除${classComment}
     *
     * @param id
     * @return
     */
-    @ApiOperation("删除${classAnnotation}")
     @PostMapping("/delete${className?cap_first}")
     public ResponseResult delete${className?cap_first}(String id) {
         ${className}Service.delete${className?cap_first}(id);

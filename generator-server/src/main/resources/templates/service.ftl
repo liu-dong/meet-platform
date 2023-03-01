@@ -5,7 +5,7 @@ import com.dong.commoncore.model.Pager;
 public interface ${className?cap_first}Service {
 
     /**
-    * 查询${classAnnotation}列表
+    * 查询${classComment}列表
     *
     * @param dto
     * @param pager
@@ -14,7 +14,7 @@ public interface ${className?cap_first}Service {
     Pager<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager);
 
     /**
-    * 保存${classAnnotation}
+    * 保存${classComment}
     *
     * @param dto
     * @return
@@ -22,7 +22,7 @@ public interface ${className?cap_first}Service {
     ${className?cap_first}DTO save${className?cap_first}(${className?cap_first}DTO dto);
 
     /**
-    * 查询${classAnnotation}详情
+    * 查询${classComment}详情
     *
     * @param id
     * @return
@@ -30,7 +30,7 @@ public interface ${className?cap_first}Service {
     ${className?cap_first}DTO get${className?cap_first}(String id);
 
     /**
-    * 删除${classAnnotation}
+    * 删除${classComment}
     *
     * @param id
     * @return

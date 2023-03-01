@@ -2,7 +2,7 @@ package com.dong.generator.web.controller;
 
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.generator.util.CodeGenerateUtils;
-import com.dong.generator.web.model.GenerateParamInfoBean;
+import com.dong.generator.web.model.dto.CodeGenerateParamDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,11 +28,11 @@ public class GenerateController {
 
     @PostMapping("/batchGenerate")
     @ResponseBody
-    public ResponseResult batchGenerate(@RequestBody GenerateParamInfoBean bean) {
+    public ResponseResult batchGenerate(@RequestBody CodeGenerateParamDTO dto) {
         List<String> list = new ArrayList<>();
         try {
 
-            list = CodeGenerateUtils.batchGenerate(bean);
+            list = CodeGenerateUtils.batchGenerate(dto);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -7,7 +7,7 @@ import com.dong.commoncore.model.Pager;
 public class ${className?cap_first}ServiceImpl implements ${className?cap_first}Service {
 
     /**
-    * 查询${classAnnotation}列表
+    * 查询${classComment}列表
     *
     * @param dto
     * @param pager
@@ -19,7 +19,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     }
 
     /**
-    * 保存${classAnnotation}
+    * 保存${classComment}
     *
     * @param dto
     * @return
@@ -30,7 +30,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     }
 
     /**
-    * 查询${classAnnotation}详情
+    * 查询${classComment}详情
     *
     * @param id
     * @return
@@ -41,7 +41,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     }
 
     /**
-    * 删除${classAnnotation}
+    * 删除${classComment}
     *
     * @param id
     * @return

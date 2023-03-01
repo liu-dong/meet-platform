@@ -3,7 +3,7 @@ package ${packageName};
 import lombok.Data;
 import java.util.Date;
 /**
-*  ${classAnnotation}
+*  ${classComment}
 *
 *  @author ${author}
 */
