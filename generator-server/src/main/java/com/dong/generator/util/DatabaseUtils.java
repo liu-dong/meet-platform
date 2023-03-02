@@ -142,6 +142,29 @@ public class DatabaseUtils {
     }
 
     /**
+     * 获取数据表的列信息
+     *
+     * @param databaseName 库名
+     * @param tableName    表名
+     * @return 返回字段信息，列信息数组的集合。List中每个元素是一个数组，代表一个列的信息；
+     * 每个数组的元素1是列名，元素2是注释，元素3是类型
+     */
+    public static List<String[]> getTableColumnList(String databaseName, String tableName) throws SQLException {
+        Connection conn = JDBCUtils.getConnection();
+        DatabaseMetaData metaData = conn.getMetaData();
+        ResultSet rs = metaData.getColumns(databaseName, "%", tableName, "%");
+        List<String[]> columnInfoList = new ArrayList<>();
+        while (rs.next()) {
+            String[] colInfo = new String[3];
+            colInfo[0] = rs.getString("COLUMN_NAME");
+            colInfo[1] = rs.getString("TYPE_NAME");
+            colInfo[2] = rs.getString("REMARKS");
+            columnInfoList.add(colInfo);
+        }
+        return columnInfoList;
+    }
+
+    /**
      * 获取某表信息
      */
     public static void getTablesInfo() {

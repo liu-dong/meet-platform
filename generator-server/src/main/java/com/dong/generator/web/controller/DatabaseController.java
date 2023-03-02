@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -94,18 +95,23 @@ public class DatabaseController {
 
 
     /**
-     * 查询指定数据库所有数据表
+     * 查询指定表字段
      *
      * @param dto
      * @return
      */
-    @GetMapping("/findTableColumeList")
-    public ResponseResult findTableColumeList(DatabaseDTO dto) {
-        if (StringUtils.isBlank(dto.getDatabaseName())) {
-            throw new GlobalException("数据库名不能为空");
+    @GetMapping("/getTableColumnList")
+    public ResponseResult getTableColumnList(DatabaseDTO dto) {
+        if (StringUtils.isBlank(dto.getDatabaseName()) && StringUtils.isBlank(dto.getTableName())) {
+            throw new GlobalException("数据库和表名不能为空");
         }
-        List<Map<String, String>> tableList = DatabaseUtils.getTableList(dto.getDatabaseName());
-        return ResponseResult.success(tableList, ResponseMessageConstant.QUERY_SUCCESS);
+        List<String[]> columnList = null;
+        try {
+            columnList = DatabaseUtils.getTableColumnList(dto.getDatabaseName(),dto.getTableName());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseResult.success(columnList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
