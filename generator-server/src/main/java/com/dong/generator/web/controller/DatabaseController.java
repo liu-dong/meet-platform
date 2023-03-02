@@ -105,7 +105,7 @@ public class DatabaseController {
         if (StringUtils.isBlank(dto.getDatabaseName()) && StringUtils.isBlank(dto.getTableName())) {
             throw new GlobalException("数据库和表名不能为空");
         }
-        List<String[]> columnList = null;
+        List<String[]> columnList;
         try {
             columnList = DatabaseUtils.getTableColumnList(dto.getDatabaseName(),dto.getTableName());
         } catch (SQLException e) {

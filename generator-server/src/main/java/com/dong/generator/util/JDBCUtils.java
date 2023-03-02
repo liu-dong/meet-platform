@@ -28,11 +28,6 @@ public class JDBCUtils {
     private static Connection conn;
 
     /**
-     * 数据库元数据
-     */
-    private static DatabaseMetaData metaData;
-
-    /**
      * 驱动
      */
     public static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -104,7 +99,6 @@ public class JDBCUtils {
         if (conn == null) {
             try {
                 conn = dataSource.getConnection();
-                metaData = conn.getMetaData();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -126,18 +120,6 @@ public class JDBCUtils {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    public static DatabaseMetaData getMetaData() {
-
-        if (metaData == null){
-            try {
-                metaData = conn.getMetaData();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return metaData;
     }
 
     /**

@@ -16,10 +16,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 代码生成主要方法
@@ -132,18 +129,18 @@ public class CodeGenerateUtils {
             //生成包名
             dto.setPackageName(getPackageName(packageName, template));
             dto.setTemplateName(template);
-            //获取元数据
-            for (int i = 0; i < dto.getTableNameList().size(); i++) {
+            Set<Map.Entry<String, String>> entrySet = dto.getTableNameComment().entrySet();
+            for (Map.Entry<String, String> entry : entrySet) {
                 //获取类属性
-                Map<String, Object> classProperty = getClassProperty("my_data", dto.getTableNameList().get(i), dto.getTableCommentList().get(i));
+                Map<String, Object> classProperty = getClassProperty(dto.getDatabaseName(), entry.getKey(), entry.getValue());
                 //获取文件名
-                String fileName = getFileName(dto.getTableNameList().get(i), template);
+                String fileName = getFileName(entry.getKey(), template);
                 dto.setFileName(fileName);
                 //生成代码文件
                 result.add(generate(classProperty, dto));
             }
+
         }
-        conn.close();
         return result;
     }
 
@@ -174,27 +171,6 @@ public class CodeGenerateUtils {
     }
 
     /**
-     * 获取数据表的列信息
-     *
-     * @param databaseName 库名
-     * @param tableName    表名
-     * @return 返回字段信息，列信息数组的集合。List中每个元素是一个数组，代表一个列的信息；
-     * 每个数组的元素1是列名，元素2是注释，元素3是类型
-     */
-    public static List<String[]> getTableColumnsInfo(String databaseName, String tableName) throws SQLException {
-        ResultSet rs = meta.getColumns(databaseName, "%", tableName, "%");
-        List<String[]> columnInfoList = new ArrayList<>();
-        while (rs.next()) {
-            String[] colInfo = new String[3];
-            colInfo[0] = rs.getString("COLUMN_NAME");
-            colInfo[1] = rs.getString("TYPE_NAME");
-            colInfo[2] = rs.getString("REMARKS");
-            columnInfoList.add(colInfo);
-        }
-        return columnInfoList;
-    }
-
-    /**
      * 获取类属性（类名、类注释、作者、类属性）
      *
      * @param tableName 表名
@@ -207,7 +183,7 @@ public class CodeGenerateUtils {
         result.put("classComment", classComment);
         //获取电脑名称为创建人
         result.put("author", System.getenv().get("USERNAME"));
-        List<String[]> tableColumnsInfo = getTableColumnsInfo(databaseName, tableName);
+        List<String[]> tableColumnsInfo = DatabaseUtils.getTableColumnList(databaseName, tableName);
         List<AttributeDTO> attributeList = new ArrayList<>();
         for (String[] strings : tableColumnsInfo) {
             attributeList.add(new AttributeDTO(toCamel(strings[0]), convertDataType(strings[1]), strings[2]));

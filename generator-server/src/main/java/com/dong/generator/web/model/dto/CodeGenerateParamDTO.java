@@ -15,24 +15,19 @@ import java.util.Map;
 public class CodeGenerateParamDTO {
 
     /**
+     * 数据库名称
+     */
+    private String databaseName;
+
+    /**
      * 包名
      */
     private String packageName;
 
     /**
-     * 表名—表注释
+     * K-V -> 表名—表注释
      */
-    private Map<String,String> tableMap;
-
-    /**
-     * 表名
-     */
-    private List<String> tableNameList;
-
-    /**
-     * 表注释
-     */
-    private List<String> tableCommentList;
+    private Map<String,String> tableNameComment;
 
     /**
      * 模板名称
