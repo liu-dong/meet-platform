@@ -26,4 +26,9 @@ public class SymbolConstant {
      * 下划线
      */
     public static final String UNDERLINE = "_";
+
+    /**
+     * 冒号
+     */
+    public static final String COLON = ":";
 }
