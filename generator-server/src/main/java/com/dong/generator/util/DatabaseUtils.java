@@ -17,10 +17,10 @@ public class DatabaseUtils {
 
 
     public static void main(String[] args) {
-        getDataBaseInfo();  //获取数据库信息
-        getSchemasInfo(); //获取数据库所有Schema
-        getCatalogList(); //获取数据库所有Catalog
-        getTableList("my_data");  //获取某用户下所有的表
+//        getDataBaseInfo();  //获取数据库信息
+//        getSchemasInfo(); //获取数据库所有Schema
+//        getCatalogList(); //获取数据库所有Catalog
+//        getTableList("my_data");  //获取某用户下所有的表
         getTablesInfo();  //获取表信息
 //        getPrimaryKeysInfo(); //获取表主键信息
 //        getIndexInfo();  //获取表索引信息
@@ -91,9 +91,10 @@ public class DatabaseUtils {
      */
     public static List<String> getCatalogList() {
         List<String> result = new ArrayList<>();
+        Connection conn = JDBCUtils.getConnection();
         ResultSet rs = null;
         try {
-            DatabaseMetaData metaData = JDBCUtils.getMetaData();
+            DatabaseMetaData metaData = conn.getMetaData();
             rs = metaData.getCatalogs();
             while (rs.next()) {
                 String catalog = rs.getString(1);
@@ -113,10 +114,10 @@ public class DatabaseUtils {
      */
     public static List<Map<String, String>> getTableList(String databaseName) {
         List<Map<String, String>> result = new ArrayList<>();
-//        Connection conn = JDBCUtils.getConnection();
+        Connection conn = JDBCUtils.getConnection();
         ResultSet rs = null;
         try {
-            DatabaseMetaData metaData = JDBCUtils.getMetaData();
+            DatabaseMetaData metaData = conn.getMetaData();
             String[] types = {"TABLE", "VIEW"};
             rs = metaData.getTables(databaseName, null, "%", types);
             while (rs.next()) {
@@ -144,8 +145,8 @@ public class DatabaseUtils {
      * 获取某表信息
      */
     public static void getTablesInfo() {
-        Connection conn = JDBCUtils.getConnection();
         ResultSet rs = null;
+        Connection conn = JDBCUtils.getConnection();
         try {
             DatabaseMetaData metaData = conn.getMetaData();
             /**
@@ -169,7 +170,7 @@ public class DatabaseUtils {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            JDBCUtils.close(rs, conn);
+            JDBCUtils.close(rs);
         }
     }
 

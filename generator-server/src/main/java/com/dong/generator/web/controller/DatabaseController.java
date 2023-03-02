@@ -35,24 +35,27 @@ public class DatabaseController {
     private String password;
 
     /**
-     * 查询所有数据库表
+     * 查询所有数据库
      *
      * @param dto
      * @return
      */
     @GetMapping("/findDatabaseList")
     public ResponseResult findDatabaseList(DatabaseDTO dto) {
-        if(StringUtils.isNotBlank(dto.getAddress()) && StringUtils.isNotBlank(dto.getPort())){
-            url = getUrl(dto);
+        String databaseUrl = url;
+        String databaseUsername = username;
+        String databasePassword = password;
+        if (StringUtils.isNotBlank(dto.getAddress()) && StringUtils.isNotBlank(dto.getPort())) {
+            databaseUrl = getUrl(dto);
         }
-        if(StringUtils.isNotBlank(dto.getUsername())){
-            username = dto.getUsername();
+        if (StringUtils.isNotBlank(dto.getUsername())) {
+            databaseUsername = dto.getUsername();
         }
-        if(StringUtils.isNotBlank(dto.getPassword())){
-            password = dto.getPassword();
+        if (StringUtils.isNotBlank(dto.getPassword())) {
+            databasePassword = dto.getPassword();
         }
-        JDBCUtils.close();
-        JDBCUtils.createConnection(url,username,password);
+        JDBCUtils.createConnection(databaseUrl, databaseUsername, databasePassword);
+        JDBCUtils.openConnection();
         List<String> databaseList = DatabaseUtils.getCatalogList();
         return ResponseResult.success(databaseList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -75,17 +78,44 @@ public class DatabaseController {
     }
 
     /**
-     * 查询数据表列表
+     * 查询指定数据库所有数据表
      *
      * @param dto
      * @return
      */
     @GetMapping("/findTableList")
     public ResponseResult findTableList(DatabaseDTO dto) {
-        if (StringUtils.isBlank(dto.getDatabaseName())){
+        if (StringUtils.isBlank(dto.getDatabaseName())) {
             throw new GlobalException("数据库名不能为空");
         }
         List<Map<String, String>> tableList = DatabaseUtils.getTableList(dto.getDatabaseName());
         return ResponseResult.success(tableList, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+
+    /**
+     * 查询指定数据库所有数据表
+     *
+     * @param dto
+     * @return
+     */
+    @GetMapping("/findTableColumeList")
+    public ResponseResult findTableColumeList(DatabaseDTO dto) {
+        if (StringUtils.isBlank(dto.getDatabaseName())) {
+            throw new GlobalException("数据库名不能为空");
+        }
+        List<Map<String, String>> tableList = DatabaseUtils.getTableList(dto.getDatabaseName());
+        return ResponseResult.success(tableList, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 关闭数据库连接
+     *
+     * @return
+     */
+    @GetMapping("/closeConnection")
+    public ResponseResult closeConnection() {
+        JDBCUtils.close();
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 }

@@ -1,6 +1,12 @@
 package com.dong.generator.util;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.dong.generator.constant.DatabaseConstant;
+import org.apache.commons.lang3.StringUtils;
+
 import java.sql.*;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -10,7 +16,20 @@ import java.util.Properties;
  */
 public class JDBCUtils {
 
+
+    /**
+     * druid连接池
+     */
+    private static DruidDataSource dataSource;
+
+    /**
+     * 数据库连接
+     */
     private static Connection conn;
+
+    /**
+     * 数据库元数据
+     */
     private static DatabaseMetaData metaData;
 
     /**
@@ -27,8 +46,40 @@ public class JDBCUtils {
         }
     }
 
-    public static Connection createConnection(String url, String username, String password) {
+    /**
+     * 创建连接池
+     *
+     * @param url
+     * @param username
+     * @param password
+     */
+    public static void createConnectionPool(String url, String username, String password) {
+        try {
+            Map<String, String> properties = DatabaseConstant.DRUID_PROPERTIES;
+            if (StringUtils.isNotBlank(url)) {
+                properties.put("url", url);
+            }
+            if (StringUtils.isNotBlank(username)) {
+                properties.put("username", username);
+            }
+            if (StringUtils.isNotBlank(password)) {
+                properties.put("password", password);
+            }
+            dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+
+    /**
+     * 创建连接
+     *
+     * @param url
+     * @param username
+     * @param password
+     */
+    public static void createConnection(String url, String username, String password) {
         try {
             //连接数据库
             Properties props = new Properties();
@@ -42,20 +93,50 @@ public class JDBCUtils {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return conn;
     }
 
+    /**
+     * 获取连接
+     *
+     * @return
+     */
     public static Connection getConnection() {
-        try {
-            metaData = conn.getMetaData();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (conn == null) {
+            try {
+                conn = dataSource.getConnection();
+                metaData = conn.getMetaData();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return conn;
     }
 
+    /**
+     * 打开连接
+     *
+     * @return
+     */
+    public static void openConnection() {
+        if (conn == null) {
+            try {
+                conn = dataSource.getConnection();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static DatabaseMetaData getMetaData() {
 
+        if (metaData == null){
+            try {
+                metaData = conn.getMetaData();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return metaData;
     }
 
@@ -89,6 +170,11 @@ public class JDBCUtils {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else if (o instanceof DruidDataSource) {
+            DruidDataSource c = (DruidDataSource) o;
+            if (!c.isClosed()) {
+                c.close();
+            }
         }
     }
 
@@ -105,5 +191,6 @@ public class JDBCUtils {
 
     public static void close() {
         close(conn);
+        close(dataSource);
     }
 }
