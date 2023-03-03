@@ -100,7 +100,7 @@ public class JDBCUtils {
             try {
                 conn = dataSource.getConnection();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("获取连接失败！");
             }
         }
         return conn;
@@ -115,9 +115,8 @@ public class JDBCUtils {
         if (conn == null) {
             try {
                 conn = dataSource.getConnection();
-
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("打开连接失败！");
             }
         }
     }

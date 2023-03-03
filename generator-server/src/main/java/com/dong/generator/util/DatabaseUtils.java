@@ -1,5 +1,7 @@
 package com.dong.generator.util;
 
+import com.dong.commoncore.exception.GlobalException;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -103,6 +105,7 @@ public class DatabaseUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new GlobalException("获取数据库名失败");
         } finally {
             JDBCUtils.close(rs);
         }
@@ -135,6 +138,7 @@ public class DatabaseUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new GlobalException("获取数据表失败");
         } finally {
             JDBCUtils.close(rs);
         }

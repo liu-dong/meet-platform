@@ -36,13 +36,13 @@ public class DatabaseController {
     private String password;
 
     /**
-     * 查询所有数据库
+     * 创建数据库连接
      *
      * @param dto
      * @return
      */
-    @GetMapping("/findDatabaseList")
-    public ResponseResult findDatabaseList(DatabaseDTO dto) {
+    @GetMapping("/createConnection")
+    public ResponseResult createConnection(DatabaseDTO dto) {
         String databaseUrl = url;
         String databaseUsername = username;
         String databasePassword = password;
@@ -56,7 +56,16 @@ public class DatabaseController {
             databasePassword = dto.getPassword();
         }
         JDBCUtils.createConnection(databaseUrl, databaseUsername, databasePassword);
-        JDBCUtils.openConnection();
+        return ResponseResult.success(databaseUrl + "：数据库连接已创建！");
+    }
+
+    /**
+     * 查询所有数据库
+     *
+     * @return
+     */
+    @GetMapping("/findDatabaseList")
+    public ResponseResult findDatabaseList() {
         List<String> databaseList = DatabaseUtils.getCatalogList();
         return ResponseResult.success(databaseList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -107,9 +116,9 @@ public class DatabaseController {
         }
         List<String[]> columnList;
         try {
-            columnList = DatabaseUtils.getTableColumnList(dto.getDatabaseName(),dto.getTableName());
+            columnList = DatabaseUtils.getTableColumnList(dto.getDatabaseName(), dto.getTableName());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new GlobalException("获取数据字段失败");
         }
         return ResponseResult.success(columnList, ResponseMessageConstant.QUERY_SUCCESS);
     }
