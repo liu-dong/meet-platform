@@ -1,10 +1,17 @@
 package ${packageName};
 
+import ${basePackageName}.model.dto.${className?cap_first}DTO;
+import ${basePackageName}.model.vo.${className?cap_first}VO;
+import ${basePackageName}.service.${className?cap_first}Service;
+import ${basePackageName}.dao.${className?cap_first}JpaDao;
 import org.springframework.stereotype.Service;
 import com.dong.commoncore.model.Pager;
 
 @Service
 public class ${className?cap_first}ServiceImpl implements ${className?cap_first}Service {
+
+    @Autowired
+    ${className?cap_first}JpaDao ${className}JpaDao;
 
     /**
     * 查询${classComment}列表
@@ -14,7 +21,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     * @return
     */
     @Override
-    public Pager<${className?cap_first}DTO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager pager) {
+    public Pager<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
         return null;
     }
 
@@ -25,7 +32,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     * @return
     */
     @Override
-    public ${className?cap_first}DTO save${className?cap_first}(${className?cap_first}DTO dto) {
+    public ${className?cap_first}VO save${className?cap_first}(${className?cap_first}DTO dto) {
         return null;
     }
 
@@ -36,7 +43,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     * @return
     */
     @Override
-    public ${className?cap_first}DTO get${className?cap_first}(String id) {
+    public ${className?cap_first}VO get${className?cap_first}(String id) {
         return null;
     }
 

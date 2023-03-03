@@ -2,6 +2,7 @@ package ${packageName};
 
 import lombok.Data;
 import java.util.Date;
+
 /**
 *  ${classComment}
 *
@@ -10,6 +11,7 @@ import java.util.Date;
 @Data
 public class ${className?cap_first}DTO {
 <#list propertyList as property>
+
     /**
     * ${property.comment}
     */

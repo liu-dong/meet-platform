@@ -39,6 +39,19 @@ public class GlobalExceptionHandler {
         return ResponseResult.error(e);
     }
 
+    /**
+     * 运行时异常处理方法
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public ResponseResult error(RuntimeException e) {
+        e.printStackTrace();
+        return ResponseResult.error(e.getMessage());
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseBody
     public ResponseResult error() {

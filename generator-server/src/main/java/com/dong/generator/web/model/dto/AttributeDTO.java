@@ -18,7 +18,11 @@ import lombok.ToString;
 public class AttributeDTO {
 
     /**
-     * 列名称
+     * 字段名称（对应数据库字段）
+     */
+    private String fieldName;
+    /**
+     * 列名称（对应实体类字段）
      */
     private String columnName;
 

@@ -14,7 +14,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -57,7 +56,6 @@ public class CodeGenerateUtils {
         //创建Java文件的生成目录的输出流
         OutputStream outputStream = Files.newOutputStream(file.toPath());
         Writer writer = new OutputStreamWriter(outputStream);
-        map.put("packageName", dto.getPackageName());
         //写入内容
         template.process(map, writer);
         outputStream.flush();
@@ -131,8 +129,10 @@ public class CodeGenerateUtils {
             dto.setTemplateName(template);
             Set<Map.Entry<String, String>> entrySet = dto.getTableNameComment().entrySet();
             for (Map.Entry<String, String> entry : entrySet) {
+                //获取类成员属性
+                List<AttributeDTO> attributeList = getColumnList(dto.getDatabaseName(), entry.getKey());
                 //获取类属性
-                Map<String, Object> classProperty = getClassProperty(dto.getDatabaseName(), entry.getKey(), entry.getValue());
+                Map<String, Object> classProperty = buildClassProperty(dto.getPackageName(), packageName, attributeList, entry.getKey(), entry.getValue());
                 //获取文件名
                 String fileName = getFileName(entry.getKey(), template);
                 dto.setFileName(fileName);
@@ -171,25 +171,45 @@ public class CodeGenerateUtils {
     }
 
     /**
-     * 获取类属性（类名、类注释、作者、类属性）
+     * 构建类属性（类名、类注释、作者、类属性）
      *
      * @param tableName 表名
      * @return 返回元数据
-     * @throws Exception 异常
      */
-    public static Map<String, Object> getClassProperty(String databaseName, String tableName, String classComment) throws Exception {
+    public static Map<String, Object> buildClassProperty(String packageName, String basePackageName, List<AttributeDTO> attributeList, String tableName, String classComment) {
         Map<String, Object> result = new HashMap<>(4);
+        result.put("packageName", packageName);
+        result.put("basePackageName", basePackageName);
+        result.put("tableName", tableName);
         result.put("className", toCamel(tableName));
+        result.put("serialUID", genSerialID());
         result.put("classComment", classComment);
         //获取电脑名称为创建人
         result.put("author", System.getenv().get("USERNAME"));
+        result.put("propertyList", attributeList);
+        return result;
+    }
+
+    /**
+     * 获取类成员属性
+     *
+     * @param databaseName
+     * @param tableName
+     * @return
+     * @throws SQLException
+     */
+    @NotNull
+    private static List<AttributeDTO> getColumnList(String databaseName, String tableName) throws SQLException {
         List<String[]> tableColumnsInfo = DatabaseUtils.getTableColumnList(databaseName, tableName);
         List<AttributeDTO> attributeList = new ArrayList<>();
         for (String[] strings : tableColumnsInfo) {
-            attributeList.add(new AttributeDTO(toCamel(strings[0]), convertDataType(strings[1]), strings[2]));
+            attributeList.add(new AttributeDTO(strings[0], toCamel(strings[0]), convertDataType(strings[1]), strings[2]));
         }
-        result.put("propertyList", attributeList);
-        return result;
+        return attributeList;
+    }
+
+    private static Object genSerialID() {
+        return Math.abs(new Random().nextLong()) + "L;";
     }
 
     /**
@@ -271,8 +291,14 @@ public class CodeGenerateUtils {
         String result;
         String template = templateName.substring(0, templateName.lastIndexOf(SymbolConstant.DOT));
         switch (template) {
-            case "model":
+            case "entity":
+                result = ".java";
+                break;
+            case "model.dto":
                 result = "DTO.java";
+                break;
+            case "model.vo":
+                result = "VO.java";
                 break;
             case "service.impl":
                 result = "ServiceImpl.java";

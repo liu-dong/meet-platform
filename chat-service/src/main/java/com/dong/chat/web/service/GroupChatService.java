@@ -1,5 +1,7 @@
 package com.dong.chat.web.service;
 
+import com.dong.chat.web.model.dto.GroupChatDTO;
+import com.dong.chat.web.model.vo.GroupChatVO;
 import com.dong.commoncore.model.Pager;
 
 public interface GroupChatService {
@@ -11,7 +13,7 @@ public interface GroupChatService {
     * @param pager
     * @return
     */
-    Pager<GroupChatVO> findGroupChatList(GroupChatDTO dto, Pager pager);
+    Pager<GroupChatVO> findGroupChatList(GroupChatDTO dto, Pager<GroupChatVO> pager);
 
     /**
     * 保存群聊
@@ -19,7 +21,7 @@ public interface GroupChatService {
     * @param dto
     * @return
     */
-    GroupChatDTO saveGroupChat(GroupChatDTO dto);
+    GroupChatVO saveGroupChat(GroupChatDTO dto);
 
     /**
     * 查询群聊详情
@@ -27,7 +29,7 @@ public interface GroupChatService {
     * @param id
     * @return
     */
-    GroupChatDTO getGroupChat(String id);
+    GroupChatVO getGroupChat(String id);
 
     /**
     * 删除群聊
