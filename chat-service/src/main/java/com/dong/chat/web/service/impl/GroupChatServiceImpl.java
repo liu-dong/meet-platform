@@ -1,10 +1,19 @@
 package com.dong.chat.web.service.impl;
 
+import com.dong.chat.web.dao.GroupChatJpaDao;
+import com.dong.chat.web.model.dto.GroupChatDTO;
+import com.dong.chat.web.model.vo.GroupChatVO;
+import com.dong.chat.web.service.GroupChatService;
 import com.dong.commoncore.model.Pager;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 public class GroupChatServiceImpl implements GroupChatService {
+
+    @Resource
+    GroupChatJpaDao groupChatJpaDao;
 
     /**
     * 查询群聊列表
@@ -14,7 +23,7 @@ public class GroupChatServiceImpl implements GroupChatService {
     * @return
     */
     @Override
-    public Pager<GroupChatDTO> findGroupChatList(GroupChatDTO dto, Pager pager) {
+    public Pager<GroupChatVO> findGroupChatList(GroupChatDTO dto, Pager<GroupChatVO> pager) {
         return null;
     }
 
@@ -25,7 +34,7 @@ public class GroupChatServiceImpl implements GroupChatService {
     * @return
     */
     @Override
-    public GroupChatDTO saveGroupChat(GroupChatDTO dto) {
+    public GroupChatVO saveGroupChat(GroupChatDTO dto) {
         return null;
     }
 
@@ -36,7 +45,7 @@ public class GroupChatServiceImpl implements GroupChatService {
     * @return
     */
     @Override
-    public GroupChatDTO getGroupChat(String id) {
+    public GroupChatVO getGroupChat(String id) {
         return null;
     }
 
