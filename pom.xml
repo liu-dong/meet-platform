@@ -64,6 +64,7 @@
         <module>auth-server</module>
         <module>billing-service</module>
         <module>order-service</module>
+        <module>product-service</module>
         <module>file-server</module>
         <!--        <module>message-server</module>-->
         <module>log-server</module>
