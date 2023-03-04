@@ -7,10 +7,7 @@ import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
 *  库存表
@@ -44,7 +41,7 @@ public class InventoryController {
     * @return
     */
     @PostMapping("/saveInventory")
-    public ResponseResult saveInventory(InventoryDTO dto) {
+    public ResponseResult saveInventory(@RequestBody InventoryDTO dto) {
         InventoryVO result = inventoryService.saveInventory(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }

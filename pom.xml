@@ -62,17 +62,21 @@
         <module>common-core</module>
         <module>security-core</module>
         <module>auth-server</module>
-        <module>billing-service</module>
-        <module>order-service</module>
-        <module>product-service</module>
+        <module>admin-server</module>
+        <module>generator-server</module>
+
         <module>file-server</module>
         <!--        <module>message-server</module>-->
         <module>log-server</module>
         <!--        <module>data-processing-server</module>-->
-        <module>admin-server</module>
-        <module>generator-server</module>
+
+        <module>billing-service</module>
+
+        <module>order-service</module>
+        <module>product-service</module>
+        <module>warehouse-service</module>
+
         <module>chat-service</module>
-        <!--        <module>shardingsphere-demo</module>-->
         <!--        <module>cache-server</module>-->
     </modules>
 
