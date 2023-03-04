@@ -5,6 +5,7 @@ import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupMemberVO;
 import com.dong.chat.web.service.GroupMemberService;
 import com.dong.commoncore.model.Pager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
