@@ -17,12 +17,9 @@
 #### Service(8280—8299)
 
     ·billing-service(8280)：记账服务
-    ·generator-service(8281)：代码生成服务
-    ·blogs-service(8282)：博客服务
-
-    ·account-service(8284)：用户管理服务
-    ·product-service(8285)：商品管理服务
-    ·order-service(8286)：订单管理服务
+    ·warehouse-service(8281)：库存系统
+    ·product-service(8282)：商品系统
+    ·order-service(8283)：订单系统
     ·ticket-service(8087)：操作票管理服务
 
 ## 二、项目模块
