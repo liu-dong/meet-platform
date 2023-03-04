@@ -39,4 +39,5 @@ public interface InventoryService {
     */
     void deleteInventory(String id);
 
+    void updateProductCount(String productName, int productCount);
 }
