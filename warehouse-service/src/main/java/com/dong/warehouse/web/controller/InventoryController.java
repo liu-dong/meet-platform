@@ -28,7 +28,7 @@ public class InventoryController {
     * @param pager
     * @return
     */
-    @PostMapping("/findInventoryList")
+    @GetMapping("/findInventoryList")
     public ResponseResult findInventoryList(InventoryDTO dto, Pager<InventoryVO> pager) {
         Pager<InventoryVO> result = inventoryService.findInventoryList(dto, pager);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);

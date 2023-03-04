@@ -71,8 +71,11 @@ public class InventoryServiceImpl implements InventoryService {
         if (StringUtils.isBlank(dto.getId())) {
             entity.setId(UUID.randomUUID().toString());
             entity.setProductCode("00000");
+            entity.setDeleteStatus(CommonConstant.NO);
             entity.setCreateTime(new Date());
-            entity.setCreateUserId(CurrentUserUtils.getUsername());
+            if (CurrentUserUtils.currentUser() !=null) {
+                entity.setCreateUserId(CurrentUserUtils.getUsername());
+            }
         } else {
             entity = inventoryJpaDao.findById(dto.getId()).orElse(new Inventory());
         }
@@ -87,7 +90,9 @@ public class InventoryServiceImpl implements InventoryService {
         entity.setCostPrice(dto.getCostPrice());
         entity.setRemark(dto.getRemark());
         entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(CurrentUserUtils.getUsername());
+        if (CurrentUserUtils.currentUser() !=null) {
+            entity.setUpdateUserId(CurrentUserUtils.getUsername());
+        }
         return entity;
     }
 
