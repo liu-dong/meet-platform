@@ -1,27 +1,29 @@
 package com.dong.productservice.web.service;
 
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.productservice.web.model.ProductBean;
+import com.dong.productservice.web.entity.Product;
+import com.dong.productservice.web.model.ProductDTO;
+import java.util.List;
 
 public interface ProductService {
 
     /**
      * 查询商品信息列表
      *
-     * @param bean
+     * @param dto
      * @param limit
      * @param page
      * @return
      */
-    ResponseResult findProductList(ProductBean bean, Integer limit, Integer page);
+    List<Product> findProductList(ProductDTO dto, Integer limit, Integer page);
 
     /**
      * 保存商品信息
      *
-     * @param bean
+     * @param dto
      * @return
      */
-    ResponseResult saveProduct(ProductBean bean);
+    Product saveProduct(ProductDTO dto);
 
     /**
      * 查询商品信息详细页面
@@ -29,7 +31,7 @@ public interface ProductService {
      * @param id
      * @return
      */
-    ResponseResult getProduct(String id);
+    Product getProduct(String id);
 
     /**
      * 删除商品信息
@@ -37,7 +39,7 @@ public interface ProductService {
      * @param id
      * @return
      */
-    ResponseResult deleteProduct(String id);
+    void deleteProduct(String id);
 
     /**
      * 修改商品的库存数量

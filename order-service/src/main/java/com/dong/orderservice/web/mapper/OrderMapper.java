@@ -13,9 +13,9 @@ public interface OrderMapper {
 
   int updateOrderById(OrderForm orderForm);
 
-  OrderForm queryOrderById(String id);
+  OrderForm getOrderById(String id);
 
-  List<OrderForm> queryOrderList();
+  List<OrderForm> getOrderList();
 
   int deleteOrderById(String id);
 
@@ -43,6 +43,6 @@ public interface OrderMapper {
    * RowBounds 实现分页
    * @return
    */
-  List<OrderForm> queryOrderByRowBounds(RowBounds rowBounds);
+  List<OrderForm> getOrderPage(RowBounds rowBounds);
 
 }

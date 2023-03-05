@@ -2,28 +2,21 @@ package com.dong.orderservice.web.service;
 
 import com.dong.orderservice.web.entity.OrderForm;
 import com.dong.orderservice.web.model.Page;
+import com.dong.orderservice.web.model.dto.OrderFormDTO;
 import java.util.List;
 
 public interface OrderService {
 
-  void addOrder(OrderForm orderForm);
+  OrderForm saveOrder(OrderFormDTO dto);
 
-  void modOrder(OrderForm orderForm);
+  OrderForm getOrderById(String id);
 
-  OrderForm queryOrderById(String id);
-
-  List<OrderForm> queryOrderList();
+  List<OrderForm> getOrderList();
 
   void deleteOrderById(String id);
 
-  Page<OrderForm> queryOrderListPage(int pageNum, int pageSize);
-
-  List<OrderForm> queryOrderByArray(int pageNum, int pageSize);
-
-  List<OrderForm> queryOrderBySql(int pageNum, int pageSize);
-
   List<OrderForm> queryOrderByPage(int pageNum, int pageSize);
 
-  List<OrderForm> queryOrderByRowBounds(int pageNum, int pageSize);
+  List<OrderForm> getOrderPage(OrderFormDTO dto);
 
 }

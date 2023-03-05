@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 *
 *  @author LD
 */
-public class ProductBean {
+public class ProductDTO {
     private String id;//主键id
     private String productName;//商品名称
     private String productCode;//商品编号

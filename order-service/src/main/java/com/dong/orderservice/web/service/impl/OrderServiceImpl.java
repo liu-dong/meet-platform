@@ -1,10 +1,12 @@
 package com.dong.orderservice.web.service.impl;
 
 import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.orderservice.web.mapper.OrderMapper;
 import com.dong.orderservice.web.entity.OrderForm;
 import com.dong.orderservice.web.model.Page;
 import com.dong.orderservice.web.model.PageParam;
+import com.dong.orderservice.web.model.dto.OrderFormDTO;
 import com.dong.orderservice.web.service.OrderService;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,32 +24,48 @@ public class OrderServiceImpl implements OrderService {
   private OrderMapper orderMapper;   // 这个报错的提示是 IDEA 的问题，和代码无关
 
   @Override
-  public void addOrder(OrderForm orderForm) {
-    orderForm.setId(CommonUtils.getUUID());
-    orderForm.setCreateTime(new Date());
-    orderForm.setCreateUserId("1");
-    orderMapper.insertOrder(orderForm);
-  }
-
-  @Override
-  public void modOrder(OrderForm orderForm) {
+  public OrderForm saveOrder(OrderFormDTO dto) {
+    OrderForm orderForm = convertEntity(dto);
     if (StringUtils.isEmpty(orderForm.getId())) {
-      return;
+      orderForm.setId(CommonUtils.getUUID());
+      orderForm.setDeleteStatus(1);
+      orderForm.setCreateTime(new Date());
+      orderForm.setCreateUserId(CurrentUserUtils.getUserId());
+      orderMapper.insertOrder(orderForm);
     }
-    orderForm.setUpdateTime(new Date());
-    orderForm.setUpdateUserId("1");
-    orderMapper.updateOrderById(orderForm);
-  }
-
-  @Override
-  public OrderForm queryOrderById(String id) {
-    OrderForm orderForm = orderMapper.queryOrderById(id);
+    else {
+      orderForm.setUpdateTime(new Date());
+      orderForm.setUpdateUserId(CurrentUserUtils.getUserId());
+      orderMapper.updateOrderById(orderForm);
+    }
     return orderForm;
   }
 
+  private OrderForm convertEntity(OrderFormDTO dto) {
+    OrderForm entity = new OrderForm();
+    entity.setId(dto.getId());
+    entity.setOrderCode(dto.getOrderCode());
+    entity.setOrderType(dto.getOrderType());
+    entity.setOrderTime(dto.getOrderTime());
+    entity.setOrderStatus(dto.getOrderStatus());
+    entity.setReceiverId(dto.getReceiverId());
+    entity.setReceiverName(dto.getReceiverName());
+    entity.setReceiveAddress(dto.getReceiveAddress());
+    entity.setShipperId(dto.getShipperId());
+    entity.setShipperName(dto.getShipperName());
+    entity.setShipAddress(dto.getShipAddress());
+    entity.setOrderPrice(dto.getOrderPrice());
+    return entity;
+  }
+
   @Override
-  public List<OrderForm> queryOrderList() {
-    return orderMapper.queryOrderList();
+  public OrderForm getOrderById(String id) {
+    return orderMapper.getOrderById(id);
+  }
+
+  @Override
+  public List<OrderForm> getOrderList() {
+    return orderMapper.getOrderList();
   }
 
   @Override
@@ -56,53 +74,17 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public Page<OrderForm> queryOrderListPage(int pageNum, int pageSize) {
-    int total = orderMapper.count();
-    int offset = (pageNum - 1) * pageSize;
-    List<OrderForm> orderForms = orderMapper.queryOrderBySql(offset, pageSize);
-    System.out.println("orderForms" +orderForms);
-    Page<OrderForm> page = new Page<>();
-    page.setTotal(total);
-    page.setListData(orderForms);
-    page.setPageNum(pageNum);
-    page.setPageSize(pageSize);
-    page.setPages((int) Math.ceil(total * 1.0 / pageSize));
-    return page;
-  }
-
-  @Override
-  public List<OrderForm> queryOrderByArray(int pageNum, int pageSize) {
-    List<OrderForm> orderForms = orderMapper.queryOrdersByArray();
-    // 从第几条数据开始
-    int fromIndex = (pageNum - 1) * pageSize;
-    // 从第几条数据结束
-    int toIndex = pageNum * pageSize;
-    // 通过subList方法，获取到两个索引间的所有数据
-    List<OrderForm> orderForms1 = orderForms.subList(fromIndex, toIndex);
-    return orderForms1;
-  }
-
-  @Override
-  public List<OrderForm> queryOrderBySql(int pageNum, int pageSize) {
-    int offset = (pageNum - 1) * pageSize;
-    return orderMapper.queryOrderBySql(offset, pageSize);
-  }
-
-  @Override
   public List<OrderForm> queryOrderByPage(int pageNum, int pageSize) {
-    Map<String, Object> params = new HashMap<>();
+    Map<String, Object> params = new HashMap<>(2);
     params.put("pageNum", pageNum);
     params.put("pageSize", pageSize);
     return orderMapper.queryOrderByPage(params);
   }
 
   @Override
-  public List<OrderForm> queryOrderByRowBounds(int pageNum, int pageSize) {
-    // Service层中侵入了持久层所使用的持久化技术的类或接口
-    //RowBounds rowBounds = new RowBounds((pageNum - 1) * pageSize, pageSize);
-
-    RowBounds rowBounds = PageParam.buildRowBounds(pageNum, pageSize);
-    return orderMapper.queryOrderByRowBounds(rowBounds);
+  public List<OrderForm> getOrderPage(OrderFormDTO dto) {
+    RowBounds rowBounds = PageParam.buildRowBounds(dto.getPageNum(), dto.getPageSize());
+    return orderMapper.getOrderPage(rowBounds);
   }
 
 }
