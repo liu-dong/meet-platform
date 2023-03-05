@@ -75,6 +75,7 @@
       update_user_id
     from order_form
     where id = #{id}
+    and order_code = #{orderCode}
   </select>
 
   <select id="queryOrderList" resultType="com.dong.orderservice.web.entity.OrderForm">
@@ -101,10 +102,12 @@
     order by create_time desc
   </select>
 
-  <delete id="deleteOrderById">
-    delete from order_form
+  <update id="deleteOrderById">
+    update order_form
+    set
+    delete_status = 1
     where id = #{id}
-  </delete>
+  </update>
 
   <select id="count" resultType="int">
     select count(*)
@@ -194,7 +197,7 @@
     order by create_time desc
   </select>
 
-  <select id="queryOrderByRowBounds" resultType="com.dong.orderservice.web.entity.OrderForm">
+  <select id="getOrderPage" resultType="com.dong.orderservice.web.entity.OrderForm">
     select
       id,
       order_code,

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.dong.orderservice.web.interceptor.MyPageInterceptor;
+import com.dong.orderservice.web.interceptor.SqlCostInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,11 @@ public class MybatisConfig {
   public Interceptor interceptor() {
     return new MyPageInterceptor();
   }
+
+//  @Bean
+//  SqlCostInterceptor sqlCostInterceptor(){
+//    return new SqlCostInterceptor();
+//  }
 
 //  /**
 //   * mybatis-plus 低版本的分页拦截器

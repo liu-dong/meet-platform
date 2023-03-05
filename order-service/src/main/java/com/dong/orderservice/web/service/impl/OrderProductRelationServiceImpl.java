@@ -33,13 +33,6 @@ public class OrderProductRelationServiceImpl implements OrderProductRelationServ
 
   @Override
   public void modRelationByQuery(String productName) {
-
-    //修改条件构造器 UpdateWrapper，存在许多硬编码
-//    OrderProductRelation relation = new OrderProductRelation();
-//    UpdateWrapper<OrderProductRelation> updateWrapper = new UpdateWrapper<>();
-//    updateWrapper.eq("product_name", "编程思想")
-//        .set("product_name", productName);
-
     OrderProductRelation relation = new OrderProductRelation();
     LambdaUpdateWrapper<OrderProductRelation> updateWrapper = new LambdaUpdateWrapper<>();
     updateWrapper.eq(OrderProductRelation::getProductName, "sss")

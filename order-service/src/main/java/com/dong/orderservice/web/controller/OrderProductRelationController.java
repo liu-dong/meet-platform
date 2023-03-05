@@ -21,16 +21,6 @@ public class OrderProductRelationController {
   @Autowired
   OrderProductRelationService orderProductRelationService;
 
-//  {
-//    "id": "075335e15c3e470cb0a65137539eccf2",
-//      "orderId": "76222109f09444939ffc44412138f778",
-//      "orderCode": "20210115001417",
-//      "productId": "3d9bc0c3765346adbfe5b02a74bad20d",
-//      "productName": "JAVA编程思想",
-//      "productPrice": 42.80,
-//      "productCount": 12,
-//      "remark": "一本编程书"
-//  }
   @PostMapping(value = "/addRelation")
   public ResponseResult addRelation(@RequestBody OrderProductRelation orderProductRelation) {
     orderProductRelationService.addRelation(orderProductRelation);

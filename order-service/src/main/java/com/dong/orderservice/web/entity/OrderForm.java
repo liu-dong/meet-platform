@@ -32,5 +32,6 @@ public class OrderForm implements Serializable {
 	private String createUserId;// 创建人id
 	private Date updateTime;// 修改时间
 	private String updateUserId;// 修改人id
+	private Integer deleteStatus;// 是否删除 0：否、1：是
 
 }
