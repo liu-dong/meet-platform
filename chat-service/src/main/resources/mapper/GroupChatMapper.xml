@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dong.chat.web.mapper.GroupChatMapper">
+
+    <resultMap id="BaseResultMap" type="com.dong.chat.web.domain.GroupChat">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="groupChatName" column="group_chat_name" jdbcType="VARCHAR"/>
+        <result property="groupChatType" column="group_chat_type" jdbcType="INTEGER"/>
+        <result property="groupOwner" column="group_owner" jdbcType="VARCHAR"/>
+        <result property="groupOwnerId" column="group_owner_id" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updateUserId" column="update_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="ResultVO" type="com.dong.chat.web.model.vo.GroupChatVO">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="groupChatName" column="group_chat_name" jdbcType="VARCHAR"/>
+        <result property="groupChatType" column="group_chat_type" jdbcType="INTEGER"/>
+        <result property="groupOwner" column="group_owner" jdbcType="VARCHAR"/>
+        <result property="groupOwnerId" column="group_owner_id" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updateUserId" column="update_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,group_chat_name,group_chat_type,
+        group_owner,group_owner_id,remark,
+        is_delete,create_time,create_user_id,
+        update_time,update_user_id
+    </sql>
+
+
+
+    <!-- 查询列表分页 -->
+    <select id="findGroupChatList" resultMap="ResultVO" resultSets="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from group_chat
+        where is_delete = 0
+        <if test="groupChatName != null">
+            group_chat_name = #{dto.groupChatName,jdbcType=VARCHAR},
+        </if>
+        <if test="groupChatType != null">
+            group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
+        </if>
+        <if test="groupOwner != null">
+            group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
+        </if>
+        <if test="groupOwnerId != null">
+            group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
+        </if>
+
+        <if test="createTime != null">
+            create_time = #{dto.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUserId != null">
+            create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateUserId != null">
+            update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
+        </if>
+        limit #{(page-1)*size},#{size}
+    </select>
+    <!-- 查询列表总数 -->
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(*) from group_chat
+        where is_delete = 0
+        <if test="groupChatName != null">
+            group_chat_name = #{dto.groupChatName,jdbcType=VARCHAR},
+        </if>
+        <if test="groupChatType != null">
+            group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
+        </if>
+        <if test="groupOwner != null">
+            group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
+        </if>
+        <if test="groupOwnerId != null">
+            group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
+        </if>
+
+        <if test="createTime != null">
+            create_time = #{dto.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUserId != null">
+            create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateUserId != null">
+            update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
+        </if>
+    </select>
+    <!--查询详情-->
+    <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from group_chat
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <!--根据id删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        update group_chat set is_delete = 1
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <!--新增-->
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dong.chat.web.domain.GroupChat"
+            useGeneratedKeys="true">
+        insert into group_chat
+        ( id, group_chat_name, group_chat_type
+        , group_owner, group_owner_id, remark
+        , is_delete, create_time, create_user_id
+        , update_time, update_user_id)
+        values ( #{id,jdbcType=VARCHAR}, #{groupChatName,jdbcType=VARCHAR}, #{groupChatType,jdbcType=INTEGER}
+               , #{groupOwner,jdbcType=VARCHAR}, #{groupOwnerId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+               , #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}
+               , #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR})
+    </insert>
+    <!--修改-->
+    <update id="update" parameterType="com.dong.chat.web.domain.GroupChat">
+        update group_chat
+        set group_chat_name = #{groupChatName,jdbcType=VARCHAR},
+            group_chat_type = #{groupChatType,jdbcType=INTEGER},
+            group_owner     = #{groupOwner,jdbcType=VARCHAR},
+            group_owner_id  = #{groupOwnerId,jdbcType=VARCHAR},
+            remark          = #{remark,jdbcType=VARCHAR},
+            is_delete       = #{isDelete,jdbcType=INTEGER},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            create_user_id  = #{createUserId,jdbcType=VARCHAR},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP},
+            update_user_id  = #{updateUserId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

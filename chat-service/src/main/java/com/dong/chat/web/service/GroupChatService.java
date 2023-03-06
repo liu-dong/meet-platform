@@ -1,5 +1,6 @@
 package com.dong.chat.web.service;
 
+import com.dong.chat.web.domain.GroupChat;
 import com.dong.chat.web.model.dto.GroupChatDTO;
 import com.dong.chat.web.model.vo.GroupChatVO;
 import com.dong.commoncore.model.Pager;
@@ -24,12 +25,28 @@ public interface GroupChatService {
     GroupChatVO saveGroupChat(GroupChatDTO dto);
 
     /**
-    * 查询群聊详情
-    *
-    * @param id
-    * @return
-    */
-    GroupChatVO getGroupChat(String id);
+     * 新增群聊
+     *
+     * @param dto
+     * @return
+     */
+    GroupChat insertGroupChat(GroupChatDTO dto);
+
+    /**
+     * 修改群聊
+     *
+     * @param dto
+     * @return
+     */
+    GroupChat updateGroupChat(GroupChatDTO dto);
+
+    /**
+     * 查询群聊详情
+     *
+     * @param id
+     * @return
+     */
+    GroupChat getGroupChat(String id);
 
     /**
     * 删除群聊

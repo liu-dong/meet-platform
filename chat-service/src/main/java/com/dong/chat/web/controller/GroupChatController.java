@@ -1,5 +1,6 @@
 package com.dong.chat.web.controller;
 
+import com.dong.chat.web.domain.GroupChat;
 import com.dong.chat.web.model.dto.GroupChatDTO;
 import com.dong.chat.web.model.vo.GroupChatVO;
 import com.dong.chat.web.service.GroupChatService;
@@ -38,14 +39,26 @@ public class GroupChatController {
     }
 
     /**
-     * 保存群聊
+     * 新增群聊
      *
      * @param dto
      * @return
      */
-    @PostMapping("/saveGroupChat")
-    public ResponseResult saveGroupChat(GroupChatDTO dto) {
-        GroupChatVO result = groupChatService.saveGroupChat(dto);
+    @PostMapping("/insertGroupChat")
+    public ResponseResult insertGroupChat(GroupChatDTO dto) {
+        GroupChat result = groupChatService.insertGroupChat(dto);
+        return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
+    }
+
+    /**
+     * 修改群聊
+     *
+     * @param dto
+     * @return
+     */
+    @PostMapping("/updateGroupChat")
+    public ResponseResult updateGroupChat(GroupChatDTO dto) {
+        GroupChat result = groupChatService.updateGroupChat(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
@@ -57,7 +70,7 @@ public class GroupChatController {
      */
     @GetMapping("/getGroupChat")
     public ResponseResult getGroupChat(String id) {
-        GroupChatVO result = groupChatService.getGroupChat(id);
+        GroupChat result = groupChatService.getGroupChat(id);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
