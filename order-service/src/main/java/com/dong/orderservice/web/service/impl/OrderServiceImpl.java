@@ -2,20 +2,20 @@ package com.dong.orderservice.web.service.impl;
 
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
-import com.dong.orderservice.web.mapper.OrderMapper;
 import com.dong.orderservice.web.entity.OrderForm;
-import com.dong.orderservice.web.model.Page;
+import com.dong.orderservice.web.mapper.OrderMapper;
 import com.dong.orderservice.web.model.PageParam;
 import com.dong.orderservice.web.model.dto.OrderFormDTO;
 import com.dong.orderservice.web.service.OrderService;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -59,17 +59,17 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public OrderForm getOrderById(String id) {
+  public OrderForm getOrder(String id) {
     return orderMapper.getOrderById(id);
   }
 
   @Override
-  public List<OrderForm> getOrderList() {
+  public List<OrderForm> findOrderList() {
     return orderMapper.getOrderList();
   }
 
   @Override
-  public void deleteOrderById(String id) {
+  public void deleteOrder(String id) {
     orderMapper.deleteOrderById(id);
   }
 
