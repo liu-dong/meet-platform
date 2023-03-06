@@ -129,4 +129,9 @@ public class InventoryServiceImpl implements InventoryService {
         inventoryJpaDao.save(inventory);
     }
 
+    @Override
+    public void updateProductCount(String productName, int productCount) {
+
+    }
+
 }
