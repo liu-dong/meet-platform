@@ -1,8 +1,8 @@
 package com.dong.productservice.web.service;
 
-import com.dong.commoncore.model.ResponseResult;
 import com.dong.productservice.web.entity.Product;
 import com.dong.productservice.web.model.ProductDTO;
+
 import java.util.List;
 
 public interface ProductService {
@@ -43,9 +43,10 @@ public interface ProductService {
 
     /**
      * 修改商品的库存数量
+     *
      * @param productId
      * @param productCount
      * @return
      */
-    ResponseResult updateProductCount(String productId, int productCount);
+    Product updateProductCount(String productId, int productCount);
 }

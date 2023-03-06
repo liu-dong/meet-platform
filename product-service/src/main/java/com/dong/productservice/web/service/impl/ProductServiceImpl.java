@@ -1,6 +1,5 @@
 package com.dong.productservice.web.service.impl;
 
-import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.NumberGenerationUtils;
 import com.dong.productservice.web.dao.ProductJpaDao;
@@ -85,16 +84,15 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void deleteProduct(String id) {
-    productJpaDao.deleteById(id);
+        productJpaDao.deleteById(id);
     }
 
     @Override
-    public ResponseResult updateProductCount(String productId, int productCount) {
-//      ProductDTO entity = productJpaDao.getOne(productId);
-        com.dong.productservice.web.entity.Product entity = productJpaDao.getByProductName(productId);
+    public Product updateProductCount(String productId, int productCount) {
+        Product entity = productJpaDao.getByProductName(productId);
         entity.setRemainingQuantity(entity.getRemainingQuantity() + productCount);
         entity = productJpaDao.save(entity);
-        return ResponseResult.success(entity, "修改成功!");
+        return entity;
     }
 
 }
