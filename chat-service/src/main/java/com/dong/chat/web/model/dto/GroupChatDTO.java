@@ -3,11 +3,12 @@ package com.dong.chat.web.model.dto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
 *  群聊
 *
-*  @author Lenovo
+*  @author liudong
 */
 @Data
 public class GroupChatDTO {
@@ -67,4 +68,8 @@ public class GroupChatDTO {
     */
     private String updateUserId;
 
+    /**
+     * 群成员
+     */
+    private List<GroupMemberDTO> groupMemberList;
 }

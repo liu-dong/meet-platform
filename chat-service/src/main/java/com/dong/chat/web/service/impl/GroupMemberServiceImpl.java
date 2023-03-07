@@ -8,10 +8,12 @@ import com.dong.chat.web.service.GroupMemberService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,19 +42,28 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     /**
      * 保存群聊
      *
-     * @param dto
+     * @param dtoList
      * @return
      */
     @Override
-    public GroupMemberVO saveGroupMember(GroupMemberDTO dto) {
-
-        return null;
+    public List<GroupMember> batchSaveGroupMember(List<GroupMemberDTO> dtoList) {
+        List<GroupMember> groupMembers = new ArrayList<>();
+        for (GroupMemberDTO dto : dtoList) {
+            GroupMember groupMember;
+            if (StringUtils.isNotBlank(dto.getId())){
+                groupMember = this.updateGroupMember(dto);
+            }else {
+                groupMember = this.insertGroupMember(dto);
+            }
+            groupMembers.add(groupMember);
+        }
+        return groupMembers;
     }
 
     @Override
     public GroupMember insertGroupMember(GroupMemberDTO dto) {
         GroupMember entity = new GroupMember();
-        BeanUtils.copyProperties(dto,entity);
+        BeanUtils.copyProperties(dto, entity);
         entity.setId(CommonUtils.getUUID());
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
@@ -64,7 +75,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Override
     public GroupMember updateGroupMember(GroupMemberDTO dto) {
         GroupMember entity = new GroupMember();
-        BeanUtils.copyProperties(dto,entity);
+        BeanUtils.copyProperties(dto, entity);
         entity.setUpdateTime(new Date());
         groupMemberMapper.update(entity);
         return entity;

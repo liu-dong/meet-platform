@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
-* @author Lenovo
+* @author liudong
 * @description 针对表【group_member(群成员表)】的数据库操作Mapper
 * @createDate 2023-03-06 11:36:20
 * @Entity com.dong.chat.web.domain.GroupMember

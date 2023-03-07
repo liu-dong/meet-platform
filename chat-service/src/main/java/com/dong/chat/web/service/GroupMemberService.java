@@ -5,6 +5,8 @@ import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupMemberVO;
 import com.dong.commoncore.model.Pager;
 
+import java.util.List;
+
 public interface GroupMemberService {
 
     /**
@@ -17,12 +19,12 @@ public interface GroupMemberService {
     Pager<GroupMemberVO> findGroupMemberList(GroupMemberDTO dto, Pager<GroupMemberVO> pager);
 
     /**
-    * 保存群聊
-    *
-    * @param dto
-    * @return
-    */
-    GroupMemberVO saveGroupMember(GroupMemberDTO dto);
+     * 保存群聊
+     *
+     * @param dtoList
+     * @return
+     */
+    List<GroupMember> batchSaveGroupMember(List<GroupMemberDTO> dtoList);
 
     /**
      * 新增群聊

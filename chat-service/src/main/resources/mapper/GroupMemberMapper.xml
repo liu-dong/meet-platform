@@ -19,8 +19,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id
-        ,group_id,member_name,
+        id,group_id,member_name,
         member_id,group_position,remark,
         is_delete,create_time,create_user_id,
         update_time,update_user_id
@@ -40,17 +39,37 @@
     <update id="update" parameterType="com.dong.chat.web.domain.GroupMember">
         update group_member
         set
-            group_id =  #{groupId,jdbcType=VARCHAR},
-            member_name =  #{memberName,jdbcType=VARCHAR},
-            member_id =  #{memberId,jdbcType=VARCHAR},
-            group_position =  #{groupPosition,jdbcType=VARCHAR},
-            remark =  #{remark,jdbcType=VARCHAR},
-            is_delete =  #{isDelete,jdbcType=INTEGER},
-            create_time =  #{createTime,jdbcType=TIMESTAMP},
-            create_user_id =  #{createUserId,jdbcType=VARCHAR},
-            update_time =  #{updateTime,jdbcType=TIMESTAMP},
-            update_user_id =  #{updateUserId,jdbcType=VARCHAR}
-        where   id = #{id,jdbcType=VARCHAR}
+        <if test="groupId != null">
+            group_id = #{groupId,jdbcType=VARCHAR},
+        </if>
+        <if test="memberName != null">
+            member_name = #{memberName,jdbcType=VARCHAR},
+        </if>
+        <if test="memberId != null">
+            member_id = #{memberId,jdbcType=VARCHAR},
+        </if>
+        <if test="groupPosition != null">
+            group_position = #{groupPosition,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null">
+            remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="isDelete != null">
+            is_delete = #{isDelete,jdbcType=INTEGER},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="createUserId != null">
+            create_user_id = #{createUserId,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateUserId != null">
+            update_user_id = #{updateUserId,jdbcType=VARCHAR},
+        </if>
+        where id = #{id,jdbcType=VARCHAR}
     </update>
 
     <delete id="deleteById" parameterType="java.lang.String">
@@ -97,7 +116,7 @@
         limit #{(page-1)*size},#{size}
     </select>
     <select id="getTotal" resultType="java.lang.Integer">
-        select count(*) from group_chat
+        select count(*) from group_member
         where is_delete = 0
         <if test="groupId != null">
             and group_id = #{groupId,jdbcType=VARCHAR},

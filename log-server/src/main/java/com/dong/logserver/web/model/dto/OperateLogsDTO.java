@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 登录日志
  *
- * @author Lenovo
+ * @author liudong
  */
 @Data
 public class OperateLogsDTO {

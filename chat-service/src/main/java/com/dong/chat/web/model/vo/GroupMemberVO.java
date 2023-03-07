@@ -7,7 +7,7 @@ import java.util.Date;
 /**
 *  群成员
 *
-*  @author Lenovo
+*  @author liudong
 */
 @Data
 public class GroupMemberVO{

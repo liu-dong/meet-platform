@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 群聊
  *
- * @author Lenovo
+ * @author liudong
  */
 @RestController
 @RequestMapping("/groupChat")

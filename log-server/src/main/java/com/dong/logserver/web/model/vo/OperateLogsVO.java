@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 登录日志
  *
- * @author Lenovo
+ * @author liudong
  */
 @Data
 public class OperateLogsVO {

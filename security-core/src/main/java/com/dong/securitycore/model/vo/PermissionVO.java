@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 权限信息
  *
- * @author Lenovo
+ * @author liudong
  */
 @Data
 public class PermissionVO {

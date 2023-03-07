@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 角色权限信息
  *
- * @author Lenovo
+ * @author liudong
  */
 @Data
 public class RolePermissionDTO {

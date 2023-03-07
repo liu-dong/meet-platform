@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 组织机构
  *
- * @author Lenovo
+ * @author liudong
  */
 @Api(tags = "组织机构管理模块")
 @RestController

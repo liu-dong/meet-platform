@@ -10,10 +10,13 @@ import com.dong.commoncore.model.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 群成员
  *
- * @author Lenovo
+ * @author liudong
  */
 @RestController
 @RequestMapping("/groupMember")
@@ -43,8 +46,8 @@ public class GroupMemberController {
      */
     @PostMapping("/saveGroupMember")
     public ResponseResult saveGroupMember(@RequestBody GroupMemberDTO dto) {
-        GroupMemberVO result = groupMemberService.saveGroupMember(dto);
-        return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
+        List<GroupMember> result = groupMemberService.batchSaveGroupMember(Collections.singletonList(dto));
+        return ResponseResult.success(result.get(0), ResponseMessageConstant.SAVE_SUCCESS);
     }
 
     /**

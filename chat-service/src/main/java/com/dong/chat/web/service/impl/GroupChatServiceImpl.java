@@ -3,13 +3,16 @@ package com.dong.chat.web.service.impl;
 import com.dong.chat.web.domain.GroupChat;
 import com.dong.chat.web.mapper.GroupChatMapper;
 import com.dong.chat.web.model.dto.GroupChatDTO;
+import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupChatVO;
 import com.dong.chat.web.service.GroupChatService;
+import com.dong.chat.web.service.GroupMemberService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -20,6 +23,8 @@ public class GroupChatServiceImpl implements GroupChatService {
 
     @Resource
     GroupChatMapper groupChatMapper;
+    @Resource
+    GroupMemberService groupMemberService;
 
     /**
      * 查询群聊列表
@@ -49,24 +54,39 @@ public class GroupChatServiceImpl implements GroupChatService {
         return null;
     }
 
+    @Transactional
     @Override
     public GroupChat insertGroupChat(GroupChatDTO dto) {
         GroupChat entity = new GroupChat();
-        BeanUtils.copyProperties(dto,entity);
+        BeanUtils.copyProperties(dto, entity);
         entity.setId(CommonUtils.getUUID());
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
         entity.setIsDelete(CommonConstant.NO);
         groupChatMapper.insert(entity);
+        //保存群成员
+        saveGroupMember(dto, entity);
         return entity;
     }
 
+    private void saveGroupMember(GroupChatDTO dto, GroupChat entity) {
+        //插入群id
+        for (GroupMemberDTO groupMemberDTO : dto.getGroupMemberList()) {
+            groupMemberDTO.setGroupId(entity.getId());
+        }
+        //保存群成员
+        groupMemberService.batchSaveGroupMember(dto.getGroupMemberList());
+    }
+
+    @Transactional
     @Override
     public GroupChat updateGroupChat(GroupChatDTO dto) {
         GroupChat entity = new GroupChat();
-        BeanUtils.copyProperties(dto,entity);
+        BeanUtils.copyProperties(dto, entity);
         entity.setUpdateTime(new Date());
         groupChatMapper.update(entity);
+        //保存群成员
+        saveGroupMember(dto, entity);
         return entity;
     }
 

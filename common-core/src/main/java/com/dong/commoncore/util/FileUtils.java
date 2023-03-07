@@ -3,7 +3,7 @@ package com.dong.commoncore.util;
 import java.io.*;
 
 /**
- * @author Lenovo
+ * @author liudong
  */
 public class FileUtils {
 
