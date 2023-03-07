@@ -37,9 +37,9 @@ public class GroupChatServiceImpl implements GroupChatService {
     @Override
     public Pager<GroupChatVO> findGroupChatList(GroupChatDTO dto, Pager<GroupChatVO> pager) {
         List<GroupChatVO> groupChatList = groupChatMapper.findGroupChatList(dto, pager.getPage(), pager.getLimit());
-        Integer total = groupChatMapper.getTotal(dto);
+//        Integer total = groupChatMapper.getTotal(dto);
         pager.setDataList(groupChatList);
-        pager.setTotal(total);
+//        pager.setTotal(total);
         return pager;
     }
 
