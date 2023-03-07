@@ -25,56 +25,60 @@
         update_time,update_user_id
     </sql>
 
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dong.chat.web.domain.GroupMember" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dong.chat.web.domain.GroupMember"
+            useGeneratedKeys="true">
         insert into group_member
-        ( id,group_id,member_name
-        ,member_id,group_position,remark
-        ,is_delete,create_time,create_user_id
-        ,update_time,update_user_id)
-        values (#{id,jdbcType=VARCHAR},#{groupId,jdbcType=VARCHAR},#{memberName,jdbcType=VARCHAR}
-               ,#{memberId,jdbcType=VARCHAR},#{groupPosition,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}
-               ,#{isDelete,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{createUserId,jdbcType=VARCHAR}
-               ,#{updateTime,jdbcType=TIMESTAMP},#{updateUserId,jdbcType=VARCHAR})
+        ( id, group_id, member_name
+        , member_id, group_position, remark
+        , is_delete, create_time, create_user_id
+        , update_time, update_user_id)
+        values ( #{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}
+               , #{memberId,jdbcType=VARCHAR}, #{groupPosition,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+               , #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}
+               , #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR})
     </insert>
     <update id="update" parameterType="com.dong.chat.web.domain.GroupMember">
         update group_member
-        set
-        <if test="groupId != null">
-            group_id = #{groupId,jdbcType=VARCHAR},
-        </if>
-        <if test="memberName != null">
-            member_name = #{memberName,jdbcType=VARCHAR},
-        </if>
-        <if test="memberId != null">
-            member_id = #{memberId,jdbcType=VARCHAR},
-        </if>
-        <if test="groupPosition != null">
-            group_position = #{groupPosition,jdbcType=VARCHAR},
-        </if>
-        <if test="remark != null">
-            remark = #{remark,jdbcType=VARCHAR},
-        </if>
-        <if test="isDelete != null">
-            is_delete = #{isDelete,jdbcType=INTEGER},
-        </if>
-        <if test="createTime != null">
-            create_time = #{createTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="createUserId != null">
-            create_user_id = #{createUserId,jdbcType=VARCHAR},
-        </if>
-        <if test="updateTime != null">
-            update_time = #{updateTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="updateUserId != null">
-            update_user_id = #{updateUserId,jdbcType=VARCHAR},
-        </if>
+        <set>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="memberName != null">
+                member_name = #{memberName,jdbcType=VARCHAR},
+            </if>
+            <if test="memberId != null">
+                member_id = #{memberId,jdbcType=VARCHAR},
+            </if>
+            <if test="groupPosition != null">
+                group_position = #{groupPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
     <delete id="deleteById" parameterType="java.lang.String">
-        delete from group_member
-        where  id = #{id,jdbcType=VARCHAR}
+        delete
+        from group_member
+        where id = #{id,jdbcType=VARCHAR}
     </delete>
     <select id="findGroupMemberList" resultType="com.dong.chat.web.model.vo.GroupMemberVO" resultSets="java.util.List">
         select
@@ -149,10 +153,18 @@
             and update_user_id = #{updateUserId,jdbcType=VARCHAR},
         </if>
     </select>
+
     <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from group_member
-        where  id = #{id,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getByGroupId" parameterType="java.lang.String" resultMap="BaseResultMap" resultSets="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from group_member
+        where is_delete = 0 and group_id = #{groupId,jdbcType=VARCHAR}
     </select>
 </mapper>

@@ -30,7 +30,7 @@ public class GroupChatController {
      * @return
      */
     @PostMapping("/findGroupChatList")
-    public ResponseResult findGroupChatList(GroupChatDTO dto, Pager<GroupChatVO> pager) {
+    public ResponseResult findGroupChatList(@RequestBody GroupChatDTO dto, Pager<GroupChatVO> pager) {
         Pager<GroupChatVO> result = groupChatService.findGroupChatList(dto, pager);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -67,7 +67,7 @@ public class GroupChatController {
      */
     @GetMapping("/getGroupChat")
     public ResponseResult getGroupChat(String id) {
-        GroupChat result = groupChatService.getGroupChat(id);
+        GroupChatVO result = groupChatService.getGroupChat(id);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

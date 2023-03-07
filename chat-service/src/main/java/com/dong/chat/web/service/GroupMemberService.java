@@ -51,6 +51,14 @@ public interface GroupMemberService {
     GroupMember getGroupMember(String id);
 
     /**
+     * 根据群聊id查询群成员
+     *
+     * @param groupId
+     * @return
+     */
+    List<GroupMember> getGroupMemberByGroupId(String groupId);
+
+    /**
     * 删除群聊
     *
     * @param id

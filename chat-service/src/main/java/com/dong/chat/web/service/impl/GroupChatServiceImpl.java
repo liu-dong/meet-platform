@@ -1,6 +1,7 @@
 package com.dong.chat.web.service.impl;
 
 import com.dong.chat.web.domain.GroupChat;
+import com.dong.chat.web.domain.GroupMember;
 import com.dong.chat.web.mapper.GroupChatMapper;
 import com.dong.chat.web.model.dto.GroupChatDTO;
 import com.dong.chat.web.model.dto.GroupMemberDTO;
@@ -97,8 +98,19 @@ public class GroupChatServiceImpl implements GroupChatService {
      * @return
      */
     @Override
-    public GroupChat getGroupChat(String id) {
-        return groupChatMapper.getById(id);
+    public GroupChatVO getGroupChat(String id) {
+        //查询群详情
+        GroupChat groupChat = groupChatMapper.getById(id);
+        //查询群成员
+        List<GroupMember> groupMemberList = groupMemberService.getGroupMemberByGroupId(groupChat.getId());
+        return convertGroupChatVO(groupChat, groupMemberList);
+    }
+
+    private GroupChatVO convertGroupChatVO(GroupChat groupChat, List<GroupMember> groupMemberList) {
+        GroupChatVO vo = new GroupChatVO();
+        BeanUtils.copyProperties(groupChat, vo);
+        vo.setGroupMemberList(groupMemberList);
+        return vo;
     }
 
     /**

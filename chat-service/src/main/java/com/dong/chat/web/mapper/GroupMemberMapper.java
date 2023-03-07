@@ -40,4 +40,5 @@ public interface GroupMemberMapper {
 
     int update(GroupMember record);
 
+    List<GroupMember> getByGroupId(String groupId);
 }

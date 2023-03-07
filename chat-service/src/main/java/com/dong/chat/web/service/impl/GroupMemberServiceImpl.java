@@ -92,6 +92,11 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         return groupMemberMapper.getById(id);
     }
 
+    @Override
+    public List<GroupMember> getGroupMemberByGroupId(String groupId) {
+        return groupMemberMapper.getByGroupId(groupId);
+    }
+
     /**
      * 删除群聊
      *

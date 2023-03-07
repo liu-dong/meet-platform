@@ -46,7 +46,7 @@ public interface GroupChatService {
      * @param id
      * @return
      */
-    GroupChat getGroupChat(String id);
+    GroupChatVO getGroupChat(String id);
 
     /**
     * 删除群聊

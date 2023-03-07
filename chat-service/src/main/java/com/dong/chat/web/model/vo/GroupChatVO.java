@@ -1,8 +1,10 @@
 package com.dong.chat.web.model.vo;
 
+import com.dong.chat.web.domain.GroupMember;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
 *  群聊
@@ -66,5 +68,10 @@ public class GroupChatVO{
     * 修改人
     */
     private String updateUserId;
+
+    /**
+     * 群成员
+     */
+    private List<GroupMember> groupMemberList;
 
 }

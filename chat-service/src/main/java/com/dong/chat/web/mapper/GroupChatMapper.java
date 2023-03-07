@@ -4,6 +4,7 @@ import com.dong.chat.web.domain.GroupChat;
 import com.dong.chat.web.model.dto.GroupChatDTO;
 import com.dong.chat.web.model.vo.GroupChatVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface GroupChatMapper {
      * @param dto
      * @return
      */
-    List<GroupChatVO> findGroupChatList(GroupChatDTO dto, Integer page, Integer size);
+    List<GroupChatVO> findGroupChatList(@Param("dto") GroupChatDTO dto, @Param("page") Integer page, @Param("size") Integer size);
 
     /**
      * 统计总数

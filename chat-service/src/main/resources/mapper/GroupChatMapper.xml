@@ -49,29 +49,29 @@
         from group_chat
         where is_delete = 0
         <if test="groupChatName != null">
-            group_chat_name = #{dto.groupChatName,jdbcType=VARCHAR},
+            and group_chat_name = #{dto.getGroupChatName,jdbcType=VARCHAR},
         </if>
         <if test="groupChatType != null">
-            group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
+            and group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
         </if>
         <if test="groupOwner != null">
-            group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
+            and group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
         </if>
         <if test="groupOwnerId != null">
-            group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
+            and group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
         </if>
 
         <if test="createTime != null">
-            create_time = #{dto.createTime,jdbcType=TIMESTAMP},
+            and create_time = #{dto.createTime,jdbcType=TIMESTAMP},
         </if>
         <if test="createUserId != null">
-            create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
+            and create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
         </if>
         <if test="updateTime != null">
-            update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
+            and update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
         </if>
         <if test="updateUserId != null">
-            update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
+            and update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
         </if>
         limit #{(page-1)*size},#{size}
     </select>
@@ -80,29 +80,29 @@
         select count(*) from group_chat
         where is_delete = 0
         <if test="groupChatName != null">
-            group_chat_name = #{dto.groupChatName,jdbcType=VARCHAR},
+            and group_chat_name = #{dto.groupChatName,jdbcType=VARCHAR},
         </if>
         <if test="groupChatType != null">
-            group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
+            and group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
         </if>
         <if test="groupOwner != null">
-            group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
+            and group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
         </if>
         <if test="groupOwnerId != null">
-            group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
+            and group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
         </if>
 
         <if test="createTime != null">
-            create_time = #{dto.createTime,jdbcType=TIMESTAMP},
+            and create_time = #{dto.createTime,jdbcType=TIMESTAMP},
         </if>
         <if test="createUserId != null">
-            create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
+            and create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
         </if>
         <if test="updateTime != null">
-            update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
+            and update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
         </if>
         <if test="updateUserId != null">
-            update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
+            and update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
         </if>
     </select>
     <!--查询详情-->
@@ -133,32 +133,38 @@
     <!--修改-->
     <update id="update" parameterType="com.dong.chat.web.domain.GroupChat">
         update group_chat
-        set
-        <if test="groupChatName != null">
-            group_chat_name = #{groupChatName,jdbcType=VARCHAR},
-        </if>
-        <if test="groupChatType != null">
-            group_chat_type = #{groupChatType,jdbcType=INTEGER},
-        </if>
-        <if test="groupOwner != null">
-            group_owner = #{groupOwner,jdbcType=VARCHAR},
-        </if>
-        <if test="groupOwnerId != null">
-            group_owner_id = #{groupOwnerId,jdbcType=VARCHAR},
-        </if>
-
-        <if test="createTime != null">
-            create_time = #{createTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="createUserId != null">
-            create_user_id = #{createUserId,jdbcType=VARCHAR},
-        </if>
-        <if test="updateTime != null">
-            update_time = #{updateTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="updateUserId != null">
-            update_user_id = #{updateUserId,jdbcType=VARCHAR},
-        </if>
+        <set>
+            <if test="groupChatName != null">
+                group_chat_name = #{groupChatName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupChatType != null">
+                group_chat_type = #{groupChatType,jdbcType=INTEGER},
+            </if>
+            <if test="groupOwner != null">
+                group_owner = #{groupOwner,jdbcType=VARCHAR},
+            </if>
+            <if test="groupOwnerId != null">
+                group_owner_id = #{groupOwnerId,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
 </mapper>
