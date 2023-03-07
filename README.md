@@ -20,6 +20,9 @@
     ·warehouse-service(8281)：库存系统
     ·product-service(8282)：商品系统
     ·order-service(8283)：订单系统
+
+    ·order-service(8284)：群聊管理
+
     ·ticket-service(8087)：操作票管理服务
 
 ## 二、项目模块

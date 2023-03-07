@@ -3,6 +3,7 @@ package com.dong.chat.web.mapper;
 import com.dong.chat.web.domain.GroupMember;
 import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupMemberVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 * @createDate 2023-03-06 11:36:20
 * @Entity com.dong.chat.web.domain.GroupMember
 */
+@Mapper
 public interface GroupMemberMapper {
 
     /**

@@ -8,10 +8,7 @@ import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 群聊
@@ -45,7 +42,7 @@ public class GroupChatController {
      * @return
      */
     @PostMapping("/insertGroupChat")
-    public ResponseResult insertGroupChat(GroupChatDTO dto) {
+    public ResponseResult insertGroupChat(@RequestBody GroupChatDTO dto) {
         GroupChat result = groupChatService.insertGroupChat(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }
@@ -57,7 +54,7 @@ public class GroupChatController {
      * @return
      */
     @PostMapping("/updateGroupChat")
-    public ResponseResult updateGroupChat(GroupChatDTO dto) {
+    public ResponseResult updateGroupChat(@RequestBody GroupChatDTO dto) {
         GroupChat result = groupChatService.updateGroupChat(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }
