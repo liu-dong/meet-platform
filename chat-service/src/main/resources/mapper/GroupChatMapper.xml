@@ -40,69 +40,67 @@
         update_time,update_user_id
     </sql>
 
-
-
     <!-- 查询列表分页 -->
     <select id="findGroupChatList" resultMap="ResultVO" resultSets="java.util.List">
         select
         <include refid="Base_Column_List"/>
         from group_chat
         where is_delete = 0
-        <if test="groupChatName != null">
-            and group_chat_name = #{dto.getGroupChatName,jdbcType=VARCHAR},
+        <if test="dto.groupChatName != null">
+            and group_chat_name = #{dto.groupChatName}
         </if>
-        <if test="groupChatType != null">
-            and group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
+        <if test="dto.groupChatType != null">
+            and group_chat_type = #{dto.groupChatType}
         </if>
-        <if test="groupOwner != null">
-            and group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
+        <if test="dto.groupOwner != null">
+            and group_owner = #{dto.groupOwner}
         </if>
-        <if test="groupOwnerId != null">
-            and group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
+        <if test="dto.groupOwnerId != null">
+            and group_owner_id = #{dto.groupOwnerId}
         </if>
 
-        <if test="createTime != null">
-            and create_time = #{dto.createTime,jdbcType=TIMESTAMP},
+        <if test="dto.createTime != null">
+            and create_time = #{dto.createTime}
         </if>
-        <if test="createUserId != null">
-            and create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
+        <if test="dto.createUserId != null">
+            and create_user_id = #{dto.createUserId}
         </if>
-        <if test="updateTime != null">
-            and update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
+        <if test="dto.updateTime != null">
+            and update_time = #{dto.updateTime}
         </if>
-        <if test="updateUserId != null">
-            and update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
+        <if test="dto.updateUserId != null">
+            and update_user_id = #{dto.updateUserId}
         </if>
-        limit #{(page-1)*size},#{size}
+        limit #{offset},#{limit}
     </select>
     <!-- 查询列表总数 -->
     <select id="getTotal" resultType="java.lang.Integer">
         select count(*) from group_chat
         where is_delete = 0
-        <if test="groupChatName != null">
-            and group_chat_name = #{dto.groupChatName,jdbcType=VARCHAR},
+        <if test="dto.groupChatName != null">
+            and group_chat_name = #{dto.groupChatName}
         </if>
-        <if test="groupChatType != null">
-            and group_chat_type = #{dto.groupChatType,jdbcType=INTEGER},
+        <if test="dto.groupChatType != null">
+            and group_chat_type = #{dto.groupChatType}
         </if>
-        <if test="groupOwner != null">
-            and group_owner = #{dto.groupOwner,jdbcType=VARCHAR},
+        <if test="dto.groupOwner != null">
+            and group_owner = #{dto.groupOwner}
         </if>
-        <if test="groupOwnerId != null">
-            and group_owner_id = #{dto.groupOwnerId,jdbcType=VARCHAR},
+        <if test="dto.groupOwnerId != null">
+            and group_owner_id = #{dto.groupOwnerId}
         </if>
 
-        <if test="createTime != null">
-            and create_time = #{dto.createTime,jdbcType=TIMESTAMP},
+        <if test="dto.createTime != null">
+            and create_time = #{dto.createTime}
         </if>
-        <if test="createUserId != null">
-            and create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
+        <if test="dto.createUserId != null">
+            and create_user_id = #{dto.createUserId
         </if>
-        <if test="updateTime != null">
-            and update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
+        <if test="dto.updateTime != null">
+            and update_time = #{dto.updateTime}
         </if>
-        <if test="updateUserId != null">
-            and update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
+        <if test="dto.updateUserId != null">
+            and update_user_id = #{dto.updateUserId}
         </if>
     </select>
     <!--查询详情-->

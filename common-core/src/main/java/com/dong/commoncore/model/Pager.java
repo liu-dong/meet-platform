@@ -49,6 +49,10 @@ public class Pager<T> {
 
     }
 
+    public int getOffset() {
+        return (this.page - 1) * this.limit;
+    }
+
     public int getLimit() {
         return limit;
     }

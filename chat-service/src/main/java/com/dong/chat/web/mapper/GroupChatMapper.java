@@ -18,7 +18,7 @@ public interface GroupChatMapper {
      * @param dto
      * @return
      */
-    List<GroupChatVO> findGroupChatList(@Param("dto") GroupChatDTO dto, @Param("page") Integer page, @Param("size") Integer size);
+    List<GroupChatVO> findGroupChatList(@Param("dto") GroupChatDTO dto, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     /**
      * 统计总数
@@ -26,7 +26,7 @@ public interface GroupChatMapper {
      * @param dto
      * @return
      */
-    Integer getTotal(GroupChatDTO dto);
+    Integer getTotal(@Param("dto") GroupChatDTO dto);
 
     int deleteById(String id);
 
