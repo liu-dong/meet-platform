@@ -4,6 +4,7 @@ import com.dong.chat.web.domain.GroupMember;
 import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupMemberVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ import java.util.List;
 public interface GroupMemberMapper {
 
     /**
-     * 查询群聊列表
+     * 查询群成员列表
      *
      * @param dto
      * @return
      */
-    List<GroupMemberVO> findGroupMemberList(GroupMemberDTO dto, Integer page, Integer size);
+    List<GroupMemberVO> findGroupMemberList(@Param("dto") GroupMemberDTO dto, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     /**
      * 统计总数
@@ -30,7 +31,7 @@ public interface GroupMemberMapper {
      * @param dto
      * @return
      */
-    Integer getTotal(GroupMemberDTO dto);
+    Integer getTotal(@Param("dto") GroupMemberDTO dto);
 
     int deleteById(String id);
 

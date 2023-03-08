@@ -76,8 +76,7 @@
     </update>
 
     <delete id="deleteById" parameterType="java.lang.String">
-        delete
-        from group_member
+        update group_member set is_delete = 1
         where id = #{id,jdbcType=VARCHAR}
     </delete>
     <select id="findGroupMemberList" resultType="com.dong.chat.web.model.vo.GroupMemberVO" resultSets="java.util.List">
@@ -85,72 +84,72 @@
         <include refid="Base_Column_List"/>
         from group_member
         <where>
-            <if test="groupId != null">
-                and group_id = #{groupId,jdbcType=VARCHAR},
+            <if test="dto.groupId != null">
+                and group_id = #{dto.groupId,jdbcType=VARCHAR},
             </if>
-            <if test="memberName != null">
-                and member_name = #{memberName,jdbcType=VARCHAR},
+            <if test="dto.memberName != null">
+                and member_name = #{dto.memberName,jdbcType=VARCHAR},
             </if>
-            <if test="memberId != null">
-                and member_id = #{memberId,jdbcType=VARCHAR},
+            <if test="dto.memberId != null">
+                and member_id = #{dto.memberId,jdbcType=VARCHAR},
             </if>
-            <if test="groupPosition != null">
-                and group_position = #{groupPosition,jdbcType=VARCHAR},
+            <if test="dto.groupPosition != null">
+                and group_position = #{dto.groupPosition,jdbcType=VARCHAR},
             </if>
-            <if test="remark != null">
-                and remark = #{remark,jdbcType=VARCHAR},
+            <if test="dto.remark != null">
+                and remark = #{dto.remark,jdbcType=VARCHAR},
             </if>
-            <if test="isDelete != null">
-                and is_delete = #{isDelete,jdbcType=INTEGER},
+            <if test="dto.isDelete != null">
+                and is_delete = #{dto.isDelete,jdbcType=INTEGER},
             </if>
-            <if test="createTime != null">
-                and create_time = #{createTime,jdbcType=TIMESTAMP},
+            <if test="dto.createTime != null">
+                and create_time = #{dto.createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createUserId != null">
-                and create_user_id = #{createUserId,jdbcType=VARCHAR},
+            <if test="dto.createUserId != null">
+                and create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
             </if>
-            <if test="updateTime != null">
-                and update_time = #{updateTime,jdbcType=TIMESTAMP},
+            <if test="dto.updateTime != null">
+                and update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="updateUserId != null">
-                and update_user_id = #{updateUserId,jdbcType=VARCHAR},
+            <if test="dto.updateUserId != null">
+                and update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
             </if>
         </where>
 
-        limit #{(page-1)*size},#{size}
+        limit #{offset},#{limit}
     </select>
     <select id="getTotal" resultType="java.lang.Integer">
         select count(*) from group_member
         where is_delete = 0
-        <if test="groupId != null">
-            and group_id = #{groupId,jdbcType=VARCHAR},
+        <if test="dto.groupId != null">
+            and group_id = #{dto.groupId,jdbcType=VARCHAR},
         </if>
-        <if test="memberName != null">
-            and member_name = #{memberName,jdbcType=VARCHAR},
+        <if test="dto.memberName != null">
+            and member_name = #{dto.memberName,jdbcType=VARCHAR},
         </if>
-        <if test="memberId != null">
-            and member_id = #{memberId,jdbcType=VARCHAR},
+        <if test="dto.memberId != null">
+            and member_id = #{dto.memberId,jdbcType=VARCHAR},
         </if>
-        <if test="groupPosition != null">
-            and group_position = #{groupPosition,jdbcType=VARCHAR},
+        <if test="dto.groupPosition != null">
+            and group_position = #{dto.groupPosition,jdbcType=VARCHAR},
         </if>
-        <if test="remark != null">
-            and remark = #{remark,jdbcType=VARCHAR},
+        <if test="dto.remark != null">
+            and remark = #{dto.remark,jdbcType=VARCHAR},
         </if>
-        <if test="isDelete != null">
-            and is_delete = #{isDelete,jdbcType=INTEGER},
+        <if test="dto.isDelete != null">
+            and is_delete = #{dto.isDelete,jdbcType=INTEGER},
         </if>
-        <if test="createTime != null">
-            and create_time = #{createTime,jdbcType=TIMESTAMP},
+        <if test="dto.createTime != null">
+            and create_time = #{dto.createTime,jdbcType=TIMESTAMP},
         </if>
-        <if test="createUserId != null">
-            and create_user_id = #{createUserId,jdbcType=VARCHAR},
+        <if test="dto.createUserId != null">
+            and create_user_id = #{dto.createUserId,jdbcType=VARCHAR},
         </if>
-        <if test="updateTime != null">
-            and update_time = #{updateTime,jdbcType=TIMESTAMP},
+        <if test="dto.updateTime != null">
+            and update_time = #{dto.updateTime,jdbcType=TIMESTAMP},
         </if>
-        <if test="updateUserId != null">
-            and update_user_id = #{updateUserId,jdbcType=VARCHAR},
+        <if test="dto.updateUserId != null">
+            and update_user_id = #{dto.updateUserId,jdbcType=VARCHAR},
         </if>
     </select>
 

@@ -33,7 +33,7 @@ public class GroupMemberController {
      * @return
      */
     @PostMapping("/findGroupMemberList")
-    public ResponseResult findGroupMemberList(GroupMemberDTO dto, Pager<GroupMemberVO> pager) {
+    public ResponseResult findGroupMemberList(@RequestBody GroupMemberDTO dto, Pager<GroupMemberVO> pager) {
         Pager<GroupMemberVO> result = groupMemberService.findGroupMemberList(dto, pager);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
