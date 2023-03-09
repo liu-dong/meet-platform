@@ -7,10 +7,12 @@ import ${basePackageName}.dao.${className?cap_first}JpaDao;
 import org.springframework.stereotype.Service;
 import com.dong.commoncore.model.Pager;
 
+import javax.annotation.Resource;
+
 @Service
 public class ${className?cap_first}ServiceImpl implements ${className?cap_first}Service {
 
-    @Autowired
+    @Resource
     ${className?cap_first}JpaDao ${className}JpaDao;
 
     /**
@@ -32,7 +34,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     * @return
     */
     @Override
-    public ${className?cap_first}VO save${className?cap_first}(${className?cap_first}DTO dto) {
+    public ${className?cap_first} save${className?cap_first}(${className?cap_first}DTO dto) {
         return null;
     }
 
@@ -43,7 +45,7 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     * @return
     */
     @Override
-    public ${className?cap_first}VO get${className?cap_first}(String id) {
+    public ${className?cap_first} get${className?cap_first}(String id) {
         return null;
     }
 

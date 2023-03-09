@@ -21,7 +21,7 @@ public interface ${className?cap_first}Service {
     * @param dto
     * @return
     */
-    ${className?cap_first}VO save${className?cap_first}(${className?cap_first}DTO dto);
+    ${className?cap_first} save${className?cap_first}(${className?cap_first}DTO dto);
 
     /**
     * 查询${classComment}详情
@@ -29,7 +29,7 @@ public interface ${className?cap_first}Service {
     * @param id
     * @return
     */
-    ${className?cap_first}VO get${className?cap_first}(String id);
+    ${className?cap_first} get${className?cap_first}(String id);
 
     /**
     * 删除${classComment}
