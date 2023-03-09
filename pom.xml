@@ -69,6 +69,7 @@
         <!--        <module>message-server</module>-->
         <module>log-server</module>
         <!--        <module>data-processing-server</module>-->
+        <!--        <module>cache-server</module>-->
 
         <module>billing-service</module>
 
@@ -77,7 +78,8 @@
         <module>warehouse-service</module>
 
         <module>chat-service</module>
-        <!--        <module>cache-server</module>-->
+        <module>event-service</module>
+
     </modules>
 
     <dependencies>

@@ -6,10 +6,7 @@ import ${basePackageName}.service.${className?cap_first}Service;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -33,7 +30,7 @@ public class ${className?cap_first}Controller {
     * @return
     */
     @PostMapping("/find${className?cap_first}List")
-    public ResponseResult find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
+    public ResponseResult find${className?cap_first}List(@RequestBody ${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
         Pager<${className?cap_first}VO> result = ${className}Service.find${className?cap_first}List(dto, pager);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -45,7 +42,7 @@ public class ${className?cap_first}Controller {
     * @return
     */
     @PostMapping("/save${className?cap_first}")
-    public ResponseResult save${className?cap_first}(${className?cap_first}DTO dto) {
+    public ResponseResult save${className?cap_first}(@RequestBody ${className?cap_first}DTO dto) {
         ${className?cap_first} result = ${className}Service.save${className?cap_first}(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }
