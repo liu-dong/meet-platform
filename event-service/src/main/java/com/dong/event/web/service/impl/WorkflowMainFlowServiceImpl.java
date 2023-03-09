@@ -1,0 +1,87 @@
+package com.dong.event.web.service.impl;
+
+import com.dong.commoncore.constant.CommonConstant;
+import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.util.CommonUtils;
+import com.dong.event.web.dao.WorkflowMainFlowJpaDao;
+import com.dong.event.web.entity.WorkflowMainFlow;
+import com.dong.event.web.model.dto.WorkflowMainFlowDTO;
+import com.dong.event.web.model.vo.WorkflowMainFlowVO;
+import com.dong.event.web.service.WorkflowMainFlowService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
+
+    @Resource
+    WorkflowMainFlowJpaDao workflowMainFlowJpaDao;
+
+    /**
+     * 查询主干流程列表
+     *
+     * @param dto
+     * @param pager
+     * @return
+     */
+    @Override
+    public Pager<WorkflowMainFlowVO> findWorkflowMainFlowList(String workflowId) {
+        return null;
+    }
+
+    /**
+     * 保存主干流程
+     *
+     * @param dtoList
+     * @return
+     */
+    @Override
+    public List<WorkflowMainFlow> saveWorkflowMainFlow(List<WorkflowMainFlowDTO> dtoList) {
+        List<WorkflowMainFlow> entityList = new ArrayList<>();
+        for (WorkflowMainFlowDTO dto : dtoList) {
+            WorkflowMainFlow entity = new WorkflowMainFlow();
+            BeanUtils.copyProperties(dto, entity);
+            if (StringUtils.isNotBlank(dto.getId())) {
+                WorkflowMainFlow workflowMainFlow = workflowMainFlowJpaDao.findById(dto.getId()).orElse(new WorkflowMainFlow());
+                entity.setId(workflowMainFlow.getId());
+            } else {
+                entity.setId(CommonUtils.getUUID());
+                entity.setCreateTime(new Date());
+            }
+            entity.setUpdateTime(new Date());
+            entityList.add(entity);
+        }
+        return workflowMainFlowJpaDao.saveAll(entityList);
+    }
+
+    /**
+     * 查询主干流程详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public WorkflowMainFlow getWorkflowMainFlow(String id) {
+        return workflowMainFlowJpaDao.findById(id).orElse(new WorkflowMainFlow());
+    }
+
+    /**
+     * 删除主干流程
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public void deleteWorkflowMainFlow(String id) {
+        WorkflowMainFlow entity = workflowMainFlowJpaDao.findById(id).orElse(new WorkflowMainFlow());
+        entity.setDeleteStatus(CommonConstant.YES);
+        workflowMainFlowJpaDao.save(entity);
+    }
+
+}
