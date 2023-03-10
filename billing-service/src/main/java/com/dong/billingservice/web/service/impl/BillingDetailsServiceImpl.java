@@ -8,7 +8,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CurrentUserUtils;
-import com.dong.commoncore.util.DateFormatUtils;
+import com.dong.commoncore.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -113,7 +113,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         entity.setSpendingType(dto.getSpendingType());
         entity.setAmountPaid(dto.getAmountPaid());
         entity.setRemark(dto.getRemark());
-        entity.setRecordTime(DateFormatUtils.formatDate(dto.getRecordTime()));
+        entity.setRecordTime(DateUtils.formatDate(dto.getRecordTime()));
         entity.setUpdateTime(new Date());
         entity.setUpdateUserId(CurrentUserUtils.getUsername());
         return entity;

@@ -3,7 +3,7 @@ package com.dong.shardingspheredemo.web.service.impl;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
-import com.dong.commoncore.util.DateFormatUtils;
+import com.dong.commoncore.util.DateUtils;
 import com.dong.shardingspheredemo.web.dao.BillingDetailsJpaDao;
 import com.dong.shardingspheredemo.web.entity.BillingDetails;
 import com.dong.shardingspheredemo.web.model.BillingDetailsDTO;
@@ -116,7 +116,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             if (StringUtils.isEmpty(dto.getCreateTime())) {
                 entity.setCreateTime(new Date());
             }else {
-                entity.setCreateTime(DateFormatUtils.formatDate(dto.getCreateTime()));
+                entity.setCreateTime(DateUtils.formatDate(dto.getCreateTime()));
             }
             entity.setCreateUserId(dto.getCreateUserId());
         } else {
@@ -125,7 +125,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         entity.setSpendingType(dto.getSpendingType());
         entity.setAmountPaid(dto.getAmountPaid());
         entity.setRemark(dto.getRemark());
-        entity.setRecordTime(DateFormatUtils.formatDate(dto.getRecordTime()));
+        entity.setRecordTime(DateUtils.formatDate(dto.getRecordTime()));
         entity.setUpdateTime(new Date());
         entity.setUpdateUserId(dto.getUpdateUserId());
         return entity;

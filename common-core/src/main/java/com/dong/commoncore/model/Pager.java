@@ -1,6 +1,7 @@
 package com.dong.commoncore.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,23 +14,23 @@ public class Pager<T> {
     /**
      * 当前页码
      */
-    private int page;
+    private int page = 1;
     /**
      * 每页数量
      */
-    private int limit;
+    private int limit = 10;
     /**
      * 记录总数
      */
-    private int total;
+    private int total = 0;
     /**
      * 页码总数
      */
-    private int pageTotal;
+    private int pageTotal = 0;
     /**
      * 分页数据
      */
-    private List<T> dataList;
+    private List<T> dataList = new ArrayList<>();
 
     public Pager() {
         this.page = 1;
