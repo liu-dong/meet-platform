@@ -21,7 +21,8 @@
     ·product-service(8282)：商品系统
     ·order-service(8283)：订单系统
 
-    ·order-service(8284)：群聊管理
+    ·chat-service(8284)：群聊管理
+    ·event-service(8285)：事件处置
 
     ·ticket-service(8087)：操作票管理服务
 
