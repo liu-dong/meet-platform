@@ -8,12 +8,12 @@ import com.dong.event.web.model.vo.WorkflowVO;
 public interface WorkflowService {
 
     /**
-    * 查询工作流列表
-    *
-    * @param dto
-    * @param pager
-    * @return
-    */
+     * 查询工作流列表
+     *
+     * @param dto
+     * @param pager
+     * @return
+     */
     Pager<WorkflowVO> findWorkflowList(WorkflowDTO dto, Pager<WorkflowVO> pager);
 
     /**
@@ -25,19 +25,19 @@ public interface WorkflowService {
     Workflow saveWorkflow(WorkflowDTO dto);
 
     /**
-    * 查询工作流详情
-    *
-    * @param id
-    * @return
-    */
+     * 查询工作流详情
+     *
+     * @param id
+     * @return
+     */
     WorkflowVO getWorkflow(String id);
 
     /**
-    * 删除工作流
-    *
-    * @param id
-    * @return
-    */
+     * 删除工作流
+     *
+     * @param id
+     * @return
+     */
     void deleteWorkflow(String id);
 
 }

@@ -1,26 +1,24 @@
 package com.dong.event.web.service;
 
-import com.dong.commoncore.model.Pager;
 import com.dong.event.web.entity.WorkflowMainFlow;
 import com.dong.event.web.model.dto.WorkflowMainFlowDTO;
-import com.dong.event.web.model.vo.WorkflowMainFlowVO;
 
 import java.util.List;
 
 public interface WorkflowMainFlowService {
 
     /**
-    * 查询主干流程列表
-    *
-    * @param workflowId
-    * @return
-    */
-    Pager<WorkflowMainFlowVO> findWorkflowMainFlowList(String workflowId);
+     * 查询主干流程列表
+     *
+     * @param workflowId
+     * @return
+     */
+    List<WorkflowMainFlow> findWorkflowMainFlowList(String workflowId);
 
     /**
      * 保存主干流程
      *
-     * @param dto
+     * @param dtoList
      * @return
      */
     List<WorkflowMainFlow> saveWorkflowMainFlow(List<WorkflowMainFlowDTO> dtoList);
@@ -40,5 +38,12 @@ public interface WorkflowMainFlowService {
     * @return
     */
     void deleteWorkflowMainFlow(String id);
+
+    /**
+     * 根据工作流id删除主干流程
+     *
+     * @param workflowId
+     */
+    void deleteWorkflowMainFlowByWorkflow(String workflowId);
 
 }

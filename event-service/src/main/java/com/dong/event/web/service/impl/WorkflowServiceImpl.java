@@ -24,12 +24,12 @@ public class WorkflowServiceImpl implements WorkflowService {
     WorkflowJpaDao workflowJpaDao;
 
     /**
-    * 查询工作流列表
-    *
-    * @param dto
-    * @param pager
-    * @return
-    */
+     * 查询工作流列表
+     *
+     * @param dto
+     * @param pager
+     * @return
+     */
     @Override
     public Pager<WorkflowVO> findWorkflowList(WorkflowDTO dto, Pager<WorkflowVO> pager) {
         return null;
@@ -59,11 +59,11 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     /**
-    * 查询工作流详情
-    *
-    * @param id
-    * @return
-    */
+     * 查询工作流详情
+     *
+     * @param id
+     * @return
+     */
     @Override
     public WorkflowVO getWorkflow(String id) {
         Assert.notNull(id, "id不能为空");
@@ -79,11 +79,11 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     /**
-    * 删除工作流
-    *
-    * @param id
-    * @return
-    */
+     * 删除工作流
+     *
+     * @param id
+     * @return
+     */
     @Override
     public void deleteWorkflow(String id) {
         Assert.notNull(id, "id不能为空");

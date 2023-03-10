@@ -1,20 +1,19 @@
 package com.dong.event.web.service;
 
-import com.dong.commoncore.model.Pager;
 import com.dong.event.web.entity.WorkflowFlowDetail;
 import com.dong.event.web.model.dto.WorkflowFlowDetailDTO;
-import com.dong.event.web.model.vo.WorkflowFlowDetailVO;
+
+import java.util.List;
 
 public interface WorkflowFlowDetailService {
 
     /**
-    * 查询流程环节详情列表
-    *
-    * @param dto
-    * @param pager
-    * @return
-    */
-    Pager<WorkflowFlowDetailVO> findWorkflowFlowDetailList(WorkflowFlowDetailDTO dto, Pager<WorkflowFlowDetailVO> pager);
+     * 查询流程环节详情列表
+     *
+     * @param workflowId
+     * @return
+     */
+    List<WorkflowFlowDetail> findWorkflowFlowDetailList(String workflowId);
 
     /**
      * 保存流程环节详情
@@ -39,5 +38,12 @@ public interface WorkflowFlowDetailService {
     * @return
     */
     void deleteWorkflowFlowDetail(String id);
+
+    /**
+     * 根据工作流id删除流程环节
+     *
+     * @param workflowId
+     */
+    void deleteWorkflowFlowDetailByWorkflow(String workflowId);
 
 }

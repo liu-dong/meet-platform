@@ -1,11 +1,9 @@
 package com.dong.event.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.event.web.entity.WorkflowMainFlow;
 import com.dong.event.web.model.dto.WorkflowMainFlowDTO;
-import com.dong.event.web.model.vo.WorkflowMainFlowVO;
 import com.dong.event.web.service.WorkflowMainFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +30,7 @@ public class WorkflowMainFlowController {
     */
     @GetMapping("/findWorkflowMainFlowList")
     public ResponseResult findWorkflowMainFlowList(String workflowId) {
-        Pager<WorkflowMainFlowVO> result = workflowMainFlowService.findWorkflowMainFlowList(workflowId);
+        List<WorkflowMainFlow> result = workflowMainFlowService.findWorkflowMainFlowList(workflowId);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

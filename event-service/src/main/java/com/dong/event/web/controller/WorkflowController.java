@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
-*  工作流
-*
-*  @author liudong
-*/
+ * 工作流
+ *
+ * @author liudong
+ */
 @RestController
 @RequestMapping("/workflow")
 public class WorkflowController {
@@ -23,12 +23,12 @@ public class WorkflowController {
     WorkflowService workflowService;
 
     /**
-    * 查询工作流列表
-    *
-    * @param dto
-    * @param pager
-    * @return
-    */
+     * 查询工作流列表
+     *
+     * @param dto
+     * @param pager
+     * @return
+     */
     @PostMapping("/findWorkflowList")
     public ResponseResult findWorkflowList(@RequestBody WorkflowDTO dto, Pager<WorkflowVO> pager) {
         Pager<WorkflowVO> result = workflowService.findWorkflowList(dto, pager);
@@ -36,11 +36,11 @@ public class WorkflowController {
     }
 
     /**
-    * 保存工作流
-    *
-    * @param dto
-    * @return
-    */
+     * 保存工作流
+     *
+     * @param dto
+     * @return
+     */
     @PostMapping("/saveWorkflow")
     public ResponseResult saveWorkflow(@RequestBody WorkflowDTO dto) {
         Workflow result = workflowService.saveWorkflow(dto);
@@ -48,11 +48,11 @@ public class WorkflowController {
     }
 
     /**
-    * 查询工作流
-    *
-    * @param id
-    * @return
-    */
+     * 查询工作流
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/getWorkflow")
     public ResponseResult getWorkflow(String id) {
         WorkflowVO result = workflowService.getWorkflow(id);
@@ -60,11 +60,11 @@ public class WorkflowController {
     }
 
     /**
-    * 删除工作流
-    *
-    * @param id
-    * @return
-    */
+     * 删除工作流
+     *
+     * @param id
+     * @return
+     */
     @PostMapping("/deleteWorkflow")
     public ResponseResult deleteWorkflow(String id) {
         workflowService.deleteWorkflow(id);

@@ -1,12 +1,10 @@
 package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
-import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.event.web.dao.WorkflowMainFlowJpaDao;
 import com.dong.event.web.entity.WorkflowMainFlow;
 import com.dong.event.web.model.dto.WorkflowMainFlowDTO;
-import com.dong.event.web.model.vo.WorkflowMainFlowVO;
 import com.dong.event.web.service.WorkflowMainFlowService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -26,13 +24,12 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
     /**
      * 查询主干流程列表
      *
-     * @param dto
-     * @param pager
+     * @param workflowId
      * @return
      */
     @Override
-    public Pager<WorkflowMainFlowVO> findWorkflowMainFlowList(String workflowId) {
-        return null;
+    public List<WorkflowMainFlow> findWorkflowMainFlowList(String workflowId) {
+        return workflowMainFlowJpaDao.findByWorkflowIdOrderByFlowSortAsc(workflowId);
     }
 
     /**
@@ -84,4 +81,12 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
         workflowMainFlowJpaDao.save(entity);
     }
 
+    @Override
+    public void deleteWorkflowMainFlowByWorkflow(String workflowId) {
+        List<WorkflowMainFlow> mainFlows = workflowMainFlowJpaDao.findByWorkflowIdOrderByFlowSortAsc(workflowId);
+        for (WorkflowMainFlow mainFlow : mainFlows) {
+            mainFlow.setDeleteStatus(CommonConstant.YES);
+        }
+        workflowMainFlowJpaDao.saveAll(mainFlows);
+    }
 }

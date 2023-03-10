@@ -1,12 +1,10 @@
 package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
-import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.event.web.dao.WorkflowFlowDetailJpaDao;
 import com.dong.event.web.entity.WorkflowFlowDetail;
 import com.dong.event.web.model.dto.WorkflowFlowDetailDTO;
-import com.dong.event.web.model.vo.WorkflowFlowDetailVO;
 import com.dong.event.web.service.WorkflowFlowDetailService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +13,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService {
@@ -23,15 +22,14 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
     WorkflowFlowDetailJpaDao workflowFlowDetailJpaDao;
 
     /**
-    * 查询流程环节详情列表
-    *
-    * @param dto
-    * @param pager
-    * @return
-    */
+     * 查询流程环节详情列表
+     *
+     * @param workflowId
+     * @return
+     */
     @Override
-    public Pager<WorkflowFlowDetailVO> findWorkflowFlowDetailList(WorkflowFlowDetailDTO dto, Pager<WorkflowFlowDetailVO> pager) {
-        return null;
+    public List<WorkflowFlowDetail> findWorkflowFlowDetailList(String workflowId) {
+        return workflowFlowDetailJpaDao.findByWorkflowId(workflowId);
     }
 
     /**
@@ -81,6 +79,17 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
         workflowFlowDetail.setDeleteStatus(CommonConstant.YES);
         workflowFlowDetail.setUpdateTime(new Date());
         workflowFlowDetailJpaDao.save(workflowFlowDetail);
+    }
+
+
+
+    @Override
+    public void deleteWorkflowFlowDetailByWorkflow(String workflowId) {
+        List<WorkflowFlowDetail> flowDetails = workflowFlowDetailJpaDao.findByWorkflowId(workflowId);
+        for (WorkflowFlowDetail flowDetail : flowDetails) {
+            flowDetail.setDeleteStatus(CommonConstant.YES);
+        }
+        workflowFlowDetailJpaDao.saveAll(flowDetails);
     }
 
 }
