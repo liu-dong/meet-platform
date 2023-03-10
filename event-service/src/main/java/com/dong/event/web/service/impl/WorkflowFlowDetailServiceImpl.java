@@ -2,6 +2,7 @@ package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.web.dao.WorkflowFlowDetailJpaDao;
 import com.dong.event.web.entity.WorkflowFlowDetail;
 import com.dong.event.web.model.dto.WorkflowFlowDetailDTO;
@@ -45,6 +46,7 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
         if (StringUtils.isBlank(dto.getId())) {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
+            entity.setCreateUserId(CurrentUserUtils.getUserId());
             entity.setDeleteStatus(CommonConstant.NO);
         } else {
             WorkflowFlowDetail workflowFlowDetail = workflowFlowDetailJpaDao.findById(dto.getId()).orElse(new WorkflowFlowDetail());
@@ -53,6 +55,7 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
             entity.setCreateUserId(workflowFlowDetail.getCreateUserId());
         }
         entity.setUpdateTime(new Date());
+        entity.setUpdateUserId(CurrentUserUtils.getUserId());
         return workflowFlowDetailJpaDao.save(entity);
     }
 

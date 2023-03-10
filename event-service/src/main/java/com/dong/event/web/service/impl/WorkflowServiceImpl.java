@@ -4,6 +4,7 @@ import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.web.dao.WorkflowJpaDao;
 import com.dong.event.web.entity.Workflow;
 import com.dong.event.web.model.dto.WorkflowDTO;
@@ -70,12 +71,15 @@ public class WorkflowServiceImpl implements WorkflowService {
         if (StringUtils.isBlank(dto.getId())) {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
+            entity.setCreateUserId(CurrentUserUtils.getUserId());
             entity.setDeleteStatus(CommonConstant.NO);
             entity.setWorkflowCode(CommonUtils.getRandomSixNum());
         } else {
             Workflow workflow = workflowJpaDao.findById(dto.getId()).orElse(new Workflow());
             entity.setId(workflow.getId());
+
         }
+        entity.setUpdateUserId(CurrentUserUtils.getUserId());
         entity.setUpdateTime(new Date());
         return workflowJpaDao.save(entity);
     }

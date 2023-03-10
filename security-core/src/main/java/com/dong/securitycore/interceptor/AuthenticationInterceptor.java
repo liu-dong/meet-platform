@@ -92,6 +92,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             userDetail.setRealName(String.valueOf(claims.get("realName")));
             //当前用户放到ThreadLocal变量变量中
             CurrentUserUtils.set(userDetail);
+            return true;
         }
         return false;
     }

@@ -3,6 +3,7 @@ package com.dong.event.web.service.impl;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.web.dao.EventJpaDao;
 import com.dong.event.web.entity.Event;
 import com.dong.event.web.model.dto.EventDTO;
@@ -48,13 +49,15 @@ public class EventServiceImpl implements EventService {
         if (StringUtils.isNotBlank(dto.getId())) {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
+            entity.setCreateUserId(CurrentUserUtils.getUserId());
             entity.setDeleteStatus(CommonConstant.NO);
             entity.setEventCode(CommonUtils.getRandomSixNum());
         } else {
             Event event = eventJpaDao.findById(dto.getId()).orElse(new Event());
             entity.setId(event.getId());
-            entity.setUpdateTime(new Date());
         }
+        entity.setUpdateTime(new Date());
+        entity.setUpdateUserId(CurrentUserUtils.getUserId());
         return eventJpaDao.save(entity);
     }
 

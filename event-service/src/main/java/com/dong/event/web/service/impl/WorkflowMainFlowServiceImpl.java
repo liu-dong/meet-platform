@@ -2,6 +2,7 @@ package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.web.dao.WorkflowMainFlowJpaDao;
 import com.dong.event.web.entity.WorkflowMainFlow;
 import com.dong.event.web.model.dto.WorkflowMainFlowDTO;
@@ -48,11 +49,13 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
                 WorkflowMainFlow workflowMainFlow = workflowMainFlowJpaDao.findById(dto.getId()).orElse(new WorkflowMainFlow());
                 entity.setId(workflowMainFlow.getId());
                 entity.setCreateTime(workflowMainFlow.getCreateTime());
+                entity.setCreateUserId(CurrentUserUtils.getUserId());
                 entity.setCreateUserId(workflowMainFlow.getCreateUserId());
             } else {
                 entity.setId(CommonUtils.getUUID());
                 entity.setCreateTime(new Date());
             }
+            entity.setUpdateUserId(CurrentUserUtils.getUserId());
             entity.setUpdateTime(new Date());
             entityList.add(entity);
         }
