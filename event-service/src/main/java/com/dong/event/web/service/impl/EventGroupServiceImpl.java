@@ -7,10 +7,12 @@ import com.dong.event.web.model.vo.EventGroupVO;
 import com.dong.event.web.service.EventGroupService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 public class EventGroupServiceImpl implements EventGroupService {
 
-    @Autowired
+    @Resource
     EventGroupJpaDao eventGroupJpaDao;
 
     /**

@@ -47,6 +47,8 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
             if (StringUtils.isNotBlank(dto.getId())) {
                 WorkflowMainFlow workflowMainFlow = workflowMainFlowJpaDao.findById(dto.getId()).orElse(new WorkflowMainFlow());
                 entity.setId(workflowMainFlow.getId());
+                entity.setCreateTime(workflowMainFlow.getCreateTime());
+                entity.setCreateUserId(workflowMainFlow.getCreateUserId());
             } else {
                 entity.setId(CommonUtils.getUUID());
                 entity.setCreateTime(new Date());
