@@ -22,7 +22,7 @@ public interface EventService {
      * @param dto
      * @return
      */
-    Event saveEvent(EventDTO dto);
+    Event registerEvent(EventDTO dto);
 
     /**
     * 查询事件详情

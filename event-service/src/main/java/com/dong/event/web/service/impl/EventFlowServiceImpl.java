@@ -15,23 +15,23 @@ public class EventFlowServiceImpl implements EventFlowService {
     EventFlowJpaDao eventFlowJpaDao;
 
     /**
-    * 查询事件流程列表
-    *
-    * @param dto
-    * @param pager
-    * @return
-    */
+     * 查询事件流程列表
+     *
+     * @param dto
+     * @param pager
+     * @return
+     */
     @Override
     public Pager<EventFlowVO> findEventFlowList(EventFlowDTO dto, Pager<EventFlowVO> pager) {
         return null;
     }
 
     /**
-    * 保存事件流程
-    *
-    * @param dto
-    * @return
-    */
+     * 保存事件流程
+     *
+     * @param dto
+     * @return
+     */
     @Override
     public EventFlowVO saveEventFlow(EventFlowDTO dto) {
 
@@ -39,23 +39,25 @@ public class EventFlowServiceImpl implements EventFlowService {
     }
 
     /**
-    * 查询事件流程详情
-    *
-    * @param id
-    * @return
-    */
+     * 查询事件流程详情
+     *
+     * @param id
+     * @return
+     */
     @Override
     public EventFlowVO getEventFlow(String id) {
         return null;
     }
 
     /**
-    * 删除事件流程
-    *
-    * @param id
-    * @return
-    */
+     * 删除事件流程
+     *
+     * @param id
+     * @return
+     */
     @Override
-    public void deleteEventFlow(String id) {}
+    public void deleteEventFlow(String id) {
+
+    }
 
 }

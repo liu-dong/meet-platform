@@ -10,12 +10,15 @@ import com.dong.event.util.EventUtils;
 import com.dong.event.web.dao.EventJpaDao;
 import com.dong.event.web.entity.Event;
 import com.dong.event.web.model.dto.EventDTO;
+import com.dong.event.web.model.dto.EventGroupDTO;
 import com.dong.event.web.model.vo.EventVO;
+import com.dong.event.web.service.EventGroupService;
 import com.dong.event.web.service.EventService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -27,6 +30,8 @@ public class EventServiceImpl implements EventService {
 
     @Resource
     EventJpaDao eventJpaDao;
+    @Resource
+    EventGroupService eventGroupService;
 
     /**
      * 查询事件列表
@@ -52,8 +57,32 @@ public class EventServiceImpl implements EventService {
      * @param dto
      * @return
      */
+    @Transactional
     @Override
-    public Event saveEvent(EventDTO dto) {
+    public Event registerEvent(EventDTO dto) {
+        //保存事件
+        Event entity = saveEvent(dto);
+        //保存事件群聊关系
+        saveEventGroup(entity.getEventCode(), dto.getGroupId());
+        return eventJpaDao.save(entity);
+    }
+
+    /**
+     * 保存事件群聊关系
+     *
+     * @param eventCode
+     * @param groupId
+     */
+    private void saveEventGroup(String eventCode, String groupId) {
+        EventGroupDTO eventGroupDTO = new EventGroupDTO();
+        eventGroupDTO.setEventCode(eventCode);
+        eventGroupDTO.setGroupId(groupId);
+        eventGroupDTO.setCurrentStatus(CommonConstant.YES);
+        eventGroupService.saveEventGroup(eventGroupDTO);
+    }
+
+    @NotNull
+    private Event saveEvent(EventDTO dto) {
         Event entity = new Event();
         BeanUtils.copyProperties(dto, entity);
         if (StringUtils.isBlank(dto.getId())) {
@@ -72,7 +101,7 @@ public class EventServiceImpl implements EventService {
         entity.setUpdateUserId(CurrentUserUtils.getUserId());
         entity.setExpectCompleteDate(EventUtils.getExpectCompleteDate(dto.getUrgencyDegree()));
         entity.setExpectWarnDate(EventUtils.getExpectWarnDate(dto.getUrgencyDegree()));
-        return eventJpaDao.save(entity);
+        return entity;
     }
 
 

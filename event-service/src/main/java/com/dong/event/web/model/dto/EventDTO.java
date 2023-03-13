@@ -5,106 +5,111 @@ import lombok.Data;
 import java.util.Date;
 
 /**
-*  事件
-*
-*  @author liudong
-*/
+ * 事件
+ *
+ * @author liudong
+ */
 @Data
 public class EventDTO {
 
     /**
-    * 主键
-    */
+     * 主键
+     */
     private String id;
 
     /**
-    * 事件编码
-    */
+     * 事件编码
+     */
     private String eventCode;
 
     /**
-    * 事件名称
-    */
+     * 事件名称
+     */
     private String eventName;
 
     /**
-    * 操作人id
-    */
+     * 操作人id
+     */
     private String operatorId;
 
     /**
-    * 事件描述
-    */
+     * 事件描述
+     */
     private String eventDescription;
 
     /**
-    * 事发地址
-    */
+     * 事发地址
+     */
     private String happenAddress;
 
     /**
-    * 事发区划名称
-    */
+     * 事发区划名称
+     */
     private String happenDivisionName;
 
     /**
-    * 事发区划编码
-    */
+     * 事发区划编码
+     */
     private String happenDivisionCode;
 
     /**
-    * 事发时间
-    */
+     * 事发时间
+     */
     private Date happenDate;
 
     /**
-    * 坐标系：WGS84、GCJ02
-    */
+     * 坐标系：WGS84、GCJ02
+     */
     private String mapType;
 
     /**
-    * 坐标x(纬度)
-    */
+     * 坐标x(纬度)
+     */
     private String mapX;
 
     /**
-    * 坐标y(经度)
-    */
+     * 坐标y(经度)
+     */
     private String mapY;
 
     /**
-    * 事件分类编码
-    */
+     * 事件分类编码
+     */
     private String eventCategoryCode;
 
     /**
-    * 数据来源
-    */
+     * 数据来源
+     */
     private String dataSources;
 
     /**
-    * 事件状态 register：登记、claim：响应、deal：处理、end：办结
-    */
+     * 事件状态 register：登记、claim：响应、deal：处理、end：办结
+     */
     private String eventStatus;
 
     /**
-    * 预计完成时间
-    */
+     * 预计完成时间
+     */
     private Date expectCompleteDate;
 
     /**
-    * 预计预警时间
-    */
+     * 预计预警时间
+     */
     private Date expectWarnDate;
 
     /**
-    * 紧急程度 普通：normal、紧急：urgency
-    */
+     * 紧急程度 普通：normal、紧急：urgency
+     */
     private String urgencyDegree;
 
     /**
-    * 事件时效标签  正常：normal、预警：warn、超时：overdue
-    */
+     * 事件时效标签  正常：normal、预警：warn、超时：overdue
+     */
     private String efficiency;
+
+    /**
+     * 群聊id
+     */
+    private String groupId;
 
 }

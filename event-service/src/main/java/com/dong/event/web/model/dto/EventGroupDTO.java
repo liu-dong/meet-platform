@@ -2,8 +2,6 @@ package com.dong.event.web.model.dto;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
 *  事件群聊关联
 *
@@ -36,30 +34,4 @@ public class EventGroupDTO {
     * 事件群聊关系  登记：register、转办：turn、分享：share
     */
     private String relationType;
-
-    /**
-    * 是否删除 0：否、1：是
-    */
-    private Integer deleteStatus;
-
-    /**
-    * 创建时间
-    */
-    private Date createTime;
-
-    /**
-    * 创建人
-    */
-    private String createUserId;
-
-    /**
-    * 修改时间
-    */
-    private Date updateTime;
-
-    /**
-    * 修改人
-    */
-    private String updateUserId;
-
 }

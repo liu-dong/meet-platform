@@ -1,7 +1,11 @@
 package com.dong.event.web.service.impl;
 
+import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.util.CommonUtils;
+import com.dong.event.enums.RelationTypeEnum;
 import com.dong.event.web.dao.EventGroupJpaDao;
+import com.dong.event.web.entity.EventGroup;
 import com.dong.event.web.model.dto.EventGroupDTO;
 import com.dong.event.web.model.vo.EventGroupVO;
 import com.dong.event.web.service.EventGroupService;
@@ -28,14 +32,21 @@ public class EventGroupServiceImpl implements EventGroupService {
     }
 
     /**
-    * 保存事件群聊关联
-    *
-    * @param dto
-    * @return
-    */
+     * 保存事件群聊关联
+     *
+     * @param dto
+     * @return
+     */
     @Override
-    public EventGroupVO saveEventGroup(EventGroupDTO dto) {
-        return null;
+    public EventGroup saveEventGroup(EventGroupDTO dto) {
+        EventGroup entity = new EventGroup();
+        entity.setId(CommonUtils.getUUID());
+        entity.setEventCode(dto.getEventCode());
+        entity.setGroupId(dto.getGroupId());
+        entity.setCurrentStatus(dto.getCurrentStatus());
+        entity.setRelationType(RelationTypeEnum.register.name());
+        entity.setDeleteStatus(CommonConstant.NO);
+        return eventGroupJpaDao.save(entity);
     }
 
     /**
