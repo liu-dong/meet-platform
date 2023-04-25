@@ -57,4 +57,10 @@ public class GlobalExceptionHandler {
     public ResponseResult error() {
         return ResponseResult.error("无值存在");
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public ResponseResult error(IllegalArgumentException e) {
+        return ResponseResult.error(e.getMessage());
+    }
 }

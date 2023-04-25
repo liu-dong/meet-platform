@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
+        <version>2.7.10</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.dong</groupId>
@@ -79,7 +79,7 @@
 
         <module>chat-service</module>
         <module>event-service</module>
-
+        <module>demo</module>
     </modules>
 
     <dependencies>
