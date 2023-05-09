@@ -1,235 +1,220 @@
 package com.dong.productservice.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author LD
- * @date 2020/10/14 0:15
+ * 商品表
+ *
+ * @author liudong 2023/05/09
  */
 @Entity
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
-public class Product {
-    private String id;
-    private String productName;
-    private String productCode;
-    private short productType;
-    private short productStatus;
-    private String productDescription;
-    private String imageUrl;
-    private int amount;
-    private int remainingQuantity;
-    private BigDecimal costPrice;
-    private BigDecimal sellingPrice;
-    private String remark;
-    private Date createTime;
-    private String createUserId;
-    private Date updateTime;
-    private String updateUserId;
+@Table (name = "product")
+public class Product implements Serializable {
 
-    @Id
-    @Column(name = "id", nullable = false, length = 36)
-    public String getId() {
-        return id;
-    }
+	private static final long serialVersionUID = 634085090930843735L;
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    @Basic
-    @Column(name = "product_name", nullable = false, length = 50)
-    public String getProductName() {
-        return productName;
-    }
+	/**
+	 * 主键id
+	 */
+	private String id;
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	/**
+	 * 商品名称
+	 */
+	private String productName;
 
-    @Basic
-    @Column(name = "product_code", nullable = false, length = 10)
-    public String getProductCode() {
-        return productCode;
-    }
+	/**
+	 * 商品编号
+	 */
+	private String productCode;
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
+	/**
+	 * 商品类型（0：其他、1：书籍、2：电子、3：服装）
+	 */
+	private Integer productType;
 
-    @Basic
-    @Column(name = "product_type", nullable = false)
-    public short getProductType() {
-        return productType;
-    }
+	/**
+	 * 商品状态（on_sale：在售，sold_out：下架）
+	 */
+	private Integer productStatus;
 
-    public void setProductType(short productType) {
-        this.productType = productType;
-    }
+	/**
+	 * 商品说明
+	 */
+	private String productDescription;
 
-    @Basic
-    @Column(name = "product_status", nullable = false)
-    public short getProductStatus() {
-        return productStatus;
-    }
+	/**
+	 * 商品图片地址
+	 */
+	private String imageUrl;
 
-    public void setProductStatus(short productStatus) {
-        this.productStatus = productStatus;
-    }
+	/**
+	 * 出售价格
+	 */
+	private BigDecimal sellingPrice;
 
-    @Basic
-    @Column(name = "product_description", nullable = true, length = 2000)
-    public String getProductDescription() {
-        return productDescription;
-    }
+	/**
+	 * 备注
+	 */
+	private String remark;
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
+	/**
+	 * 是否删除 0：否、1：是
+	 */
+	private Long isDetele;
 
-    @Basic
-    @Column(name = "image_url", nullable = true, length = 255)
-    public String getImageUrl() {
-        return imageUrl;
-    }
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+	/**
+	 * 创建人id
+	 */
+	private String createUserId;
 
-    @Basic
-    @Column(name = "amount", nullable = false)
-    public int getAmount() {
-        return amount;
-    }
+	/**
+	 * 修改时间
+	 */
+	private Date updateTime;
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
+	/**
+	 * 修改人id
+	 */
+	private String updateUserId;
 
-    @Basic
-    @Column(name = "remaining_quantity", nullable = false)
-    public int getRemainingQuantity() {
-        return remainingQuantity;
-    }
+	@Id
+ 	@Column(name = "id" )
+	public String getId() {
+		return this.id;
+	}
 
-    public void setRemainingQuantity(int remainingQuantity) {
-        this.remainingQuantity = remainingQuantity;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    @Basic
-    @Column(name = "cost_price", nullable = true, precision = 2)
-    public BigDecimal getCostPrice() {
-        return costPrice;
-    }
+ 	@Column(name = "product_name" )
+	public String getProductName() {
+		return this.productName;
+	}
 
-    public void setCostPrice(BigDecimal costPrice) {
-        this.costPrice = costPrice;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    @Basic
-    @Column(name = "selling_price", nullable = true, precision = 2)
-    public BigDecimal getSellingPrice() {
-        return sellingPrice;
-    }
+ 	@Column(name = "product_code" )
+	public String getProductCode() {
+		return this.productCode;
+	}
 
-    public void setSellingPrice(BigDecimal sellingPrice) {
-        this.sellingPrice = sellingPrice;
-    }
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
 
-    @Basic
-    @Column(name = "remark", nullable = true, length = 1000)
-    public String getRemark() {
-        return remark;
-    }
+ 	@Column(name = "product_type" )
+	public Integer getProductType() {
+		return this.productType;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public void setProductType(Integer productType) {
+		this.productType = productType;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (o == null || getClass() != o.getClass()) {return false;}
+ 	@Column(name = "product_status" )
+	public Integer getProductStatus() {
+		return this.productStatus;
+	}
 
-        Product product = (Product) o;
+	public void setProductStatus(Integer productStatus) {
+		this.productStatus = productStatus;
+	}
 
-        if (productType != product.productType) {return false;}
-        if (productStatus != product.productStatus) {return false;}
-        if (amount != product.amount) {return false;}
-        if (remainingQuantity != product.remainingQuantity) {return false;}
-        if (id != null ? !id.equals(product.id) : product.id != null) {return false;}
-        if (productName != null ? !productName.equals(product.productName) : product.productName != null) {return false;}
-        if (productCode != null ? !productCode.equals(product.productCode) : product.productCode != null) {return false;}
-        if (productDescription != null ? !productDescription.equals(product.productDescription) : product.productDescription != null)
-            {return false;}
-        if (costPrice != null ? !costPrice.equals(product.costPrice) : product.costPrice != null) {return false;}
-        if (sellingPrice != null ? !sellingPrice.equals(product.sellingPrice) : product.sellingPrice != null)
-            {return false;}
-        if (remark != null ? !remark.equals(product.remark) : product.remark != null) {return false;}
+ 	@Column(name = "product_description" )
+	public String getProductDescription() {
+		return this.productDescription;
+	}
 
-        return true;
-    }
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (productName != null ? productName.hashCode() : 0);
-        result = 31 * result + (productCode != null ? productCode.hashCode() : 0);
-        result = 31 * result + (int) productType;
-        result = 31 * result + (int) productStatus;
-        result = 31 * result + (productDescription != null ? productDescription.hashCode() : 0);
-        result = 31 * result + amount;
-        result = 31 * result + remainingQuantity;
-        result = 31 * result + (costPrice != null ? costPrice.hashCode() : 0);
-        result = 31 * result + (sellingPrice != null ? sellingPrice.hashCode() : 0);
-        result = 31 * result + (remark != null ? remark.hashCode() : 0);
-        return result;
-    }
+ 	@Column(name = "image_url" )
+	public String getImageUrl() {
+		return this.imageUrl;
+	}
 
-    @Basic
-    @Column(name = "create_time")
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+ 	@Column(name = "selling_price" )
+	public BigDecimal getSellingPrice() {
+		return this.sellingPrice;
+	}
 
-    @Basic
-    @Column(name = "create_user_id")
-    public String getCreateUserId() {
-        return createUserId;
-    }
+	public void setSellingPrice(BigDecimal sellingPrice) {
+		this.sellingPrice = sellingPrice;
+	}
 
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
+ 	@Column(name = "remark" )
+	public String getRemark() {
+		return this.remark;
+	}
 
-    @Basic
-    @Column(name = "update_time")
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+ 	@Column(name = "is_detele" )
+	public Long getIsDetele() {
+		return this.isDetele;
+	}
 
-    @Basic
-    @Column(name = "update_user_id")
-    public String getUpdateUserId() {
-        return updateUserId;
-    }
+	public void setIsDetele(Long isDetele) {
+		this.isDetele = isDetele;
+	}
 
-    public void setUpdateUserId(String updateUserId) {
-        this.updateUserId = updateUserId;
-    }
+ 	@Column(name = "create_time" )
+	public Date getCreateTime() {
+		return this.createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+ 	@Column(name = "create_user_id" )
+	public String getCreateUserId() {
+		return this.createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+ 	@Column(name = "update_time" )
+	public Date getUpdateTime() {
+		return this.updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+ 	@Column(name = "update_user_id" )
+	public String getUpdateUserId() {
+		return this.updateUserId;
+	}
+
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
 }

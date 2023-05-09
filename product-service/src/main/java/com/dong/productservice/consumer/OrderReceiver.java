@@ -7,7 +7,6 @@ import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,7 +14,7 @@ import java.util.Map;
 /**
  * @author LD
  */
-@Component
+//@Component
 public class OrderReceiver {
 
     @Autowired
