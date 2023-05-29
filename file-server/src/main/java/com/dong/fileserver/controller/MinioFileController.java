@@ -4,18 +4,12 @@ import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.fileserver.service.MinioFileService;
 import io.minio.Result;
-import io.minio.errors.*;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +19,6 @@ import java.util.stream.Collectors;
  *
  * @author liudong 2022/9/24
  */
-@Api(tags = "Minio文件管理")
 @RestController
 @RequestMapping("/minio/file")
 public class MinioFileController {
@@ -33,7 +26,11 @@ public class MinioFileController {
     @Resource
     private MinioFileService minioFileService;
 
-    @ApiOperation("查询存储桶列表")
+    /**
+     * 查询存储桶列表
+     *
+     * @return
+     */
     @GetMapping("/listBuckets")
     public ResponseResult listBuckets() {
         try {
@@ -63,41 +60,88 @@ public class MinioFileController {
         }
     }
 
+    /**
+     * 判断存储桶是否存在
+     *
+     * @param bucketName
+     * @return
+     */
+    @GetMapping("/bucketExists")
+    public ResponseResult bucketExists(String bucketName) {
+        try {
+            boolean result = minioFileService.bucketExists(bucketName);
+            return ResponseResult.success(result, ResponseMessageConstant.OPERATE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(ResponseMessageConstant.OPERATE_ERROR);
+        }
+    }
 
-    @ApiOperation("查询文件列表")
+    /**
+     * 删除存储桶
+     *
+     * @param bucketName
+     * @return
+     */
+    @PostMapping("/removeBucket")
+    public ResponseResult removeBucket(String bucketName) {
+        try {
+            minioFileService.removeBucket(bucketName);
+            return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(ResponseMessageConstant.OPERATE_ERROR);
+        }
+    }
+
+    /**
+     * 查询文件列表
+     *
+     * @param bucketName 桶名称
+     * @return
+     */
+    @SneakyThrows
     @GetMapping("/listObjects")
-    public ResponseResult listObjects(
-            @ApiParam(value = "桶名称", required = true)
-            @RequestParam("bucketName") String bucketName) {
+    public ResponseResult listObjects(String bucketName) {
         List<String> objectList = new ArrayList<>();
         Iterable<Result<Item>> results = minioFileService.listAllObjects(bucketName);
         for (Result<Item> result : results) {
-            try {
-                objectList.add(result.get().objectName());
-            } catch (ErrorResponseException e) {
-                throw new RuntimeException(e);
-            } catch (InsufficientDataException e) {
-                throw new RuntimeException(e);
-            } catch (InternalException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidKeyException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidResponseException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            } catch (ServerException e) {
-                throw new RuntimeException(e);
-            } catch (XmlParserException e) {
-                throw new RuntimeException(e);
-            }
+            objectList.add(result.get().objectName());
         }
         return ResponseResult.success(objectList, "操作成功");
     }
 
+    /**
+     * 删除对象
+     *
+     * @param bucketName
+     * @return
+     */
+    @PostMapping("/removeObject")
+    public ResponseResult removeObject(String bucketName, String objectName) {
+        try {
+            minioFileService.removeObject(bucketName, objectName);
+            return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(ResponseMessageConstant.OPERATE_ERROR);
+        }
+    }
 
-
-
+    /**
+     * 删除多个对象
+     *
+     * @param bucketName
+     * @return
+     */
+    @PostMapping("/removeObjects")
+    public ResponseResult removeObjects(@RequestParam String bucketName, @RequestParam List<String> objectNameList) {
+        try {
+            minioFileService.removeObjects(bucketName, objectNameList);
+            return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(ResponseMessageConstant.OPERATE_ERROR);
+        }
+    }
 }

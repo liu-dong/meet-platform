@@ -29,6 +29,22 @@ public interface MinioFileService {
     boolean bucketExists(String bucketName) throws Exception;
 
     /**
+     * 创建桶
+     *
+     * @param bucketName
+     */
+    void makeBucket(String bucketName) throws Exception;
+
+
+    /**
+     * 删除桶(桶内必须为空)
+     *
+     * @param bucketName
+     * @throws Exception
+     */
+    void removeBucket(String bucketName) throws Exception;
+
+    /**
      * 列出桶的对象
      *
      * @param bucketName
@@ -43,21 +59,6 @@ public interface MinioFileService {
      * @return
      */
     Iterable<Result<Item>> listAllObjects(String bucketName);
-
-    /**
-     * 创建桶
-     *
-     * @param bucketName
-     */
-    void makeBucket(String bucketName) throws Exception;
-
-    /**
-     * 删除桶
-     *
-     * @param bucketName
-     * @throws Exception
-     */
-    void removeBucket(String bucketName) throws Exception;
 
     /**
      * 通过使用服务器端复制合并来自不同源对象的数据来创建对象。
