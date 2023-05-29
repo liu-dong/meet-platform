@@ -51,9 +51,10 @@
         <mysql-version>5.1.47</mysql-version>
         <jjwt.version>0.9.1</jjwt.version>
         <amqp-client-version>5.14.2</amqp-client-version>
-        <hutool-version>5.8.10</hutool-version>
-        <mybatis-version>2.0.0</mybatis-version>
-        <mybatis-plus-version>3.4.0</mybatis-plus-version>
+        <hutool.version>5.8.10</hutool.version>
+        <mybatis.version>2.0.0</mybatis.version>
+        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <minio.version>8.5.3</minio.version>
 
 
     </properties>
@@ -112,7 +113,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool-version}</version>
+            <version>${hutool.version}</version>
         </dependency>
     </dependencies>
 
@@ -255,13 +256,19 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>${hutool-version}</version>
+                <version>${hutool.version}</version>
             </dependency>
             <!--阿里云文件管理-->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+            <!-- 操作minio的java客户端-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -272,12 +279,12 @@
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-version}</version>
+                <version>${mybatis.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-version}</version>
+                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

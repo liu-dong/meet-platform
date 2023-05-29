@@ -10,14 +10,16 @@ import org.springframework.context.annotation.Configuration;
  * @author liudong 2023/5/28
  */
 @Configuration
-@ConfigurationProperties(prefix = "spring.minio")
+@ConfigurationProperties(prefix = "minio")
 @Data
 public class MinioConfig {
+
+    private String url;
+
     private String accessKey;
 
     private String secretKey;
 
-    private String url;
 
     private String bucketName;
 

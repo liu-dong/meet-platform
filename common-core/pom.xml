@@ -102,6 +102,11 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>easyexcel</artifactId>
 		</dependency>
+		<!-- 操作minio的java客户端-->
+<!--		<dependency>-->
+<!--			<groupId>io.minio</groupId>-->
+<!--			<artifactId>minio</artifactId>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
