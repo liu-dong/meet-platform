@@ -94,7 +94,7 @@ public interface MinioFileService {
      *
      * @param bucketName
      * @param objectName
-     * @param fileName
+     * @param fileName   包含路径和文件名称 例 C:\Users\Lenovo\Desktop\hello.png
      */
     void downloadObject(String bucketName, String objectName, String fileName);
 
@@ -111,11 +111,12 @@ public interface MinioFileService {
     /**
      * 将文件中的内容作为存储桶中的对象上传
      *
-     * @param file
+     * @param fileName   包含路径和文件名称 例 C:\Users\Lenovo\Desktop\hello.png
      * @param bucketName
      * @param objectName
+     * @return
      */
-    void uploadObject(MultipartFile file, String bucketName, String objectName);
+    String uploadObject(String fileName, String bucketName, String objectName);
 
     /**
      * 删除对象

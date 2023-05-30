@@ -134,10 +134,11 @@ public class MinioFileServiceImpl implements MinioFileService {
 
     @SneakyThrows
     @Override
-    public void uploadObject(MultipartFile file, String bucketName, String objectName) {
-        minioClient.uploadObject(
+    public String uploadObject(String fileName, String bucketName, String objectName) {
+        ObjectWriteResponse object = minioClient.uploadObject(
                 UploadObjectArgs.builder()
-                        .bucket(bucketName).object(objectName).filename(file.getOriginalFilename()).build());
+                        .bucket(bucketName).object(objectName).filename(fileName).build());
+        return object.object();
     }
 
     @SneakyThrows

@@ -118,13 +118,34 @@ public class MinioFileController {
     /**
      * 上传对象
      *
+     * @param file 文件流
      * @param bucketName
+     * @param objectName
      * @return
      */
     @PostMapping("/putObject")
     public ResponseResult putObject(@RequestParam MultipartFile file, @RequestParam String bucketName, @RequestParam String objectName) {
         try {
             String object = minioFileService.putObject(file, bucketName, objectName);
+            return ResponseResult.success(object, ResponseMessageConstant.OPERATE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.error(ResponseMessageConstant.OPERATE_ERROR);
+        }
+    }
+
+    /**
+     * 上传对象
+     *
+     * @param fileName 文件位置
+     * @param bucketName
+     * @param objectName
+     * @return
+     */
+    @PostMapping("/uploadObject")
+    public ResponseResult uploadObject(String fileName, String bucketName, String objectName) {
+        try {
+            String object = minioFileService.uploadObject(fileName, bucketName, objectName);
             return ResponseResult.success(object, ResponseMessageConstant.OPERATE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,6 +168,19 @@ public class MinioFileController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 下载对象
+     *
+     * @param bucketName
+     * @param objectName
+     * @param fileName
+     * @return
+     */
+    @GetMapping("/downloadObject")
+    public void downloadObject(String bucketName, String objectName, String fileName) {
+        minioFileService.downloadObject(bucketName, objectName, fileName);
     }
 
 
