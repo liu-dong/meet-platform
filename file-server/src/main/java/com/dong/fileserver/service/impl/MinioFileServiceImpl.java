@@ -151,13 +151,11 @@ public class MinioFileServiceImpl implements MinioFileService {
     @Override
     public void removeObjects(String bucketName, List<String> objectNameList) {
         List<DeleteObject> objects = objectNameList.stream().map(DeleteObject::new).collect(Collectors.toList());
-        Iterable<Result<DeleteError>> results =
-                minioClient.removeObjects(
-                        RemoveObjectsArgs.builder().bucket(bucketName).objects(objects).build());
+        Iterable<Result<DeleteError>> results = minioClient.removeObjects(
+                RemoveObjectsArgs.builder().bucket(bucketName).objects(objects).build());
         for (Result<DeleteError> result : results) {
             DeleteError error = result.get();
-            System.out.println(
-                    "Error in deleting object " + error.objectName() + "; " + error.message());
+            System.out.println("Error in deleting object " + error.objectName() + "; " + error.message());
         }
     }
 
