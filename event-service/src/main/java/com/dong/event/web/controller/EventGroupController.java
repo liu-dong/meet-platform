@@ -3,6 +3,7 @@ package com.dong.event.web.controller;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.event.web.entity.EventGroup;
 import com.dong.event.web.model.dto.EventGroupDTO;
 import com.dong.event.web.model.vo.EventGroupVO;
 import com.dong.event.web.service.EventGroupService;
@@ -42,7 +43,7 @@ public class EventGroupController {
     */
     @PostMapping("/saveEventGroup")
     public ResponseResult saveEventGroup(@RequestBody EventGroupDTO dto) {
-        EventGroupVO result = eventGroupService.saveEventGroup(dto);
+        EventGroup result = eventGroupService.saveEventGroup(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }
 

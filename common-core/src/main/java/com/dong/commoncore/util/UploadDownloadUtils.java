@@ -173,6 +173,13 @@ public class UploadDownloadUtils {
         return result;
     }
 
+    /**
+     * 下载文件
+     *
+     * @param file
+     * @param response
+     * @throws IOException
+     */
     public static void download(File file, HttpServletResponse response) throws IOException {
         // 获取文件名
         String filename = file.getName();
@@ -205,6 +212,13 @@ public class UploadDownloadUtils {
         outputStream.flush();
     }
 
+    /**
+     * 根据文件存放路径下载文件
+     *
+     * @param allPath
+     * @param response
+     * @throws IOException
+     */
     public static void download(String allPath, HttpServletResponse response) throws IOException {
         // 读到流中
         InputStream inputStream = Files.newInputStream(Paths.get(allPath));// 文件的存放路径
@@ -219,6 +233,36 @@ public class UploadDownloadUtils {
         while ((len = inputStream.read(b)) > 0) {
             outputStream.write(b, 0, len);
         }
+        inputStream.close();
+    }
+
+    /**
+     * 根据数据流下载文件
+     *
+     * @param inputStream
+     * @param fileName
+     * @param response
+     * @throws IOException
+     */
+    public static void download(InputStream inputStream, String fileName, HttpServletResponse response) throws IOException {
+        // 清空response
+        response.reset();
+        // 设置response的Header
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/octet-stream");
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        // 告知浏览器文件的大小
+//        response.addHeader("Content-Length", "" + buffer.length);
+        byte[] buffer = new byte[1024];
+        OutputStream outputStream = response.getOutputStream();
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            response.getOutputStream().write(buffer, 0, len);
+        }
+
+        outputStream.write(buffer);
+        outputStream.flush();
+        outputStream.close();
         inputStream.close();
     }
 

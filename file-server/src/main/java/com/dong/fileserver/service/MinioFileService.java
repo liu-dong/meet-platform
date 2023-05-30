@@ -1,11 +1,11 @@
 package com.dong.fileserver.service;
 
+import io.minio.GetObjectResponse;
 import io.minio.Result;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +87,7 @@ public interface MinioFileService {
      * @param objectName
      * @return
      */
-    InputStream getObject(String bucketName, String objectName);
+    GetObjectResponse getObject(String bucketName, String objectName);
 
     /**
      * 将对象的数据下载到文件

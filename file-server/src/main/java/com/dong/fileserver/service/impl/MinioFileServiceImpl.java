@@ -101,7 +101,7 @@ public class MinioFileServiceImpl implements MinioFileService {
 
     @SneakyThrows
     @Override
-    public InputStream getObject(String bucketName, String objectName) {
+    public GetObjectResponse getObject(String bucketName, String objectName) {
         return minioClient.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucketName)
