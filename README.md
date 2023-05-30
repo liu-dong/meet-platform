@@ -38,7 +38,7 @@
 
     模块名称：file-server
 
-    包含内容：alibaba-oss(已完成)，minio，普通上传下载(已完成)，excel导入导出
+    包含内容：alibaba-oss(已完成)，minio(已完成)，普通上传下载(已完成)，excel导入导出
 
 ### 消息系统
 
