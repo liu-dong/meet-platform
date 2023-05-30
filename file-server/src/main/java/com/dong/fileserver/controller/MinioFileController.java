@@ -124,8 +124,8 @@ public class MinioFileController {
     @PostMapping("/putObject")
     public ResponseResult putObject(@RequestParam MultipartFile file, @RequestParam String bucketName, @RequestParam String objectName) {
         try {
-            minioFileService.putObject(file, bucketName, objectName);
-            return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+            String object = minioFileService.putObject(file, bucketName, objectName);
+            return ResponseResult.success(object, ResponseMessageConstant.OPERATE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(ResponseMessageConstant.OPERATE_ERROR);
@@ -143,7 +143,6 @@ public class MinioFileController {
     public void getObject(HttpServletResponse response, @RequestParam String bucketName, @RequestParam String objectName) {
         try {
             GetObjectResponse object = minioFileService.getObject(bucketName, objectName);
-
             UploadDownloadUtils.download(object, objectName, response);
         } catch (Exception e) {
             e.printStackTrace();

@@ -123,13 +123,13 @@ public class MinioFileServiceImpl implements MinioFileService {
     @SneakyThrows
     @Override
     public String putObject(MultipartFile file, String bucketName, String objectName) {
-        minioClient.putObject(
+        ObjectWriteResponse object = minioClient.putObject(
                 PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(
                                 file.getInputStream(), file.getSize(), -1)
                         .contentType(file.getContentType())
                         .build());
 
-        return null;
+        return object.object();
     }
 
     @SneakyThrows
