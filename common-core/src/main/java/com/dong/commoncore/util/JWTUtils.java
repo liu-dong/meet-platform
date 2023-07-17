@@ -4,6 +4,7 @@ import cn.hutool.crypto.asymmetric.RSA;
 import com.dong.commoncore.exception.TokenException;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.interfaces.RSAPrivateKey;
@@ -107,13 +108,18 @@ public class JWTUtils {
         }
         Claims claimsJws = getClaims(token);
         if (claimsJws != null) {
-            Map<String, String> map = new HashMap<>();
-            map.put("签发时间", DateUtils.dateToString(claimsJws.getIssuedAt()));
-            map.put("生效时间", DateUtils.dateToString(claimsJws.getNotBefore()));
-            map.put("到期时间", DateUtils.dateToString(claimsJws.getExpiration()));
-            return map;
+            return convertMap(claimsJws);
         }
         return null;
+    }
+
+    @NotNull
+    private static Map<String, String> convertMap(Claims claimsJws) {
+        Map<String, String> map = new HashMap<>();
+        map.put("签发时间", DateUtils.dateToString(claimsJws.getIssuedAt()));
+        map.put("生效时间", DateUtils.dateToString(claimsJws.getNotBefore()));
+        map.put("到期时间", DateUtils.dateToString(claimsJws.getExpiration()));
+        return map;
     }
 
     /**
