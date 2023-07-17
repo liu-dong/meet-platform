@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 登录注册
@@ -105,8 +106,24 @@ public class LoginController {
     @ApiOperation("校验token")
     @GetMapping("/checkToken")
     public ResponseResult checkToken(HttpServletRequest request) {
-        boolean b = JWTUtils.checkToken(request);
-        return b ? ResponseResult.success("有效令牌") : ResponseResult.error("无效令牌");
+        Map<String, String> map = JWTUtils.analyzeToken(request);
+        if (map ==null){
+            return ResponseResult.error("无效令牌");
+        }
+        return ResponseResult.success(map,"有效令牌");
+    }
+
+    /**
+     * 刷新token
+     *
+     * @param request
+     * @return
+     */
+    @ApiOperation("刷新token")
+    @GetMapping("/refreshToken")
+    public ResponseResult refreshToken(HttpServletRequest request) {
+        String token = JWTUtils.refreshToken(request);
+        return ResponseResult.success(token, "登录成功！");
     }
 
     /**

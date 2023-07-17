@@ -7,7 +7,7 @@ import com.dong.commoncore.model.ResponseResult;
  *
  * @author liudong 2022/6/28
  */
-public class MinioException extends Exception {
+public class MinioException extends RuntimeException {
 
     private Integer code;
 

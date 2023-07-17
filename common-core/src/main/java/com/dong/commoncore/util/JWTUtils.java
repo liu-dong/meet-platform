@@ -1,11 +1,8 @@
 package com.dong.commoncore.util;
 
 import cn.hutool.crypto.asymmetric.RSA;
-import com.dong.commoncore.exception.GlobalException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.dong.commoncore.exception.TokenException;
+import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +18,9 @@ import java.util.Map;
 public class JWTUtils {
 
     /**
-     * token时效：24小时
+     * token时效：5分钟
      */
-    public static final long EXPIRE = 1000 * 60 * 60 * 24;
+    public static final long EXPIRE = 1000 * 60 * 5;
     /**
      * 签名哈希的密钥，对于不同的加密算法来说含义不同
      */
@@ -69,42 +66,65 @@ public class JWTUtils {
     }
 
     /**
+     * 刷新token
+     *
+     * @param request
+     * @return
+     */
+    public static String refreshToken(HttpServletRequest request) {
+        String jwtToken = request.getHeader("JWT-TOKEN");
+        if (StringUtils.isEmpty(jwtToken)) {
+            throw new TokenException("无效的token");
+        }
+        Claims claims = getClaims(jwtToken);
+        assert claims != null;
+        return getToken(String.valueOf(claims.get("userId")), String.valueOf(claims.get("username")), String.valueOf(claims.get("realName")));
+    }
+
+    /**
+     * 校验token
+     *
+     * @param request
+     * @return
+     */
+    public static Map<String, String> analyzeToken(HttpServletRequest request) {
+        String jwtToken = request.getHeader("JWT-TOKEN");
+        if (StringUtils.isEmpty(jwtToken)) {
+            throw new TokenException("无效的token");
+        }
+        return analyzeToken(jwtToken);
+    }
+
+    /**
+     * 校验token
+     *
+     * @param token
+     * @return
+     */
+    public static Map<String, String> analyzeToken(String token) {
+        if (StringUtils.isEmpty(token)) {
+            throw new TokenException("无效token");
+        }
+        Claims claimsJws = getClaims(token);
+        if (claimsJws != null) {
+            Map<String, String> map = new HashMap<>();
+            map.put("签发时间", DateUtils.dateToString(claimsJws.getIssuedAt()));
+            map.put("生效时间", DateUtils.dateToString(claimsJws.getNotBefore()));
+            map.put("到期时间", DateUtils.dateToString(claimsJws.getExpiration()));
+            return map;
+        }
+        return null;
+    }
+
+    /**
      * 校验token
      *
      * @param token
      * @return
      */
     public static boolean checkToken(String token) {
-        if (StringUtils.isEmpty(token)) {
-            return false;
-        }
-        try {
-            Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 校验token
-     *
-     * @param request Http请求对象
-     * @return 如果token有效返回true，否则返回false
-     */
-    public static boolean checkToken(HttpServletRequest request) {
-        try {
-            String jwtToken = request.getHeader("JWT-TOKEN");
-            if (StringUtils.isEmpty(jwtToken)) {
-                return false;
-            }
-            Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        Map<String, String> map = analyzeToken(token);
+        return map != null;
     }
 
     /**
@@ -114,11 +134,13 @@ public class JWTUtils {
      * @return
      */
     public static Claims getClaims(String jwtToken) {
-        if (StringUtils.isEmpty(jwtToken)) {
-            return null;
+        try {
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
+            return claimsJws.getBody();
+        } catch (ExpiredJwtException e) {
+            throw new TokenException("token失效");
         }
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
-        return claimsJws.getBody();
+
     }
 
     /**
@@ -130,10 +152,9 @@ public class JWTUtils {
     public static Claims getClaims(HttpServletRequest request) {
         String jwtToken = request.getHeader("JWT-TOKEN");
         if (StringUtils.isEmpty(jwtToken)) {
-            throw new GlobalException("token为空");
+            throw new TokenException("token为空");
         }
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
-        return claimsJws.getBody();
+        return getClaims(jwtToken);
     }
 
     /**
