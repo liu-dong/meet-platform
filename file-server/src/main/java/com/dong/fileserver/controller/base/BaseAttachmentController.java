@@ -97,7 +97,7 @@ public abstract class BaseAttachmentController<E extends BaseAttachment, R exten
         try {
             attachmentService.remove(id);
             // 删除数据库附件
-            repository.findById(id).ifPresent(attachment -> repository.remove(id));
+            repository.findById(id).ifPresent(attachment -> repository.deleteById(id));
             return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
