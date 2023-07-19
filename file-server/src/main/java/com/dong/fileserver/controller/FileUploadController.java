@@ -2,6 +2,7 @@ package com.dong.fileserver.controller;
 
 import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.*;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ import java.util.Set;
 @RestController
 public class FileUploadController {
 
-    @Resource
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
     @PostMapping("/upload")

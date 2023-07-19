@@ -3,6 +3,7 @@ package com.dong.fileserver.entity.base;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**
@@ -14,6 +15,9 @@ public class BaseAttachment implements Serializable {
 
     private static final long serialVersionUID = 6955474923481781751L;
 
+    /**
+     * 主键id
+     */
     private String id;
 
     /**
@@ -74,6 +78,7 @@ public class BaseAttachment implements Serializable {
         this.fileType = fileType;
     }
 
+    @Transient
     @Column(name = "file_data")
     public byte[] getFileData() {
         return this.fileData;

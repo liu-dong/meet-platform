@@ -4,6 +4,7 @@ import cn.hutool.core.codec.Base64Decoder;
 import cn.hutool.core.util.StrUtil;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.exception.AttachmentException;
+import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.AttachmentUtils;
 import com.dong.commoncore.util.CommonUtils;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -31,7 +33,7 @@ import java.util.List;
  * @param <E>
  * @param <R>
  */
-public abstract class BaseAttachmentController<E extends BaseAttachment, R extends JpaRepository<E, String>> {
+public class BaseAttachmentController<E extends BaseAttachment, R extends JpaRepository<E, String>> {
 
     @Value("${support.extend.names:txt,jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,rar,zip}")
     private String attUsableTypes;
@@ -41,14 +43,14 @@ public abstract class BaseAttachmentController<E extends BaseAttachment, R exten
     @Autowired
     protected AttachmentService attachmentService;
 
-    @Autowired
+    @Resource
     protected R repository;
 
     /**
      * 附件上传
      */
     @PostMapping("/upload")
-    public ResponseResult uploadAttachment(@RequestBody AttachmentDTO file) {
+    public ResponseResult upload(@RequestBody AttachmentDTO file) {
         byte[] byteArray = file.getFileData().getBytes();
         String fileType = AttachmentUtils.getFileType(file.getFileName());
         if (!checkFileType(fileType)) {
@@ -71,14 +73,12 @@ public abstract class BaseAttachmentController<E extends BaseAttachment, R exten
      *
      * @param id
      * @param response
-     * @author chenyihuan
-     * @data 2020年11月12日
      */
-    @GetMapping("/temp/getFileData/{id}")
-    public void getTempAttachmentData(@PathVariable("id") String id, HttpServletResponse response) {
+    @GetMapping("/temp/attachment/{id}")
+    public void getTempAttachment(@PathVariable("id") String id, HttpServletResponse response) {
         E attachment = attachmentService.get(id);
         if (attachment == null) {
-            return;
+            throw new GlobalException("无此附件");
         }
         byte[] fileData = attachment.getFileData();
         String fileType = attachment.getFileType();
@@ -89,8 +89,6 @@ public abstract class BaseAttachmentController<E extends BaseAttachment, R exten
      * 删除附件
      *
      * @return
-     * @author liuzhiwen
-     * @data 2020年6月3日
      */
     @GetMapping("/remove/{id}")
     public ResponseResult remove(@PathVariable("id") String id) {

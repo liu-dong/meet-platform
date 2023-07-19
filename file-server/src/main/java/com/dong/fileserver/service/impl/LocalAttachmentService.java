@@ -8,6 +8,7 @@ import com.dong.fileserver.service.AttachmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -24,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author liudong
  * @date 2023/7/18
  */
+@Service
 public class LocalAttachmentService implements AttachmentService {
 
     public static final String KEY_ATTACHMENT_TEMP_MAP = "KEY_ATTACHMENT_TEMP_MAP";
