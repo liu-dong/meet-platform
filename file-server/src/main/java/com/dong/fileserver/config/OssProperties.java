@@ -27,7 +27,7 @@ public class OssProperties implements InitializingBean {
 
     //当私有成员被赋值后，此方法自动被调用，从而初始化常量
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         ENDPOINT = endpoint;
         KEY_ID = keyId;
         KEY_SECRET = keySecret;

@@ -1,6 +1,6 @@
 package com.dong.fileserver.service.impl;
 
-import com.dong.fileserver.config.MinioConfig;
+import com.dong.fileserver.config.MinioProperties;
 import com.dong.fileserver.service.MinioFileService;
 import io.minio.*;
 import io.minio.errors.*;
@@ -34,10 +34,6 @@ public class MinioFileServiceImpl implements MinioFileService {
 
     @Autowired
     private MinioClient minioClient;
-
-    @Autowired
-    private MinioConfig minioConfig;
-
 
     @Override
     public List<Bucket> listBuckets() throws Exception {
@@ -180,13 +176,13 @@ public class MinioFileServiceImpl implements MinioFileService {
      * @return
      */
     public Map<String, String> getPolicy(String fileName, ZonedDateTime time) {
-        PostPolicy postPolicy = new PostPolicy(minioConfig.getBucketName(), time);
+        PostPolicy postPolicy = new PostPolicy(MinioProperties.BUCKET, time);
         postPolicy.addEqualsCondition("key", fileName);
         try {
             Map<String, String> map = minioClient.getPresignedPostFormData(postPolicy);
             Map<String, String> result = new HashMap<>();
             map.forEach((k, v) -> result.put(k.replaceAll("-", ""), v));
-            result.put("host", minioConfig.getUrl() + "/" + minioConfig.getBucketName());
+            result.put("host", MinioProperties.URL + "/" + MinioProperties.BUCKET);
             return result;
         } catch (ErrorResponseException e) {
             e.printStackTrace();
@@ -223,7 +219,7 @@ public class MinioFileServiceImpl implements MinioFileService {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                     .method(method)
-                    .bucket(minioConfig.getBucketName())
+                    .bucket(MinioProperties.BUCKET)
                     .object(objectName)
                     .expiry(time, timeUnit).build());
         } catch (ErrorResponseException e) {
@@ -260,7 +256,7 @@ public class MinioFileServiceImpl implements MinioFileService {
         try {
             InputStream inputStream = file.getInputStream();
             minioClient.putObject(PutObjectArgs.builder()
-                    .bucket(minioConfig.getBucketName())
+                    .bucket(MinioProperties.BUCKET)
                     .object(fileName)
                     .stream(inputStream, file.getSize(), -1)
                     .contentType(file.getContentType())
@@ -299,7 +295,7 @@ public class MinioFileServiceImpl implements MinioFileService {
         try {
             url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                     .method(Method.GET)
-                    .bucket(minioConfig.getBucketName())
+                    .bucket(MinioProperties.BUCKET)
                     .object(objectName)
                     .expiry(time, timeUnit).build());
         } catch (ErrorResponseException e) {

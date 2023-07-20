@@ -29,8 +29,9 @@ public interface CommonAttachmentService {
      *
      * @param attachment
      * @param module
+     * @return
      */
-    void saveAttachmentToMinio(BaseAttachment attachment, String module);
+    String saveAttachmentToMinio(BaseAttachment attachment, String module);
 
     /**
      * 从minio中删除附件
