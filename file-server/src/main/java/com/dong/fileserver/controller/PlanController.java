@@ -26,7 +26,7 @@ public class PlanController {
 
     @PostMapping("/savePlan")
     public ResponseResult savePlan(@RequestBody Map<String, Object> map) {
-        List<CommonAttachment> commonAttachments = commonAttachmentService.saveAttachment((String) map.get("id"), (List<String>) map.get("attachmentIds"), "image", "plan");
+        List<CommonAttachment> commonAttachments = commonAttachmentService.saveAttachment((String) map.get("id"), "plan", (List<String>) map.get("attachmentIds"), "image");
         return ResponseResult.success(commonAttachments, ResponseMessageConstant.SAVE_SUCCESS);
     }
 }
