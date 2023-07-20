@@ -1,7 +1,6 @@
 package com.dong.fileserver.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.entity.BaseAttachmentEntity;
@@ -18,13 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
 public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository> implements BaseAttachmentService<E, R> {
 
 
-    protected Logger logger = LoggerFactory.getLogger(CommonAttachmentServiceImpl.class);
+    protected Logger logger = LoggerFactory.getLogger(BaseAttachmentServiceImpl.class);
 
     @Autowired
     AttachmentService attachmentService;
@@ -55,24 +54,25 @@ public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends
     @Transactional
     @Override
     public List<E> saveAttachment(String relationId, String relationModule, List<String> attachmentIds, String attachmentType) {
-        // 保存附件
-        List<E> attachments = CollUtil.list(true);
-        for (int i = 0; i < attachmentIds.size(); i++) {
-            String attachmentId = attachmentIds.get(i);
-            if (StrUtil.isBlank(attachmentId)) {
-                continue;
-            }
-            E attachment = attachmentService.take(attachmentId);
-            Assert.notNull(attachment, "附件缓存已失效，请重新上传附件！");
+        //获取待保存的附件
+        List<E> attachmentList = getAttachmentList(attachmentIds);
+        for (int i = 0; i < attachmentList.size(); i++) {
+            E attachment = attachmentList.get(i);
+            //上传至minio
             String fileUrl = saveAttachmentToMinio(attachment, relationModule);
             convertAttachment(relationId, i, attachment, fileUrl);
-            attachments.add(attachment);
-            attachmentService.remove(attachmentId);
         }
-        if (CollUtil.isNotEmpty(attachments)) {
-            repository.saveAll(attachments);
+        if (CollUtil.isNotEmpty(attachmentList)) {
+            repository.saveAll(attachmentList);
         }
-        return attachments;
+        return attachmentList;
+    }
+
+    private List<E> getAttachmentList(List<String> attachmentIds) {
+        return attachmentIds.stream().map(attachmentId -> {
+            E take = attachmentService.take(attachmentId);
+            return take;
+        }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private void convertAttachment(String relationId, int i, E attachment, String fileUrl) {

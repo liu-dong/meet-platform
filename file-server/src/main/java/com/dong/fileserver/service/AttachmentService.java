@@ -10,11 +10,35 @@ import com.dong.commoncore.entity.BaseAttachmentEntity;
  */
 public interface AttachmentService {
 
+    /**
+     * 添加附件
+     * @param id
+     * @param attachment
+     */
     void put(String id, BaseAttachmentEntity attachment);
 
+    /**
+     * 获取附件
+     *
+     * @param id
+     * @return
+     * @param <T>
+     */
     <T extends BaseAttachmentEntity> T get(String id);
 
+    /**
+     * 移除附件
+     *
+     * @param id
+     */
     void remove(String id);
 
+    /**
+     * 提取附件（获取后移除）
+     *
+     * @param id
+     * @return
+     * @param <T>
+     */
     <T extends BaseAttachmentEntity> T take(String id);
 }
