@@ -1,8 +1,8 @@
 package com.dong.fileserver.service;
 
 
+import com.dong.commoncore.entity.BaseAttachmentEntity;
 import com.dong.fileserver.entity.CommonAttachment;
-import com.dong.fileserver.entity.base.BaseAttachment;
 import com.dong.fileserver.model.AttachmentVO;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public interface CommonAttachmentService {
      * @param module
      * @return
      */
-    String saveAttachmentToMinio(BaseAttachment attachment, String module);
+    String saveAttachmentToMinio(BaseAttachmentEntity attachment, String module);
 
     /**
      * 从minio中删除附件

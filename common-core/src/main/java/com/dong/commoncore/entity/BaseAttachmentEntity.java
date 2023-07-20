@@ -1,24 +1,21 @@
-package com.dong.fileserver.entity.base;
+package com.dong.commoncore.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import java.io.Serializable;
 
 /**
  * @author liudong
  * @date 2023/7/18
  */
-@MappedSuperclass
-public class BaseAttachment implements Serializable {
+public class BaseAttachmentEntity extends BaseEntityWithDelete {
 
     private static final long serialVersionUID = 6955474923481781751L;
 
+
     /**
-     * 主键id
+     * 关联业务id
      */
-    private String id;
+    private String relationId;
 
     /**
      * 文件名称
@@ -46,14 +43,13 @@ public class BaseAttachment implements Serializable {
     private String fileUrl;
 
 
-    @Id
-    @Column(name = "id")
-    public String getId() {
-        return this.id;
+    @Column(name = "relation_id" )
+    public String getRelationId() {
+        return this.relationId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
     }
 
     @Column(name = "file_name")

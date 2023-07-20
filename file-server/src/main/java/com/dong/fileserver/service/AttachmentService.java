@@ -1,6 +1,6 @@
 package com.dong.fileserver.service;
 
-import com.dong.fileserver.entity.base.BaseAttachment;
+import com.dong.commoncore.entity.BaseAttachmentEntity;
 
 /**
  * 附件
@@ -10,11 +10,11 @@ import com.dong.fileserver.entity.base.BaseAttachment;
  */
 public interface AttachmentService {
 
-    void put(String id, BaseAttachment attachment);
+    void put(String id, BaseAttachmentEntity attachment);
 
-    <T extends BaseAttachment> T get(String id);
+    <T extends BaseAttachmentEntity> T get(String id);
 
     void remove(String id);
 
-    <T extends BaseAttachment> T take(String id);
+    <T extends BaseAttachmentEntity> T take(String id);
 }

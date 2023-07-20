@@ -6,37 +6,33 @@ import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.entity.BaseAttachmentEntity;
 import com.dong.fileserver.config.MinioProperties;
-import com.dong.fileserver.dao.CommonAttachmentRepository;
-import com.dong.fileserver.entity.CommonAttachment;
-import com.dong.fileserver.model.AttachmentVO;
+import com.dong.fileserver.dao.BaseAttachmentRepository;
 import com.dong.fileserver.service.AttachmentService;
-import com.dong.fileserver.service.CommonAttachmentService;
+import com.dong.fileserver.service.BaseAttachmentService;
 import com.dong.fileserver.service.MinioFileService;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @author liudong
- * @date 2023/3/20
+ * @date 2023/7/20
  */
-@Service
-public class CommonAttachmentServiceImpl implements CommonAttachmentService {
+public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository> implements BaseAttachmentService<E, R> {
+
 
     protected Logger logger = LoggerFactory.getLogger(CommonAttachmentServiceImpl.class);
 
@@ -45,8 +41,7 @@ public class CommonAttachmentServiceImpl implements CommonAttachmentService {
     @Autowired
     MinioFileService minioFileService;
     @Autowired
-    CommonAttachmentRepository commonAttachmentRepository;
-
+    R repository;
 
     /**
      * 保存附件
@@ -59,40 +54,41 @@ public class CommonAttachmentServiceImpl implements CommonAttachmentService {
      */
     @Transactional
     @Override
-    public List<CommonAttachment> saveAttachment(String relationId, List<String> attachmentIds, String attachmentType, String relationModule) {
+    public List<E> saveAttachment(String relationId, String relationModule, List<String> attachmentIds, String attachmentType) {
         // 保存附件
-        List<CommonAttachment> attachments = CollUtil.list(true);
+        List<E> attachments = CollUtil.list(true);
         for (int i = 0; i < attachmentIds.size(); i++) {
             String attachmentId = attachmentIds.get(i);
             if (StrUtil.isBlank(attachmentId)) {
                 continue;
             }
-            CommonAttachment attachment = attachmentService.take(attachmentId);
+            E attachment = attachmentService.take(attachmentId);
             Assert.notNull(attachment, "附件缓存已失效，请重新上传附件！");
             String fileUrl = saveAttachmentToMinio(attachment, relationModule);
-            convertAttachment(relationId, attachmentType, relationModule, i, attachment, fileUrl);
+            convertAttachment(relationId, i, attachment, fileUrl);
             attachments.add(attachment);
             attachmentService.remove(attachmentId);
         }
         if (CollUtil.isNotEmpty(attachments)) {
-            commonAttachmentRepository.saveAll(attachments);
+            repository.saveAll(attachments);
         }
         return attachments;
     }
 
-    private void convertAttachment(String relationId, String attachmentType, String relationModule, int i, CommonAttachment attachment, String fileUrl) {
+    private void convertAttachment(String relationId, int i, E attachment, String fileUrl) {
         attachment.setFileUrl(fileUrl);
         attachment.setFileData(null);
         attachment.setRelationId(relationId);
-        attachment.setAttachmentType(attachmentType);
-        attachment.setRelationModule(relationModule);
         attachment.setSortOrder(i + 1);
-        attachment.setCreateTime(new Date());
-        attachment.setUpdateTime(new Date());
-        attachment.setDeleteStatus(CommonConstant.YES);
     }
 
-    @Override
+    /**
+     * 保存附件至minio
+     *
+     * @param attachment
+     * @param module
+     * @return
+     */
     public String saveAttachmentToMinio(BaseAttachmentEntity attachment, String module) {
         //转换文件
         MultipartFile file = convertMultipartFile(attachment);
@@ -136,7 +132,6 @@ public class CommonAttachmentServiceImpl implements CommonAttachmentService {
         return filePath + SymbolConstant.SLASH + attachment.getFileName();
     }
 
-    @Override
     public void removeByMinio(List<String> fileUrls) {
         //拼接出文件全路径
         fileUrls = fileUrls.stream().map(item -> SymbolConstant.SLASH + item.substring(1)).collect(Collectors.toList());
@@ -144,39 +139,17 @@ public class CommonAttachmentServiceImpl implements CommonAttachmentService {
     }
 
     @Override
-    public List<CommonAttachment> findCommonAttachmentByRelationId(String relationId) {
-        return commonAttachmentRepository.findByRelationIdAndDeleteStatus(relationId, CommonConstant.NO);
-    }
-
-    @Override
-    public List<AttachmentVO> findByRelationId(String relationId) {
-        List<CommonAttachment> commonAttachments = commonAttachmentRepository.findByRelationIdAndDeleteStatus(relationId, CommonConstant.NO);
-        if (CollUtil.isEmpty(commonAttachments)) {
-            return null;
-        }
-        return convertVO(commonAttachments);
-    }
-
-    /**
-     * 转换附件列表
-     *
-     * @param attachmentList
-     * @return
-     */
-    private List<AttachmentVO> convertVO(List<CommonAttachment> attachmentList) {
-        return attachmentList.stream().map(entity -> {
-            AttachmentVO vo = new AttachmentVO();
-            BeanUtils.copyProperties(entity, vo);
-            return vo;
-        }).collect(Collectors.toList());
+    public List<E> findByRelationId(String relationId) {
+        return repository.findByRelationIdAndDeleteStatus(relationId, CommonConstant.NO);
     }
 
     @Override
     public void remove(String id) {
-        CommonAttachment attachment = commonAttachmentRepository.findById(id).orElse(null);
+        E attachment = (E) repository.findById(id).orElse(null);
         if (attachment != null) {
             attachment.setDeleteStatus(CommonConstant.YES);
-            commonAttachmentRepository.save(attachment);
+            repository.save(attachment);
+            removeByMinio(Collections.singletonList(attachment.getFileUrl()));
         }
     }
 }

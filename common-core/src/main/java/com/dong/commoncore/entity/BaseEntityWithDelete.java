@@ -32,7 +32,7 @@ public class BaseEntityWithDelete extends BaseEntity {
                 this.setCreateUserId(CurrentUserUtils.getUserId());
                 this.setUpdateUserId(CurrentUserUtils.getUserId());
             }
-            this.setDeleteStatus(CommonConstant.YES);
+            this.setDeleteStatus(CommonConstant.NO);
         }
     }
 
@@ -40,7 +40,7 @@ public class BaseEntityWithDelete extends BaseEntity {
     public void prePersist() {
         super.prePersist();
         if (this.getDeleteStatus() != null) {
-            this.setDeleteStatus(CommonConstant.YES);
+            this.setDeleteStatus(CommonConstant.NO);
         }
     }
 

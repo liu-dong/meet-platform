@@ -3,7 +3,7 @@ package com.dong.fileserver.service.impl;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.dong.fileserver.entity.base.BaseAttachment;
+import com.dong.commoncore.entity.BaseAttachmentEntity;
 import com.dong.fileserver.service.AttachmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class LocalAttachmentService implements AttachmentService {
     LocalCacheService localCacheService;
 
     @Override
-    public void put(String id, BaseAttachment attachment) {
+    public void put(String id, BaseAttachmentEntity attachment) {
         byte[] fileData = attachment.getFileData();
         String filePath = this.getFilePath(id);
         FileOutputStream os = null;
@@ -55,13 +55,13 @@ public class LocalAttachmentService implements AttachmentService {
                 e.printStackTrace();
             }
         }
-        Map<String, BaseAttachment> map = this.getCacheMap();
+        Map<String, BaseAttachmentEntity> map = this.getCacheMap();
         attachment.setFileData(null);
         map.put(id, attachment);
     }
 
     @Override
-    public <T extends BaseAttachment> T get(String id) {
+    public <T extends BaseAttachmentEntity> T get(String id) {
         if (StrUtil.isBlank(id)) {
             return null;
         }
@@ -88,8 +88,8 @@ public class LocalAttachmentService implements AttachmentService {
             }
         }
         // 获取缓存中的附件数据
-        Map<String, BaseAttachment> map = this.getCacheMap();
-        BaseAttachment attachment = map.get(id);
+        Map<String, BaseAttachmentEntity> map = this.getCacheMap();
+        BaseAttachmentEntity attachment = map.get(id);
         if (attachment == null) {
             return null;
         }
@@ -105,14 +105,14 @@ public class LocalAttachmentService implements AttachmentService {
     }
 
     @Override
-    public <T extends BaseAttachment> T take(String id) {
+    public <T extends BaseAttachmentEntity> T take(String id) {
         T domain = this.get(id);
         this.remove(id);
         return domain;
     }
 
-    private synchronized Map<String, BaseAttachment> getCacheMap() {
-        Map<String, BaseAttachment> attachmentMap = localCacheService.get(KEY_ATTACHMENT_TEMP_MAP);
+    private synchronized Map<String, BaseAttachmentEntity> getCacheMap() {
+        Map<String, BaseAttachmentEntity> attachmentMap = localCacheService.get(KEY_ATTACHMENT_TEMP_MAP);
         if (attachmentMap == null) {
             attachmentMap = new ConcurrentHashMap<>();
             localCacheService.put(KEY_ATTACHMENT_TEMP_MAP, attachmentMap);

@@ -1,7 +1,8 @@
 package com.dong.fileserver.service;
 
 
-import com.dong.fileserver.entity.CommonAttachment;
+import com.dong.commoncore.entity.BaseAttachmentEntity;
+import com.dong.fileserver.dao.BaseAttachmentRepository;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author liudong
  * @date 2023/3/20
  */
-public interface BaseAttachmentService {
+public interface BaseAttachmentService<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository> {
 
     /**
      * 保存附件（上传至minio，路径保存至数据表中）
@@ -22,7 +23,7 @@ public interface BaseAttachmentService {
      * @param attachmentType 附件类型
      * @return
      */
-    List<CommonAttachment> saveAttachment(String relationId, String relationModule, List<String> attachmentIds, String attachmentType);
+    List<E> saveAttachment(String relationId, String relationModule, List<String> attachmentIds, String attachmentType);
 
     /**
      * 删除附件
@@ -37,6 +38,6 @@ public interface BaseAttachmentService {
      * @param relationId
      * @return
      */
-    List<CommonAttachment> findByRelationId(String relationId);
+    List<E> findByRelationId(String relationId);
 
 }
