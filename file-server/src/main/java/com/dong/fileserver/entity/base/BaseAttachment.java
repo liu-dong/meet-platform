@@ -40,9 +40,14 @@ public class BaseAttachment implements Serializable {
      */
     private byte[] fileData;
 
+    /**
+     * 文件地址
+     */
+    private String fileUrl;
+
 
     @Id
-    @Column(name = "id" )
+    @Column(name = "id")
     public String getId() {
         return this.id;
     }
@@ -88,5 +93,12 @@ public class BaseAttachment implements Serializable {
         this.fileData = fileData;
     }
 
+    @Column(name = "file_url")
+    public String getFileUrl() {
+        return fileUrl;
+    }
 
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
 }

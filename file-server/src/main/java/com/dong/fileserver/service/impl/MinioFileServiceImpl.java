@@ -134,6 +134,18 @@ public class MinioFileServiceImpl implements MinioFileService {
 
     @SneakyThrows
     @Override
+    public String putObject(InputStream inputStream, int fileSize, String fileType, String bucketName, String objectName) {
+        ObjectWriteResponse object = minioClient.putObject(
+                PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(
+                                inputStream, fileSize, -1)
+                        .contentType(fileType)
+                        .build());
+
+        return object.object();
+    }
+
+    @SneakyThrows
+    @Override
     public String uploadObject(String fileName, String bucketName, String objectName) {
         ObjectWriteResponse object = minioClient.uploadObject(
                 UploadObjectArgs.builder()

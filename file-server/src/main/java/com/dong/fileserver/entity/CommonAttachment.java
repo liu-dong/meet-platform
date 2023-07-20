@@ -59,7 +59,7 @@ public class CommonAttachment extends BaseAttachment {
 	/**
 	 * 删除状态：0 未删除、1 已删除
 	 */
-	private Long deleteStatus;
+	private Integer deleteStatus;
 
 
  	@Column(name = "relation_id" )
@@ -135,11 +135,11 @@ public class CommonAttachment extends BaseAttachment {
 	}
 
  	@Column(name = "delete_status" )
-	public Long getDeleteStatus() {
+	public Integer getDeleteStatus() {
 		return this.deleteStatus;
 	}
 
-	public void setDeleteStatus(Long deleteStatus) {
+	public void setDeleteStatus(Integer deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
 

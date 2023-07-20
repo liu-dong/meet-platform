@@ -6,6 +6,7 @@ import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +108,8 @@ public interface MinioFileService {
      * @return
      */
     String putObject(MultipartFile file, String bucketName, String objectName);
+
+    String putObject(InputStream inputStream, int fileSize, String fileType, String bucketName, String objectName);
 
     /**
      * 将文件中的内容作为存储桶中的对象上传
