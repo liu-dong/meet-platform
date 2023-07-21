@@ -9,18 +9,18 @@
       :active-text-color="variables.menuActiveText"
       :collapse-transition="false"
     >
-      <navbar-item1/>
+      <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
     </el-menu>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import variables from '@/styles/variables.scss'
-import NavbarItem1 from "@/layout/components/Navigationbar/NavbarItem1";
+import NavbarItem from "@/layout/components/Navigationbar/NavbarItem";
 
 export default {
-  components: {NavbarItem1},
+  components: { NavbarItem },
   computed: {
     ...mapGetters([
       'sidebar'
