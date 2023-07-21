@@ -8,8 +8,9 @@
       :unique-opened="false"
       :active-text-color="variables.menuActiveText"
       :collapse-transition="false"
+      style="border: burlywood solid 2px;display: flex;align-items: center;"
     >
-      <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+      <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>
   </div>
 </template>
