@@ -3,6 +3,7 @@ package com.dong.fileserver.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Configuration;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -16,11 +17,10 @@ public class RedisConnectionPool {
     private static final String REDIS_HOST = "localhost";
     private static final int REDIS_PORT = 6379;
     private static final int MAX_TOTAL = 128;
-    private static final int MAX_IDLE = 128;
     private static final int MIN_IDLE = 16;
     private static final long MAX_WAIT_MILLIS = 5000;
 
-    private static JedisPool jedisPool;
+    private static final JedisPool jedisPool;
 
     static {
         HikariConfig config = new HikariConfig();
@@ -35,5 +35,23 @@ public class RedisConnectionPool {
 
     public static JedisPool getJedisPool() {
         return jedisPool;
+    }
+
+    /**
+     * 获取jedis连接
+     *
+     * @return
+     */
+    public static Jedis connJedis() {
+        return jedisPool.getResource();
+    }
+
+    /**
+     * 关闭连接
+     *
+     * @param jedis
+     */
+    public static void close(Jedis jedis) {
+        jedisPool.returnResource(jedis);
     }
 }
