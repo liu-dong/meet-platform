@@ -5,7 +5,6 @@ import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.entity.BaseAttachmentEntity;
 import com.dong.fileserver.config.MinioProperties;
-import com.dong.fileserver.dao.BaseAttachmentRepository;
 import com.dong.fileserver.service.AttachmentService;
 import com.dong.fileserver.service.BaseAttachmentService;
 import com.dong.fileserver.service.MinioFileService;
@@ -13,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.mock.web.MockMultipartFile;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @author liudong
  * @date 2023/7/20
  */
-public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository> implements BaseAttachmentService<E, R> {
+public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends JpaRepository> implements BaseAttachmentService<E, R> {
 
 
     protected Logger logger = LoggerFactory.getLogger(BaseAttachmentServiceImpl.class);
