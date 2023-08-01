@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @author liudong
  * @date 2023/7/20
  */
-public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository> implements BaseAttachmentService<E, R> {
+public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository<E>> implements BaseAttachmentService<E, R> {
 
 
     protected Logger logger = LoggerFactory.getLogger(BaseAttachmentServiceImpl.class);
