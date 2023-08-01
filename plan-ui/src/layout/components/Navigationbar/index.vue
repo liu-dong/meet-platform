@@ -3,12 +3,11 @@
     <el-menu
       :default-active="activeMenu"
       mode="horizontal"
-      :background-color="variables.topMenuBg"
+      :background-color="variables.navMenuBg"
       :text-color="variables.menuText"
       :unique-opened="false"
       :active-text-color="variables.menuActiveText"
       :collapse-transition="false"
-      style="border: burlywood solid 2px;display: flex;align-items: center;"
     >
       <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>

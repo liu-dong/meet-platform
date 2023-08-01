@@ -2,7 +2,7 @@
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <navigationbar class="navbar-container" />
-    <sidebar class="sidebar-container" />
+    <!--<sidebar class="sidebar-container" />-->
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar/>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {AppMain, Navbar, Sidebar, Navigationbar} from './components'
+import {AppMain, Navbar, Navigationbar} from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
@@ -21,7 +21,6 @@ export default {
   components: {
     Navigationbar,
     Navbar,
-    Sidebar,
     AppMain
   },
   mixins: [ResizeMixin],

@@ -10,7 +10,7 @@
   .navbar-container {
     transition: width 0.28s;
     height: $navBarHeight !important;
-    background-color: $topMenuBg;
+    background-color: $navMenuBg;
     width: 100%;
     font-size: 0;
     position: fixed;
@@ -20,10 +20,10 @@
     overflow: hidden;
     z-index: 1002;
 
-     //reset element-ui css
-    //.horizontal-collapse-transition {
-    //  transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
-    //}
+    //reset element-ui css
+    .horizontal-collapse-transition {
+      transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+    }
 
     a {
       display: inline-block;
@@ -34,6 +34,7 @@
     .svg-icon {
       margin-right: 16px;
     }
+
     //
     //.sub-el-icon {
     //  margin-right: 12px;
@@ -42,10 +43,13 @@
 
     .el-menu {
       //border: none;
-      border: 1px solid red;
-
       height: 100%;
       width: 100% !important;
+      display: flex;
+      align-items: center;
+    }
+    .navbar-item {
+      width: 150px;
     }
 
     // menu hover
@@ -56,11 +60,11 @@
       }
     }
 
-    .is-active>.el-submenu__title {
+    .is-active > .el-submenu__title {
       color: $subMenuActiveText !important;
     }
 
-    & .nest-menu .el-submenu>.el-submenu__title,
+    & .nest-menu .el-submenu > .el-submenu__title,
     & .el-submenu .el-menu-item {
       min-height: $navBarHeight !important;
       background-color: $subMenuBg !important;
@@ -86,17 +90,18 @@
 
 // when menu collapsed
 .el-menu--vertical {
-  &>.el-menu {
+  & > .el-menu {
     .svg-icon {
       margin-right: 16px;
     }
+
     .sub-el-icon {
       margin-right: 12px;
       margin-left: -2px;
     }
   }
 
-  .nest-menu .el-submenu>.el-submenu__title,
+  .nest-menu .el-submenu > .el-submenu__title,
   .el-menu-item {
     &:hover {
       // you can use $subMenuHover
@@ -105,7 +110,7 @@
   }
 
   // the scroll bar appears when the subMenu is too long
-  >.el-menu--popup {
+  > .el-menu--popup {
     max-height: 100vh;
     overflow-y: auto;
 

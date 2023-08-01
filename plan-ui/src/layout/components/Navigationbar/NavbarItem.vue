@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!item.hidden" style="border: black solid 1px;width: 150px;">
+  <div v-if="!item.hidden" class="navbar-item">
     <template
       v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
