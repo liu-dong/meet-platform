@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  class="navbar-container">
     <el-menu
       :default-active="activeMenu"
       mode="horizontal"
@@ -11,6 +11,7 @@
     >
       <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>
+    <avatar-item></avatar-item>
   </div>
 </template>
 
@@ -18,9 +19,10 @@
 import { mapGetters } from 'vuex'
 import variables from '@/styles/variables.scss'
 import NavbarItem from "@/layout/components/Navigationbar/NavbarItem";
+import AvatarItem from "@/layout/components/Navigationbar/AvatarItem";
 
 export default {
-  components: { NavbarItem },
+  components: { NavbarItem,AvatarItem },
   computed: {
     ...mapGetters([
       'sidebar'
