@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <navigationbar/>
+    <navigationbar />
     <div class="main-container">
       <app-main/>
     </div>
@@ -50,11 +50,8 @@ export default {
 @import "~@/styles/variables.scss";
 
 .app-wrapper {
-  @include clearfix;
-  border: 5px solid red;
+  //@include clearfix;
   position: relative;
-  //top: 0;
-  //left: 0;
   height: 100%;
   width: 100%;
 }

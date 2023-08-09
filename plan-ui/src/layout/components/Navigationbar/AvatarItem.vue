@@ -48,10 +48,10 @@ export default {
 
 <style lang="scss" scoped>
 
-.right-menu {
+.avatar-item {
   float: right;
   height: 100%;
-  line-height: 50px;
+  line-height: 100%;
 
   &:focus {
     outline: none;
@@ -76,10 +76,11 @@ export default {
   }
 
   .avatar-container {
-    margin-right: 30px;
+    padding: 0 30px;
+    height: 100%;
 
     .avatar-wrapper {
-      margin-top: 5px;
+      margin-top: 16.5px;
       position: relative;
 
       .user-avatar {
@@ -92,9 +93,7 @@ export default {
       .el-icon-caret-bottom {
         cursor: pointer;
         position: absolute;
-        right: -20px;
         top: 25px;
-        font-size: 12px;
       }
     }
   }
