@@ -74,10 +74,10 @@ export const constantRoutes = [
         meta: { title: '月计划', icon: 'tree' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '周计划', icon: 'tree' }
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/table/index'),
+        meta: { title: '周计划', icon: 'table' }
       },
       {
         path: 'tree',
