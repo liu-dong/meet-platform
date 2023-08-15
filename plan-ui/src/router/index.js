@@ -50,40 +50,40 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: {title: '首页', icon: 'dashboard'}
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
   {
-    path: '/example',
+    path: '/plan',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/plan/year/list',
     name: 'Example',
-    meta: {title: '计划制定', icon: 'el-icon-s-help'},
+    meta: { title: '计划制定', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: {title: '年计划', icon: 'table'}
+        path: 'year',
+        name: 'year',
+        component: () => import('@/views/plan/year/list'),
+        meta: { title: '年计划', icon: 'table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: {title: '月计划', icon: 'tree'}
+        meta: { title: '月计划', icon: 'tree' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: {title: '周计划', icon: 'tree'}
+        meta: { title: '周计划', icon: 'tree' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: {title: '日计划', icon: 'tree'}
+        meta: { title: '日计划', icon: 'tree' }
       }
     ]
   },
@@ -96,7 +96,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: {title: '任务分配', icon: 'form'}
+        meta: { title: '任务分配', icon: 'form' }
       }
     ]
   },
@@ -115,31 +115,31 @@ export const constantRoutes = [
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: {title: 'Menu1'},
+        meta: { title: 'Menu1' },
         children: [
           {
             path: 'menu1-1',
             component: () => import('@/views/nested/menu1/menu1-1'),
             name: 'Menu1-1',
-            meta: {title: 'Menu1-1'}
+            meta: { title: 'Menu1-1' }
           },
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
             name: 'Menu1-2',
-            meta: {title: 'Menu1-2'},
+            meta: { title: 'Menu1-2' },
             children: [
               {
                 path: 'menu1-2-1',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                 name: 'Menu1-2-1',
-                meta: {title: 'Menu1-2-1'}
+                meta: { title: 'Menu1-2-1' }
               },
               {
                 path: 'menu1-2-2',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
                 name: 'Menu1-2-2',
-                meta: {title: 'Menu1-2-2'}
+                meta: { title: 'Menu1-2-2' }
               }
             ]
           },
@@ -147,7 +147,7 @@ export const constantRoutes = [
             path: 'menu1-3',
             component: () => import('@/views/nested/menu1/menu1-3'),
             name: 'Menu1-3',
-            meta: {title: 'Menu1-3'}
+            meta: { title: 'Menu1-3' }
           }
         ]
       },
@@ -155,7 +155,7 @@ export const constantRoutes = [
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index'),
         name: 'Menu2',
-        meta: {title: 'menu2'}
+        meta: { title: 'menu2' }
       }
     ]
   },
@@ -167,7 +167,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: {title: '反馈', icon: 'form'}
+        meta: { title: '反馈', icon: 'form' }
       }
     ]
   },
@@ -179,7 +179,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: {title: '总结', icon: 'form'}
+        meta: { title: '总结', icon: 'form' }
       }
     ]
   },
@@ -189,18 +189,18 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: {title: 'External Link', icon: 'link'}
+        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },
 
   // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
 

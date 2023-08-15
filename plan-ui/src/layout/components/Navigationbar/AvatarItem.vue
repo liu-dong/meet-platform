@@ -3,7 +3,7 @@
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" alt="头像">
-        <i class="el-icon-caret-bottom"/>
+        <i class="el-icon-caret-bottom" />
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
         <router-link to="/">
@@ -27,10 +27,10 @@
 
 <script>
 
-import {mapGetters} from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "AvatarItem",
+  name: 'AvatarItem',
 
   computed: {
     ...mapGetters([
@@ -57,7 +57,7 @@ export default {
     outline: none;
   }
 
-  .right-menu-item {
+ /* .right-menu-item {
     display: inline-block;
     padding: 0 8px;
     height: 100%;
@@ -73,14 +73,14 @@ export default {
         background: rgba(0, 0, 0, .025)
       }
     }
-  }
+  }*/
 
   .avatar-container {
     padding: 0 30px;
     height: 100%;
 
     .avatar-wrapper {
-      margin-top: 16.5px;
+      margin-top: 8.5px;
       position: relative;
 
       .user-avatar {

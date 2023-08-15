@@ -1,6 +1,7 @@
 <template>
-  <div  class="navbar-container">
+  <div class="navbar-container">
     <el-menu
+      class="el-menu-demo"
       :default-active="activeMenu"
       mode="horizontal"
       :background-color="variables.navMenuBg"
@@ -9,20 +10,20 @@
       :active-text-color="variables.menuActiveText"
       :collapse-transition="false"
     >
-      <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
+      <navbar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
     </el-menu>
-    <avatar-item></avatar-item>
+    <avatar-item />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import variables from '@/styles/variables.scss'
-import NavbarItem from "@/layout/components/Navigationbar/NavbarItem";
-import AvatarItem from "@/layout/components/Navigationbar/AvatarItem";
+import NavbarItem from '@/layout/components/Navigationbar/NavbarItem'
+import AvatarItem from '@/layout/components/Navigationbar/AvatarItem'
 
 export default {
-  components: { NavbarItem,AvatarItem },
+  components: { NavbarItem, AvatarItem },
   computed: {
     ...mapGetters([
       'sidebar'
@@ -32,7 +33,7 @@ export default {
     },
     activeMenu() {
       const route = this.$route
-      const {meta, path} = route
+      const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
         return meta.activeMenu
@@ -41,7 +42,7 @@ export default {
     },
     variables() {
       return variables
-    },
+    }
   }
 }
 </script>

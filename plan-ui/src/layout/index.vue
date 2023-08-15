@@ -1,20 +1,23 @@
 <template>
   <div class="app-wrapper">
     <navigationbar />
+    <navbar />
     <div class="main-container">
-      <app-main/>
+      <app-main />
     </div>
   </div>
 </template>
 
 <script>
-import {AppMain, Navigationbar} from './components'
+import { AppMain, Navigationbar } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
+import Navbar from '@/layout/components/Navbar'
 
 export default {
   name: 'Layout',
   components: {
     Navigationbar,
+    Navbar,
     AppMain
   },
   mixins: [ResizeMixin],
@@ -39,7 +42,7 @@ export default {
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', {withoutAnimation: false})
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
 }

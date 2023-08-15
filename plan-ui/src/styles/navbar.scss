@@ -12,7 +12,7 @@
   .navbar-container {
     @include clearfix;
     transition: width 0.28s;
-    height: $navBarHeight !important;
+    //height: $navBarHeight !important;
     background-color: $navMenuBg;
     width: 100%;
     font-size: 0;
@@ -23,9 +23,19 @@
       //border: none;
       height: 100%;
       width: 80% !important;
-      display: flex;
-      align-items: center;
+      //display: flex;
+      //align-items: center;
+      @include clearfix;
     }
+
+    .navbar-item {
+      height: 100%;
+      line-height: 100%;
+      float: left;
+      width: 140px;
+    }
+
+    //.el-menu
 
     .horizontal-collapse-transition {
       transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
@@ -47,11 +57,6 @@
     //  margin-left: -2px;
     //}
 
-
-
-    .navbar-item {
-      width: 150px;
-    }
 
     // menu hover
     .submenu-title-noDropdown,
