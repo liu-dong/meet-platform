@@ -5,7 +5,7 @@
       <el-select v-model="listQuery.importance" placeholder="请选择计划状态" clearable style="width: 200px" class="filter-item">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item" />
       </el-select>
-<!--      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
+      <!--      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>-->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -93,33 +93,34 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="计划名称" prop="title">
-          <el-input v-model="temp.title" />
-        </el-form-item>
-        <el-form-item label="计划类型" prop="type">
-          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="计划目标" prop="title">
-          <el-input v-model="temp.title" />
-        </el-form-item>
-        <el-form-item label="计划内容" prop="title">
-          <el-input v-model="temp.title" />
-        </el-form-item>
-        <el-form-item label="创建人" prop="title">
-          <el-input v-model="temp.title" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">
-          取消
-        </el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-          保存
-        </el-button>
-      </div>
+      <plan-detail @close="dialogFormVisible = $event" />
+      <!--      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">-->
+      <!--        <el-form-item label="计划名称" prop="title">-->
+      <!--          <el-input v-model="temp.title" />-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item label="计划类型" prop="type">-->
+      <!--          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">-->
+      <!--            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />-->
+      <!--          </el-select>-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item label="计划目标" prop="title">-->
+      <!--          <el-input v-model="temp.title" />-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item label="计划内容" prop="title">-->
+      <!--          <el-input v-model="temp.title" />-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item label="创建人" prop="title">-->
+      <!--          <el-input v-model="temp.title" />-->
+      <!--        </el-form-item>-->
+      <!--      </el-form>-->
+      <!--      <div slot="footer" class="dialog-footer">-->
+      <!--        <el-button @click="dialogFormVisible = false">-->
+      <!--          取消-->
+      <!--        </el-button>-->
+      <!--        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">-->
+      <!--          保存-->
+      <!--        </el-button>-->
+      <!--      </div>-->
     </el-dialog>
   </div>
 </template>
@@ -129,6 +130,7 @@ import { createArticle, fetchList, fetchPv, updateArticle } from '@/api/article'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import PlanDetail from '@/views/plan/year/detail' // secondary package based on el-pagination
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -144,8 +146,8 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 }, {})
 
 export default {
-  name: 'ComplexTable',
-  components: { Pagination },
+  name: 'PlanList',
+  components: { Pagination, PlanDetail },
   directives: { waves },
   filters: {
     statusFilter(status) {
