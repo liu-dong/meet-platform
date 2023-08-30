@@ -8,15 +8,15 @@
       </el-breadcrumb>
       <el-form
           :inline="true"
-          :model="permissionInfo"
+          :model="permission"
           class="demo-form-inline"
           style="padding-left: 15px;padding-bottom: 10px;"
       >
         <el-form-item label="权限编码">
-          <el-input v-model="permissionInfo.permissionCode" placeholder="权限编码"/>
+          <el-input v-model="permission.permissionCode" placeholder="权限编码"/>
         </el-form-item>
         <el-form-item label="权限类型">
-          <el-select v-model="permissionInfo.permissionType" placeholder="权限类型">
+          <el-select v-model="permission.permissionType" placeholder="权限类型">
             <el-option label="页面权限" value="view"/>
             <el-option label="操作权限" value="operate"/>
             <el-option label="数据权限" value="data"/>
@@ -66,13 +66,13 @@
 
 <script>
 import qs from 'qs'
-import {deletePermissionInfo, findPermissionList} from '@/api/permission'
+import { deletePermission, findPermissionList } from '@/api/permission'
 
 export default {
   name: 'PermissionList',
   data() {
     return {
-      permissionInfo: {},
+      permission: {},
       tableData: [],
       currentPage: 1, // 初始页
       pageSize: 10, // 每页的数据
@@ -102,7 +102,7 @@ export default {
         this.$message({message: '请选择要删除的数据', duration: 2000})
         return
       }
-      deletePermissionInfo(qs.stringify({id: currentRow.id})).then(res => {
+      deletePermission(qs.stringify({id: currentRow.id})).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {

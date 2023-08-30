@@ -185,7 +185,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public List<Map<String, Object>> findAccountPermissionInfoList(String accountId) {
+    public List<Map<String, Object>> findAccountPermissionList(String accountId) {
         StringBuilder sql = new StringBuilder();
         List<Object> param = new ArrayList<>();
         sql.append(" SELECT t1.id,t1.permission_code permissionCode,t1.permission_name permissionName,t1.permission_type permissionType ");

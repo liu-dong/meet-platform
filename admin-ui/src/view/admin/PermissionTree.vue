@@ -23,7 +23,7 @@
 
 <script>
 
-import {deletePermissionInfo, getPermissionTree} from '@/api/permission'
+import { deletePermission, getPermissionTree } from '@/api/permission'
 
 export default {
   name: 'PermissionTree',
@@ -61,7 +61,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletePermissionInfo(this.$qs.stringify({id: node.key})).then(res => {
+        deletePermission(this.$qs.stringify({id: node.key})).then(res => {
           console.log(res.data)
           this.$message({message: res.message, duration: 2000})
           if (res.code === 200) {

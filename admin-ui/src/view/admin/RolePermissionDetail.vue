@@ -32,8 +32,8 @@
 
 <script>
 
-import {getPermissionTree} from '@/api/permission'
-import {assignPermissions, findRolePermissionInfoList} from '@/api/role'
+import { getPermissionTree } from '@/api/permission'
+import { assignPermissions, findRolePermissionList } from '@/api/role'
 
 export default {
   name: 'RolePermissionDetail',
@@ -49,7 +49,7 @@ export default {
   created() {
     this.rolePermission.roleId = this.$route.params.id
     if (this.rolePermission.roleId) {
-      this.findRolePermissionInfoList(this.rolePermission.roleId)
+      this.findRolePermissionList(this.rolePermission.roleId)
     }
     this.getPermissionTree()
   },
@@ -63,8 +63,8 @@ export default {
         }
       })
     },
-    findRolePermissionInfoList: function (id) { // 获取角色权限信息
-      findRolePermissionInfoList({roleId: id}).then(res => {
+    findRolePermissionList: function (id) { // 获取角色权限信息
+      findRolePermissionList({roleId: id}).then(res => {
         if (res.code === 200) {
           this.rolePermission.roleId = res.data.roleId
           this.rolePermission.permissionIdList = res.data.permissionIdList
@@ -95,7 +95,7 @@ export default {
       assignPermissions(this.rolePermission).then(res => {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
-          this.findRolePermissionInfoList(res.data)
+          this.findRolePermissionList(res.data)
         }
       })
     },

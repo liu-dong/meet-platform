@@ -88,7 +88,7 @@ public interface AccountInfoService {
      * @param accountId
      * @return
      */
-    List<Map<String, Object>> findAccountPermissionInfoList(String accountId);
+    List<Map<String, Object>> findAccountPermissionList(String accountId);
 
     /**
      * 分配角色

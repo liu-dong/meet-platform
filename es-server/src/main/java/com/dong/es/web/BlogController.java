@@ -1,10 +1,11 @@
 package com.dong.es.web;
 
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.demo.es.dao.BlogJpaDao;
-import com.dong.demo.es.domain.BlogModel;
+import com.dong.es.dao.BlogJpaDao;
+import com.dong.es.domain.BlogModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;

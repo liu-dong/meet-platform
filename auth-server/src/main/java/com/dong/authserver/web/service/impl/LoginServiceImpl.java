@@ -103,7 +103,7 @@ public class LoginServiceImpl implements LoginService {
             List<Map<String, Object>> roles = accountInfoService.findAccountRoleInfoList(user.getUserId());
             user.setRoles(roles);
             //查询账号权限
-            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionInfoList(user.getUserId());
+            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionList(user.getUserId());
             user.setPermissions(permissions);
         }
         return user;
@@ -121,7 +121,7 @@ public class LoginServiceImpl implements LoginService {
             List<Map<String, Object>> roles = accountInfoService.findAccountRoleInfoList(user.getUserId());
             user.setRoles(roles);
             //查询账号权限
-            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionInfoList(user.getUserId());
+            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionList(user.getUserId());
             user.setPermissions(permissions);
         }
         return user;

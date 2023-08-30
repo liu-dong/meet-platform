@@ -2,11 +2,11 @@ package com.dong.securitycore.service.impl;
 
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.securitycore.model.dto.RolePermissionDTO;
-import com.dong.securitycore.service.RolePermissionInfoService;
+import com.dong.securitycore.service.RolePermissionService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RolePermissionInfoServiceImpl implements RolePermissionInfoService {
+public class RolePermissionServiceImpl implements RolePermissionService {
 
     /**
      * 查询角色权限信息列表
@@ -17,7 +17,7 @@ public class RolePermissionInfoServiceImpl implements RolePermissionInfoService 
      * @return
      */
     @Override
-    public ResponseResult findRolePermissionInfoList(RolePermissionDTO dto, Integer limit, Integer page) {
+    public ResponseResult findRolePermissionList(RolePermissionDTO dto, Integer limit, Integer page) {
         return null;
     }
 
@@ -28,7 +28,7 @@ public class RolePermissionInfoServiceImpl implements RolePermissionInfoService 
      * @return
      */
     @Override
-    public ResponseResult saveRolePermissionInfo(RolePermissionDTO dto) {
+    public ResponseResult saveRolePermission(RolePermissionDTO dto) {
         return null;
     }
 
@@ -39,7 +39,7 @@ public class RolePermissionInfoServiceImpl implements RolePermissionInfoService 
      * @return
      */
     @Override
-    public ResponseResult getRolePermissionInfo(String id) {
+    public ResponseResult getRolePermission(String id) {
         return null;
     }
 
@@ -50,7 +50,7 @@ public class RolePermissionInfoServiceImpl implements RolePermissionInfoService 
      * @return
      */
     @Override
-    public ResponseResult deleteRolePermissionInfo(String id) {
+    public ResponseResult deleteRolePermission(String id) {
         return null;
     }
 

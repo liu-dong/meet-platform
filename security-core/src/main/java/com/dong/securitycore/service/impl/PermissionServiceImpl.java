@@ -8,7 +8,7 @@ import com.dong.securitycore.dao.PermissionJpaDao;
 import com.dong.securitycore.entity.Permission;
 import com.dong.securitycore.model.dto.PermissionDTO;
 import com.dong.securitycore.model.vo.PermissionVO;
-import com.dong.securitycore.service.PermissionInfoService;
+import com.dong.securitycore.service.PermissionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PermissionInfoServiceImpl implements PermissionInfoService {
+public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     PermissionJpaDao permissionJpaDao;
@@ -34,7 +34,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
      * @return
      */
     @Override
-    public Pager<PermissionVO> findPermissionInfoList(PermissionDTO dto, Pager<PermissionVO> pager) {
+    public Pager<PermissionVO> findPermissionList(PermissionDTO dto, Pager<PermissionVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,permission_code permissionCode,permission_name permissionName,permission_type permissionType,create_time createTime ");
@@ -73,7 +73,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
      * @return
      */
     @Override
-    public Permission savePermissionInfo(PermissionDTO dto) {
+    public Permission savePermission(PermissionDTO dto) {
         Permission entity = new Permission();
         if (StringUtils.isEmpty(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
@@ -99,7 +99,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
      * @return
      */
     @Override
-    public Permission getPermissionInfo(String id) {
+    public Permission getPermission(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
@@ -112,7 +112,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
      * @param id
      */
     @Override
-    public void deletePermissionInfo(String id) {
+    public void deletePermission(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("删除失败，id不能为空!");
         }

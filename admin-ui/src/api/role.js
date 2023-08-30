@@ -41,7 +41,7 @@ export function findRoleAccountInfoList(data) {
     })
 }
 
-export function findRolePermissionInfoList(data) {
+export function findRolePermissionList(data) {
     return axios({
         url: '/role/findRolePermissionList',
         method: 'post',

@@ -3,7 +3,7 @@ import axios from '@/axios/adminAxios'
 // 查找权限树
 export function getPermissionTree(params) {
     return axios({
-        url: '/permissionInfo/getPermissionTree',
+        url: '/permission/getPermissionTree',
         method: 'get',
         params
     })
@@ -12,42 +12,42 @@ export function getPermissionTree(params) {
 // 查询权限列表
 export function findPermissionList(data, params) {
     return axios({
-        url: '/permissionInfo/findPermissionInfoList',
+        url: '/permission/findPermissionList',
         method: 'post',
         data,
         params
     })
 }
 
-export function getPermissionInfo(params) {
+export function getPermission(params) {
     return axios({
-        url: '/permissionInfo/getPermissionInfo',
+        url: '/permission/getPermission',
         method: 'get',
         params
     })
 }
 
 // 保存权限信息
-export function savePermissionInfo(data) {
+export function savePermission(data) {
     return axios({
-        url: '/permissionInfo/savePermissionInfo',
+        url: '/permission/savePermission',
         method: 'post',
         data
     })
 }
 
 // 删除权限信息
-export function deletePermissionInfo(params) {
+export function deletePermission(params) {
     return axios({
-        url: '/permissionInfo/deletePermissionInfo',
+        url: '/permission/deletePermission',
         method: 'post',
         params
     })
 }
 
-export function findParentPermissionInfoList() {
+export function findParentPermissionList() {
     return axios({
-        url: '/permissionInfo/findParentPermissionInfoList',
+        url: '/permission/findParentPermissionList',
         method: 'post'
     })
 }

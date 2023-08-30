@@ -6,7 +6,7 @@ import com.dong.commoncore.model.ResponseResult;
 import com.dong.securitycore.entity.Permission;
 import com.dong.securitycore.model.dto.PermissionDTO;
 import com.dong.securitycore.model.vo.PermissionVO;
-import com.dong.securitycore.service.PermissionInfoService;
+import com.dong.securitycore.service.PermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,11 @@ import java.util.Map;
  */
 @Api(tags = "权限管理模块")
 @RestController
-@RequestMapping("/permissionInfo")
-public class PermissionInfoController {
+@RequestMapping("/permission")
+public class PermissionController {
 
     @Autowired
-    private PermissionInfoService permissionInfoService;
+    private PermissionService permissionService;
 
     /**
      * 查询权限信息列表
@@ -34,9 +34,9 @@ public class PermissionInfoController {
      * @return
      */
     @ApiOperation("查询权限信息列表")
-    @PostMapping("/findPermissionInfoList")
-    public ResponseResult findPermissionInfoList(PermissionDTO dto, Pager<PermissionVO> pager) {
-        Pager<PermissionVO> permissionList = permissionInfoService.findPermissionInfoList(dto, pager);
+    @PostMapping("/findPermissionList")
+    public ResponseResult findPermissionList(PermissionDTO dto, Pager<PermissionVO> pager) {
+        Pager<PermissionVO> permissionList = permissionService.findPermissionList(dto, pager);
         return ResponseResult.success(permissionList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -48,7 +48,7 @@ public class PermissionInfoController {
     @ApiOperation("查询权限树")
     @GetMapping("/getPermissionTree")
     public ResponseResult getPermissionTree(PermissionDTO dto) {
-        List<Map<String, Object>> permissionTree = permissionInfoService.getPermissionTree(dto);
+        List<Map<String, Object>> permissionTree = permissionService.getPermissionTree(dto);
         return ResponseResult.success(permissionTree, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -59,9 +59,9 @@ public class PermissionInfoController {
      * @return
      */
     @ApiOperation("保存权限信息")
-    @PostMapping("/savePermissionInfo")
-    public ResponseResult savePermissionInfo(@RequestBody PermissionDTO dto) {
-        Permission permission = permissionInfoService.savePermissionInfo(dto);
+    @PostMapping("/savePermission")
+    public ResponseResult savePermission(@RequestBody PermissionDTO dto) {
+        Permission permission = permissionService.savePermission(dto);
         return ResponseResult.success(permission, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
@@ -72,9 +72,9 @@ public class PermissionInfoController {
      * @return
      */
     @ApiOperation("查询权限详细信息")
-    @GetMapping("/getPermissionInfo")
-    public ResponseResult getPermissionInfo(String id) {
-        Permission permission = permissionInfoService.getPermissionInfo(id);
+    @GetMapping("/getPermission")
+    public ResponseResult getPermission(String id) {
+        Permission permission = permissionService.getPermission(id);
         return ResponseResult.success(permission, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -85,9 +85,9 @@ public class PermissionInfoController {
      * @return
      */
     @ApiOperation("删除权限信息")
-    @PostMapping("/deletePermissionInfo")
-    public ResponseResult deletePermissionInfo(String id) {
-        permissionInfoService.deletePermissionInfo(id);
+    @PostMapping("/deletePermission")
+    public ResponseResult deletePermission(String id) {
+        permissionService.deletePermission(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 }

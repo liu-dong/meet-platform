@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import {getPermissionInfo, savePermissionInfo} from '@/api/permission'
-import {findMenuList} from '@/api/menu'
+import { getPermission, savePermission } from '@/api/permission'
+import { findMenuList } from '@/api/menu'
 
 export default {
   name: 'PermissionDetail',
@@ -68,27 +68,27 @@ export default {
     const id = this.$route.params.id
     const type = this.$route.params.type// type：1表示同级，2表示子级
     if (id && type) {
-      const result = await this.getPermissionInfo(id)
+      const result = await this.getPermission(id)
       if (result.code === 200) {
-        const permissionInfo = result.data
-        this.ruleForm.parentId = parseInt(type) === 2 ? permissionInfo.id : permissionInfo.parentId
+        const permission = result.data
+        this.ruleForm.parentId = parseInt(type) === 2 ? permission.id : permission.parentId
       }
     } else if (id) {
-      await this.initPermissionInfo(id)
+      await this.initPermission(id)
     }
     this.findMenuList()
   },
   methods: {
     // 获取权限信息
-    getPermissionInfo: async function (id) {
-      return await getPermissionInfo({id: id}).then(res => {
+    getPermission: async function (id) {
+      return await getPermission({id: id}).then(res => {
         console.log('permission:', res)
         return res
       })
     },
     // 初始化权限信息详情页
-    initPermissionInfo: async function (id) {
-      const info = await this.getPermissionInfo(id)
+    initPermission: async function (id) {
+      const info = await this.getPermission(id)
       this.$message({message: info.message, duration: 2000})
       if (info.code === 200) {
         this.ruleForm = info.data
@@ -97,7 +97,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          savePermissionInfo(this.ruleForm).then(res => {
+          savePermission(this.ruleForm).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
               this.ruleForm = res.data

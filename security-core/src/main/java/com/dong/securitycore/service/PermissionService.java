@@ -8,7 +8,7 @@ import com.dong.securitycore.model.vo.PermissionVO;
 import java.util.List;
 import java.util.Map;
 
-public interface PermissionInfoService {
+public interface PermissionService {
 
     /**
      * 查询权限信息列表
@@ -17,7 +17,7 @@ public interface PermissionInfoService {
      * @param pager
      * @return
      */
-    Pager<PermissionVO> findPermissionInfoList(PermissionDTO dto, Pager<PermissionVO> pager);
+    Pager<PermissionVO> findPermissionList(PermissionDTO dto, Pager<PermissionVO> pager);
 
     /**
      * 查询权限树
@@ -33,7 +33,7 @@ public interface PermissionInfoService {
      * @param dto
      * @return
      */
-    Permission savePermissionInfo(PermissionDTO dto);
+    Permission savePermission(PermissionDTO dto);
 
     /**
      * 查询权限信息详细页面
@@ -41,12 +41,12 @@ public interface PermissionInfoService {
      * @param id
      * @return
      */
-    Permission getPermissionInfo(String id);
+    Permission getPermission(String id);
 
     /**
      * 删除权限信息
      *
      * @param id
      */
-    void deletePermissionInfo(String id);
+    void deletePermission(String id);
 }
