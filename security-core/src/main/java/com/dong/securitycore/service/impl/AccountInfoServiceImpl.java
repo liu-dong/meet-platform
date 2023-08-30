@@ -34,7 +34,7 @@ import java.util.Map;
  * @date 2020/10/12 13:01
  */
 @Service
-public class AccountServiceImpl implements AccountService {
+class AccountServiceImpl implements AccountService {
 
     @Autowired
     CommonDao commonDao;
