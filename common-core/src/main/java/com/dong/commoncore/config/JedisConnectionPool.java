@@ -1,6 +1,7 @@
 package com.dong.commoncore.config;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -11,7 +12,8 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author liudong
  * @date 2023/7/24
  */
-@Configuration
+@Component
+@DependsOn("redisProperties")
 public class JedisConnectionPool {
 
     private static final JedisPool jedisPool;

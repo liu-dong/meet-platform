@@ -2,6 +2,7 @@ package com.dong.commoncore.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -46,21 +47,25 @@ public class RedisProperties implements InitializingBean {
     /**
      * Redis连接池最大连接数（使用负值表示没有限制）
      */
+    @Value("${spring.redis.jedis.pool.max-active:}")
     private Integer jedisPoolMaxActive;
 
     /**
      * Redis连接池中的最小空闲连接
      */
+    @Value("${spring.redis.jedis.pool.max-idle:}")
     private Integer jedisPoolMinIdle;
 
     /**
      * Redis连接池中的最大空闲连接
      */
+    @Value("${spring.redis.jedis.pool.max-idle:}")
     private Integer jedisPoolMaxIdle;
 
     /**
      * Redis连接池最大阻塞等待时间（使用负值表示没有限制）
      */
+    @Value("${spring.redis.jedis.pool.max-wait:}")
     private Integer jedisPoolMaxWait;
 
     /**

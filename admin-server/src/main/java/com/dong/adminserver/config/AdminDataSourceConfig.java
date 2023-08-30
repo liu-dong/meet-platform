@@ -1,12 +1,10 @@
 package com.dong.adminserver.config;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -36,25 +34,15 @@ import java.util.Objects;
         transactionManagerRef = "adminTransactionManager",
         basePackages = {"com.dong.adminserver.web.dao", "com.dong.securitycore.dao"}
 )
-@ComponentScan(basePackages = {"com.dong.commoncore.**", "com.dong.securitycore.service", "com.dong.securitycore.config", "com.dong.logserver"})
+//@ComponentScan(basePackages = {"com.dong.commoncore.config", "com.dong.securitycore.service", "com.dong.securitycore.config"})
 public class AdminDataSourceConfig {
 
     @Resource
     private JpaProperties jpaProperties;
+    @Autowired
+    @Qualifier("adminDataSource")
+    DataSource dataSource;
 
-    /**
-     * druid数据源
-     * <p>
-     * 表示如果存在这个Bean,则不会创建：@ConditionalOnMissingBean
-     *
-     * @return
-     */
-    @Primary
-    @ConfigurationProperties(prefix = "spring.datasource.admin")
-    @Bean(name = "adminDataSource")
-    public DataSource adminDataSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
 
     /**
      * 指定需要扫描的实体包实现与数据库关联
@@ -65,8 +53,7 @@ public class AdminDataSourceConfig {
     @Primary
     @Bean(name = "adminEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean adminEntityManagerFactory(
-            EntityManagerFactoryBuilder builder,
-            @Qualifier("adminDataSource") DataSource dataSource) {
+            EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
