@@ -8,7 +8,7 @@ import com.dong.securitycore.model.vo.PersonVO;
 
 import java.util.List;
 
-public interface OrgInfoService {
+public interface OrgService {
 
     /**
      * 查询组织机构列表
@@ -17,7 +17,7 @@ public interface OrgInfoService {
      * @param pager
      * @return
      */
-    Pager<OrgVO> findOrgInfoList(OrgDTO dto, Pager<OrgVO> pager);
+    Pager<OrgVO> findOrgList(OrgDTO dto, Pager<OrgVO> pager);
 
     /**
      * 保存组织机构
@@ -25,7 +25,7 @@ public interface OrgInfoService {
      * @param dto
      * @return
      */
-    Org saveOrgInfo(OrgDTO dto);
+    Org saveOrg(OrgDTO dto);
 
     /**
      * 查询组织机构详情
@@ -33,7 +33,7 @@ public interface OrgInfoService {
      * @param id
      * @return
      */
-    Org getOrgInfo(String id) throws Exception;
+    Org getOrg(String id) throws Exception;
 
     /**
      * 删除组织机构
@@ -41,11 +41,11 @@ public interface OrgInfoService {
      * @param id
      * @return
      */
-    void deleteOrgInfo(String id) throws Exception;
+    void deleteOrg(String id) throws Exception;
 
     Integer addPerson(String orgId, List<String> personIds) throws Exception;
 
     Integer deletePerson(String orgId, List<String> personIds) throws Exception;
 
-    List<PersonVO> findOrgPersonInfoList(String orgId);
+    List<PersonVO> findOrgPersonList(String orgId);
 }

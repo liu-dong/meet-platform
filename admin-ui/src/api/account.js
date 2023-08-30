@@ -1,26 +1,26 @@
 import axios from '@/axios/adminAxios.js'
 
-export function findAccountInfoList(data, params) {
+export function findAccountList(data, params) {
     return axios({
-        url: '/accountInfo/findAccountInfoList',
+        url: '/account/findAccountList',
         method: 'post',
         data,
         params
     })
 }
 
-export function getAccountInfo(params) {
+export function getAccount(params) {
     return axios({
-        url: '/accountInfo/getAccountInfo',
+        url: '/account/getAccount',
         method: 'get',
         params
     })
 }
 
 // 保存账号信息
-export function saveAccountInfo(data) {
+export function saveAccount(data) {
     return axios({
-        url: '/accountInfo/register',
+        url: '/account/register',
         method: 'post',
         data
     })
@@ -29,16 +29,16 @@ export function saveAccountInfo(data) {
 // 注册账号
 export function register(data) {
     return axios({
-        url: '/accountInfo/register',
+        url: '/account/register',
         method: 'post',
         data
     })
 }
 
 // 删除账号信息
-export function deleteAccountInfo(params) {
+export function deleteAccount(params) {
     return axios({
-        url: '/accountInfo/deleteAccountInfo',
+        url: '/account/deleteAccount',
         method: 'post',
         params
     })
@@ -46,7 +46,7 @@ export function deleteAccountInfo(params) {
 
 export function findAccountRoleInfoList(data) {
     return axios({
-        url: '/accountInfo/findAccountRoleInfoList',
+        url: '/account/findAccountRoleInfoList',
         method: 'post',
         data
     })
@@ -55,7 +55,7 @@ export function findAccountRoleInfoList(data) {
 // 分配角色
 export function assignRoles(data) {
     return axios({
-        url: '/accountInfo/assignRoles',
+        url: '/account/assignRoles',
         method: 'post',
         data
     })

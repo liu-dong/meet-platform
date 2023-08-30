@@ -7,7 +7,7 @@ import com.dong.securitycore.entity.Account;
 import com.dong.securitycore.entity.AccountRole;
 import com.dong.securitycore.model.dto.AccountDTO;
 import com.dong.securitycore.model.vo.AccountVO;
-import com.dong.securitycore.service.AccountInfoService;
+import com.dong.securitycore.service.AccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ import java.util.Map;
  * @date 2020/3/22 20:59
  */
 @Api(tags = "账号管理模块")
-@RequestMapping("/accountInfo")
+@RequestMapping("/account")
 @RestController
-public class AccountInfoController {
+public class AccountController {
 
     @Autowired
-    private AccountInfoService accountInfoService;
+    private AccountService accountService;
 
     /**
      * 注册用户
@@ -39,7 +39,7 @@ public class AccountInfoController {
     @ApiOperation("注册用户")
     @PostMapping("/register")
     public ResponseResult register(@RequestBody AccountDTO dto) {
-        Account account = accountInfoService.register(dto);
+        Account account = accountService.register(dto);
         return ResponseResult.success(account, ResponseMessageConstant.REGISTER_SUCCESS);
     }
 
@@ -53,7 +53,7 @@ public class AccountInfoController {
     @ApiOperation("用户登录")
     @PostMapping(value = "/login")
     public ResponseResult login(String username, String password) {
-        AccountVO accountVO = accountInfoService.login(username, password);
+        AccountVO accountVO = accountService.login(username, password);
         return ResponseResult.success(accountVO, ResponseMessageConstant.LOGIN_SUCCESS);
     }
 
@@ -66,7 +66,7 @@ public class AccountInfoController {
     @ApiOperation("退出登录")
     @PostMapping("/logout")
     public ResponseResult logout(String username) {
-        return accountInfoService.logout(username);
+        return accountService.logout(username);
     }
 
     /**
@@ -78,7 +78,7 @@ public class AccountInfoController {
     @ApiOperation("注销用户")
     @PostMapping("/cancel")
     public ResponseResult cancel(String username) {
-        String cancel = accountInfoService.cancel(username);
+        String cancel = accountService.cancel(username);
         return ResponseResult.success(cancel);
     }
 
@@ -90,10 +90,10 @@ public class AccountInfoController {
      * @return
      */
     @ApiOperation("查询用户信息列表")
-    @PostMapping("/findAccountInfoList")
-    public ResponseResult findAccountInfoList(@RequestBody AccountDTO dto, Pager<AccountVO> pager) {
-        Pager<AccountVO> accountInfoList = accountInfoService.findAccountInfoList(dto, pager);
-        return ResponseResult.success(accountInfoList, ResponseMessageConstant.QUERY_SUCCESS);
+    @PostMapping("/findAccountList")
+    public ResponseResult findAccountList(@RequestBody AccountDTO dto, Pager<AccountVO> pager) {
+        Pager<AccountVO> accountList = accountService.findAccountList(dto, pager);
+        return ResponseResult.success(accountList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -103,10 +103,10 @@ public class AccountInfoController {
      * @return
      */
     @ApiOperation("查询用户信息")
-    @GetMapping("/getAccountInfo")
-    public ResponseResult getAccountInfo(String id) {
-        Account accountInfo = accountInfoService.getAccountInfo(id);
-        return ResponseResult.success(accountInfo, ResponseMessageConstant.QUERY_SUCCESS);
+    @GetMapping("/getAccount")
+    public ResponseResult getAccount(String id) {
+        Account account = accountService.getAccount(id);
+        return ResponseResult.success(account, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -116,9 +116,9 @@ public class AccountInfoController {
      * @return
      */
     @ApiOperation("删除用户信息")
-    @PostMapping("/deleteAccountInfo")
-    public ResponseResult deleteAccountInfo(String id) {
-        accountInfoService.deleteAccountInfo(id);
+    @PostMapping("/deleteAccount")
+    public ResponseResult deleteAccount(String id) {
+        accountService.deleteAccount(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 
@@ -132,7 +132,7 @@ public class AccountInfoController {
     @ApiOperation("查询角色账号信息")
     @GetMapping("/findAccountRoleInfoList")
     public ResponseResult findAccountRoleInfoList(String accountId) {
-        List<Map<String, Object>> dataList = accountInfoService.findAccountRoleInfoList(accountId);
+        List<Map<String, Object>> dataList = accountService.findAccountRoleInfoList(accountId);
         return ResponseResult.success(dataList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -145,7 +145,7 @@ public class AccountInfoController {
     @ApiOperation("分派角色")
     @PostMapping("/assignRoles")
     public ResponseResult assignRoles(@RequestBody AccountDTO dto) {
-        List<AccountRole> accountRoles = accountInfoService.assignRoles(dto);
+        List<AccountRole> accountRoles = accountService.assignRoles(dto);
         return ResponseResult.success(accountRoles, ResponseMessageConstant.OPERATE_SUCCESS);
     }
 

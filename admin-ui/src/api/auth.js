@@ -1,4 +1,4 @@
-import request from "@/axios/authAxios";
+import request from '@/axios/authAxios'
 
 // 登录
 export function login(data) {
@@ -20,7 +20,7 @@ export function getUserInfo() {
 // 登出
 export function logout(data) {
     return axios({
-        url: '/accountInfo/logout',
+        url: '/account/logout',
         method: 'post',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

@@ -15,7 +15,7 @@ import com.dong.securitycore.entity.AccountRole;
 import com.dong.securitycore.entity.Person;
 import com.dong.securitycore.model.dto.AccountDTO;
 import com.dong.securitycore.model.vo.AccountVO;
-import com.dong.securitycore.service.AccountInfoService;
+import com.dong.securitycore.service.AccountService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import java.util.Map;
  * @date 2020/10/12 13:01
  */
 @Service
-public class AccountInfoServiceImpl implements AccountInfoService {
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
     CommonDao commonDao;
@@ -141,7 +141,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public Pager<AccountVO> findAccountInfoList(AccountDTO dto, Pager<AccountVO> pager) {
+    public Pager<AccountVO> findAccountList(AccountDTO dto, Pager<AccountVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id, username, user_type userType, person_id personId, real_name realName, ");
@@ -152,7 +152,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public Account getAccountInfo(String id) {
+    public Account getAccount(String id) {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("id不能为空");
         }
@@ -160,7 +160,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     @Override
-    public void deleteAccountInfo(String id) {
+    public void deleteAccount(String id) {
         if (!StringUtils.isEmpty(id)) {
             throw new GlobalException("删除失败，id不能为空!");
         }

@@ -7,7 +7,7 @@ import com.dong.securitycore.entity.Org;
 import com.dong.securitycore.model.dto.OrgDTO;
 import com.dong.securitycore.model.vo.OrgVO;
 import com.dong.securitycore.model.vo.PersonVO;
-import com.dong.securitycore.service.OrgInfoService;
+import com.dong.securitycore.service.OrgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,11 @@ import java.util.List;
  */
 @Api(tags = "组织机构管理模块")
 @RestController
-@RequestMapping("/orgInfo")
-public class OrgInfoController {
+@RequestMapping("/org")
+public class OrgController {
 
     @Autowired
-    private OrgInfoService orgInfoService;
+    private OrgService orgService;
 
     /**
      * 查询组织机构列表
@@ -36,10 +36,10 @@ public class OrgInfoController {
      * @return
      */
     @ApiOperation("查询组织机构列表")
-    @PostMapping("/findOrgInfoList")
-    public ResponseResult findOrgInfoList(@RequestBody OrgDTO dto, Pager<OrgVO> pager) {
-        Pager<OrgVO> orgInfoList = orgInfoService.findOrgInfoList(dto, pager);
-        return ResponseResult.success(orgInfoList, ResponseMessageConstant.QUERY_SUCCESS);
+    @PostMapping("/findOrgList")
+    public ResponseResult findOrgList(@RequestBody OrgDTO dto, Pager<OrgVO> pager) {
+        Pager<OrgVO> orgList = orgService.findOrgList(dto, pager);
+        return ResponseResult.success(orgList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -49,9 +49,9 @@ public class OrgInfoController {
      * @return
      */
     @ApiOperation("保存组织机构")
-    @PostMapping("/saveOrgInfo")
-    public ResponseResult saveOrgInfo(@RequestBody OrgDTO dto) {
-        Org org = orgInfoService.saveOrgInfo(dto);
+    @PostMapping("/saveOrg")
+    public ResponseResult saveOrg(@RequestBody OrgDTO dto) {
+        Org org = orgService.saveOrg(dto);
         return ResponseResult.success(org, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
@@ -62,10 +62,10 @@ public class OrgInfoController {
      * @return
      */
     @ApiOperation("查询组织机构")
-    @GetMapping("/getOrgInfo")
-    public ResponseResult getOrgInfo(String id) {
+    @GetMapping("/getOrg")
+    public ResponseResult getOrg(String id) {
         try {
-            Org org = orgInfoService.getOrgInfo(id);
+            Org org = orgService.getOrg(id);
             return ResponseResult.success(org, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,10 +80,10 @@ public class OrgInfoController {
      * @return
      */
     @ApiOperation("删除组织机构")
-    @PostMapping("/deleteOrgInfo")
-    public ResponseResult deleteOrgInfo(String id) {
+    @PostMapping("/deleteOrg")
+    public ResponseResult deleteOrg(String id) {
         try {
-            orgInfoService.deleteOrgInfo(id);
+            orgService.deleteOrg(id);
             return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class OrgInfoController {
     @PostMapping("/addPerson")
     public ResponseResult addPerson(@RequestBody OrgDTO dto) {
         try {
-            orgInfoService.addPerson(dto.getId(), dto.getPersonIds());
+            orgService.addPerson(dto.getId(), dto.getPersonIds());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(e.getMessage());
@@ -116,10 +116,10 @@ public class OrgInfoController {
      * @return
      */
     @ApiOperation("查询当前单位所属人员列表")
-    @GetMapping("/findOrgPersonInfoList")
-    public ResponseResult findOrgPersonInfoList(String orgId) {
+    @GetMapping("/findOrgPersonList")
+    public ResponseResult findOrgPersonList(String orgId) {
         try {
-            List<PersonVO> result = orgInfoService.findOrgPersonInfoList(orgId);
+            List<PersonVO> result = orgService.findOrgPersonList(orgId);
             return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

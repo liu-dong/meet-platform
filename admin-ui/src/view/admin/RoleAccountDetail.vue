@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import {findAccountInfoList} from '@/api/account'
-import {assignAccounts, findRoleAccountInfoList, getRoleInfo} from '@/api/role'
-import dataCatalogUtils from "@/util/dataCatalogUtils";
-import DataCatalog from "@/constant/dataCatalog";
+import { findAccountList } from '@/api/account'
+import { assignAccounts, findRoleAccountList, getRoleInfo } from '@/api/role'
+import dataCatalogUtils from '@/util/dataCatalogUtils'
+import DataCatalog from '@/constant/dataCatalog'
 
 export default {
   name: 'RoleAccountDetail',
@@ -77,13 +77,13 @@ export default {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
           this.ruleForm = res.data
-          this.findRoleAccountInfoList(this.ruleForm.roleCode)
+          this.findRoleAccountList(this.ruleForm.roleCode)
         }
       })
     },
     // 查询角色下所属账号信息
-    findRoleAccountInfoList(roleCode) {
-      findRoleAccountInfoList({roleCode: roleCode}).then(res => {
+    findRoleAccountList(roleCode) {
+      findRoleAccountList({roleCode: roleCode}).then(res => {
         if (res.code === 200) {
           if (res.data && res.data.length > 0) {
             this.roleAccount.accountIdList = res.data.map(item => item.id)
@@ -107,7 +107,7 @@ export default {
       this.$router.go(-1)// 返回上一层
     },
     findAccountList: function () {
-      findAccountInfoList({}).then(res => {
+      findAccountList({}).then(res => {
         if (res.code === 200) {
           this.accountList = res.data
         }

@@ -8,7 +8,7 @@ import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.JWTUtils;
 import com.dong.securitycore.dao.AccountJpaDao;
 import com.dong.securitycore.entity.Account;
-import com.dong.securitycore.service.AccountInfoService;
+import com.dong.securitycore.service.AccountService;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     AccountJpaDao accountJpaDao;
     @Autowired
-    AccountInfoService accountInfoService;
+    AccountService accountService;
 
     @Override
     public String login(LoginDTO dto) {
@@ -100,10 +100,10 @@ public class LoginServiceImpl implements LoginService {
             user.setUsername(String.valueOf(claims.get("username")));
             user.setRealName(String.valueOf(claims.get("realName")));
             //查询账号角色
-            List<Map<String, Object>> roles = accountInfoService.findAccountRoleInfoList(user.getUserId());
+            List<Map<String, Object>> roles = accountService.findAccountRoleInfoList(user.getUserId());
             user.setRoles(roles);
             //查询账号权限
-            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionList(user.getUserId());
+            List<Map<String, Object>> permissions = accountService.findAccountPermissionList(user.getUserId());
             user.setPermissions(permissions);
         }
         return user;
@@ -118,10 +118,10 @@ public class LoginServiceImpl implements LoginService {
             user.setUsername(account.getUsername());
             user.setRealName(account.getRealName());
             //查询账号角色
-            List<Map<String, Object>> roles = accountInfoService.findAccountRoleInfoList(user.getUserId());
+            List<Map<String, Object>> roles = accountService.findAccountRoleInfoList(user.getUserId());
             user.setRoles(roles);
             //查询账号权限
-            List<Map<String, Object>> permissions = accountInfoService.findAccountPermissionList(user.getUserId());
+            List<Map<String, Object>> permissions = accountService.findAccountPermissionList(user.getUserId());
             user.setPermissions(permissions);
         }
         return user;

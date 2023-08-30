@@ -8,12 +8,12 @@
       </el-breadcrumb>
       <el-form
           :inline="true"
-          :model="accountInfo"
+          :model="account"
           class="demo-form-inline"
           style="padding-left: 15px;padding-bottom: 10px;"
       >
         <el-form-item label="用户名">
-          <el-input v-model="accountInfo.username" placeholder="用户名"/>
+          <el-input v-model="account.username" placeholder="用户名"/>
         </el-form-item>
         <el-form-item>
           <el-button round type="primary" @click="findAccountList">查询</el-button>
@@ -67,15 +67,15 @@
 
 <script>
 import qs from 'qs'
-import {deleteAccountInfo, findAccountInfoList} from '@/api/account'
-import dataCatalogUtils from "@/util/dataCatalogUtils";
-import DataCatalog from "@/constant/dataCatalog";
+import { deleteAccount, findAccountList } from '@/api/account'
+import dataCatalogUtils from '@/util/dataCatalogUtils'
+import DataCatalog from '@/constant/dataCatalog'
 
 export default {
   name: 'AccountList',
   data() {
     return {
-      accountInfo: {},
+      account: {},
       tableData: [],
       currentPage: 1, // 初始页
       pageSize: 10, // 每页的数据
@@ -97,7 +97,7 @@ export default {
     },
     findAccountList: function () {
 
-      findAccountInfoList({}).then(res => {
+      findAccountList({}).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.dataList
           this.total = res.data.total
@@ -118,7 +118,7 @@ export default {
       if (JSON.stringify(currentRow) === '{}') {
         alert('请选择要删除的数据')
       }
-      deleteAccountInfo(qs.stringify({id: currentRow.id})).then(res => {
+      deleteAccount(qs.stringify({id: currentRow.id})).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {

@@ -9,7 +9,7 @@ import com.dong.securitycore.dao.PersonJpaDao;
 import com.dong.securitycore.entity.Person;
 import com.dong.securitycore.model.dto.PersonDTO;
 import com.dong.securitycore.model.vo.PersonVO;
-import com.dong.securitycore.service.PersonInfoService;
+import com.dong.securitycore.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PersonInfoServiceImpl implements PersonInfoService {
+public class PersonServiceImpl implements PersonService {
 
     @Autowired
     PersonJpaDao personJpaDao;
@@ -33,7 +33,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
-    public Pager<PersonVO> findPersonInfoList(PersonDTO dto, Pager<PersonVO> pager) {
+    public Pager<PersonVO> findPersonList(PersonDTO dto, Pager<PersonVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> param = new ArrayList<>();
         sql.append(" SELECT t1.id,t1.org_id orgId,t1.`name`,t1.age, ");
@@ -70,7 +70,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
-    public Person savePersonInfo(PersonDTO dto) {
+    public Person savePerson(PersonDTO dto) {
         Person entity = new Person();
         if (StringUtils.isEmpty(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
@@ -99,7 +99,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
-    public Person getPersonInfo(String id) {
+    public Person getPerson(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
@@ -112,7 +112,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @param id
      */
     @Override
-    public void deletePersonInfo(String id) {
+    public void deletePerson(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("删除失败，id不能为空!");
         }

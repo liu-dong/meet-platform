@@ -61,8 +61,8 @@
 </template>
 
 <script>
-import {CodeToText, regionData} from 'element-china-area-data'
-import {getPersonInfo, savePersonInfo} from '@/api/person'
+import { CodeToText, regionData } from 'element-china-area-data'
+import { getPerson, savePerson } from '@/api/person'
 
 export default {
   name: 'PersonDetail',
@@ -84,12 +84,12 @@ export default {
   created() {
     const id = this.$route.params.id
     if (id) {
-      this.getPersonInfo(id)
+      this.getPerson(id)
     }
   },
   methods: {
-    getPersonInfo: function (id) {
-      getPersonInfo({id: id}).then(res => {
+    getPerson: function (id) {
+      getPerson({id: id}).then(res => {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
           this.ruleForm = res.data
@@ -99,7 +99,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          savePersonInfo(this.ruleForm).then(res => {
+          savePerson(this.ruleForm).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
               this.ruleForm = res.data

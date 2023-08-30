@@ -60,7 +60,7 @@
 import qs from 'qs'
 import { logout } from '@/api/auth'
 import { getMenuTree } from '@/api/menu'
-import { savePersonInfo } from '@/api/person'
+import { savePerson } from '@/api/person'
 
 export default {
   name: 'Home',
@@ -98,7 +98,7 @@ export default {
         lastLoginTime: '1996年10月8日 13时14分24秒'
       }
       this.userInfo = userInfo || data
-      /* let user = this.$refs.AccountDetail.getAccountInfo(userData.id);
+      /* let user = this.$refs.AccountDetail.getAccount(userData.id);
          console.log(user); */
     },
     initMenuTree() { // 初始化菜单树
@@ -129,7 +129,7 @@ export default {
     updateInfo: function (form) { // 修改个人信息
       this.$refs[form].validate((valid) => {
         if (valid) {
-          savePersonInfo(this.form).then(res => {
+          savePerson(this.form).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
               this.form = res.data

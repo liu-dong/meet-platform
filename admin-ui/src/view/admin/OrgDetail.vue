@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import {getOrgInfo, saveOrgInfo} from '@/api/org'
-import {findProvinceList, findSubordinateDivisionList} from "@/api/common";
+import { findProvinceList, findSubordinateDivisionList } from '@/api/common'
 
 export default {
   name: 'OrgDetail',
@@ -71,7 +70,7 @@ export default {
   created() {
     const id = this.$route.params.id
     if (id) {
-      this.getOrgInfo(id)
+      this.getOrg(id)
     }
   },
   mounted() {
@@ -79,19 +78,19 @@ export default {
   },
   methods: {
     // 查询单位信息
-    getOrgInfo: function (id) {
-      getOrgInfo({id: id}).then(res => {
+    getOrg: function (id) {
+      getOrg({id: id}).then(res => {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
           this.ruleForm = res.data
-          // this.findOrgAccountInfoList(this.ruleForm.orgCode)
+          // this.findOrgAccountList(this.ruleForm.orgCode)
           this.setDivisionCodes(this.ruleForm.orgDivisionCode)
         }
       })
     },
     // 查询单位下所属账号信息
-    /* findOrgAccountInfoList(orgCode) {
-         findOrgAccountInfoList({ orgCode: orgCode }).then(res => {
+    /* findOrgAccountList(orgCode) {
+         findOrgAccountList({ orgCode: orgCode }).then(res => {
              if (res.code === 200) {
                  if (res.data && res.data.length > 0) {
                      this.orgAccount.accountIdList = res.data.map(item => item.id)
@@ -102,7 +101,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveOrgInfo(this.ruleForm).then(res => {
+          saveOrg(this.ruleForm).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
               this.ruleForm = res.data

@@ -13,7 +13,7 @@ import com.dong.securitycore.entity.OrgPerson;
 import com.dong.securitycore.model.dto.OrgDTO;
 import com.dong.securitycore.model.vo.OrgVO;
 import com.dong.securitycore.model.vo.PersonVO;
-import com.dong.securitycore.service.OrgInfoService;
+import com.dong.securitycore.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class OrgInfoServiceImpl implements OrgInfoService {
+public class OrgServiceImpl implements OrgService {
 
     @Autowired
     private OrgJpaDao orgJpaDao;
@@ -40,7 +40,7 @@ public class OrgInfoServiceImpl implements OrgInfoService {
      * @return
      */
     @Override
-    public Pager<OrgVO> findOrgInfoList(OrgDTO dto, Pager<OrgVO> pager) {
+    public Pager<OrgVO> findOrgList(OrgDTO dto, Pager<OrgVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT t1.id,t1.org_name orgName,t1.org_code orgCode,t1.org_type orgType, ");
@@ -64,7 +64,7 @@ public class OrgInfoServiceImpl implements OrgInfoService {
      * @return
      */
     @Override
-    public Org saveOrgInfo(OrgDTO dto) {
+    public Org saveOrg(OrgDTO dto) {
         Org entity = new Org();
         if (StringUtils.isEmpty(dto.getId())) {
             entity.setId(CommonUtils.getUUID());
@@ -90,7 +90,7 @@ public class OrgInfoServiceImpl implements OrgInfoService {
      * @return
      */
     @Override
-    public Org getOrgInfo(String id) {
+    public Org getOrg(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
@@ -104,7 +104,7 @@ public class OrgInfoServiceImpl implements OrgInfoService {
      * @return
      */
     @Override
-    public void deleteOrgInfo(String id) throws Exception {
+    public void deleteOrg(String id) throws Exception {
         if (StringUtils.isEmpty(id)) {
             throw new Exception("删除失败，id不能为空!");
         }
@@ -146,7 +146,7 @@ public class OrgInfoServiceImpl implements OrgInfoService {
     }
 
     @Override
-    public List<PersonVO> findOrgPersonInfoList(String orgId) {
+    public List<PersonVO> findOrgPersonList(String orgId) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT t1.id,t1.company_id orgId,t1.`name`,t1.age, ");

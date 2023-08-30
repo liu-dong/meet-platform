@@ -1,33 +1,33 @@
 import axios from '@/axios/adminAxios'
 
-export function findOrgInfoList(data, params) {
+export function findOrgList(data, params) {
     return axios({
-        url: '/orgInfo/findOrgInfoList',
+        url: '/org/findOrgList',
         method: 'post',
         data,
         params
     })
 }
 
-export function getOrgInfo(params) {
+export function getOrg(params) {
     return axios({
-        url: '/orgInfo/getOrgInfo',
+        url: '/org/getOrg',
         method: 'get',
         params
     })
 }
 
-export function saveOrgInfo(data) {
+export function saveOrg(data) {
     return axios({
-        url: '/orgInfo/saveOrgInfo',
+        url: '/org/saveOrg',
         method: 'post',
         data
     })
 }
 
-export function deleteOrgInfo(params) {
+export function deleteOrg(params) {
     return axios({
-        url: '/orgInfo/deleteOrgInfo',
+        url: '/org/deleteOrg',
         method: 'post',
         params
     })
@@ -35,15 +35,15 @@ export function deleteOrgInfo(params) {
 
 export function addPerson(data) {
     return axios({
-        url: '/orgInfo/addPerson',
+        url: '/org/addPerson',
         method: 'post',
         data
     })
 }
 
-export function findOrgPersonInfoList(params) {
+export function findOrgPersonList(params) {
     return axios({
-        url: '/orgInfo/findOrgPersonInfoList',
+        url: '/org/findOrgPersonList',
         method: 'get',
         params
     })

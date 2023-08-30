@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import {findRoleAccountInfoList, getRoleInfo, saveRoleInfo} from '@/api/role'
-import dataCatalogUtils from "@/util/dataCatalogUtils";
-import DataCatalog from "@/constant/dataCatalog";
+import { findRoleAccountList, getRoleInfo, saveRoleInfo } from '@/api/role'
+import dataCatalogUtils from '@/util/dataCatalogUtils'
+import DataCatalog from '@/constant/dataCatalog'
 
 export default {
   name: 'RoleDetail',
@@ -62,13 +62,13 @@ export default {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
           this.ruleForm = res.data
-          this.findRoleAccountInfoList(this.ruleForm.roleCode)
+          this.findRoleAccountList(this.ruleForm.roleCode)
         }
       })
     },
     // 查询角色下所属账号信息
-    findRoleAccountInfoList(roleCode) {
-      findRoleAccountInfoList({roleCode: roleCode}).then(res => {
+    findRoleAccountList(roleCode) {
+      findRoleAccountList({roleCode: roleCode}).then(res => {
         if (res.code === 200) {
           if (res.data && res.data.length > 0) {
             this.roleAccount.accountIdList = res.data.map(item => item.id)

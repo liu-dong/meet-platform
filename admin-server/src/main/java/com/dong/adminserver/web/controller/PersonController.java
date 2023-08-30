@@ -6,7 +6,7 @@ import com.dong.commoncore.model.ResponseResult;
 import com.dong.securitycore.entity.Person;
 import com.dong.securitycore.model.dto.PersonDTO;
 import com.dong.securitycore.model.vo.PersonVO;
-import com.dong.securitycore.service.PersonInfoService;
+import com.dong.securitycore.service.PersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "人员信息管理模块")
 @RestController
-@RequestMapping("/personInfo")
-public class PersonInfoController {
+@RequestMapping("/person")
+public class PersonController {
 
     @Autowired
-    private PersonInfoService personInfoService;
+    private PersonService personService;
 
     /**
      * 查询人员信息列表
@@ -33,10 +33,10 @@ public class PersonInfoController {
      * @return
      */
     @ApiOperation("查询人员信息列表")
-    @PostMapping("/findPersonInfoList")
-    public ResponseResult findPersonInfoList(@RequestBody PersonDTO dto, Pager<PersonVO> pager) {
-        Pager<PersonVO> personInfoList = personInfoService.findPersonInfoList(dto, pager);
-        return ResponseResult.success(personInfoList, ResponseMessageConstant.QUERY_SUCCESS);
+    @PostMapping("/findPersonList")
+    public ResponseResult findPersonList(@RequestBody PersonDTO dto, Pager<PersonVO> pager) {
+        Pager<PersonVO> personList = personService.findPersonList(dto, pager);
+        return ResponseResult.success(personList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -46,9 +46,9 @@ public class PersonInfoController {
      * @return
      */
     @ApiOperation("保存人员信息")
-    @PostMapping(value = "/savePersonInfo")
-    public ResponseResult savePersonInfo(@RequestBody PersonDTO dto) {
-        Person person = personInfoService.savePersonInfo(dto);
+    @PostMapping(value = "/savePerson")
+    public ResponseResult savePerson(@RequestBody PersonDTO dto) {
+        Person person = personService.savePerson(dto);
         return ResponseResult.success(person, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
@@ -59,9 +59,9 @@ public class PersonInfoController {
      * @return
      */
     @ApiOperation("查询人员信息")
-    @GetMapping("/getPersonInfo")
-    public ResponseResult getPersonInfo(String id) {
-        Person person = personInfoService.getPersonInfo(id);
+    @GetMapping("/getPerson")
+    public ResponseResult getPerson(String id) {
+        Person person = personService.getPerson(id);
         return ResponseResult.success(person, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -72,9 +72,9 @@ public class PersonInfoController {
      * @return
      */
     @ApiOperation("删除人员信息")
-    @PostMapping("/deletePersonInfo")
-    public ResponseResult deletePersonInfo(String id) {
-        personInfoService.deletePersonInfo(id);
+    @PostMapping("/deletePerson")
+    public ResponseResult deletePerson(String id) {
+        personService.deletePerson(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 
@@ -87,7 +87,7 @@ public class PersonInfoController {
     @ApiOperation("选择单位")
     @PostMapping("/chooseOrg")
     public ResponseResult chooseOrg(PersonDTO dto) {
-        personInfoService.chooseOrg(dto);
+        personService.chooseOrg(dto);
         return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 }

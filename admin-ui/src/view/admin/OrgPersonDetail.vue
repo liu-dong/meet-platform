@@ -46,8 +46,8 @@
 
 <script>
 
-import {addPerson, findOrgPersonInfoList, getOrgInfo} from "@/api/org";
-import {findPersonInfoList} from "@/api/person";
+import { addPerson, findOrgPersonList } from '@/api/org'
+import { findPersonList } from '@/api/person'
 
 export default {
   name: 'OrgPersonDetail',
@@ -59,11 +59,11 @@ export default {
     }
   },
   async created() {
-    await this.findPersonInfoList()
+    await this.findPersonList()
     let orgId = this.$route.params.id
     if (orgId) {
-      this.getOrgInfo(orgId)
-      await this.findOrgPersonInfoList(orgId)
+      this.getOrg(orgId)
+      await this.findOrgPersonList(orgId)
     }
 
   },
@@ -104,8 +104,8 @@ export default {
       console.log(this.personIds)
     },
     // 查询单位信息
-    getOrgInfo: function (id) {
-      getOrgInfo({id: id}).then(res => {
+    getOrg: function (id) {
+      getOrg({id: id}).then(res => {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
           this.ruleForm = res.data
@@ -113,17 +113,17 @@ export default {
       })
     },
     // 查询人员列表
-    findPersonInfoList: async function () {
-      await findPersonInfoList({}).then(res => {
+    findPersonList: async function () {
+      await findPersonList({}).then(res => {
         if (res.code === 200) {
           this.personList = res.data.dataList
         }
       })
     },
     // 查询当前单位所属人员列表
-    findOrgPersonInfoList: async function (orgId) {
+    findOrgPersonList: async function (orgId) {
       let param = {orgId: orgId}
-      await findOrgPersonInfoList(param).then(res => {
+      await findOrgPersonList(param).then(res => {
         if (res.code === 200) {
           //选中人员的id集合
           this.personIds = res.data.map(item => {

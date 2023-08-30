@@ -33,7 +33,7 @@ export function deleteRoleInfo(params) {
     })
 }
 
-export function findRoleAccountInfoList(data) {
+export function findRoleAccountList(data) {
     return axios({
         url: '/role/findRoleAccountList',
         method: 'post',

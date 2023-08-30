@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import {assignRoles, findAccountRoleInfoList, getAccountInfo, saveAccountInfo} from '@/api/account'
-import {findRoleInfoList} from '@/api/role'
+import { assignRoles, findAccountRoleInfoList, getAccount, saveAccount } from '@/api/account'
+import { findRoleInfoList } from '@/api/role'
 
 export default {
   name: 'AccountDetail',
@@ -93,13 +93,13 @@ export default {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType);
     this.roleAccount.accountId = this.$route.params.id
     if (this.roleAccount.accountId) {
-      this.getAccountInfo(this.roleAccount.accountId)
+      this.getAccount(this.roleAccount.accountId)
     }
     this.findRoleInfoList()
   },
   methods: {
-    getAccountInfo: function (id) { // 获取菜单信息
-      getAccountInfo({id: id}).then(res => {
+    getAccount: function (id) { // 获取菜单信息
+      getAccount({id: id}).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
@@ -123,7 +123,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveAccountInfo(this.ruleForm).then(res => {
+          saveAccount(this.ruleForm).then(res => {
             if (res.code === 200) {
               this.$message({message: '保存成功！', duration: 2000})
               this.ruleForm = res.data

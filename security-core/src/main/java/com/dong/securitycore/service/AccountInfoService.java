@@ -14,7 +14,7 @@ import java.util.Map;
  * @author LD
  * @date 2020/10/12 12:53
  */
-public interface AccountInfoService {
+public interface AccountService {
 
     /**
      * 注册用户
@@ -56,7 +56,7 @@ public interface AccountInfoService {
      * @param pager
      * @return
      */
-    Pager<AccountVO> findAccountInfoList(AccountDTO dto, Pager<AccountVO> pager);
+    Pager<AccountVO> findAccountList(AccountDTO dto, Pager<AccountVO> pager);
 
     /**
      * 查询用户信息
@@ -64,7 +64,7 @@ public interface AccountInfoService {
      * @param id
      * @return
      */
-    Account getAccountInfo(String id);
+    Account getAccount(String id);
 
     /**
      * 删除用户
@@ -72,7 +72,7 @@ public interface AccountInfoService {
      * @param id
      * @return
      */
-    void deleteAccountInfo(String id);
+    void deleteAccount(String id);
 
     /**
      * 根据账号id查询角色信息

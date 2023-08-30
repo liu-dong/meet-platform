@@ -5,7 +5,7 @@ import com.dong.securitycore.entity.Person;
 import com.dong.securitycore.model.dto.PersonDTO;
 import com.dong.securitycore.model.vo.PersonVO;
 
-public interface PersonInfoService {
+public interface PersonService {
 
     /**
      * 查询人员信息列表
@@ -14,7 +14,7 @@ public interface PersonInfoService {
      * @param pager
      * @return
      */
-    Pager<PersonVO> findPersonInfoList(PersonDTO dto, Pager<PersonVO> pager);
+    Pager<PersonVO> findPersonList(PersonDTO dto, Pager<PersonVO> pager);
 
     /**
      * 保存人员信息
@@ -22,7 +22,7 @@ public interface PersonInfoService {
      * @param dto
      * @return
      */
-    Person savePersonInfo(PersonDTO dto);
+    Person savePerson(PersonDTO dto);
 
     /**
      * 查询人员信息详细页面
@@ -30,14 +30,14 @@ public interface PersonInfoService {
      * @param id
      * @return
      */
-    Person getPersonInfo(String id);
+    Person getPerson(String id);
 
     /**
      * 删除人员信息
      *
      * @param id
      */
-    void deletePersonInfo(String id);
+    void deletePerson(String id);
 
     /**
      * 选择单位

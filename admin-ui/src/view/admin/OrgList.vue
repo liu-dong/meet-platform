@@ -9,15 +9,15 @@
       </el-breadcrumb>
       <el-form
           :inline="true"
-          :model="orgInfo"
+          :model="org"
           class="demo-form-inline"
           style="padding-left: 15px;padding-bottom: 10px;"
       >
         <el-form-item label="单位名称">
-          <el-input v-model="orgInfo.orgName" placeholder="单位名称"/>
+          <el-input v-model="org.orgName" placeholder="单位名称"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="findOrgInfoList">查询</el-button>
+          <el-button type="primary" @click="findOrgList">查询</el-button>
           <el-button type="primary" plain @click="toDetail">新增</el-button>
           <el-button type="danger" icon="el-icon-delete" circle @click="deleteInfo"/>
         </el-form-item>
@@ -65,13 +65,12 @@
 
 <script>
 import qs from 'qs'
-import {deleteOrgInfo, findOrgInfoList} from '@/api/org'
 
 export default {
   name: 'OrgList',
   data() {
     return {
-      orgInfo: {},
+      org: {},
       tableData: [],
       currentPage: 1, // 初始页
       pageSize: 10, // 每页的数据
@@ -80,16 +79,16 @@ export default {
     }
   },
   created() {
-    this.findOrgInfoList()
+    this.findOrgList()
   },
   methods: {
-    findOrgInfoList: function () {
-      let data = {...this.orgInfo}
+    findOrgList: function () {
+      let data = {...this.org}
       let params = {
         page: this.currentPage,
         limit: this.pageSize
       }
-      findOrgInfoList(data, params).then(res => {
+      findOrgList(data, params).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.dataList
           this.total = res.data.total
@@ -110,10 +109,10 @@ export default {
         this.$message({message: '请选择要删除的数据', duration: 2000})
         return
       }
-      deleteOrgInfo(qs.stringify({id: currentRow.id})).then(res => {
+      deleteOrg(qs.stringify({id: currentRow.id})).then(res => {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
-          this.findOrgInfoList()
+          this.findOrgList()
         }
       })
     },
@@ -122,11 +121,11 @@ export default {
     },
     handleSizeChange: function (size) { // 改变每页大小
       this.pageSize = size
-      this.findOrgInfoList()
+      this.findOrgList()
     },
     handleCurrentChange: function (currentPage) { // 改变页码
       this.currentPage = currentPage
-      this.findOrgInfoList()
+      this.findOrgList()
     },
     formatType(row) {
       return row.orgType === 1 ? '商家单位' : '暂无该类型'

@@ -8,21 +8,21 @@
       </el-breadcrumb>
       <el-form
           :inline="true"
-          :model="personInfo"
+          :model="person"
           class="demo-form-inline"
           style="padding-left: 15px;padding-bottom: 10px;"
       >
         <el-form-item label="姓名">
-          <el-input v-model="personInfo.name" placeholder="人员名称"/>
+          <el-input v-model="person.name" placeholder="人员名称"/>
         </el-form-item>
         <el-form-item label="身份证号">
-          <el-input v-model="personInfo.identityCard" placeholder="身份证号"/>
+          <el-input v-model="person.identityCard" placeholder="身份证号"/>
         </el-form-item>
         <el-form-item label="单位名称">
-          <el-input v-model="personInfo.orgName" placeholder="单位名称"/>
+          <el-input v-model="person.orgName" placeholder="单位名称"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="findPersonInfoList">查询</el-button>
+          <el-button type="primary" @click="findPersonList">查询</el-button>
           <el-button plain type="primary" @click="toDetail">新增</el-button>
           <el-button circle icon="el-icon-delete" type="danger" @click="deleteInfo"/>
         </el-form-item>
@@ -69,13 +69,13 @@
 
 <script>
 import qs from 'qs'
-import {deletePersonInfo, findPersonInfoList} from '@/api/person'
+import { deletePerson, findPersonList } from '@/api/person'
 
 export default {
   name: 'PersonList',
   data() {
     return {
-      personInfo: {},
+      person: {},
       tableData: [],
       currentPage: 1, // 初始页
       pageSize: 10, // 每页的数据
@@ -84,20 +84,20 @@ export default {
     }
   },
   created() {
-    this.findPersonInfoList()
+    this.findPersonList()
   },
   methods: {
     formatSex: function (row) {
       return row.sex === 0 ? '男' : '女'
     },
     // 获取人员信息
-    findPersonInfoList: function () {
-      let data = {...this.personInfo}
+    findPersonList: function () {
+      let data = {...this.person}
       let params = {
         page: this.currentPage,
         limit: this.pageSize
       }
-      findPersonInfoList(data, params).then(res => {
+      findPersonList(data, params).then(res => {
         console.log(res.data)
         if (res.code === 200) {
           this.tableData = res.data.dataList
@@ -115,10 +115,10 @@ export default {
         this.$message({message: '请选择要删除的数据', duration: 2000})
         return
       }
-      deletePersonInfo(qs.stringify({id: currentRow.id})).then(res => {
+      deletePerson(qs.stringify({id: currentRow.id})).then(res => {
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {
-          this.findPersonInfoList()
+          this.findPersonList()
         }
       })
     },
@@ -128,12 +128,12 @@ export default {
     // 改变每页大小
     handleSizeChange: function (size) {
       this.pageSize = size
-      this.findPersonInfoList()
+      this.findPersonList()
     },
     // 改变页码
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
-      this.findPersonInfoList()
+      this.findPersonList()
     }
   }
 }

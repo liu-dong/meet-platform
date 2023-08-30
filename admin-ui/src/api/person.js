@@ -1,33 +1,33 @@
 import axios from '@/axios/adminAxios'
 
-export function findPersonInfoList(data, params) {
+export function findPersonList(data, params) {
     return axios({
-        url: '/personInfo/findPersonInfoList',
+        url: '/person/findPersonList',
         method: 'post',
         data,
         params
     })
 }
 
-export function savePersonInfo(data) {
+export function savePerson(data) {
     return axios({
-        url: '/personInfo/savePersonInfo',
+        url: '/person/savePerson',
         method: 'post',
         data
     })
 }
 
-export function getPersonInfo(params) {
+export function getPerson(params) {
     return axios({
-        url: '/personInfo/getPersonInfo',
+        url: '/person/getPerson',
         method: 'get',
         params
     })
 }
 
-export function deletePersonInfo(params) {
+export function deletePerson(params) {
     return axios({
-        url: '/personInfo/deletePersonInfo',
+        url: '/person/deletePerson',
         method: 'post',
         params
     })
