@@ -45,11 +45,11 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/home',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      path: 'home',
+      name: 'Home',
+      component: () => import('@/views/home/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
@@ -89,13 +89,13 @@ export const constantRoutes = [
   },
 
   {
-    path: '/form',
+    path: '/task',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
+        name: 'Task',
+        component: () => import('@/views/task/index'),
         meta: { title: '任务分配', icon: 'form' }
       }
     ]
