@@ -125,7 +125,7 @@ public class AccountController {
     /**
      * 根据账号id查询角色信息
      *
-     * @param dto
+     * @param accountId
      * @return
      */
 
