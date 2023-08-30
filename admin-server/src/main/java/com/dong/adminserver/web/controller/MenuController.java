@@ -3,7 +3,7 @@ package com.dong.adminserver.web.controller;
 import com.dong.adminserver.web.entity.Menu;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
-import com.dong.adminserver.web.service.MenuInfoService;
+import com.dong.adminserver.web.service.MenuService;
 import com.dong.commoncore.annotation.Log;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
@@ -23,11 +23,11 @@ import java.util.Map;
  */
 @Api(tags = "菜单管理模块")
 @RestController
-@RequestMapping("/menuInfo")
-public class MenuInfoController {
+@RequestMapping("/menu")
+public class MenuController {
 
     @Autowired
-    private MenuInfoService menuInfoService;
+    private MenuService menuService;
 
     /**
      * 查询菜单信息列表
@@ -35,11 +35,11 @@ public class MenuInfoController {
      * @return
      */
     @ApiOperation("查询菜单信息列表")
-    @PostMapping("/findMenuInfoList")
+    @PostMapping("/findMenuList")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult findMenuInfoList(@RequestBody MenuDTO dto, Pager<MenuVO> pager) {
-        Pager<MenuVO> menuInfoList = menuInfoService.findMenuInfoList(dto, pager);
-        return ResponseResult.success(menuInfoList, ResponseMessageConstant.QUERY_SUCCESS);
+    public ResponseResult findMenuList(@RequestBody MenuDTO dto, Pager<MenuVO> pager) {
+        Pager<MenuVO> menuList = menuService.findMenuList(dto, pager);
+        return ResponseResult.success(menuList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -51,7 +51,7 @@ public class MenuInfoController {
     @GetMapping("/getMenuTree")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
     public ResponseResult getMenuTree(Integer type) {
-        List<Map<String, Object>> menuTree = menuInfoService.getMenuTree(type);
+        List<Map<String, Object>> menuTree = menuService.getMenuTree(type);
         return ResponseResult.success(menuTree, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -61,11 +61,11 @@ public class MenuInfoController {
      * @return
      */
     @ApiOperation("获取父级菜单")
-    @GetMapping("/findParentMenuInfoList")
+    @GetMapping("/findParentMenuList")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult findParentMenuInfoList() {
-        List<Menu> parentMenuInfoList = menuInfoService.findParentMenuInfoList();
-        return ResponseResult.success(parentMenuInfoList, ResponseMessageConstant.QUERY_SUCCESS);
+    public ResponseResult findParentMenuList() {
+        List<Menu> parentMenuList = menuService.findParentMenuList();
+        return ResponseResult.success(parentMenuList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -75,9 +75,9 @@ public class MenuInfoController {
      * @return
      */
     @ApiOperation("保存菜单信息")
-    @PostMapping("/saveMenuInfo")
-    public ResponseResult saveMenuInfo(@RequestBody MenuDTO dto) {
-        Menu menu = menuInfoService.saveMenuInfo(dto);
+    @PostMapping("/saveMenu")
+    public ResponseResult saveMenu(@RequestBody MenuDTO dto) {
+        Menu menu = menuService.saveMenu(dto);
         return ResponseResult.success(menu, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
@@ -88,10 +88,10 @@ public class MenuInfoController {
      * @return
      */
     @ApiOperation("查询菜单详细信息")
-    @GetMapping("/getMenuInfo")
+    @GetMapping("/getMenu")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult getMenuInfo(String id) {
-        Menu menu = menuInfoService.getMenuInfo(id);
+    public ResponseResult getMenu(String id) {
+        Menu menu = menuService.getMenu(id);
         return ResponseResult.success(menu, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -102,9 +102,9 @@ public class MenuInfoController {
      * @return
      */
     @ApiOperation("删除菜单信息")
-    @PostMapping("/deleteMenuInfo")
-    public ResponseResult deleteMenuInfo(String id) {
-        menuInfoService.deleteMenuInfo(id);
+    @PostMapping("/deleteMenu")
+    public ResponseResult deleteMenu(String id) {
+        menuService.deleteMenu(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 }

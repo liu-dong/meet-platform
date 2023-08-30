@@ -1,7 +1,7 @@
 <template>
   <el-container class="main-container">
     <el-aside width="200px" class="el-aside" style="overflow-y: auto;">
-      <el-menu v-for="menu in menuInfo" :key="menu.title" router>
+      <el-menu v-for="menu in menu" :key="menu.title" router>
         <el-submenu :index="menu.order+''">
           <template slot="title"><i class="el-icon-message"/>{{ menu.title }}</template>
           <div v-for="children in menu.children" :key="children.title">
@@ -58,15 +58,15 @@
 
 <script>
 import qs from 'qs'
-import {logout} from '@/api/auth'
-import {getMenuTree} from '@/api/menu'
-import {savePersonInfo} from '@/api/person'
+import { logout } from '@/api/auth'
+import { getMenuTree } from '@/api/menu'
+import { savePersonInfo } from '@/api/person'
 
 export default {
   name: 'Home',
   data() {
     return {
-      menuInfo: [],
+      menu: [],
       form: {}, // 个人信息表单
       userInfo: {},
       dialogFormVisible: false,
@@ -104,7 +104,7 @@ export default {
     initMenuTree() { // 初始化菜单树
       getMenuTree({type: 2}).then(res => {
         if (res.code === 200) {
-          this.menuInfo = res.data
+          this.menu = res.data
         } else {
           this.$router.push({name: 'error'})
         }

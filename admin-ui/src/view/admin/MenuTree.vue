@@ -24,7 +24,7 @@
 
 <script>
 
-import {deleteMenuInfo, getMenuTree} from '@/api/menu'
+import { deleteMenu, getMenuTree } from '@/api/menu'
 
 export default {
   name: 'MenuTree',
@@ -62,7 +62,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteMenuInfo(this.$qs.stringify({id: node.key})).then(res => {
+        deleteMenu(this.$qs.stringify({id: node.key})).then(res => {
           console.log(res.data)
           this.$message({message: res.message, duration: 2000})
           if (res.code === 200) {

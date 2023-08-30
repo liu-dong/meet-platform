@@ -4,7 +4,7 @@ import axios from '@/axios/adminAxios'
 // 查找菜单树
 export function getMenuTree(params) {
     return axios({
-        url: '/menuInfo/getMenuTree',
+        url: '/menu/getMenuTree',
         method: 'get',
         params
     })
@@ -13,42 +13,42 @@ export function getMenuTree(params) {
 // 查询菜单列表
 export function findMenuList(data, params) {
     return axios({
-        url: '/menuInfo/findMenuInfoList',
+        url: '/menu/findMenuList',
         method: 'post',
         data,
         params
     })
 }
 
-export function getMenuInfo(params) {
+export function getMenu(params) {
     return axios({
-        url: '/menuInfo/getMenuInfo',
+        url: '/menu/getMenu',
         method: 'get',
         params
     })
 }
 
 // 保存菜单信息
-export function saveMenuInfo(data) {
+export function saveMenu(data) {
     return axios({
-        url: '/menuInfo/saveMenuInfo',
+        url: '/menu/saveMenu',
         method: 'post',
         data
     })
 }
 
 // 删除菜单信息
-export function deleteMenuInfo(params) {
+export function deleteMenu(params) {
     return axios({
-        url: '/menuInfo/deleteMenuInfo',
+        url: '/menu/deleteMenu',
         method: 'post',
         params
     })
 }
 
-export function findParentMenuInfoList(params) {
+export function findParentMenuList(params) {
     return axios({
-        url: '/menuInfo/findParentMenuInfoList',
+        url: '/menu/findParentMenuList',
         method: 'get',
         params
     })

@@ -8,15 +8,15 @@
       </el-breadcrumb>
       <el-form
           :inline="true"
-          :model="menuInfo"
+          :model="menu"
           class="demo-form-inline"
           style="padding-left: 15px;padding-bottom: 10px;"
       >
         <el-form-item label="菜单名称">
-          <el-input v-model="menuInfo.menuName" placeholder="菜单名称"/>
+          <el-input v-model="menu.menuName" placeholder="菜单名称"/>
         </el-form-item>
         <el-form-item label="菜单级别">
-          <el-select v-model="menuInfo.menuLevel" placeholder="菜单级别">
+          <el-select v-model="menu.menuLevel" placeholder="菜单级别">
             <el-option label="一级菜单" value="1"/>
             <el-option label="二级菜单" value="2"/>
             <el-option label="三级菜单" value="3"/>
@@ -69,13 +69,13 @@
 </template>
 
 <script>
-import {deleteMenuInfo, findMenuList, testUserInfo} from '@/api/menu'
+import { deleteMenu, findMenuList, testUserInfo } from '@/api/menu'
 
 export default {
   name: 'MenuList',
   data() {
     return {
-      menuInfo: {},
+      menu: {},
       tableData: [],
       currentPage: 1, // 初始页
       pageSize: 10, // 每页的数据
@@ -115,7 +115,7 @@ export default {
         limit: this.pageSize,
         page: this.currentPage
       }
-      findMenuList(this.menuInfo, param).then(res => {
+      findMenuList(this.menu, param).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.dataList
           this.total = res.data.total
@@ -137,7 +137,7 @@ export default {
         this.$message({message: '请选择要删除的数据', duration: 2000})
         return
       }
-      deleteMenuInfo({id: currentRow.id}).then(res => {
+      deleteMenu({id: currentRow.id}).then(res => {
         console.log(res.data)
         this.$message({message: res.message, duration: 2000})
         if (res.code === 200) {

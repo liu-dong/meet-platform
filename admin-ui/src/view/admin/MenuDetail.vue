@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import {findParentMenuInfoList, getMenuInfo, saveMenuInfo} from '@/api/menu'
+import { findParentMenuList, getMenu, saveMenu } from '@/api/menu'
 
 export default {
   name: 'MenuDetail',
@@ -98,40 +98,40 @@ export default {
     const id = this.$route.params.id
     const type = this.$route.params.type
     if (id && type) {
-      const result = await this.getMenuInfo(id)
+      const result = await this.getMenu(id)
       if (result.code === 200) {
-        const menuInfo = result.data
+        const menu = result.data
         if (parseInt(type) === 1) {
-          this.ruleForm.menuLevel = parseInt(menuInfo.menuLevel)
-          this.ruleForm.parentId = menuInfo.parentId
+          this.ruleForm.menuLevel = parseInt(menu.menuLevel)
+          this.ruleForm.parentId = menu.parentId
         }
-        this.ruleForm.menuLevel = parseInt(menuInfo.menuLevel + 1)
-        this.ruleForm.parentId = menuInfo.id
+        this.ruleForm.menuLevel = parseInt(menu.menuLevel + 1)
+        this.ruleForm.parentId = menu.id
       }
     } else if (id) {
-      await this.initMenuInfo(id)
+      await this.initMenu(id)
     }
-    this.findParentMenuInfoList()// 查询父级菜单
+    this.findParentMenuList()// 查询父级菜单
   },
   methods: {
-    getMenuInfo: async function (id) { // 获取菜单信息
-      return await getMenuInfo({id: id}).then(res => res)
+    getMenu: async function (id) { // 获取菜单信息
+      return await getMenu({id: id}).then(res => res)
     },
-    initMenuInfo: async function (id) { // 获取菜单信息
-      const info = await this.getMenuInfo(id)
+    initMenu: async function (id) { // 获取菜单信息
+      const info = await this.getMenu(id)
       console.log(info)
       this.$message({message: info.message, duration: 2000})
       if (info.code === 200) {
         this.ruleForm = info.data
       }
     },
-    findParentMenuInfoList: function () { // 获取父级菜单信息
+    findParentMenuList: function () { // 获取父级菜单信息
       const params = {
         menuName: '测试',
         limit: 10,
         page: 20
       }
-      findParentMenuInfoList(params).then(res => {
+      findParentMenuList(params).then(res => {
         if (res.code === 200) {
           this.parentMenu = res.data
         }
@@ -140,7 +140,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveMenuInfo(this.ruleForm).then(res => {
+          saveMenu(this.ruleForm).then(res => {
             this.$message({message: res.message, duration: 2000})
             if (res.code === 200) {
               this.ruleForm = res.data

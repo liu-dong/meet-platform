@@ -8,7 +8,7 @@ import com.dong.commoncore.model.Pager;
 import java.util.List;
 import java.util.Map;
 
-public interface MenuInfoService {
+public interface MenuService {
 
 
     /**
@@ -18,7 +18,7 @@ public interface MenuInfoService {
      * @param pager
      * @return
      */
-    Pager<MenuVO> findMenuInfoList(MenuDTO dto, Pager<MenuVO> pager);
+    Pager<MenuVO> findMenuList(MenuDTO dto, Pager<MenuVO> pager);
 
     /**
      * 查询菜单树
@@ -34,7 +34,7 @@ public interface MenuInfoService {
      * @param dto
      * @return
      */
-    Menu saveMenuInfo(MenuDTO dto);
+    Menu saveMenu(MenuDTO dto);
 
     /**
      * 查询菜单详细页面
@@ -42,19 +42,19 @@ public interface MenuInfoService {
      * @param id
      * @return
      */
-    Menu getMenuInfo(String id);
+    Menu getMenu(String id);
 
     /**
      * 删除菜单信息
      *
      * @param id
      */
-    void deleteMenuInfo(String id);
+    void deleteMenu(String id);
 
     /**
      * 获取父级菜单
      *
      * @return
      */
-    List<Menu> findParentMenuInfoList();
+    List<Menu> findParentMenuList();
 }

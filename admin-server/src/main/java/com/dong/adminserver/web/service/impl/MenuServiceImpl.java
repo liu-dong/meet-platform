@@ -5,7 +5,7 @@ import com.dong.adminserver.web.dao.MenuJpaDao;
 import com.dong.adminserver.web.entity.Menu;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
-import com.dong.adminserver.web.service.MenuInfoService;
+import com.dong.adminserver.web.service.MenuService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
@@ -19,7 +19,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 
 @Service
-public class MenuInfoServiceImpl implements MenuInfoService {
+public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private MenuJpaDao menuJpaDao;
@@ -35,7 +35,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
      * @return
      */
     @Override
-    public Pager<MenuVO> findMenuInfoList(MenuDTO dto, Pager<MenuVO> pager) {
+    public Pager<MenuVO> findMenuList(MenuDTO dto, Pager<MenuVO> pager) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT sm.id, sm.parent_id parentId, sm.menu_name menuName, sm.menu_level menuLevel, ");
@@ -80,7 +80,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     @Override
-    public Menu saveMenuInfo(MenuDTO dto) {
+    public Menu saveMenu(MenuDTO dto) {
         Menu entity = new Menu();
         if (StringUtils.isEmpty(dto.getId())) {//新增
             entity.setId(CommonUtils.getUUID());
@@ -103,7 +103,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     @Override
-    public Menu getMenuInfo(String id) {
+    public Menu getMenu(String id) {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
@@ -112,7 +112,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     @Override
-    public void deleteMenuInfo(String id) {
+    public void deleteMenu(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("删除失败，id不能为空!");
         }
@@ -120,13 +120,13 @@ public class MenuInfoServiceImpl implements MenuInfoService {
         Menu entity = menuJpaDao.findById(id).orElse(new Menu());
         sysMenus.add(entity);
         //判断是否有子菜单
-        sysMenus.addAll(findChildrenMenuInfoList(id));
+        sysMenus.addAll(findChildrenMenuList(id));
         menuJpaDao.deleteAll(sysMenus);
 
     }
 
     @Override
-    public List<Menu> findParentMenuInfoList() {
+    public List<Menu> findParentMenuList() {
         return menuJpaDao.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
     }
 
@@ -136,14 +136,14 @@ public class MenuInfoServiceImpl implements MenuInfoService {
      * @param id
      * @return
      */
-    public List<Menu> findChildrenMenuInfoList(String id) {
+    public List<Menu> findChildrenMenuList(String id) {
         List<Menu> result = new ArrayList<>();
         //判断是否有子菜单
         List<Menu> childrenList = menuJpaDao.getAllByParentIdAndMenuStatus(id, CommonConstant.YES);
         if (!CollectionUtils.isEmpty(childrenList)) {
             result.addAll(childrenList);
             for (Menu sysMenu : childrenList) {
-                result.addAll(findChildrenMenuInfoList(sysMenu.getId()));
+                result.addAll(findChildrenMenuList(sysMenu.getId()));
             }
 
         }
