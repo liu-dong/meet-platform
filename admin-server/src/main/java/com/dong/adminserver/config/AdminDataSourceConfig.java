@@ -34,7 +34,6 @@ import java.util.Objects;
         transactionManagerRef = "adminTransactionManager",
         basePackages = {"com.dong.adminserver.web.dao", "com.dong.securitycore.dao"}
 )
-//@ComponentScan(basePackages = {"com.dong.commoncore.config", "com.dong.securitycore.service", "com.dong.securitycore.config"})
 public class AdminDataSourceConfig {
 
     @Resource
