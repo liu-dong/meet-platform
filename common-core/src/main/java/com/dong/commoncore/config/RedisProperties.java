@@ -3,6 +3,7 @@ package com.dong.commoncore.config;
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
+@ConditionalOnProperty(name = "spring.redis.host")
 @ConfigurationProperties(prefix = "spring.redis")
 @EnableConfigurationProperties({RedisProperties.class})
 public class RedisProperties implements InitializingBean {

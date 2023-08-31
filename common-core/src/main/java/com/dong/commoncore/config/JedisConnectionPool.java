@@ -1,5 +1,6 @@
 package com.dong.commoncore.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
@@ -14,6 +15,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Component
 @DependsOn("redisProperties")
+@ConditionalOnBean(RedisProperties.class)
 public class JedisConnectionPool {
 
     private static final JedisPool jedisPool;

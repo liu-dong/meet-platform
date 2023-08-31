@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -39,7 +37,6 @@ import java.util.Objects;
         transactionManagerRef = "logTransactionManager",
         basePackages = {"com.dong.logserver.web.dao"}
 )
-@ComponentScan(basePackages = {"com.dong.commoncore.**"})
 public class LogDataSourceConfig {
 
     @Resource
@@ -49,7 +46,6 @@ public class LogDataSourceConfig {
 
     /**
      * druid数据源
-     * <p>
      * 表示如果存在这个Bean,则不会创建：@ConditionalOnMissingBean
      *
      * @return

@@ -33,7 +33,7 @@ import java.util.Objects;
 @Component
 public class OperateLogsAspect {
 
-    @Value("${spring.application.name}")
+    @Value("${spring.application.name:default}")
     private String resourceId;
 
     @Resource
