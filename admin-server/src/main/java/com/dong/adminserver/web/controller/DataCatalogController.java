@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 数据字典模块
+ * 数据字典管理
  *
  * @author liudong
  */
-@Api(tags = "数据字典模块")
+@Api(tags = "数据字典管理")
 @RestController
 @RequestMapping("/dataCatalog")
 public class DataCatalogController {
@@ -35,7 +35,7 @@ public class DataCatalogController {
      * @return 数据目录列表
      */
     @ApiOperation("查询数据字典目录列表")
-    @PostMapping("/findDataCatalogList")
+    @GetMapping("/findDataCatalogList")
     public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager) {
         try {
             return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pager), ResponseMessageConstant.QUERY_SUCCESS);
@@ -52,12 +52,8 @@ public class DataCatalogController {
     @ApiOperation("查询所有数据字典条目")
     @GetMapping("/findDataCatalogItemList")
     public ResponseResult findDataCatalogItemList() {
-        try {
-            Map<String, Object> dataCatalogItem = dataCatalogService.findDataCatalogItemList();
-            return ResponseResult.success(dataCatalogItem, ResponseMessageConstant.QUERY_SUCCESS);
-        } catch (Exception e) {
-            return ResponseResult.error(e.getMessage());
-        }
+        Map<String, Object> dataCatalogItem = dataCatalogService.findDataCatalogItemList();
+        return ResponseResult.success(dataCatalogItem, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -69,12 +65,8 @@ public class DataCatalogController {
     @ApiOperation("根据目录编码查询数据条目")
     @GetMapping("/getDataCatalogItem")
     public ResponseResult getDataCatalogItem(String catalogCode) {
-        try {
-            List<Map<String, Object>> mapList = dataCatalogService.getDataCatalogItem(catalogCode);
-            return ResponseResult.success(mapList, ResponseMessageConstant.QUERY_SUCCESS);
-        } catch (Exception e) {
-            return ResponseResult.error(e.getMessage());
-        }
+        List<Map<String, Object>> mapList = dataCatalogService.getDataCatalogItem(catalogCode);
+        return ResponseResult.success(mapList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**

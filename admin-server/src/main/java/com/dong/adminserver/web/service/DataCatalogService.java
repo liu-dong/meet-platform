@@ -2,6 +2,7 @@ package com.dong.adminserver.web.service;
 
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
 import com.dong.adminserver.web.model.vo.DataCatalogVO;
+import com.dong.adminserver.web.model.vo.SelectItemVO;
 import com.dong.commoncore.model.Pager;
 
 import java.util.List;
@@ -64,7 +65,8 @@ public interface DataCatalogService {
      * @param catalogCode
      * @return
      */
-    List<Map<String, Object>> getDataCatalogItem(String catalogCode);
+    List<Map<String, Object>> getDataCatalogItemList(String catalogCode);
+    List<SelectItemVO> getDataCatalogItem(String catalogCode);
 
 
 }

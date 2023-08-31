@@ -7,6 +7,7 @@ import com.dong.adminserver.web.entity.DataCatalogItem;
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
 import com.dong.adminserver.web.model.dto.DataCatalogItemDTO;
 import com.dong.adminserver.web.model.vo.DataCatalogVO;
+import com.dong.adminserver.web.model.vo.SelectItemVO;
 import com.dong.adminserver.web.service.DataCatalogService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author liudong 2022/8/3
@@ -207,7 +209,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     }
 
     @Override
-    public List<Map<String, Object>> getDataCatalogItem(String catalogCode) {
+    public List<Map<String, Object>> getDataCatalogItemList(String catalogCode) {
         if (StringUtils.isEmpty(catalogCode)) {
             throw new GlobalException(500, "目录编码为空");
         }
@@ -220,5 +222,15 @@ public class DataCatalogServiceImpl implements DataCatalogService {
         params.add(catalogCode);
         sql.append(" ORDER BY t2.sort ASC ");
         return commonDao.findListMapBySql(sql, params);
+    }
+
+    @Override
+    public List<SelectItemVO> getDataCatalogItem(String catalogCode) {
+        List<Map<String, Object>> dataCatalogItemList = this.getDataCatalogItemList(catalogCode);
+        return convertSelectItemVO(dataCatalogItemList);
+    }
+
+    private List<SelectItemVO> convertSelectItemVO(List<Map<String, Object>> dataCatalogItemList) {
+        return dataCatalogItemList.stream().map(map -> new SelectItemVO(map.get("itemName").toString(), map.get("itemCode").toString())).collect(Collectors.toList());
     }
 }
