@@ -32,11 +32,6 @@ public class Pager<T> {
      */
     private List<T> dataList = new ArrayList<>();
 
-    public Pager() {
-        this.page = 1;
-        this.limit = 10000;
-    }
-
     public int getPage() {
         return page;
     }

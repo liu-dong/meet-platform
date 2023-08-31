@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 用户登录模块
+ * 账号管理
  *
  * @author LD
  * @date 2020/3/22 20:59
@@ -90,8 +90,8 @@ public class AccountController {
      * @return
      */
     @ApiOperation("查询用户信息列表")
-    @PostMapping("/findAccountList")
-    public ResponseResult findAccountList(@RequestBody AccountDTO dto, Pager<AccountVO> pager) {
+    @GetMapping("/findAccountList")
+    public ResponseResult findAccountList(AccountDTO dto, Pager<AccountVO> pager) {
         Pager<AccountVO> accountList = accountService.findAccountList(dto, pager);
         return ResponseResult.success(accountList, ResponseMessageConstant.QUERY_SUCCESS);
     }

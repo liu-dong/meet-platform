@@ -133,7 +133,7 @@ public class LocalFileController {
      * @param path     想要下载的文件的路径
      * @param response
      */
-    @RequestMapping("/download")
+    @PostMapping("/download")
     public void download(String path, HttpServletResponse response) {
         try {
             // path是指想要下载的文件的路径
@@ -150,12 +150,11 @@ public class LocalFileController {
      * @param response
      * @功能描述 下载文件:将输入流中的数据循环写入到响应输出流中，而不是一次性读取到内存
      */
-    @RequestMapping("/downloadLocal")
+    @PostMapping("/downloadLocal")
     public void downloadLocal(String path, HttpServletResponse response) throws IOException {
         //文件全路径
         String allPath = localFilePath + path;
         UploadDownloadUtils.download(allPath, response);
     }
-
 
 }

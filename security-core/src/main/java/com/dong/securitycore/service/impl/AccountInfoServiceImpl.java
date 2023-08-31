@@ -147,6 +147,12 @@ class AccountServiceImpl implements AccountService {
         sql.append(" SELECT id, username, user_type userType, person_id personId, real_name realName, ");
         sql.append(" user_status userStatus, last_login_time lastLoginTime, create_time createTime ");
         sql.append(" FROM sys_account ");
+        sql.append(" WHERE 1=1 ");
+        //用户类型
+        if (dto.getUserType() != null) {
+            sql.append(" AND user_type = ? ");
+            params.add(dto.getUserType());
+        }
         sql.append(" ORDER BY create_time DESC ");
         return commonDao.findListBySql(pager, sql, params, AccountVO.class);
     }

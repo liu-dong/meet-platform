@@ -1,6 +1,6 @@
 package com.dong.adminserver.web.model.dto;
 
-import com.dong.commoncore.model.ConditionVO;
+import com.dong.commoncore.model.ListConditionDTO;
 import lombok.Data;
 
 /**
@@ -8,7 +8,7 @@ import lombok.Data;
  * @date 2020/3/22 22:02
  */
 @Data
-public class MenuDTO extends ConditionVO {
+public class MenuDTO extends ListConditionDTO {
 
     private String id;
     private String parentId;
