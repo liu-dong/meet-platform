@@ -5,7 +5,6 @@ import com.dong.generator.util.CodeGenerateUtils;
 import com.dong.generator.web.model.dto.CodeGenerateParamDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,11 +30,12 @@ public class CodeGenerateController {
     @PostMapping("/batchGenerate")
     @ResponseBody
     public ResponseResult batchGenerate(@RequestBody CodeGenerateParamDTO dto) {
-        List<String> list = new ArrayList<>();
+        List<String> list;
         try {
             list = CodeGenerateUtils.batchGenerate(dto);
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseResult.error(e.getMessage());
         }
         return ResponseResult.success(list, "代码生成成功！");
     }

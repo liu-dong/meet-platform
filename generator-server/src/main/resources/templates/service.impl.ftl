@@ -3,7 +3,7 @@ package ${packageName};
 import ${basePackageName}.model.dto.${className?cap_first}DTO;
 import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.service.${className?cap_first}Service;
-import ${basePackageName}.dao.${className?cap_first}JpaDao;
+import ${basePackageName}.dao.${className?cap_first}Repository;
 import org.springframework.stereotype.Service;
 import com.dong.commoncore.model.Pager;
 
