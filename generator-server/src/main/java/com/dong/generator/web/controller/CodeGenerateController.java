@@ -3,7 +3,6 @@ package com.dong.generator.web.controller;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.generator.util.CodeGenerateUtils;
 import com.dong.generator.web.model.dto.CodeGenerateParamDTO;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +22,12 @@ public class CodeGenerateController {
         return "index";
     }
 
+    /**
+     * 批量生成代码
+     *
+     * @param dto
+     * @return
+     */
     @PostMapping("/batchGenerate")
     @ResponseBody
     public ResponseResult batchGenerate(@RequestBody CodeGenerateParamDTO dto) {

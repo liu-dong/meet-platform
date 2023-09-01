@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 代码生成参数信息
+ * 代码生成参数
  *
  * @author liudong
  * @date 2023/3/1 10:39
@@ -27,7 +27,7 @@ public class CodeGenerateParamDTO {
     /**
      * K-V -> 表名—表注释
      */
-    private Map<String,String> tableNameComment;
+    private Map<String, String> tableNameComment;
 
     /**
      * 模板名称

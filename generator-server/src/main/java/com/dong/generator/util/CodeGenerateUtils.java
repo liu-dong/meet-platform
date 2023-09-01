@@ -1,6 +1,7 @@
 package com.dong.generator.util;
 
 import com.dong.commoncore.constant.SymbolConstant;
+import com.dong.commoncore.exception.GlobalException;
 import com.dong.generator.web.model.dto.AttributeDTO;
 import com.dong.generator.web.model.dto.CodeGenerateParamDTO;
 import freemarker.template.Configuration;
@@ -13,7 +14,6 @@ import org.springframework.util.CollectionUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -25,16 +25,14 @@ import java.util.*;
 public class CodeGenerateUtils {
 
     private static Connection conn;
-    private static DatabaseMetaData meta;
 
     private static void openConnection() {
         try {
             if (conn == null || conn.isClosed()) {
                 conn = JDBCUtils.getConnection();
-                meta = conn.getMetaData();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new GlobalException("数据库连接异常");
         }
     }
 
@@ -119,7 +117,7 @@ public class CodeGenerateUtils {
         CodeGenerateUtils.openConnection();
         List<String> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(dto.getTemplateNameList())) {
-            return result;
+            throw new GlobalException("代码模板不能为空！");
         }
         String packageName = dto.getPackageName();
         //根据选择的模板循序生成所有代码
@@ -304,7 +302,7 @@ public class CodeGenerateUtils {
                 result = "ServiceImpl.java";
                 break;
             case "dao":
-                result = "JpaDao.java";
+                result = "Repository.java";
                 break;
             default:
                 result = template.substring(0, 1).toUpperCase() + template.substring(1) + ".java";

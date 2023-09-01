@@ -21,6 +21,7 @@ public class AttributeDTO {
      * 字段名称（对应数据库字段）
      */
     private String fieldName;
+
     /**
      * 列名称（对应实体类字段）
      */
