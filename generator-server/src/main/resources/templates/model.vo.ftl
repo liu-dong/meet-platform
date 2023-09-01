@@ -13,8 +13,8 @@ public class ${className?cap_first}VO{
 <#list propertyList as property>
 
     /**
-    * ${property.comment}
-    */
+     * ${property.comment}
+     */
     private ${property.typeName} ${property.columnName};
 </#list>
 

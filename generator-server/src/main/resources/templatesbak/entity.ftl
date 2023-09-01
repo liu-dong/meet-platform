@@ -5,10 +5,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *  ${classComment}
- *
- *  @author ${author}
- */
+*  ${classComment}
+*
+*  @author ${author}
+*/
 @Entity
 @Table(name = "${tableName}")
 public class ${className?cap_first} implements Serializable {
@@ -16,9 +16,10 @@ public class ${className?cap_first} implements Serializable {
     private static final long serialVersionUID = ${serialUID}
 
 <#list propertyList as property>
+
     /**
-     * ${property.comment}
-     */
+    * ${property.comment}
+    */
     private ${property.typeName} ${property.columnName};
 </#list>
 

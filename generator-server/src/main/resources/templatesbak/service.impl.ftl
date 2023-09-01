@@ -13,48 +13,48 @@ import javax.annotation.Resource;
 public class ${className?cap_first}ServiceImpl implements ${className?cap_first}Service {
 
     @Resource
-    ${className?cap_first}Repository ${className}Repository;
+    ${className?cap_first}JpaDao ${className}JpaDao;
 
     /**
-     * 查询${classComment}列表
-     *
-     * @param dto
-     * @param pager
-     * @return
-     */
+    * 查询${classComment}列表
+    *
+    * @param dto
+    * @param pager
+    * @return
+    */
     @Override
     public Pager<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
         return null;
     }
 
     /**
-     * 保存${classComment}
-     *
-     * @param dto
-     * @return
-     */
+    * 保存${classComment}
+    *
+    * @param dto
+    * @return
+    */
     @Override
-    public String save${className?cap_first}(${className?cap_first}DTO dto) {
+    public ${className?cap_first} save${className?cap_first}(${className?cap_first}DTO dto) {
         return null;
     }
 
     /**
-     * 查询${classComment}详情
-     *
-     * @param id
-     * @return
-     */
+    * 查询${classComment}详情
+    *
+    * @param id
+    * @return
+    */
     @Override
-    public ${className?cap_first}VO get${className?cap_first}(String id) {
+    public ${className?cap_first} get${className?cap_first}(String id) {
         return null;
     }
 
     /**
-     * 删除${classComment}
-     *
-     * @param id
-     * @return
-     */
+    * 删除${classComment}
+    *
+    * @param id
+    * @return
+    */
     @Override
     public void delete${className?cap_first}(String id) {}
 

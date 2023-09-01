@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- *  ${classComment}
- *
- *  @author ${author}
- */
+*  ${classComment}
+*
+*  @author ${author}
+*/
 @RestController
 @RequestMapping("/${className}")
 public class ${className?cap_first}Controller {
@@ -23,48 +23,48 @@ public class ${className?cap_first}Controller {
     ${className?cap_first}Service ${className}Service;
 
     /**
-     * 查询${classComment}列表
-     *
-     * @param dto
-     * @param pager
-     * @return
-     */
-    @GetMapping("/find${className?cap_first}List")
-    public ResponseResult find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
+    * 查询${classComment}列表
+    *
+    * @param dto
+    * @param pager
+    * @return
+    */
+    @PostMapping("/find${className?cap_first}List")
+    public ResponseResult find${className?cap_first}List(@RequestBody ${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
         Pager<${className?cap_first}VO> result = ${className}Service.find${className?cap_first}List(dto, pager);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
-     * 保存${classComment}
-     *
-     * @param dto
-     * @return
-     */
+    * 保存${classComment}
+    *
+    * @param dto
+    * @return
+    */
     @PostMapping("/save${className?cap_first}")
     public ResponseResult save${className?cap_first}(@RequestBody ${className?cap_first}DTO dto) {
-        String result = ${className}Service.save${className?cap_first}(dto);
+        ${className?cap_first} result = ${className}Service.save${className?cap_first}(dto);
         return ResponseResult.success(result, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
     /**
-     * 查询${classComment}
-     *
-     * @param id
-     * @return
-     */
+    * 查询${classComment}
+    *
+    * @param id
+    * @return
+    */
     @GetMapping("/get${className?cap_first}")
     public ResponseResult get${className?cap_first}(String id) {
-        ${className?cap_first}VO result = ${className}Service.get${className?cap_first}(id);
+        ${className?cap_first} result = ${className}Service.get${className?cap_first}(id);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
-     * 删除${classComment}
-     *
-     * @param id
-     * @return
-     */
+    * 删除${classComment}
+    *
+    * @param id
+    * @return
+    */
     @PostMapping("/delete${className?cap_first}")
     public ResponseResult delete${className?cap_first}(String id) {
         ${className}Service.delete${className?cap_first}(id);
