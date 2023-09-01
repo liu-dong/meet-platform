@@ -8,6 +8,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.CollectionUtils;
 
@@ -217,29 +218,17 @@ public class CodeGenerateUtils {
      * @return 返回转换后的数据类型
      */
     public static String convertDataType(String dataType) {
-        String result;
-        switch (dataType) {
-            case "VARCHAR":
-                result = "String";
-                break;
-            case "BIGINT":
-                result = "Long";
-                break;
-            case "INT":
-                result = "Integer";
-                break;
-            case "SMALLINT":
-                result = "Short";
-                break;
-            case "DATETIME":
-                result = "Date";
-                break;
-            case "DECIMAL":
-                result = "BigDecimal";
-                break;
-            default:
-                result = "Object";
-                break;
+        Map<String, String> dataTypeMap = new HashMap<>();
+        dataTypeMap.put("VARCHAR", "String");
+        dataTypeMap.put("BIGINT", "Long");
+        dataTypeMap.put("INT", "Integer");
+        dataTypeMap.put("SMALLINT", "Short");
+        dataTypeMap.put("DATETIME", "Date");
+        dataTypeMap.put("DATE", "Date");
+        dataTypeMap.put("DECIMAL", "BigDecimal");
+        String result = dataTypeMap.get(dataType);
+        if (StringUtils.isBlank(result)) {
+            result = "Object";
         }
         return result;
     }
