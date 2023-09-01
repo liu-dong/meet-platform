@@ -81,6 +81,7 @@
         <module>chat-service</module>
         <module>event-service</module>
         <module>demo</module>
+        <module>plan-service</module>
     </modules>
 
     <dependencies>
