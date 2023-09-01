@@ -1,6 +1,6 @@
 package com.dong.fileserver.entity;
 
-import com.dong.commoncore.entity.BaseAttachmentEntity;
+import com.dong.commoncore.entity.BaseAttachmentEntityEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "common_attachment")
-public class CommonAttachment extends BaseAttachmentEntity {
+public class CommonAttachment extends BaseAttachmentEntityEntity {
 
 
     /**

@@ -1,10 +1,10 @@
 package com.dong.plan.web.entity;
 
+import com.dong.commoncore.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,14 +14,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "task")
-public class Task implements Serializable {
+public class Task extends BaseEntity {
 
-    private static final long serialVersionUID = 7657493304927836688L;
-
-    /**
-     * 主键id
-     */
-    private String id;
+    private static final long serialVersionUID = 4180113096418985853L;
     /**
      * 计划id
      */
@@ -71,36 +66,10 @@ public class Task implements Serializable {
      */
     private String summarize;
     /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 创建人id
-     */
-    private String createUserId;
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-    /**
-     * 修改人id
-     */
-    private String updateUserId;
-    /**
      * 删除状态：0 未删除、1 已删除
      */
     private Integer deleteStatus;
 
-
-    @Id
-    @Column(name = "id")
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Column(name = "plan_id")
     public String getPlanId() {
@@ -210,41 +179,6 @@ public class Task implements Serializable {
         this.summarize = summarize;
     }
 
-    @Column(name = "create_time")
-    public Date getCreateTime() {
-        return this.createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    @Column(name = "create_user_id")
-    public String getCreateUserId() {
-        return this.createUserId;
-    }
-
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    @Column(name = "update_time")
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Column(name = "update_user_id")
-    public String getUpdateUserId() {
-        return this.updateUserId;
-    }
-
-    public void setUpdateUserId(String updateUserId) {
-        this.updateUserId = updateUserId;
-    }
 
     @Column(name = "delete_status")
     public Integer getDeleteStatus() {

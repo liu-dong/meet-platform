@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.constant.SymbolConstant;
-import com.dong.commoncore.entity.BaseAttachmentEntity;
+import com.dong.commoncore.entity.BaseAttachmentEntityEntity;
 import com.dong.fileserver.config.MinioProperties;
 import com.dong.fileserver.dao.CommonAttachmentRepository;
 import com.dong.fileserver.entity.CommonAttachment;
@@ -93,7 +93,7 @@ public class CommonAttachmentServiceImpl1 implements CommonAttachmentService1 {
     }
 
     @Override
-    public String saveAttachmentToMinio(BaseAttachmentEntity attachment, String module) {
+    public String saveAttachmentToMinio(BaseAttachmentEntityEntity attachment, String module) {
         //转换文件
         MultipartFile file = convertMultipartFile(attachment);
         //获取minio存储路径
@@ -105,7 +105,7 @@ public class CommonAttachmentServiceImpl1 implements CommonAttachmentService1 {
     }
 
     @NotNull
-    private MultipartFile convertMultipartFile(BaseAttachmentEntity attachment) {
+    private MultipartFile convertMultipartFile(BaseAttachmentEntityEntity attachment) {
         //根据文件类型转换出contentType
         String contentType = getContentType(attachment.getFileName());
         return new MockMultipartFile("file", attachment.getFileName(), contentType, attachment.getFileData());
@@ -129,7 +129,7 @@ public class CommonAttachmentServiceImpl1 implements CommonAttachmentService1 {
     }
 
     @NotNull
-    private String getObjectName(BaseAttachmentEntity attachment, String module) {
+    private String getObjectName(BaseAttachmentEntityEntity attachment, String module) {
         DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
         String format = LocalDate.now().format(yyyyMMdd);
         String filePath = module + SymbolConstant.SLASH + format + SymbolConstant.SLASH + attachment.getId();

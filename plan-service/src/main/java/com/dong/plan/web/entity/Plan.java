@@ -1,27 +1,21 @@
 package com.dong.plan.web.entity;
 
+import com.dong.commoncore.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
- * 计划
- *
- * @author Lenovo
- */
+*  计划
+*
+*  @author Lenovo
+*/
 @Entity
 @Table(name = "plan")
-public class Plan implements Serializable {
+public class Plan extends BaseEntity {
 
-    private static final long serialVersionUID = 6504449981564581250L;
-
-    /**
-     * 主键id
-     */
-    private String id;
+private static final long serialVersionUID = 6662990082813656606L;
     /**
      * 计划编码
      */
@@ -47,133 +41,72 @@ public class Plan implements Serializable {
      */
     private Integer planStatus;
     /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 创建人id
-     */
-    private String createUserId;
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-    /**
-     * 修改人id
-     */
-    private String updateUserId;
-    /**
      * 删除状态：0 未删除、1 已删除
      */
     private Integer deleteStatus;
 
 
-    @Id
-    @Column(name = "id")
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Column(name = "plan_code")
-    public String getPlanCode() {
+    public String getPlanCode(){
         return this.planCode;
     }
 
-    public void setPlanCode(String planCode) {
+    public void setPlanCode(String planCode){
         this.planCode = planCode;
     }
 
     @Column(name = "plan_name")
-    public String getPlanName() {
+    public String getPlanName(){
         return this.planName;
     }
 
-    public void setPlanName(String planName) {
+    public void setPlanName(String planName){
         this.planName = planName;
     }
 
     @Column(name = "plan_type")
-    public String getPlanType() {
+    public String getPlanType(){
         return this.planType;
     }
 
-    public void setPlanType(String planType) {
+    public void setPlanType(String planType){
         this.planType = planType;
     }
 
     @Column(name = "plan_target")
-    public String getPlanTarget() {
+    public String getPlanTarget(){
         return this.planTarget;
     }
 
-    public void setPlanTarget(String planTarget) {
+    public void setPlanTarget(String planTarget){
         this.planTarget = planTarget;
     }
 
     @Column(name = "plan_content")
-    public String getPlanContent() {
+    public String getPlanContent(){
         return this.planContent;
     }
 
-    public void setPlanContent(String planContent) {
+    public void setPlanContent(String planContent){
         this.planContent = planContent;
     }
 
     @Column(name = "plan_status")
-    public Integer getPlanStatus() {
+    public Integer getPlanStatus(){
         return this.planStatus;
     }
 
-    public void setPlanStatus(Integer planStatus) {
+    public void setPlanStatus(Integer planStatus){
         this.planStatus = planStatus;
     }
 
-    @Column(name = "create_time")
-    public Date getCreateTime() {
-        return this.createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    @Column(name = "create_user_id")
-    public String getCreateUserId() {
-        return this.createUserId;
-    }
-
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    @Column(name = "update_time")
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Column(name = "update_user_id")
-    public String getUpdateUserId() {
-        return this.updateUserId;
-    }
-
-    public void setUpdateUserId(String updateUserId) {
-        this.updateUserId = updateUserId;
-    }
-
     @Column(name = "delete_status")
-    public Integer getDeleteStatus() {
+    public Integer getDeleteStatus(){
         return this.deleteStatus;
     }
 
-    public void setDeleteStatus(Integer deleteStatus) {
+    public void setDeleteStatus(Integer deleteStatus){
         this.deleteStatus = deleteStatus;
     }
 }

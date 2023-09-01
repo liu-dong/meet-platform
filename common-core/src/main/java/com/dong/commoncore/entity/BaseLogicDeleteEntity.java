@@ -9,21 +9,21 @@ import javax.persistence.PrePersist;
 import java.util.Date;
 
 /**
- * 自动填充实体类通用字段(包含逻辑删除)
+ * 逻辑删除实体类通用字段(包含逻辑删除)
  *
  * @author liudong
  * @date 2023/7/20
  */
-public class BaseEntityWithDelete extends BaseEntity {
+public class BaseLogicDeleteEntity extends BaseEntity {
 
     @Column(name = "delete_status")
     private Integer deleteStatus;
 
-    public BaseEntityWithDelete() {
+    public BaseLogicDeleteEntity() {
 
     }
 
-    public BaseEntityWithDelete(boolean initDefault) {
+    public BaseLogicDeleteEntity(boolean initDefault) {
         if (initDefault) {
             this.setId(CommonUtils.getUUID());
             this.setUpdateTime(new Date());
