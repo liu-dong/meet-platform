@@ -17,6 +17,7 @@ import java.util.Date;
 public class Task extends BaseEntity {
 
     private static final long serialVersionUID = 4180113096418985853L;
+
     /**
      * 计划id
      */
@@ -36,7 +37,7 @@ public class Task extends BaseEntity {
     /**
      * 截止日期
      */
-    private Object deadline;
+    private Date deadline;
     /**
      * 实际完成时间
      */
@@ -108,11 +109,11 @@ public class Task extends BaseEntity {
     }
 
     @Column(name = "deadline")
-    public Object getDeadline() {
+    public Date getDeadline() {
         return this.deadline;
     }
 
-    public void setDeadline(Object deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 

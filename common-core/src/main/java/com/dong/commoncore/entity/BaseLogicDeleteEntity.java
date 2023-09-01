@@ -5,7 +5,6 @@ import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
 
 import javax.persistence.Column;
-import javax.persistence.PrePersist;
 import java.util.Date;
 
 /**
@@ -36,10 +35,9 @@ public class BaseLogicDeleteEntity extends BaseEntity {
         }
     }
 
-    @PrePersist
     public void prePersist() {
         super.prePersist();
-        if (this.getDeleteStatus() != null) {
+        if (this.getDeleteStatus() == null) {
             this.setDeleteStatus(CommonConstant.NO);
         }
     }

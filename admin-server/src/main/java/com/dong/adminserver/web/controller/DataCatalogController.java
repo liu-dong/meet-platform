@@ -2,6 +2,7 @@ package com.dong.adminserver.web.controller;
 
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
 import com.dong.adminserver.web.model.vo.DataCatalogVO;
+import com.dong.adminserver.web.model.vo.SelectItemVO;
 import com.dong.adminserver.web.service.DataCatalogService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
@@ -65,8 +66,8 @@ public class DataCatalogController {
     @ApiOperation("根据目录编码查询数据条目")
     @GetMapping("/getDataCatalogItem")
     public ResponseResult getDataCatalogItem(String catalogCode) {
-        List<Map<String, Object>> mapList = dataCatalogService.getDataCatalogItem(catalogCode);
-        return ResponseResult.success(mapList, ResponseMessageConstant.QUERY_SUCCESS);
+        List<SelectItemVO> selectItemVOList = dataCatalogService.getDataCatalogItem(catalogCode);
+        return ResponseResult.success(selectItemVOList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**

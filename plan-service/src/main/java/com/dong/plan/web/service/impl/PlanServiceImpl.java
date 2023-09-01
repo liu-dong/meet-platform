@@ -1,10 +1,14 @@
 package com.dong.plan.web.service.impl;
 
 import com.dong.commoncore.model.Pager;
+import com.dong.plan.enums.PlanStatusEnum;
 import com.dong.plan.web.dao.PlanRepository;
+import com.dong.plan.web.entity.Plan;
 import com.dong.plan.web.model.dto.PlanDTO;
 import com.dong.plan.web.model.vo.PlanVO;
 import com.dong.plan.web.service.PlanService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,7 +39,30 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public String savePlan(PlanDTO dto) {
-        return null;
+        Plan entity = convertEntity(dto);
+        planRepository.save(entity);
+        return entity.getId();
+    }
+
+    private Plan convertEntity(PlanDTO dto) {
+        Plan entity = new Plan();
+        if (StringUtils.isBlank(dto.getId())) {
+            entity.setPlanCode(getPlanCode());
+            entity.setPlanStatus(PlanStatusEnum.notStart.ordinal());
+        } else {
+            entity = planRepository.getReferenceById(dto.getId());
+        }
+        BeanUtils.copyProperties(dto, entity);
+        return entity;
+    }
+
+    /**
+     * 生成计划编码
+     *
+     * @return
+     */
+    private String getPlanCode() {
+        return "0000000000";
     }
 
     /**
