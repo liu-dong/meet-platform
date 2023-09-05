@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -49,6 +50,7 @@ public class PlanDataSourceConfig {
      *
      * @return
      */
+    @Primary
     @Bean(name = "planDataSource")
     public DataSource planDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
@@ -83,6 +85,7 @@ public class PlanDataSourceConfig {
      * @param builder
      * @return
      */
+    @Primary
     @Bean(name = "planEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean planEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
@@ -94,6 +97,7 @@ public class PlanDataSourceConfig {
                 .build();
     }
 
+    @Primary
     @Bean(name = "planEntityManager")
     public EntityManager planEntityManager(@Qualifier("planEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()).createEntityManager();
@@ -117,11 +121,13 @@ public class PlanDataSourceConfig {
      *
      * @return
      */
+    @Primary
     @Bean(name = "planTransactionManager")
     PlatformTransactionManager planTransactionManager(@Qualifier("planEntityManagerFactory") LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return new JpaTransactionManager(Objects.requireNonNull(localContainerEntityManagerFactoryBean.getObject()));
     }
 
+    @Primary
     @Bean(name = "planJdbcTemplate")
     public JdbcTemplate planJdbcTemplate(@Qualifier("planDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
