@@ -1,5 +1,6 @@
 package com.dong.plan.web.service.impl;
 
+import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.plan.enums.PlanStatusEnum;
 import com.dong.plan.web.dao.PlanRepository;
@@ -49,6 +50,7 @@ public class PlanServiceImpl implements PlanService {
         if (StringUtils.isBlank(dto.getId())) {
             entity.setPlanCode(getPlanCode());
             entity.setPlanStatus(PlanStatusEnum.notStart.ordinal());
+            entity.setDeleteStatus(CommonConstant.NO);
         } else {
             entity = planRepository.getReferenceById(dto.getId());
         }
@@ -73,7 +75,15 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public PlanVO getPlan(String id) {
-        return null;
+        Plan plan = planRepository.getReferenceById(id);
+
+        return convertVO(plan);
+    }
+
+    private PlanVO convertVO(Plan plan) {
+        PlanVO vo = new PlanVO();
+        BeanUtils.copyProperties(plan, vo);
+        return vo;
     }
 
     /**

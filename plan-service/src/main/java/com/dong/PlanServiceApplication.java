@@ -1,4 +1,4 @@
-package com.dong.plan;
+package com.dong;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
