@@ -52,7 +52,7 @@ public class PlanServiceImpl implements PlanService {
         } else {
             entity = planRepository.getReferenceById(dto.getId());
         }
-        BeanUtils.copyProperties(dto, entity);
+        BeanUtils.copyProperties(dto, entity, "planStatus");
         return entity;
     }
 

@@ -1,46 +1,57 @@
 package com.dong.plan.web.entity;
 
-import com.dong.commoncore.entity.BaseLogicDeleteEntity;
+import com.dong.commoncore.entity.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 计划
+ * 计划表
  *
- * @author Lenovo
+ * @author liudong 2023/09/05
  */
 @Entity
 @Table(name = "plan")
-public class Plan extends BaseLogicDeleteEntity {
+public class Plan extends BaseEntity {
 
-    private static final long serialVersionUID = 6662990082813656606L;
+    private static final long serialVersionUID = 7542201726304961008L;
+
 
     /**
      * 计划编码
      */
     private String planCode;
+
     /**
      * 计划名称
      */
     private String planName;
+
     /**
      * 计划类型 day：日计划、week：周计划、month：月计划，year：年计划
      */
     private String planType;
+
     /**
      * 计划目标
      */
     private String planTarget;
+
     /**
      * 计划内容
      */
     private String planContent;
+
     /**
      * 计划状态 1：未开始，2：进行中，3：已完成，4：延期
      */
     private Integer planStatus;
+
+    /**
+     * 删除状态：0 未删除、1 已删除
+     */
+    private Integer deleteStatus;
 
 
     @Column(name = "plan_code")
@@ -97,4 +108,12 @@ public class Plan extends BaseLogicDeleteEntity {
         this.planStatus = planStatus;
     }
 
+    @Column(name = "delete_status")
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
 }

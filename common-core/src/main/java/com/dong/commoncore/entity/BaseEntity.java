@@ -1,8 +1,8 @@
 package com.dong.commoncore.entity;
 
-import cn.hutool.core.util.StrUtil;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -18,39 +18,31 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     /**
      * 主键id
      */
-    @Id
-    @Column(name = "id")
     protected String id;
 
     /**
      * 创建时间
      */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_time")
     protected Date createTime;
 
     /**
      * 创建人
      */
-    @Column(name = "create_user_id")
     protected String createUserId;
 
     /**
      * 修改时间
      */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_time")
     protected Date updateTime;
 
     /**
      * 修改人
      */
-    @Column(name = "update_user_id")
     protected String updateUserId;
 
     public BaseEntity() {
@@ -72,7 +64,7 @@ public class BaseEntity implements Serializable {
 
     @PrePersist
     public void prePersist() {
-        if (StrUtil.isBlank(this.id)) {
+        if (StringUtils.isBlank(this.id)) {
             this.setId(CommonUtils.getUUID());
         }
         if (this.getUpdateTime() == null) {
@@ -97,6 +89,8 @@ public class BaseEntity implements Serializable {
         }
     }
 
+    @Id
+    @Column(name = "id")
     public String getId() {
         return id;
     }
@@ -105,6 +99,8 @@ public class BaseEntity implements Serializable {
         this.id = id;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
     public Date getCreateTime() {
         return createTime;
     }
@@ -113,6 +109,7 @@ public class BaseEntity implements Serializable {
         this.createTime = createTime;
     }
 
+    @Column(name = "create_user_id")
     public String getCreateUserId() {
         return createUserId;
     }
@@ -121,6 +118,8 @@ public class BaseEntity implements Serializable {
         this.createUserId = createUserId;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -129,6 +128,7 @@ public class BaseEntity implements Serializable {
         this.updateTime = updateTime;
     }
 
+    @Column(name = "update_user_id")
     public String getUpdateUserId() {
         return updateUserId;
     }

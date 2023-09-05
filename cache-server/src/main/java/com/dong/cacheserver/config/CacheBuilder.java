@@ -167,7 +167,7 @@ public class CacheBuilder {
 
             if (obj == null) {
                 obj = provider.get(key, function, expireTime);
-            } else if (function != null && obj != null) {//查询并设置其他缓存提供者程序缓存
+            } else {//查询并设置其他缓存提供者程序缓存
                 provider.get(key, function, expireTime);
             }
 

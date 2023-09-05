@@ -7,7 +7,7 @@ import javax.persistence.Transient;
  * @author liudong
  * @date 2023/7/18
  */
-public class BaseAttachmentEntityEntity extends BaseLogicDeleteEntity {
+public abstract class BaseAttachmentEntity extends BaseLogicDeleteEntity {
 
     private static final long serialVersionUID = 6955474923481781751L;
 

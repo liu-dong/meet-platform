@@ -3,7 +3,7 @@ package com.dong.fileserver.controller.base;
 import cn.hutool.core.codec.Base64Decoder;
 import cn.hutool.core.util.StrUtil;
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.entity.BaseAttachmentEntityEntity;
+import com.dong.commoncore.entity.BaseAttachmentEntity;
 import com.dong.commoncore.exception.AttachmentException;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
@@ -33,7 +33,7 @@ import java.util.List;
  * @param <E>
  * @param <R>
  */
-public class BaseAttachmentController<E extends BaseAttachmentEntityEntity, R extends JpaRepository<E, String>> {
+public class BaseAttachmentController<E extends BaseAttachmentEntity, R extends JpaRepository<E, String>> {
 
     @Value("${support.extend.names:txt,jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,rar,zip}")
     private String attUsableTypes;

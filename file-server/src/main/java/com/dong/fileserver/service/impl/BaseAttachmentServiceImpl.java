@@ -3,7 +3,7 @@ package com.dong.fileserver.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.constant.SymbolConstant;
-import com.dong.commoncore.entity.BaseAttachmentEntityEntity;
+import com.dong.commoncore.entity.BaseAttachmentEntity;
 import com.dong.fileserver.config.MinioProperties;
 import com.dong.fileserver.dao.BaseAttachmentRepository;
 import com.dong.fileserver.service.AttachmentService;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @author liudong
  * @date 2023/7/20
  */
-public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntityEntity, R extends BaseAttachmentRepository<E>> implements BaseAttachmentService<E, R> {
+public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntity, R extends BaseAttachmentRepository<E>> implements BaseAttachmentService<E, R> {
 
 
     protected Logger logger = LoggerFactory.getLogger(BaseAttachmentServiceImpl.class);
@@ -89,7 +89,7 @@ public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntityEntity, R e
      * @param module
      * @return
      */
-    public String saveAttachmentToMinio(BaseAttachmentEntityEntity attachment, String module) {
+    public String saveAttachmentToMinio(BaseAttachmentEntity attachment, String module) {
         //转换文件
         MultipartFile file = convertMultipartFile(attachment);
         //获取minio存储路径
@@ -101,7 +101,7 @@ public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntityEntity, R e
     }
 
     @NotNull
-    private MultipartFile convertMultipartFile(BaseAttachmentEntityEntity attachment) {
+    private MultipartFile convertMultipartFile(BaseAttachmentEntity attachment) {
         //根据文件类型转换出contentType
         String contentType = getContentType(attachment.getFileName());
         return new MockMultipartFile("file", attachment.getFileName(), contentType, attachment.getFileData());
@@ -125,7 +125,7 @@ public class BaseAttachmentServiceImpl<E extends BaseAttachmentEntityEntity, R e
     }
 
     @NotNull
-    private String getObjectName(BaseAttachmentEntityEntity attachment, String module) {
+    private String getObjectName(BaseAttachmentEntity attachment, String module) {
         DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
         String format = LocalDate.now().format(yyyyMMdd);
         String filePath = module + SymbolConstant.SLASH + format + SymbolConstant.SLASH + attachment.getId();

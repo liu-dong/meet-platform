@@ -5,6 +5,7 @@ import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
 
 import javax.persistence.Column;
+import javax.persistence.PrePersist;
 import java.util.Date;
 
 /**
@@ -13,10 +14,12 @@ import java.util.Date;
  * @author liudong
  * @date 2023/7/20
  */
-public class BaseLogicDeleteEntity extends BaseEntity {
+public abstract class BaseLogicDeleteEntity extends BaseEntity {
 
-    @Column(name = "delete_status")
-    private Integer deleteStatus;
+    /**
+     * 删除状态：0 未删除、1 已删除
+     */
+    protected Integer deleteStatus;
 
     public BaseLogicDeleteEntity() {
 
@@ -31,17 +34,20 @@ public class BaseLogicDeleteEntity extends BaseEntity {
                 this.setCreateUserId(CurrentUserUtils.getUserId());
                 this.setUpdateUserId(CurrentUserUtils.getUserId());
             }
-            this.setDeleteStatus(CommonConstant.NO);
+            this.setDeleteStatus(CommonConstant.YES);
         }
     }
 
+    @PrePersist
+    @Override
     public void prePersist() {
         super.prePersist();
         if (this.getDeleteStatus() == null) {
-            this.setDeleteStatus(CommonConstant.NO);
+            this.setDeleteStatus(CommonConstant.YES);
         }
     }
 
+    @Column(name = "delete_status")
     public Integer getDeleteStatus() {
         return deleteStatus;
     }

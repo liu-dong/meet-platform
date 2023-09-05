@@ -1,6 +1,6 @@
 package com.dong.fileserver.dao;
 
-import com.dong.commoncore.entity.BaseAttachmentEntityEntity;
+import com.dong.commoncore.entity.BaseAttachmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2023/7/19
  */
 @NoRepositoryBean
-public interface BaseAttachmentRepository<E extends BaseAttachmentEntityEntity> extends JpaRepository<E, String> {
+public interface BaseAttachmentRepository<E extends BaseAttachmentEntity> extends JpaRepository<E, String> {
 
     List<E> findByRelationIdAndDeleteStatus(String relationId, Integer deleteStatus);
 
