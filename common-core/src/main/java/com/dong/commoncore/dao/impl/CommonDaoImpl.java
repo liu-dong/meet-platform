@@ -174,6 +174,7 @@ public class CommonDaoImpl implements CommonDao {
      * @return
      */
     private <T> List<T> convertDataList(List<Map<String, Object>> listMap, Class<T> clazz) {
+        //将map中的key下划线转成驼峰
         convertKeysToCamelCase(listMap);
         List<T> result = new ArrayList<>();
         for (Map<String, Object> map : listMap) {
