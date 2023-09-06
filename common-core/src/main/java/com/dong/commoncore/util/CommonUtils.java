@@ -1,5 +1,6 @@
 package com.dong.commoncore.util;
 
+import com.dong.commoncore.constant.SymbolConstant;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -93,5 +94,40 @@ public class CommonUtils {
 
     public static int computer(int sum, int num) {
         return sum + num;
+    }
+
+    /**
+     * 转为驼峰
+     *
+     * @param name 名称
+     * @return 返回转换后的字段名
+     */
+    public static String toCamel(String name) {
+        StringBuilder result = new StringBuilder();
+        name = name.toLowerCase();
+        if (!name.contains(SymbolConstant.UNDERLINE)) {
+            // 不含下划线，仅将首字母小写
+            return name;
+        } else {
+            String[] string = name.split(SymbolConstant.UNDERLINE);
+            for (int i = 0; i < string.length; i++) {
+                if (i > 0) {
+                    string[i] = string[i].substring(0, 1).toUpperCase() + string[i].substring(1);
+                }
+                result.append(string[i]);
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 转为大驼峰（即首字母大写）
+     *
+     * @param name 名称
+     * @return 返回转换后的字段名
+     */
+    public static String toUpperCamel(String name) {
+        String result = toCamel(name);
+        return result.substring(0, 1).toUpperCase() + result.substring(1);
     }
 }

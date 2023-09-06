@@ -1,6 +1,7 @@
 package com.dong.plan.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
+import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.model.Pager;
 import com.dong.plan.enums.PlanStatusEnum;
 import com.dong.plan.web.dao.PlanRepository;
@@ -13,12 +14,16 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PlanServiceImpl implements PlanService {
 
     @Resource
     PlanRepository planRepository;
+    @Resource
+    CommonDao commonDao;
 
     /**
      * 查询计划列表
@@ -29,7 +34,26 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public Pager<PlanVO> findPlanList(PlanDTO dto, Pager<PlanVO> pager) {
-        return null;
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id,plan_code,plan_name,plan_type,plan_target,plan_status,create_time ");
+        sql.append(" FROM plan ");
+        sql.append(" WHERE 1=1 ");
+        if (StringUtils.isNotBlank(dto.getPlanName())) {
+            sql.append(" AND `plan_name` LIKE '%?%' ");
+            params.add(dto.getPlanName());
+        }
+        if (StringUtils.isNotBlank(dto.getPlanType())) {
+            sql.append(" AND `plan_type` = ? ");
+            params.add(dto.getPlanType());
+        }
+        if (dto.getPlanStatus() != null) {
+            sql.append(" AND `plan_status` = ? ");
+            params.add(dto.getPlanStatus());
+        }
+        sql.append(" ORDER BY create_time DESC ");
+        return commonDao.findListBySql(pager, sql, params, PlanVO.class);
+
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.dong.commoncore.dao.impl;
 
+import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.ObjectUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
@@ -14,6 +16,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author liudong
@@ -171,11 +174,35 @@ public class CommonDaoImpl implements CommonDao {
      * @return
      */
     private <T> List<T> convertDataList(List<Map<String, Object>> listMap, Class<T> clazz) {
+        convertKeysToCamelCase(listMap);
         List<T> result = new ArrayList<>();
         for (Map<String, Object> map : listMap) {
             T t = ObjectUtils.mapToObject(map, clazz);
             result.add(t);
         }
         return result;
+    }
+
+    /**
+     * 转换map中key的名称，由下划线转换为驼峰格式
+     *
+     * @param dataList
+     */
+    private static void convertKeysToCamelCase(List<Map<String, Object>> dataList) {
+        for (Map<String, Object> map : dataList) {
+            // 找出需要重命名的键
+            List<String> keysToRename = map.keySet()
+                    .stream()
+                    .filter(key -> key.contains(SymbolConstant.UNDERLINE))
+                    .collect(Collectors.toList());
+            // 重命名键
+            keysToRename.forEach(key -> {
+                Object value = map.get(key);
+                String camelCaseKey = CommonUtils.toCamel(key);
+
+                map.remove(key);
+                map.put(camelCaseKey, value);
+            });
+        }
     }
 }

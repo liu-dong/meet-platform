@@ -17,7 +17,6 @@ public class Plan extends BaseEntity {
 
     private static final long serialVersionUID = 7542201726304961008L;
 
-
     /**
      * 计划编码
      */
@@ -41,12 +40,17 @@ public class Plan extends BaseEntity {
     /**
      * 计划内容
      */
-    private String planContent;
+    private String remark;
 
     /**
      * 计划状态 1：未开始，2：进行中，3：已完成，4：延期
      */
     private Integer planStatus;
+
+    /**
+     * 总结
+     */
+    private String summary;
 
     /**
      * 删除状态：0 未删除、1 已删除
@@ -90,13 +94,13 @@ public class Plan extends BaseEntity {
         this.planTarget = planTarget;
     }
 
-    @Column(name = "plan_content")
-    public String getPlanContent() {
-        return this.planContent;
+    @Column(name = "remark")
+    public String getRemark() {
+        return remark;
     }
 
-    public void setPlanContent(String planContent) {
-        this.planContent = planContent;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Column(name = "plan_status")
@@ -106,6 +110,15 @@ public class Plan extends BaseEntity {
 
     public void setPlanStatus(Integer planStatus) {
         this.planStatus = planStatus;
+    }
+
+    @Column(name = "summary")
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     @Column(name = "delete_status")

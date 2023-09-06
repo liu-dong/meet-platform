@@ -38,14 +38,19 @@ public class PlanVO {
     private String planTarget;
 
     /**
-     * 计划内容
+     * 备注
      */
-    private String planContent;
+    private String remark;
 
     /**
      * 计划状态 1：未开始，2：进行中，3：已完成，4：延期
      */
     private Integer planStatus;
+
+    /**
+     * 总结
+     */
+    private String summary;
 
     /**
      * 创建时间

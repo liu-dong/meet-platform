@@ -2,6 +2,7 @@ package com.dong.generator.util;
 
 import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.util.CommonUtils;
 import com.dong.generator.web.model.dto.AttributeDTO;
 import com.dong.generator.web.model.dto.CodeGenerateParamDTO;
 import freemarker.template.Configuration;
@@ -152,7 +153,7 @@ public class CodeGenerateUtils {
      */
     @NotNull
     private static String getFileName(String tableName, String templateName) {
-        String fileName = toUpperCamel(tableName);
+        String fileName = CommonUtils.toUpperCamel(tableName);
         fileName = fileName + byTemplateToClassName(templateName);
         return fileName;
     }
@@ -180,7 +181,7 @@ public class CodeGenerateUtils {
         result.put("packageName", packageName);
         result.put("basePackageName", basePackageName);
         result.put("tableName", tableName);
-        result.put("className", toCamel(tableName));
+        result.put("className", CommonUtils.toCamel(tableName));
         result.put("serialUID", genSerialID());
         result.put("classComment", classComment);
         //获取电脑名称为创建人
@@ -202,7 +203,7 @@ public class CodeGenerateUtils {
         List<String[]> tableColumnsInfo = DatabaseUtils.getTableColumnList(databaseName, tableName);
         List<AttributeDTO> attributeList = new ArrayList<>();
         for (String[] strings : tableColumnsInfo) {
-            attributeList.add(new AttributeDTO(strings[0], toCamel(strings[0]), convertDataType(strings[1]), strings[2]));
+            attributeList.add(new AttributeDTO(strings[0], CommonUtils.toCamel(strings[0]), convertDataType(strings[1]), strings[2]));
         }
         return attributeList;
     }
@@ -231,41 +232,6 @@ public class CodeGenerateUtils {
             result = "Object";
         }
         return result;
-    }
-
-    /**
-     * 转为驼峰
-     *
-     * @param name 名称
-     * @return 返回转换后的字段名
-     */
-    public static String toCamel(String name) {
-        StringBuilder result = new StringBuilder();
-        name = name.toLowerCase();
-        if (!name.contains(SymbolConstant.UNDERLINE)) {
-            // 不含下划线，仅将首字母小写
-            return name;
-        } else {
-            String[] string = name.split(SymbolConstant.UNDERLINE);
-            for (int i = 0; i < string.length; i++) {
-                if (i > 0) {
-                    string[i] = string[i].substring(0, 1).toUpperCase() + string[i].substring(1);
-                }
-                result.append(string[i]);
-            }
-        }
-        return result.toString();
-    }
-
-    /**
-     * 转为大驼峰（即首字母大写）
-     *
-     * @param name 名称
-     * @return 返回转换后的字段名
-     */
-    public static String toUpperCamel(String name) {
-        String result = CodeGenerateUtils.toCamel(name);
-        return result.substring(0, 1).toUpperCase() + result.substring(1);
     }
 
     /**
