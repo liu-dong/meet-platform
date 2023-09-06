@@ -21,4 +21,9 @@ public interface PlanRepository extends JpaRepository<Plan, String> {
     @Modifying
     @Query(value = "UPDATE plan SET delete_status = 1 WHERE id in (:ids)", nativeQuery = true)
     void batchLogicDelete(List<String> ids);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE plan SET plan_status = :planStatus WHERE id=:id", nativeQuery = true)
+    void changePlanStatus(String id, String planStatus);
 }

@@ -83,4 +83,31 @@ public class PlanController {
         planService.batchDeletePlan(ids);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
+
+    /**
+     * 改变计划状态
+     *
+     * @param id
+     * @param planStatus
+     * @return
+     */
+    @PostMapping("/changePlanStatus")
+    public ResponseResult changePlanStatus(String id, String planStatus) {
+        planService.changePlanStatus(id, planStatus);
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+    }
+
+    /**
+     * 总结
+     *
+     * @param id
+     * @param summary
+     * @return
+     */
+    @PostMapping("/summary")
+    public ResponseResult summary(String id, String summary) {
+        planService.summary(id, summary);
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+    }
+
 }

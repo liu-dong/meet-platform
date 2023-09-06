@@ -53,4 +53,13 @@ public interface PlanService {
      */
     void batchDeletePlan(List<String> ids);
 
+    /**
+     * 改变计划状态
+     *
+     * @param id
+     * @param planStatus
+     */
+    void changePlanStatus(String id, String planStatus);
+
+    void summary(String id, String summary);
 }

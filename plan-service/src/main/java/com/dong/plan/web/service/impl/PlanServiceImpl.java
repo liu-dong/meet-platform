@@ -163,17 +163,23 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public void deletePlan(String id) {
-//        Plan entity = planRepository.getReferenceById(id);
-//        entity.setDeleteStatus(CommonConstant.YES);
-//        planRepository.save(entity);
         planRepository.logicDelete(id);
     }
 
     @Override
     public void batchDeletePlan(List<String> ids) {
-//        List<Plan> entityList = planRepository.findAllById(ids);
-//        entityList.forEach(plan -> plan.setDeleteStatus(CommonConstant.YES));
-//        planRepository.saveAll(entityList);
         planRepository.batchLogicDelete(ids);
+    }
+
+    @Override
+    public void changePlanStatus(String id, String planStatus) {
+        planRepository.changePlanStatus(id, planStatus);
+    }
+
+    @Override
+    public void summary(String id, String summary) {
+        Plan entity = planRepository.getReferenceById(id);
+        entity.setSummary(summary);
+        planRepository.save(entity);
     }
 }
