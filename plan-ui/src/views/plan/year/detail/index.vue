@@ -1,22 +1,26 @@
 <template>
   <div>
-    <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-      <el-form-item label="计划名称" prop="title">
-        <el-input v-model="temp.title" />
+    <el-form
+      ref="dataForm"
+      :rules="rules"
+      :model="plan"
+      label-position="left"
+      label-width="100px"
+      style="width: 90%; margin-left:5%;"
+    >
+      <el-form-item label="计划名称" prop="planName">
+        <el-input v-model="plan.planName" />
       </el-form-item>
-      <el-form-item label="计划类型" prop="type">
-        <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-          <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+      <el-form-item label="计划类型" prop="planType">
+        <el-select v-model="plan.planType" class="filter-item" placeholder="请选择">
+          <el-option v-for="item in planTypeOptions" :key="item.label" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="计划目标" prop="title">
-        <el-input v-model="temp.title" />
+      <el-form-item label="计划目标" prop="planTarget">
+        <el-input v-model="plan.planTarget" :autosize="{ minRows: 2}" type="textarea" />
       </el-form-item>
-      <el-form-item label="计划内容" prop="title">
-        <el-input v-model="temp.title" />
-      </el-form-item>
-      <el-form-item label="创建人" prop="title">
-        <el-input v-model="temp.title" />
+      <el-form-item label="备注" prop="remark">
+        <el-input v-model="plan.remark" :autosize="{ minRows: 2}" type="textarea" />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -43,14 +47,14 @@ export default {
       importanceOptions: [1, 2, 3],
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
-      temp: {
+      plan: {
         id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
+        planCode: 1,
+        planName: '',
+        planType: 'year',
+        planTarget: '',
+        planStatus: 1,
+        remark: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -60,7 +64,13 @@ export default {
         view: '查看'
       },
       dialogPvVisible: false,
-      pvData: [],
+      planTypeOptions: [
+        { label: '年度计划', value: 'year' },
+        { label: '季度计划', value: 'quarter' },
+        { label: '月度计划', value: 'month' },
+        { label: '周计划', value: 'week' },
+        { label: '日计划', value: 'day' }
+      ],
       rules: {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
         timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
@@ -76,10 +86,10 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          createArticle(this.temp).then(() => {
-            this.list.unshift(this.temp)
+          this.plan.id = parseInt(Math.random() * 100) + 1024 // mock a id
+          this.plan.author = 'vue-element-admin'
+          createArticle(this.plan).then(() => {
+            this.list.unshift(this.plan)
             this.dialogFormVisible = false
             this.$notify({
               title: 'Success',
@@ -94,11 +104,11 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = Object.assign({}, this.temp)
+          const tempData = Object.assign({}, this.plan)
           tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateArticle(tempData).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
+            const index = this.list.findIndex(v => v.id === this.plan.id)
+            this.list.splice(index, 1, this.plan)
             this.dialogFormVisible = false
             this.$notify({
               title: 'Success',
