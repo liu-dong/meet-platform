@@ -79,7 +79,7 @@ public class PlanController {
      * @return
      */
     @PostMapping("/batchDeletePlan")
-    public ResponseResult batchDeletePlan(List<String> ids) {
+    public ResponseResult batchDeletePlan(@RequestParam("ids") List<String> ids) {
         planService.batchDeletePlan(ids);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
