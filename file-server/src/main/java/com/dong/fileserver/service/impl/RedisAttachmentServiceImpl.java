@@ -7,6 +7,7 @@ import com.dong.commoncore.service.CacheService;
 import com.dong.fileserver.service.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @author liudong
  * @date 2023/9/4
  */
+@Primary
 @Service("redisAttachmentService")
 public class RedisAttachmentServiceImpl implements AttachmentService {
 
