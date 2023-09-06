@@ -4,9 +4,11 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dong.commoncore.entity.BaseAttachmentEntity;
+import com.dong.commoncore.service.CacheService;
 import com.dong.fileserver.service.AttachmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,6 +24,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 本地缓存附件上传数据
+ *
  * @author liudong
  * @date 2023/7/18
  */
@@ -33,8 +37,9 @@ public class LocalAttachmentService implements AttachmentService {
     @Value("${attachment.temp.base.path:/file/attachment}")
     String basePath;
 
+    @Qualifier("localCacheService")
     @Autowired
-    LocalCacheService localCacheService;
+    CacheService localCacheService;
 
     @Override
     public void put(String id, BaseAttachmentEntity attachment) {
