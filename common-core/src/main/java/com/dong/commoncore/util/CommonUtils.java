@@ -1,10 +1,7 @@
 package com.dong.commoncore.util;
 
-import org.apache.commons.beanutils.ConvertUtils;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
@@ -24,85 +21,6 @@ public class CommonUtils {
         return uuid.toString().replaceAll("-", "");
     }
 
-
-    /**
-     * Object转Map
-     *
-     * @param object
-     * @return
-     */
-    public static Map<String, Object> objectToMap(Object object) {
-        Map<String, Object> result = new HashMap<>();
-        Field[] fields = object.getClass().getDeclaredFields();
-        try {
-            for (Field field : fields) {
-                String name = field.getName();
-                Field f = object.getClass().getDeclaredField(name);
-                f.setAccessible(true);
-                if (f.get(object) != null) {
-                    result.put(name, f.get(object).toString());
-                } else {
-                    result.put(name, null);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * Map转Object
-     *
-     * @param object
-     * @return
-     */
-    public static Object mapToObject(Map<String, Object> map) throws IllegalAccessException {
-        Object object = new Object();
-        Field[] fields = object.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            int mod = field.getModifiers();
-            if (Modifier.isFinal(mod) || Modifier.isStatic(mod)) {
-                continue;
-            }
-            field.setAccessible(true);
-            field.set(object, map.get(field.getName()));
-        }
-        return object;
-    }
-
-    /**
-     * Map转Object
-     *
-     * @param object
-     * @return
-     */
-    public static <T> T mapToObject(Map<String, Object> map, Class<T> clazz) {
-        if (map == null) {
-            return null;
-        }
-        T t = null;
-        Field[] fields = clazz.getDeclaredFields();
-        try {
-            t = clazz.newInstance();
-            for (Field field : fields) {
-                if (map.containsKey(field.getName())) {
-                    boolean flag = field.isAccessible();
-                    field.setAccessible(true);
-                    Object object = map.get(field.getName());
-                    //&& field.getType().isAssignableFrom(object.getClass())
-                    if (object != null) {
-                        field.set(t, ConvertUtils.convert(object, field.getType()));
-                    }
-                    field.setAccessible(flag);
-                }
-            }
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            System.err.println("map转换指定对象异常");
-        }
-        return t;
-    }
 
     /**
      * 列表转成树结构

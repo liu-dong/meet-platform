@@ -2,7 +2,7 @@ package com.dong.commoncore.dao.impl;
 
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.model.Pager;
-import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.ObjectUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -173,7 +173,7 @@ public class CommonDaoImpl implements CommonDao {
     private <T> List<T> convertDataList(List<Map<String, Object>> listMap, Class<T> clazz) {
         List<T> result = new ArrayList<>();
         for (Map<String, Object> map : listMap) {
-            T t = CommonUtils.mapToObject(map, clazz);
+            T t = ObjectUtils.mapToObject(map, clazz);
             result.add(t);
         }
         return result;

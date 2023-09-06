@@ -4,6 +4,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
+import com.dong.commoncore.util.ObjectUtils;
 import com.dong.securitycore.dao.PermissionJpaDao;
 import com.dong.securitycore.entity.Permission;
 import com.dong.securitycore.model.dto.PermissionDTO;
@@ -58,7 +59,7 @@ public class PermissionServiceImpl implements PermissionService {
         List<Map<String, Object>> listMap = new ArrayList<>();
         //实体类list转map对象list
         for (Permission permission : permissionList) {
-            Map<String, Object> map = CommonUtils.objectToMap(permission);
+            Map<String, Object> map = ObjectUtils.objectToMap(permission);
             map.put("children", new ArrayList<>());
             listMap.add(map);
         }
