@@ -23,10 +23,8 @@ public class RedisCacheProviderImpl implements CacheProviderService {
      *
      * @param key 缓存键 不可为空
      **/
-    public <T extends Object> T get(String key) {
-        T obj = get(key, null, null, CacheConstant.CACHE_MINUTE);
-
-        return obj;
+    public <T> T get(String key) {
+        return get(key, null, null, CacheConstant.CACHE_MINUTE);
     }
 
     /**

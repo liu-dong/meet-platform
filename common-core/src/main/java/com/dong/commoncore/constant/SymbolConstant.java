@@ -36,4 +36,9 @@ public class SymbolConstant {
      * 冒号
      */
     public static final String COLON = ":";
+
+    /**
+     * 星号*
+     */
+    public static final String ASTERISK = "*";
 }

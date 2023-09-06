@@ -23,7 +23,7 @@ public class ObjectUtils {
      * @param object
      * @return
      */
-    private static byte[] serialize(Object object) {
+    public static byte[] serialize(Object object) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -40,7 +40,7 @@ public class ObjectUtils {
      * @param binaryByte
      * @return
      */
-    private static Object deserialize(byte[] binaryByte) {
+    public static Object deserialize(byte[] binaryByte) {
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(binaryByte);
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
