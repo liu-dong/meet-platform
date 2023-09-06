@@ -4,6 +4,8 @@ import com.dong.commoncore.model.Pager;
 import com.dong.plan.web.model.dto.PlanDTO;
 import com.dong.plan.web.model.vo.PlanVO;
 
+import java.util.List;
+
 /**
  * 计划
  *
@@ -43,5 +45,12 @@ public interface PlanService {
      * @return
      */
     void deletePlan(String id);
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     */
+    void batchDeletePlan(List<String> ids);
 
 }

@@ -5,6 +5,7 @@ import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.constant.FormatterConstant;
 import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.dao.CommonDao;
+import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.DateUtils;
 import com.dong.plan.enums.PlanStatusEnum;
@@ -45,7 +46,7 @@ public class PlanServiceImpl implements PlanService {
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,plan_code,plan_name,plan_type,plan_target,plan_status,create_time ");
         sql.append(" FROM plan ");
-        sql.append(" WHERE 1=1 ");
+        sql.append(" WHERE delete_status = 0 ");
         if (StringUtils.isNotBlank(dto.getPlanName())) {
             sql.append(" AND `plan_name` LIKE '%?%' ");
             params.add(dto.getPlanName());
@@ -129,7 +130,7 @@ public class PlanServiceImpl implements PlanService {
                         .append(String.format("%02d", currentDate.get(WeekFields.ISO.weekOfWeekBasedYear())));
                 break;
             default:
-                throw new IllegalArgumentException("Invalid plan type: " + planType);
+                throw new GlobalException("Invalid plan type: " + planType);
         }
 
         return result.toString();
@@ -162,6 +163,17 @@ public class PlanServiceImpl implements PlanService {
      */
     @Override
     public void deletePlan(String id) {
+//        Plan entity = planRepository.getReferenceById(id);
+//        entity.setDeleteStatus(CommonConstant.YES);
+//        planRepository.save(entity);
+        planRepository.logicDelete(id);
     }
 
+    @Override
+    public void batchDeletePlan(List<String> ids) {
+//        List<Plan> entityList = planRepository.findAllById(ids);
+//        entityList.forEach(plan -> plan.setDeleteStatus(CommonConstant.YES));
+//        planRepository.saveAll(entityList);
+        planRepository.batchLogicDelete(ids);
+    }
 }

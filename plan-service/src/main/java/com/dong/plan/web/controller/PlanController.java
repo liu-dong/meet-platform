@@ -9,6 +9,7 @@ import com.dong.plan.web.service.PlanService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 计划管理
@@ -68,6 +69,18 @@ public class PlanController {
     @PostMapping("/deletePlan")
     public ResponseResult deletePlan(String id) {
         planService.deletePlan(id);
+        return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
+    }
+
+    /**
+     * 批量删除计划
+     *
+     * @param ids
+     * @return
+     */
+    @PostMapping("/batchDeletePlan")
+    public ResponseResult batchDeletePlan(List<String> ids) {
+        planService.batchDeletePlan(ids);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 }
