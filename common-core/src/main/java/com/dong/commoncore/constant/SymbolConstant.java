@@ -28,6 +28,11 @@ public class SymbolConstant {
     public static final String UNDERLINE = "_";
 
     /**
+     * 连字符
+     */
+    public static final String HYPHEN = "-";
+
+    /**
      * 冒号
      */
     public static final String COLON = ":";

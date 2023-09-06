@@ -63,7 +63,7 @@ public class AddressUtils {
                 ip = Objects.requireNonNull(inet).getHostAddress();
             }
         }
-        System.out.println("getClientIp  IP is " + ip + ", headerName = " + headerName);
+//        System.out.println("getClientIp  IP is " + ip + ", headerName = " + headerName);
         return ip;
     }
 

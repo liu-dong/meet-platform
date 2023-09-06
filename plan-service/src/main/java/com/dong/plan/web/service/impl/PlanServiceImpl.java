@@ -1,9 +1,14 @@
 package com.dong.plan.web.service.impl;
 
+import cn.hutool.core.util.EnumUtil;
 import com.dong.commoncore.constant.CommonConstant;
+import com.dong.commoncore.constant.FormatterConstant;
+import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.util.DateUtils;
 import com.dong.plan.enums.PlanStatusEnum;
+import com.dong.plan.enums.PlanTypeEnum;
 import com.dong.plan.web.dao.PlanRepository;
 import com.dong.plan.web.entity.Plan;
 import com.dong.plan.web.model.dto.PlanDTO;
@@ -14,6 +19,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,23 +79,60 @@ public class PlanServiceImpl implements PlanService {
     private Plan convertEntity(PlanDTO dto) {
         Plan entity = new Plan();
         if (StringUtils.isBlank(dto.getId())) {
-            entity.setPlanCode(getPlanCode());
+            entity.setPlanType(dto.getPlanType());
+            entity.setPlanCode(getPlanCode(EnumUtil.fromString(PlanTypeEnum.class, dto.getPlanType())));
             entity.setPlanStatus(PlanStatusEnum.notStart.ordinal());
             entity.setDeleteStatus(CommonConstant.NO);
         } else {
             entity = planRepository.getReferenceById(dto.getId());
         }
-        BeanUtils.copyProperties(dto, entity, "planStatus");
+        entity.setPlanName(dto.getPlanName());
+        entity.setPlanTarget(dto.getPlanTarget());
         return entity;
     }
 
     /**
      * 生成计划编码
+     * 年度计划 0000
+     * 季度计划 00000
+     * 月度计划 0000000
+     * 周计划   000000000
      *
      * @return
      */
-    private String getPlanCode() {
-        return "0000000000";
+    private String getPlanCode(PlanTypeEnum planType) {
+        LocalDate currentDate = LocalDate.now();
+        StringBuilder result = new StringBuilder();
+        switch (planType) {
+            case year:
+                result.append(currentDate.getYear());
+                break;
+            case quarter:
+                result.append(currentDate.getYear())
+                        .append(SymbolConstant.HYPHEN)
+                        .append(DateUtils.getCurrentQuarter(currentDate));
+                break;
+            case month:
+                result.append(currentDate.getYear())
+                        .append(SymbolConstant.HYPHEN)
+                        .append(DateUtils.getCurrentQuarter(currentDate))
+                        .append(SymbolConstant.HYPHEN)
+                        .append(String.format("%02d", currentDate.getMonthValue()));
+                break;
+            case week:
+                result.append(currentDate.getYear())
+                        .append(SymbolConstant.HYPHEN)
+                        .append(DateUtils.getCurrentQuarter(currentDate))
+                        .append(SymbolConstant.HYPHEN)
+                        .append(currentDate.format(FormatterConstant.MONTHLY))
+                        .append(SymbolConstant.HYPHEN)
+                        .append(String.format("%02d", currentDate.get(WeekFields.ISO.weekOfWeekBasedYear())));
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid plan type: " + planType);
+        }
+
+        return result.toString();
     }
 
     /**

@@ -3,10 +3,7 @@ package com.dong.commoncore.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Date;
 
 /**
@@ -58,5 +55,26 @@ public class DateUtils {
     public static LocalDateTime toLocalDateTime(Date date) {
         Instant instant = date.toInstant();
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    /**
+     * 获取当前季度
+     *
+     * @param date
+     * @return
+     */
+    public static int getCurrentQuarter(LocalDate date) {
+        Month month = date.getMonth();
+        int quarter;
+        if (month == Month.JANUARY || month == Month.FEBRUARY || month == Month.MARCH) {
+            quarter = 1;
+        } else if (month == Month.APRIL || month == Month.MAY || month == Month.JUNE) {
+            quarter = 2;
+        } else if (month == Month.JULY || month == Month.AUGUST || month == Month.SEPTEMBER) {
+            quarter = 3;
+        } else {
+            quarter = 4;
+        }
+        return quarter;
     }
 }
