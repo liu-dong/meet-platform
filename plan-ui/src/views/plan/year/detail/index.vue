@@ -27,7 +27,7 @@
       <el-button @click="this.$emit('close', dialogFormVisible = false)">
         取消
       </el-button>
-      <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+      <el-button type="primary" @click="dialogStatus===saveData">
         保存
       </el-button>
     </div>
@@ -35,18 +35,12 @@
 </template>
 
 <script>
-import { createArticle, updateArticle } from '@/api/article'
+import { savePlan } from '@/api/plan'
 
 export default {
   name: 'PlanDetail',
   data() {
     return {
-      tableKey: 0,
-      list: null,
-      total: 0,
-      importanceOptions: [1, 2, 3],
-      statusOptions: ['published', 'draft', 'deleted'],
-      showReviewer: false,
       plan: {
         id: undefined,
         planCode: 1,
@@ -63,7 +57,6 @@ export default {
         create: '新增',
         view: '查看'
       },
-      dialogPvVisible: false,
       planTypeOptions: [
         { label: '年度计划', value: 'year' },
         { label: '季度计划', value: 'quarter' },
@@ -75,44 +68,22 @@ export default {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
         timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
         title: [{ required: true, message: 'title is required', trigger: 'blur' }]
-      },
-      downloadLoading: false
+      }
     }
   },
   created() {
     this.getList()
   },
   methods: {
-    createData() {
+    saveData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.plan.id = parseInt(Math.random() * 100) + 1024 // mock a id
           this.plan.author = 'vue-element-admin'
-          createArticle(this.plan).then(() => {
-            this.list.unshift(this.plan)
+          savePlan(this.plan).then(() => {
             this.dialogFormVisible = false
             this.$notify({
               title: 'Success',
               message: 'Created Successfully',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.plan)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateArticle(tempData).then(() => {
-            const index = this.list.findIndex(v => v.id === this.plan.id)
-            this.list.splice(index, 1, this.plan)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Update Successfully',
               type: 'success',
               duration: 2000
             })
