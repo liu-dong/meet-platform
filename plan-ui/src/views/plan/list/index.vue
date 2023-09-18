@@ -130,7 +130,7 @@
 import { changePlanStatus, deletePlan, findPlanList } from '@/api/plan'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import PlanDetail from '@/views/plan/year/detail'
+import PlanDetail from '@/views/plan/detail'
 import { planStatusMap, planStatusOptions, planTypeMap, tagTypeMap } from '@/constant/plan'
 
 export default {
