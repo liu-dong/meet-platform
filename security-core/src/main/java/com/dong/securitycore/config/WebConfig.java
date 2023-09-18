@@ -8,9 +8,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author liudong 2022/6/29
  */
@@ -23,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 不拦截的路径
      */
-    private static List<String> excludePathPatterns = Arrays.asList("/test/**", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error");
+    private static final String[] excludePathPatterns = {"/test/**", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径
