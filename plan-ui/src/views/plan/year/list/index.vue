@@ -90,13 +90,16 @@
           <el-button v-if="row.planStatus !== 3" type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
+          <el-button v-else size="mini" type="success" @click="handleSummary(row)">
+            总结
+          </el-button>
           <el-button v-if="row.planStatus === 1" size="mini" type="success" @click="changePlanStatus(row.id,2)">
             进行中
           </el-button>
           <el-button v-if="row.planStatus === 2" size="mini" type="success" @click="changePlanStatus(row.id,3)">
             已完成
           </el-button>
-          <el-button v-if="row.planStatus === 2" size="mini" type="success" @click="changePlanStatus(row.id,4)">
+          <el-button v-if="row.planStatus === 2" size="mini" type="warning" @click="changePlanStatus(row.id,4)">
             延期
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
@@ -205,6 +208,11 @@ export default {
     handleUpdate(row) {
       this.id = row.id
       this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+    },
+    handleSummary(row) {
+      this.id = row.id
+      this.dialogStatus = 'summary'
       this.dialogFormVisible = true
     },
     handleView(row) {

@@ -8,14 +8,14 @@
     >
       <el-form
         ref="dataForm"
-        :disabled="dialogStatus==='view'"
+        :disabled="dialogStatus==='view' || dialogStatus==='summary'"
         :rules="rules"
         :model="plan"
         label-position="left"
         label-width="100px"
         style="width: 90%; margin-left:5%;"
       >
-        <el-form-item v-if="dialogStatus==='view'" label="计划编码" prop="planCode">
+        <el-form-item v-if="dialogStatus==='view' || dialogStatus==='summary'" label="计划编码" prop="planCode">
           <el-input v-model="plan.planCode" />
         </el-form-item>
         <el-form-item label="计划名称" prop="planName">
@@ -32,7 +32,18 @@
         <el-form-item label="备注" prop="remark">
           <el-input v-model="plan.remark" :autosize="{ minRows: 2}" type="textarea" />
         </el-form-item>
-        <el-form-item v-if="dialogStatus==='view'" label="总结" prop="summary">
+      </el-form>
+      <el-form
+        v-if="dialogStatus==='view' || dialogStatus==='summary'"
+        ref="summaryForm"
+        :disabled="dialogStatus==='view'"
+        :rules="rules"
+        :model="plan"
+        label-position="left"
+        label-width="100px"
+        style="width: 90%; margin-left:5%;"
+      >
+        <el-form-item label="总结" prop="summary">
           <el-input v-model="plan.summary" :autosize="{ minRows: 2}" type="textarea" />
         </el-form-item>
       </el-form>
@@ -40,7 +51,10 @@
         <el-button @click="handleCloseDialog">
           取消
         </el-button>
-        <el-button type="primary" @click="saveData">
+        <el-button v-if="dialogStatus==='summary'" type="primary" @click="saveData">
+          总结
+        </el-button>
+        <el-button v-else type="primary" @click="saveData">
           保存
         </el-button>
       </div>
@@ -49,7 +63,7 @@
 </template>
 
 <script>
-import { getPlan, savePlan } from '@/api/plan'
+import { getPlan, savePlan, summary } from '@/api/plan'
 import { textMap } from '@/constant/common'
 import { planTypeOptions } from '@/constant/plan'
 
@@ -81,7 +95,10 @@ export default {
         planTarget: '',
         remark: ''
       },
-      textMap: textMap,
+      textMap: {
+        ...textMap,
+        summary: '总结'
+      },
       planTypeOptions: planTypeOptions,
       rules: {
         planName: [{ required: true, message: '计划名称不能为空', trigger: 'blur' }],
@@ -111,6 +128,26 @@ export default {
         if (valid) {
           console.log(this.plan)
           savePlan(this.plan).then((response) => {
+            this.dialogVisible = false
+            this.$message({
+              message: response.message,
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
+    },
+    // 总结
+    summary() {
+      this.$refs['summaryForm'].validate((valid) => {
+        if (valid) {
+          console.log(this.plan)
+          const param = {
+            id: this.id,
+            summary: this.plan.summary
+          }
+          summary(param).then((response) => {
             this.dialogVisible = false
             this.$message({
               message: response.message,
