@@ -48,8 +48,8 @@ public class PlanServiceImpl implements PlanService {
         sql.append(" FROM plan ");
         sql.append(" WHERE delete_status = 0 ");
         if (StringUtils.isNotBlank(dto.getPlanName())) {
-            sql.append(" AND `plan_name` LIKE '%?%' ");
-            params.add(dto.getPlanName());
+            sql.append(" AND `plan_name` LIKE ? ");
+            params.add("%" + dto.getPlanName().trim() + "%");
         }
         if (StringUtils.isNotBlank(dto.getPlanType())) {
             sql.append(" AND `plan_type` = ? ");

@@ -50,61 +50,53 @@
 
 <script>
 import { getPlan, savePlan } from '@/api/plan'
+import { textMap } from '@/constant/common'
+import { planTypeOptions } from '@/constant/plan'
 
 export default {
   name: 'PlanDetail',
   props: {
+    // 对话框是否可见
     dialogVisible: {
       type: Boolean,
       required: true
     },
+    // 对话框状态：create、update、view
     dialogStatus: {
       type: String,
       required: true
     },
+    // 主键id
     id: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {
     return {
       plan: {
         id: undefined,
-        planCode: 1,
         planName: '',
         planType: 'year',
         planTarget: '',
-        planStatus: 1,
         remark: ''
       },
-      textMap: {
-        update: '编辑',
-        create: '新增',
-        view: '查看'
-      },
-      planTypeOptions: [
-        { label: '年度计划', value: 'year' },
-        { label: '季度计划', value: 'quarter' },
-        { label: '月度计划', value: 'month' },
-        { label: '周计划', value: 'week' },
-        { label: '日计划', value: 'day' }
-      ],
+      textMap: textMap,
+      planTypeOptions: planTypeOptions,
       rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+        planName: [{ required: true, message: '计划名称不能为空', trigger: 'blur' }],
+        planType: [{ required: true, message: '请选择计划类型', trigger: 'change' }],
+        planTarget: [{ required: true, message: '计划目标不能为空', trigger: 'blur' }]
       }
     }
   },
   created() {
-    console.log(1)
-    debugger
     if (this.id && this.id !== 'create') {
       this.getDetail(this.id)
     }
   },
   methods: {
+    // 查询详情
     getDetail(id) {
       getPlan(id).then(response => {
         console.log(response)
@@ -113,6 +105,7 @@ export default {
         }
       })
     },
+    // 保存
     saveData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
@@ -128,8 +121,9 @@ export default {
         }
       })
     },
+    // 关闭对话框，向父组件发送事件
     handleCloseDialog() {
-      this.$emit('close-dialog') // 关闭对话框，向父组件发送事件
+      this.$emit('close-dialog')
     }
   }
 }

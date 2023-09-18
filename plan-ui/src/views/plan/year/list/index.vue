@@ -16,10 +16,13 @@
         style="width: 200px"
         class="filter-item"
       >
-        <el-option v-for="item in planStatusOptions" :key="item" :label="item" :value="item" />
+        <el-option v-for="item in planStatusOptions" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
+      </el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="reset">
+        重置
       </el-button>
       <el-button
         class="filter-item"
@@ -40,7 +43,6 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @sort-change="sortChange"
     >
       <el-table-column
         fixed
@@ -67,7 +69,7 @@
       </el-table-column>
       <el-table-column label="计划状态" width="110" align="center">
         <template slot-scope="{row}">
-          <el-tag :type="row.planStatus | statusFilter">{{ row.planStatus | planStatusFilter }}</el-tag>
+          <el-tag :type="row.planStatus | tagTypeFilter">{{ row.planStatus | planStatusFilter }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" width="180" align="center">
@@ -119,7 +121,8 @@
 import { deletePlan, findPlanList } from '@/api/plan'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import PlanDetail from '@/views/plan/year/detail' // secondary package based on el-pagination
+import PlanDetail from '@/views/plan/year/detail'
+import { planStatusMap, planStatusOptions, planTypeMap, tagTypeMap } from '@/constant/plan'
 
 export default {
   name: 'PlanList',
@@ -127,32 +130,13 @@ export default {
   directives: { waves },
   filters: {
     planTypeFilter(status) {
-      const planTypeMap = {
-        day: '日计划',
-        week: '周计划',
-        month: '月度计划',
-        quarter: '季度计划',
-        year: '年度计划'
-      }
       return planTypeMap[status]
     },
     planStatusFilter(status) {
-      const planStatusMap = {
-        1: '未开始',
-        2: '进行中',
-        3: '已完成',
-        4: '延期'
-      }
       return planStatusMap[status]
     },
-    statusFilter(status) {
-      const statusMap = {
-        1: 'info',
-        2: '',
-        3: 'success',
-        4: 'warning'
-      }
-      return statusMap[status]
+    tagTypeFilter(status) {
+      return tagTypeMap[status]
     }
   },
   data() {
@@ -169,7 +153,7 @@ export default {
         planType: undefined
       },
       id: '',
-      planStatusOptions: [1, 2, 3],
+      planStatusOptions: planStatusOptions,
       dialogFormVisible: false,
       dialogStatus: ''
     }
@@ -197,29 +181,13 @@ export default {
       })
       row.status = status
     },
-    sortChange(data) {
-      const { prop, order } = data
-      if (prop === 'id') {
-        this.sortByID(order)
-      }
-    },
-    sortByID(order) {
-      if (order === 'ascending') {
-        this.listQuery.sort = '+id'
-      } else {
-        this.listQuery.sort = '-id'
-      }
-      this.handleFilter()
-    },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        status: 'published',
-        type: ''
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        planName: undefined,
+        planStatus: undefined,
+        planType: undefined
       }
     },
     handleCreate() {
