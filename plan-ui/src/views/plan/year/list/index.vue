@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <!--查询条件-->
     <div class="filter-container">
       <el-input
         v-model="listQuery.planName"
@@ -30,7 +31,7 @@
         新增
       </el-button>
     </div>
-
+    <!--数据列表-->
     <el-table
       :key="tableKey"
       v-loading="listLoading"
@@ -41,58 +42,71 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" prop="id" sortable="custom" align="center" width="80" :class-name="getSortClass('id')">
+      <el-table-column
+        fixed
+        label="序号"
+        prop="id"
+        align="center"
+        width="60"
+        type="index"
+      />
+      <el-table-column label="计划编码" width="150" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.id }}</span>
+          <span>{{ row.planCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="计划编码" width="150px" align="center">
+      <el-table-column label="计划名称" min-width="150">
         <template slot-scope="{row}">
-          <span>{{ row.timestamp }}</span>
+          <span>{{ row.planName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="计划名称" min-width="150px">
+      <el-table-column label="计划类型" width="110" align="center">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
-          <el-tag>{{ row.type | typeFilter }}</el-tag>
+          <el-tag>{{ row.planType | planTypeFilter }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="计划状态" width="110px" align="center">
+      <el-table-column label="计划状态" width="110" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.author }}</span>
+          <el-tag :type="row.planStatus | statusFilter">{{ row.planStatus | planStatusFilter }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column v-if="showReviewer" label="Reviewer" width="110px" align="center">
+      <el-table-column label="创建时间" width="180" align="center">
         <template slot-scope="{row}">
-          <span style="color:red;">{{ row.reviewer }}</span>
+          <span>{{ row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="80px">
+      <el-table-column label="创建人" align="center" width="150">
         <template slot-scope="{row}">
-          <svg-icon v-for="n in + row.importance" :key="n" icon-class="star" class="meta-item__icon" />
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" align="center" width="95">
-        <template slot-scope="{row}">
-          <span>{{ row.author }}</span>
+          <span>{{ row.createUserId }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="{row,$index}">
+        <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button v-if="row.status!=='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
+          <el-button
+            v-if="row.status!=='published'"
+            size="mini"
+            type="success"
+            @click="handleModifyStatus(row,'published')"
+          >
             发布
           </el-button>
-          <el-button v-if="row.status!=='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
+          <el-button size="mini" type="danger" @click="handleDelete(row)">
             删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <!--分页-->
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList"
+    />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <plan-detail @close="dialogFormVisible = $event" />
@@ -128,7 +142,7 @@
 </template>
 
 <script>
-import { deletePlan, findPlanList, savePlan } from '@/api/plan'
+import { deletePlan, findPlanList } from '@/api/plan'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import PlanDetail from '@/views/plan/year/detail' // secondary package based on el-pagination
@@ -138,11 +152,31 @@ export default {
   components: { Pagination, PlanDetail },
   directives: { waves },
   filters: {
+    planTypeFilter(status) {
+      const planTypeMap = {
+        day: '日计划',
+        week: '周计划',
+        month: '月度计划',
+        quarter: '季度计划',
+        year: '年度计划'
+      }
+      return planTypeMap[status]
+    },
+    planStatusFilter(status) {
+      const planStatusMap = {
+        1: '未开始',
+        2: '进行中',
+        3: '已完成',
+        4: '延期'
+      }
+      return planStatusMap[status]
+    },
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
+        1: 'info',
+        2: '',
+        3: 'success',
+        4: 'warning'
       }
       return statusMap[status]
     }
@@ -155,7 +189,7 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 10,
         planName: undefined,
         planStatus: undefined,
         planType: undefined
@@ -182,13 +216,9 @@ export default {
     getList() {
       this.listLoading = true
       findPlanList(this.listQuery).then(response => {
-        this.list = response.data.items
+        this.list = response.data.dataList
         this.total = response.data.total
-
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
+        this.listLoading = false
       })
     },
     handleFilter() {
@@ -228,29 +258,8 @@ export default {
       }
     },
     handleCreate() {
-      this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.temp.author = 'vue-element-admin'
-          savePlan(this.temp).then(() => {
-            this.list.unshift(this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Created Successfully',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
     },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
@@ -261,43 +270,13 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          savePlan(tempData).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Update Successfully',
-              type: 'success',
-              duration: 2000
-            })
-          })
+    handleDelete(row) {
+      deletePlan(row.id).then(response => {
+        this.$message({ type: 'success', message: response.message, duration: 2000 })
+        if (response.code === 200) {
+          this.getList()
         }
       })
-    },
-    handleDelete(row, index) {
-      this.$notify({
-        title: 'Success',
-        message: 'Delete Successfully',
-        type: 'success',
-        duration: 2000
-      })
-      this.list.splice(index, 1)
-    },
-    deletePlan(id) {
-      deletePlan(id).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
-    },
-    getSortClass: function(key) {
-      const sort = this.listQuery.sort
-      return sort === `+${key}` ? 'ascending' : 'descending'
     }
   }
 }

@@ -39,6 +39,9 @@ import { savePlan } from '@/api/plan'
 
 export default {
   name: 'PlanDetail',
+  props: {
+    id: String
+  },
   data() {
     return {
       plan: {
@@ -72,18 +75,22 @@ export default {
     }
   },
   created() {
-    this.getList()
+    if (this.id) {
+      this.getDetail(this.id)
+    }
   },
   methods: {
+    getDetail(id) {
+      console.log(id)
+    },
     saveData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.plan.author = 'vue-element-admin'
-          savePlan(this.plan).then(() => {
+          console.log(this.plan)
+          savePlan(this.plan).then((response) => {
             this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Created Successfully',
+            this.$message({
+              message: response.message,
               type: 'success',
               duration: 2000
             })
