@@ -82,7 +82,7 @@ public class PlanServiceImpl implements PlanService {
         if (StringUtils.isBlank(dto.getId())) {
             entity.setPlanType(dto.getPlanType());
             entity.setPlanCode(getPlanCode(EnumUtil.fromString(PlanTypeEnum.class, dto.getPlanType())));
-            entity.setPlanStatus(PlanStatusEnum.notStart.ordinal());
+            entity.setPlanStatus(PlanStatusEnum.notStart.ordinal() + 1);
             entity.setDeleteStatus(CommonConstant.NO);
         } else {
             entity = planRepository.getReferenceById(dto.getId());

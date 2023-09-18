@@ -55,7 +55,7 @@
           <span>{{ row.planCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="计划名称" min-width="150">
+      <el-table-column label="计划名称" width="300">
         <template slot-scope="{row}">
           <span>{{ row.planName }}</span>
         </template>
@@ -80,17 +80,15 @@
           <span>{{ row.createUserId }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" min-width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
+          <el-button type="primary" size="mini" @click="handleView(row)">
+            查看
+          </el-button>
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button
-            v-if="row.status!=='published'"
-            size="mini"
-            type="success"
-            @click="handleModifyStatus(row,'published')"
-          >
+          <el-button size="mini" type="success" @click="handleModifyStatus(row,'published')">
             发布
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
@@ -107,37 +105,13 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <plan-detail @close="dialogFormVisible = $event" />
-      <!--      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">-->
-      <!--        <el-form-item label="计划名称" prop="title">-->
-      <!--          <el-input v-model="temp.title" />-->
-      <!--        </el-form-item>-->
-      <!--        <el-form-item label="计划类型" prop="type">-->
-      <!--          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">-->
-      <!--            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />-->
-      <!--          </el-select>-->
-      <!--        </el-form-item>-->
-      <!--        <el-form-item label="计划目标" prop="title">-->
-      <!--          <el-input v-model="temp.title" />-->
-      <!--        </el-form-item>-->
-      <!--        <el-form-item label="计划内容" prop="title">-->
-      <!--          <el-input v-model="temp.title" />-->
-      <!--        </el-form-item>-->
-      <!--        <el-form-item label="创建人" prop="title">-->
-      <!--          <el-input v-model="temp.title" />-->
-      <!--        </el-form-item>-->
-      <!--      </el-form>-->
-      <!--      <div slot="footer" class="dialog-footer">-->
-      <!--        <el-button @click="dialogFormVisible = false">-->
-      <!--          取消-->
-      <!--        </el-button>-->
-      <!--        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">-->
-      <!--          保存-->
-      <!--        </el-button>-->
-      <!--      </div>-->
-    </el-dialog>
+    <plan-detail
+      :id="id"
+      :key="id"
+      :dialog-visible="dialogFormVisible"
+      :dialog-status="dialogStatus"
+      @close-dialog="closeDialog"
+    />
   </div>
 </template>
 
@@ -194,19 +168,10 @@ export default {
         planStatus: undefined,
         planType: undefined
       },
+      id: '',
       planStatusOptions: [1, 2, 3],
-      sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusOptions: ['published', 'draft', 'deleted'],
-      showReviewer: false,
       dialogFormVisible: false,
-      dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '新增',
-        view: '查看'
-      },
-      dialogPvVisible: false,
-      downloadLoading: false
+      dialogStatus: ''
     }
   },
   created() {
@@ -258,17 +223,19 @@ export default {
       }
     },
     handleCreate() {
+      this.id = 'create'
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
     },
     handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      this.temp.timestamp = new Date(this.temp.timestamp)
+      this.id = row.id
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+    },
+    handleView(row) {
+      this.id = row.id
+      this.dialogStatus = 'view'
+      this.dialogFormVisible = true
     },
     handleDelete(row) {
       deletePlan(row.id).then(response => {
@@ -277,6 +244,10 @@ export default {
           this.getList()
         }
       })
+    },
+    closeDialog() {
+      this.dialogFormVisible = false
+      this.getList()
     }
   }
 }
