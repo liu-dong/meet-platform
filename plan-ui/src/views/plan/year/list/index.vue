@@ -87,11 +87,17 @@
           <el-button type="primary" size="mini" @click="handleView(row)">
             查看
           </el-button>
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button v-if="row.planStatus !== 3" type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button size="mini" type="success" @click="handleModifyStatus(row,'published')">
-            发布
+          <el-button v-if="row.planStatus === 1" size="mini" type="success" @click="changePlanStatus(row.id,2)">
+            进行中
+          </el-button>
+          <el-button v-if="row.planStatus === 2" size="mini" type="success" @click="changePlanStatus(row.id,3)">
+            已完成
+          </el-button>
+          <el-button v-if="row.planStatus === 2" size="mini" type="success" @click="changePlanStatus(row.id,4)">
+            延期
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
             删除
@@ -118,7 +124,7 @@
 </template>
 
 <script>
-import { deletePlan, findPlanList } from '@/api/plan'
+import { changePlanStatus, deletePlan, findPlanList } from '@/api/plan'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import PlanDetail from '@/views/plan/year/detail'
@@ -174,12 +180,13 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作Success',
-        type: 'success'
+    changePlanStatus(id, planStatus) {
+      changePlanStatus({ id, planStatus }).then(response => {
+        if (response.code === 200) {
+          this.$message({ type: 'success', message: response.message, duration: 2000 })
+          this.getList()
+        }
       })
-      row.status = status
     },
     reset() {
       this.listQuery = {

@@ -6,6 +6,7 @@ import com.dong.commoncore.model.ResponseResult;
 import com.dong.plan.web.model.dto.PlanDTO;
 import com.dong.plan.web.model.vo.PlanVO;
 import com.dong.plan.web.service.PlanService;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -93,6 +94,8 @@ public class PlanController {
      */
     @PostMapping("/changePlanStatus")
     public ResponseResult changePlanStatus(String id, String planStatus) {
+        Assert.notNull(id, "id不能为空");
+        Assert.notNull(planStatus, "状态不能为空");
         planService.changePlanStatus(id, planStatus);
         return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
