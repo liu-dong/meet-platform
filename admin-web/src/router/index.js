@@ -46,7 +46,7 @@ export const constantRoutes = [
     redirect: '/home',
     children: [
       {
-        path: 'home',
+        path: '/home',
         name: 'Home',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '首页', icon: 'dashboard' }
@@ -54,6 +54,19 @@ export const constantRoutes = [
     ]
   },
   ...AdminRouter,
+  {
+    path: '/plan',
+    component: Layout,
+    redirect: '/plan/list',
+    children: [
+      {
+        path: '/list',
+        component: () => import('@/views/plan/list'),
+        name: 'Plan',
+        meta: { title: '计划制定', icon: 'table' }
+      }
+    ]
+  },
   {
     path: 'external-link',
     component: Layout,

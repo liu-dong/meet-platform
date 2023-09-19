@@ -47,7 +47,6 @@
       <el-table-column
         fixed
         label="序号"
-        prop="id"
         align="center"
         width="60"
         type="index"

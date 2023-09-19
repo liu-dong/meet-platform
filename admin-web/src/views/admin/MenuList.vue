@@ -1,85 +1,76 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>菜单管理</el-breadcrumb-item>
-        <el-breadcrumb-item>菜单列表</el-breadcrumb-item>
-      </el-breadcrumb>
-      <el-form
-        :inline="true"
-        :model="menu"
-        class="demo-form-inline"
-        style="padding-left: 15px;padding-bottom: 10px;"
-      >
-        <el-form-item label="菜单名称">
-          <el-input v-model="menu.menuName" placeholder="菜单名称" />
-        </el-form-item>
-        <el-form-item label="菜单级别">
-          <el-select v-model="menu.menuLevel" placeholder="菜单级别">
-            <el-option label="一级菜单" value="1" />
-            <el-option label="二级菜单" value="2" />
-            <el-option label="三级菜单" value="3" />
-            <el-option label="四级菜单" value="4" />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button round type="primary" @click="findMenuList">查询</el-button>
-          <el-button round type="primary" @click="testUserInfo">查询用户</el-button>
-          <el-button plain type="primary" @click="toDetail">新增</el-button>
-          <el-button circle icon="el-icon-delete" type="danger" @click="deleteInfo" />
-        </el-form-item>
-      </el-form>
+  <div class="app-container">
+    <!--查询条件-->
+    <div class="filter-container">
+      <el-input v-model="listQuery.menuName" placeholder="菜单名称" />
+      <el-select v-model="listQuery.menuLevel" placeholder="菜单级别">
+        <el-option label="一级菜单" value="1" />
+        <el-option label="二级菜单" value="2" />
+        <el-option label="三级菜单" value="3" />
+        <el-option label="四级菜单" value="4" />
+      </el-select>
+      <el-button v-waves round type="primary" @click="findMenuList">查询</el-button>
+      <el-button v-waves type="primary" icon="el-icon-search" @click="reset">
+        重置
+      </el-button>
+      <el-button v-waves plain type="primary" @click="toDetail">新增</el-button>
+      <el-button v-waves circle icon="el-icon-delete" type="danger" @click="deleteInfo" />
     </div>
-    <div class="bottom">
-      <el-table
-        :data="tableData"
-        :header-cell-style="{background:'#303133','text-align':'center'}"
-        height="0px"
-        highlight-current-row
-        @current-change="getCurrentRow"
-      >
-        <el-table-column label="序号" type="index" />
-        <el-table-column align="center" label="菜单名称" prop="menuName">
-          <template slot-scope="{row}">
-            <span style="color: #409EFF;" @click="toDetail(row)">{{ row.menuName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="顺序" prop="menuOrder" />
-        <el-table-column :formatter="formatLevel" align="center" label="级别" prop="menuLevel" />
-        <el-table-column align="center" label="菜单路径" prop="menuPath" />
-        <el-table-column align="center" label="地址" prop="menuUrl" />
-        <el-table-column :formatter="formatStatus" align="center" label="状态" prop="menuStatus" />
-      </el-table>
-      <el-pagination
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :page-sizes="[5, 10, 15, 20]"
-        :total="total"
-        background
-        layout="sizes, prev, pager, next, total"
-        next-text="下一页"
-        prev-text="上一页"
-        style="padding: 10px;"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
+    <!--数据列表-->
+    <el-table
+      v-loading="listLoading"
+      border
+      :data="list"
+      :header-cell-style="{background: '#b3d8ff50','text-align':'center'}"
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      @current-change="getCurrentRow"
+    >
+      <el-table-column label="序号" type="index" width="60" align="center" />
+      <el-table-column align="center" label="菜单名称" prop="menuName">
+        <template slot-scope="{row}">
+          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.menuName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="顺序" prop="menuOrder" />
+      <el-table-column :formatter="formatLevel" align="center" label="级别" prop="menuLevel" />
+      <el-table-column align="center" label="菜单路径" prop="menuPath" />
+      <el-table-column align="center" label="地址" prop="menuUrl" />
+      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="menuStatus" />
+    </el-table>
+    <!--分页-->
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="findMenuList"
+    />
   </div>
 </template>
 
 <script>
-import { deleteMenu, findMenuList, testUserInfo } from '@/api/menu'
+import { deleteMenu, findMenuList } from '@/api/menu'
+import Pagination from '@/components/Pagination'
+import waves from '@/directive/waves'
 
 export default {
   name: 'MenuList',
+  components: { Pagination },
+  directives: { waves },
   data() {
     return {
-      menu: {},
-      tableData: [],
-      currentPage: 1, // 初始页
-      pageSize: 10, // 每页的数据
-      total: 1000,
+      tableKey: 0,
+      list: null,
+      total: 0,
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 10,
+        menuName: undefined,
+        menuLevel: undefined
+      },
       currentRow: {}
     }
   },
@@ -110,21 +101,22 @@ export default {
       }
       return level
     },
-    findMenuList: function() { // 获取菜单信息
-      const param = {
-        limit: this.pageSize,
-        page: this.currentPage
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        menuName: undefined,
+        menuLevel: undefined
       }
-      findMenuList(this.menu, param).then(res => {
-        if (res.code === 200) {
-          this.tableData = res.data.dataList
-          this.total = res.data.total
-        }
-      })
     },
-    testUserInfo: function() { // 获取菜单信息
-      testUserInfo().then(res => {
-        console.log(res)
+    findMenuList: function() { // 获取菜单信息
+      this.listLoading = true
+      findMenuList(this.listQuery).then(res => {
+        if (res.code === 200) {
+          this.list = res.data.dataList
+          this.total = res.data.total
+          this.listLoading = false
+        }
       })
     },
     toDetail: function(row) {
@@ -144,16 +136,6 @@ export default {
           this.findMenuList()
         }
       })
-    },
-    // 改变每页大小
-    handleSizeChange: function(size) {
-      this.pageSize = size
-      this.findMenuList()
-    },
-    // 改变页码
-    handleCurrentChange: function(currentPage) {
-      this.currentPage = currentPage
-      this.findMenuList()
     },
     getCurrentRow(val) {
       this.currentRow = val
