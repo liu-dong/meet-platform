@@ -1,4 +1,3 @@
-<!--suppress ALL -->
 <template>
   <div class="container">
     <div class="top">

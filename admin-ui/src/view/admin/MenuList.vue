@@ -25,7 +25,6 @@
         </el-form-item>
         <el-form-item>
           <el-button round type="primary" @click="findMenuList">查询</el-button>
-          <el-button round type="primary" @click="testUserInfo">查询用户</el-button>
           <el-button plain type="primary" @click="toDetail">新增</el-button>
           <el-button circle icon="el-icon-delete" type="danger" @click="deleteInfo"/>
         </el-form-item>
@@ -69,7 +68,7 @@
 </template>
 
 <script>
-import { deleteMenu, findMenuList, testUserInfo } from '@/api/menu'
+import { deleteMenu, findMenuList } from '@/api/menu'
 
 export default {
   name: 'MenuList',
@@ -120,11 +119,6 @@ export default {
           this.tableData = res.data.dataList
           this.total = res.data.total
         }
-      })
-    },
-    testUserInfo: function () { // 获取菜单信息
-      testUserInfo().then(res => {
-        console.log(res);
       })
     },
     toDetail: function (row) {

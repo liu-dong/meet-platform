@@ -1,4 +1,3 @@
-<!--suppress ALL -->
 <template>
   <div class="container">
     <div class="top">
@@ -65,6 +64,7 @@
 
 <script>
 import qs from 'qs'
+import { deleteOrg, findOrgList } from '@/api/org'
 
 export default {
   name: 'OrgList',

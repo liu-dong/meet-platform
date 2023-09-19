@@ -25,11 +25,11 @@ export function getPerson(params) {
   })
 }
 
-export function deletePerson(params) {
+export function deletePerson(id) {
   return axios({
     url: '/person/deletePerson',
     method: 'post',
-    params
+    params: { id }
   })
 }
 

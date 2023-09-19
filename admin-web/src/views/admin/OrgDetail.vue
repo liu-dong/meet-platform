@@ -45,6 +45,7 @@
 
 <script>
 import { findProvinceList, findSubordinateDivisionList } from '@/api/common'
+import { getOrg, saveOrg } from '@/api/org'
 
 export default {
   name: 'OrgDetail',

@@ -1,4 +1,3 @@
-<!--suppress ALL -->
 <template>
   <div class="container">
     <div class="top">
@@ -69,7 +68,7 @@
 
 <script>
 import qs from 'qs'
-import {deleteRoleInfo, findRoleInfoList} from '@/api/role'
+import { deleteRoleInfo, findRoleInfoList } from '@/api/role'
 
 export default {
   name: 'RoleList',

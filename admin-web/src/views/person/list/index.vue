@@ -60,10 +60,10 @@
       <el-table-column align="center" label="创建时间" prop="updateTime" />
       <el-table-column label="操作" align="center" min-width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleView(row)">
+          <el-button type="primary" size="mini" @click="toDetail(row)">
             查看
           </el-button>
-          <el-button v-if="row.planStatus !== 3" type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button type="primary" size="mini" @click="toDetail(row)">
             编辑
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
@@ -80,40 +80,18 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-    <!--详情页-->
-    <plan-detail
-      :id="id"
-      :key="id"
-      :dialog-visible="dialogFormVisible"
-      :dialog-status="dialogStatus"
-      @close-dialog="closeDialog"
-    />
   </div>
 </template>
 
 <script>
-import { changePlanStatus, deletePlan } from '@/api/plan'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import PlanDetail from '@/views/plan/detail'
-import { planStatusMap, planStatusOptions, planTypeMap, tagTypeMap } from '@/constant/plan'
-import { findPersonList } from '@/api/person'
+import { deletePerson, findPersonList } from '@/api/person'
 
 export default {
   name: 'PlanList',
-  components: { Pagination, PlanDetail },
+  components: { Pagination },
   directives: { waves },
-  filters: {
-    planTypeFilter(status) {
-      return planTypeMap[status]
-    },
-    planStatusFilter(status) {
-      return planStatusMap[status]
-    },
-    tagTypeFilter(status) {
-      return tagTypeMap[status]
-    }
-  },
   data() {
     return {
       tableKey: 0,
@@ -126,11 +104,7 @@ export default {
         name: undefined,
         identityCard: undefined,
         orgName: undefined
-      },
-      id: '',
-      planStatusOptions: planStatusOptions,
-      dialogFormVisible: false,
-      dialogStatus: ''
+      }
     }
   },
   created() {
@@ -163,47 +137,17 @@ export default {
     formatSex(row) {
       return row.sex === 0 ? '男' : '女'
     },
-    changePlanStatus(id, planStatus) {
-      changePlanStatus({ id, planStatus }).then(response => {
-        if (response.code === 200) {
-          this.$message({ type: 'success', message: response.message, duration: 2000 })
-          this.getList()
-        }
-      })
-    },
     toDetail(row) {
-      // this.id = 'create'
-      // this.dialogStatus = 'create'
-      // this.dialogFormVisible = true
       const id = row.id
-      this.$router.push({ name: 'personDetail', params: { id: id }})
-    },
-    handleUpdate(row) {
-      this.id = row.id
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-    },
-    handleSummary(row) {
-      this.id = row.id
-      this.dialogStatus = 'summary'
-      this.dialogFormVisible = true
-    },
-    handleView(row) {
-      this.id = row.id
-      this.dialogStatus = 'view'
-      this.dialogFormVisible = true
+      this.$router.push({ name: 'PersonDetail', params: { id: id }})
     },
     handleDelete(row) {
-      deletePlan(row.id).then(response => {
-        this.$message({ type: 'success', message: response.message, duration: 2000 })
-        if (response.code === 200) {
+      deletePerson(row.id).then(res => {
+        this.$message({ message: res.message, duration: 2000 })
+        if (res.code === 200) {
           this.getList()
         }
       })
-    },
-    closeDialog() {
-      this.dialogFormVisible = false
-      this.getList()
     }
   }
 }
