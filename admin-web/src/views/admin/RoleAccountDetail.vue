@@ -43,7 +43,7 @@
 <script>
 import { findAccountList } from '@/api/account'
 import { assignAccounts, findRoleAccountList, getRoleInfo } from '@/api/role'
-import dataCatalogUtils from '@/util/dataCatalogUtils'
+import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 
 export default {

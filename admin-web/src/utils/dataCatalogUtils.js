@@ -20,7 +20,7 @@ const dataCatalogUtils = {
   getName(value, data) {
     let result = '暂无内容'
     data.forEach(item => {
-      if (item.itemCode == value) {
+      if (item.itemCode === value) {
         result = item.itemName
       }
     })
@@ -30,7 +30,7 @@ const dataCatalogUtils = {
   getValue(name, data) {
     let result = ''
     data.forEach(item => {
-      if (item.itemName == name) {
+      if (item.itemName === name) {
         result = item.itemCode
       }
     })

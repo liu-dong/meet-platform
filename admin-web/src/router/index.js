@@ -40,7 +40,6 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -53,12 +52,40 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/list',
+    children: [
+      {
+        path: '/account/list',
+        name: 'Account',
+        component: () => import('@/views/account/list'),
+        meta: { title: '账号', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/person',
+    component: Layout,
+    redirect: '/person/list',
+    children: [
+      {
+        path: '/person/list',
+        name: 'Person',
+        component: () => import('@/views/person/list'),
+        meta: { title: '人员', icon: 'table' }
+      }
+    ]
+  },
+  //
+  //
+  {
     path: '/plan',
     component: Layout,
     redirect: '/plan/list',
     children: [
       {
-        path: '/list',
+        path: '/plan/list',
         component: () => import('@/views/plan/list'),
         name: 'Plan',
         meta: { title: '计划制定', icon: 'table' }

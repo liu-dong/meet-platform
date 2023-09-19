@@ -3,33 +3,35 @@
     <!--查询条件-->
     <div class="filter-container">
       <el-input
-        v-model="listQuery.planName"
-        placeholder="请输入计划名称"
-        style="width: 200px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select
-        v-model="listQuery.planStatus"
-        placeholder="请选择计划状态"
+        v-model="listQuery.name"
         clearable
-        style="width: 200px"
         class="filter-item"
-      >
-        <el-option v-for="item in planStatusOptions" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
+        placeholder="人员名称"
+      />
+      <el-input
+        v-model="listQuery.identityCard"
+        clearable
+        class="filter-item"
+        placeholder="身份证号"
+      />
+      <el-input
+        v-model="listQuery.orgName"
+        clearable
+        class="filter-item"
+        placeholder="单位名称"
+      />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="reset">
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-refresh-left" @click="reset">
         重置
       </el-button>
       <el-button
+        v-waves
         class="filter-item"
-        style="margin-left: 10px;"
         type="primary"
         icon="el-icon-edit"
-        @click="handleCreate"
+        @click="toDetail"
       >
         新增
       </el-button>
@@ -44,44 +46,18 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column
-        fixed
-        label="序号"
-        prop="id"
-        align="center"
-        width="60"
-        type="index"
-      />
-      <el-table-column label="计划编码" width="150" align="center">
+      <el-table-column align="center" fixed label="序号" type="index" wdith="60" />
+      <el-table-column align="center" label="姓名" prop="name" sortable>
         <template slot-scope="{row}">
-          <span>{{ row.planCode }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="计划名称" width="300">
-        <template slot-scope="{row}">
-          <span>{{ row.planName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="计划类型" width="110" align="center">
-        <template slot-scope="{row}">
-          <el-tag>{{ row.planType | planTypeFilter }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="计划状态" width="110" align="center">
-        <template slot-scope="{row}">
-          <el-tag :type="row.planStatus | tagTypeFilter">{{ row.planStatus | planStatusFilter }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" width="180" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.createTime }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" align="center" width="150">
-        <template slot-scope="{row}">
-          <span>{{ row.createUserId }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column align="center" label="年龄" prop="age" sortable />
+      <el-table-column :formatter="formatSex" align="center" label="性别" prop="sex" />
+      <el-table-column align="center" label="手机" prop="phone" />
+      <el-table-column align="center" label="邮箱" prop="email" />
+      <el-table-column align="left" label="现住址" prop="presentAddress" sortable />
+      <el-table-column align="center" label="创建时间" prop="updateTime" />
       <el-table-column label="操作" align="center" min-width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleView(row)">
@@ -89,18 +65,6 @@
           </el-button>
           <el-button v-if="row.planStatus !== 3" type="primary" size="mini" @click="handleUpdate(row)">
             编辑
-          </el-button>
-          <el-button v-else size="mini" type="success" @click="handleSummary(row)">
-            总结
-          </el-button>
-          <el-button v-if="row.planStatus === 1" size="mini" type="success" @click="changePlanStatus(row.id,2)">
-            进行中
-          </el-button>
-          <el-button v-if="row.planStatus === 2" size="mini" type="success" @click="changePlanStatus(row.id,3)">
-            已完成
-          </el-button>
-          <el-button v-if="row.planStatus === 2" size="mini" type="warning" @click="changePlanStatus(row.id,4)">
-            延期
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
             删除
@@ -128,11 +92,12 @@
 </template>
 
 <script>
-import { changePlanStatus, deletePlan, findPlanList } from '@/api/plan'
+import { changePlanStatus, deletePlan } from '@/api/plan'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import PlanDetail from '@/views/plan/detail'
 import { planStatusMap, planStatusOptions, planTypeMap, tagTypeMap } from '@/constant/plan'
+import { findPersonList } from '@/api/person'
 
 export default {
   name: 'PlanList',
@@ -158,9 +123,9 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        planName: undefined,
-        planStatus: undefined,
-        planType: undefined
+        name: undefined,
+        identityCard: undefined,
+        orgName: undefined
       },
       id: '',
       planStatusOptions: planStatusOptions,
@@ -172,17 +137,31 @@ export default {
     this.getList()
   },
   methods: {
-    getList() {
-      this.listLoading = true
-      findPlanList(this.listQuery).then(response => {
-        this.list = response.data.dataList
-        this.total = response.data.total
-        this.listLoading = false
-      })
-    },
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
+    },
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        name: undefined,
+        identityCard: undefined,
+        orgName: undefined
+      }
+    },
+    getList() {
+      this.listLoading = true
+      findPersonList(this.listQuery).then(response => {
+        if (response.code === 200) {
+          this.list = response.data.dataList
+          this.total = response.data.total
+          this.listLoading = false
+        }
+      })
+    },
+    formatSex(row) {
+      return row.sex === 0 ? '男' : '女'
     },
     changePlanStatus(id, planStatus) {
       changePlanStatus({ id, planStatus }).then(response => {
@@ -192,19 +171,12 @@ export default {
         }
       })
     },
-    reset() {
-      this.listQuery = {
-        page: 1,
-        limit: 10,
-        planName: undefined,
-        planStatus: undefined,
-        planType: undefined
-      }
-    },
-    handleCreate() {
-      this.id = 'create'
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
+    toDetail(row) {
+      // this.id = 'create'
+      // this.dialogStatus = 'create'
+      // this.dialogFormVisible = true
+      const id = row.id
+      this.$router.push({ name: 'personDetail', params: { id: id }})
     },
     handleUpdate(row) {
       this.id = row.id

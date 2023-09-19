@@ -29,7 +29,7 @@
 
 <script>
 import { findRoleAccountList, getRoleInfo, saveRoleInfo } from '@/api/role'
-import dataCatalogUtils from '@/util/dataCatalogUtils'
+import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 
 export default {

@@ -38,7 +38,6 @@ const actions = {
         captcha: captcha || 1
       }
       login(param).then(response => {
-        debugger
         const { data } = response
         commit('SET_TOKEN', data)
         setToken(data)
