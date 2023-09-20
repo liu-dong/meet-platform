@@ -74,7 +74,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseResult logout(String username) {
+    public ResponseResult logout() {
         return ResponseResult.success("退出登录成功!");
     }
 

@@ -77,7 +77,7 @@ public class LoginSessionController {
     @ApiOperation("退出登录")
     @PostMapping("/logout")
     public ResponseResult logout(String username) {
-        return loginService.logout(username);
+        return loginService.logout();
     }
 
 }

@@ -19,7 +19,7 @@ public interface LoginService {
 
     Account getAccount(LoginDTO dto);
 
-    ResponseResult logout(String username);
+    ResponseResult logout();
 
     ResponseResult cancel(String username);
 

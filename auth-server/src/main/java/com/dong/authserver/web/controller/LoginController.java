@@ -142,13 +142,12 @@ public class LoginController {
     /**
      * 退出登录
      *
-     * @param username 用户名
      * @return 返回结果
      */
     @ApiOperation("退出登录")
     @PostMapping("/logout")
-    public ResponseResult logout(String username) {
-        return loginService.logout(username);
+    public ResponseResult logout() {
+        return loginService.logout();
     }
 
     /**
