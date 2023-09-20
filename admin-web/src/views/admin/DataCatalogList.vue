@@ -2,17 +2,11 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-form-item label="目录名称">
-        <el-input v-model="listQuery.catalogCode" />
-      </el-form-item>
-      <el-form-item label="目录编码">
-        <el-input v-model="listQuery.catalogName" />
-      </el-form-item>
-      <el-form-item>
-        <el-button round type="primary" @click="findDataCatalogList">查询</el-button>
-        <el-button plain type="primary" @click="toDetail">新增</el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteInfo" />
-      </el-form-item>
+      <el-input v-model="listQuery.catalogCode" class="filter-item" placeholder="目录名称" />
+      <el-input v-model="listQuery.catalogName" class="filter-item" placeholder="目录编码" />
+      <button-search class="filter-item" @search="findDataCatalogList" />
+      <button-add class="filter-item" @add="toDetail" />
+      <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <el-table
       v-loading="listLoading"
@@ -39,7 +33,7 @@
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
-      @pagination="getList"
+      @pagination="findDataCatalogList"
     />
   </div>
 </template>
@@ -47,9 +41,14 @@
 <script>
 
 import { deleteDataCatalog, findDataCatalogList } from '@/api/dataCatalog'
+import ButtonSearch from '@/components/Button/ButtonSearch'
+import ButtonAdd from '@/components/Button/ButtonAdd'
+import ButtonDelete from '@/components/Button/ButtonDelete'
+import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'AccountList',
+  name: 'DataCatalogList',
+  components: { Pagination, ButtonDelete, ButtonAdd, ButtonSearch },
   data() {
     return {
       tableKey: 0,

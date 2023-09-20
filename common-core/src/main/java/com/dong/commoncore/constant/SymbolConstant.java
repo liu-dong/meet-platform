@@ -41,4 +41,9 @@ public class SymbolConstant {
      * 星号*
      */
     public static final String ASTERISK = "*";
+
+    /**
+     * 百分号*
+     */
+    public static final String PERCENT = "%";
 }

@@ -173,26 +173,6 @@ export const adminRouter = [
         component: () => import('@/views/admin/OrgPersonDetail.vue')
       }
     ]
-  },
-  {
-    path: '/person',
-    component: Layout,
-    redirect: '/person/list',
-    // meta: { title: '人员', icon: 'table' },
-    children: [
-      {
-        path: '/person/list',
-        name: 'PersonList',
-        component: () => import('@/views/person/list'),
-        meta: { title: '人员列表', icon: 'table' }
-      }, {
-        hidden: true,
-        path: '/person/detail',
-        name: 'PersonDetail',
-        component: () => import('@/views/person/detail'),
-        meta: { title: '人员详情', icon: 'form' }
-      }
-    ]
   }
 ]
 

@@ -2,15 +2,10 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-
-      <el-form-item label="角色名称">
-        <el-input v-model="listQuery.roleName" placeholder="人员名称" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="findRoleInfoList">查询</el-button>
-        <el-button type="primary" plain @click="toDetail">新增</el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteInfo" />
-      </el-form-item>
+      <el-input v-model="listQuery.roleName" class="filter-item" placeholder="人员名称" />
+      <button-search class="filter-item" @search="findRoleInfoList">查询</button-search>
+      <button-add class="filter-item" @add="toDetail">新增</button-add>
+      <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <!--数据列表-->
     <el-table
@@ -60,10 +55,13 @@ import qs from 'qs'
 import { deleteRoleInfo, findRoleInfoList } from '@/api/role'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
+import ButtonSearch from '@/components/Button/ButtonSearch'
+import ButtonDelete from '@/components/Button/ButtonDelete'
+import ButtonAdd from '@/components/Button/ButtonAdd'
 
 export default {
   name: 'RoleList',
-  components: { Pagination },
+  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination },
   directives: { waves },
   data() {
     return {

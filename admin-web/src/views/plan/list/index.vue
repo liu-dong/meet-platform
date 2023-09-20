@@ -56,7 +56,7 @@
           <span>{{ row.planCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="计划名称" width="300">
+      <el-table-column label="计划名称" width="150">
         <template slot-scope="{row}">
           <span>{{ row.planName }}</span>
         </template>

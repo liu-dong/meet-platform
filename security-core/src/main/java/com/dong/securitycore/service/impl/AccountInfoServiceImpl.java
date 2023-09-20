@@ -148,6 +148,11 @@ class AccountServiceImpl implements AccountService {
         sql.append(" user_status userStatus, last_login_time lastLoginTime, create_time createTime ");
         sql.append(" FROM sys_account ");
         sql.append(" WHERE 1=1 ");
+        //用户名
+        if (StringUtils.isNotBlank(dto.getUsername())) {
+            sql.append(" AND username LIKE ? ");
+            params.add(CommonUtils.jointLike(dto.getUsername()));
+        }
         //用户类型
         if (dto.getUserType() != null) {
             sql.append(" AND user_type = ? ");

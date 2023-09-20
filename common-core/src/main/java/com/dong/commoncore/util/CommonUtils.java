@@ -130,4 +130,16 @@ public class CommonUtils {
         String result = toCamel(name);
         return result.substring(0, 1).toUpperCase() + result.substring(1);
     }
+
+    public static String jointLike(String name) {
+        return SymbolConstant.PERCENT + name + SymbolConstant.PERCENT;
+    }
+
+    public static String jointLikeLeft(String name) {
+        return SymbolConstant.PERCENT + name;
+    }
+
+    public static String jointLikeRight(String name) {
+        return name + SymbolConstant.PERCENT;
+    }
 }

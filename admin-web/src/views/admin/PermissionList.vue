@@ -2,21 +2,15 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-form-item label="权限编码">
-        <el-input v-model="listQuery.permissionCode" placeholder="权限编码" />
-      </el-form-item>
-      <el-form-item label="权限类型">
-        <el-select v-model="listQuery.permissionType" placeholder="权限类型">
-          <el-option label="页面权限" value="view" />
-          <el-option label="操作权限" value="operate" />
-          <el-option label="数据权限" value="data" />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" round @click="findPermissionList">查询</el-button>
-        <el-button type="primary" plain @click="toDetail">新增</el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteInfo" />
-      </el-form-item>
+      <el-input v-model="listQuery.permissionCode" placeholder="权限编码" />
+      <el-select v-model="listQuery.permissionType" placeholder="权限类型">
+        <el-option label="页面权限" value="view" />
+        <el-option label="操作权限" value="operate" />
+        <el-option label="数据权限" value="data" />
+      </el-select>
+      <button-search @search="findPermissionList" />
+      <button-add @add="toDetail" />
+      <button-delete @delete="deleteInfo" />
     </div>
     <!--数据列表-->
     <el-table
@@ -29,14 +23,14 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column type="index" label="序号" />
-      <el-table-column prop="permissionCode" sortable label="权限编码">
+      <el-table-column type="index" label="序号" width="60" align="center" />
+      <el-table-column prop="permissionCode" label="权限编码">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.permissionCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="permissionName" sortable label="权限名称" />
-      <el-table-column prop="permissionType" sortable label="权限类型" />
+      <el-table-column prop="permissionName" label="权限名称" />
+      <el-table-column prop="permissionType" label="权限类型" />
     </el-table>
     <!--分页-->
     <pagination
@@ -54,10 +48,13 @@ import qs from 'qs'
 import { deletePermission, findPermissionList } from '@/api/permission'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
+import ButtonDelete from '@/components/Button/ButtonDelete'
+import ButtonAdd from '@/components/Button/ButtonAdd'
+import ButtonSearch from '@/components/Button/ButtonSearch'
 
 export default {
   name: 'PermissionList',
-  components: { Pagination },
+  components: { Pagination, ButtonDelete, ButtonAdd, ButtonSearch },
   directives: { waves },
   data() {
     return {

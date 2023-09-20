@@ -2,14 +2,11 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-form-item label="用户名">
-        <el-input v-model="listQuery.username" placeholder="用户名" />
-      </el-form-item>
-      <el-form-item>
-        <el-button v-waves class="filter-item" round type="primary" @click="findAccountList">查询</el-button>
-        <el-button v-waves class="filter-item" plain type="primary" @click="toDetail">新增</el-button>
-        <el-button v-waves class="filter-item" plain type="primary" @click="deleteInfo">删除</el-button>
-      </el-form-item>
+      <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名" />
+      <button-search class="filter-item" @search="findAccountList">查询</button-search>
+      <button-reset class="filter-item" @reset="reset" />
+      <button-add class="filter-item" @add="toDetail">新增</button-add>
+      <button-delete class="filter-item" @delete="deleteInfo">删除</button-delete>
     </div>
     <!--数据列表-->
     <el-table
@@ -22,7 +19,7 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column align="center" label="序号" prop="" type="index" wdith="60" />
+      <el-table-column align="center" label="序号" type="index" width="60" />
       <el-table-column align="center" label="用户名" prop="username" sortable>
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.username }}</span>
@@ -56,14 +53,17 @@ import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
+import ButtonReset from '@/components/Button/ButtonReset'
+import ButtonSearch from '@/components/Button/ButtonSearch'
+import ButtonDelete from '@/components/Button/ButtonDelete'
+import ButtonAdd from '@/components/Button/ButtonAdd'
 
 export default {
   name: 'AccountList',
-  components: { Pagination },
+  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination, ButtonReset },
   directives: { waves },
   data() {
     return {
-      tableKey: 0,
       list: null,
       total: 0,
       listLoading: true,
@@ -86,6 +86,13 @@ export default {
     },
     formatType: function(row) {
       return dataCatalogUtils.getName(row.userType, this.userTypeOption)
+    },
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        username: undefined
+      }
     },
     findAccountList: function() {
       this.listLoading = true

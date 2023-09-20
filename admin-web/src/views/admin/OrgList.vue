@@ -1,14 +1,11 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-form-item label="单位名称">
-        <el-input v-model="listQuery.orgName" placeholder="单位名称" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="findOrgList">查询</el-button>
-        <el-button type="primary" plain @click="toDetail">新增</el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteInfo" />
-      </el-form-item>
+  <div class="app-container">
+    <!--查询条件-->
+    <div class="filter-container">
+      <el-input v-model="listQuery.orgName" class="filter-item" placeholder="人员名称" />
+      <button-search class="filter-item" @search="findOrgList">查询</button-search>
+      <button-add class="filter-item" @add="toDetail">新增</button-add>
+      <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <!--数据列表-->
     <el-table
@@ -21,7 +18,7 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column fixed type="index" label="序号" align="center" />
+      <el-table-column fixed type="index" label="序号" align="center" width="60" />
       <el-table-column prop="orgName" sortable label="单位名称" align="center">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.orgName }}</span>
@@ -52,10 +49,13 @@ import qs from 'qs'
 import { deleteOrg, findOrgList } from '@/api/org'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
+import ButtonAdd from '@/components/Button/ButtonAdd'
+import ButtonDelete from '@/components/Button/ButtonDelete'
+import ButtonSearch from '@/components/Button/ButtonSearch'
 
 export default {
   name: 'OrgList',
-  components: { Pagination },
+  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination },
   directives: { waves },
   data() {
     return {
