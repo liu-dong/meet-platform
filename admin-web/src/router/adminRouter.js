@@ -24,6 +24,7 @@ export const adminRouter = [
         hidden: true,
         path: '/menuDetail',
         name: 'menuDetail',
+        meta: { title: '菜单详情', icon: 'form' },
         component: () => import('@/views/admin/MenuDetail.vue')
       }
     ]
@@ -44,6 +45,7 @@ export const adminRouter = [
         hidden: true,
         path: '/accountDetail',
         name: 'accountDetail',
+        meta: { title: '账号详情', icon: 'form' },
         component: () => import('@/views/admin/AccountDetail.vue')
       }
     ]
@@ -65,6 +67,7 @@ export const adminRouter = [
         hidden: true,
         path: '/personDetail',
         name: 'personDetail',
+        meta: { title: '人员详情', icon: 'form' },
         component: () => import('@/views/admin/PersonDetail.vue')
       }
     ]
@@ -85,18 +88,21 @@ export const adminRouter = [
         hidden: true,
         path: '/roleDetail',
         name: 'roleDetail',
+        meta: { title: '角色详情', icon: 'form' },
         component: () => import('@/views/admin/RoleDetail.vue')
       },
       {
         hidden: true,
         path: '/rolePermissionDetail',
         name: 'rolePermissionDetail',
+        meta: { title: '角色权限详情', icon: 'form' },
         component: () => import('@/views/admin/RolePermissionDetail.vue')
       },
       {
         hidden: true,
         path: '/roleAccountDetail',
         name: 'roleAccountDetail',
+        meta: { title: '角色账号详情', icon: 'form' },
         component: () => import('@/views/admin/RoleAccountDetail.vue')
       }
     ]
@@ -111,6 +117,7 @@ export const adminRouter = [
         hidden: true,
         path: '/dataCatalogDetail',
         name: 'dataCatalogDetail',
+        meta: { title: '数据字典详情', icon: 'form' },
         component: () => import('@/views/admin/DataCatalogDetail.vue')
       },
       {
@@ -144,6 +151,7 @@ export const adminRouter = [
         hidden: true,
         path: '/permissionDetail',
         name: 'permissionDetail',
+        meta: { title: '权限详情', icon: 'form' },
         component: () => import('@/views/admin/PermissionDetail.vue')
       }
     ]
@@ -164,12 +172,14 @@ export const adminRouter = [
         hidden: true,
         path: '/orgDetail',
         name: 'orgDetail',
+        meta: { title: '单位详情', icon: 'form' },
         component: () => import('@/views/admin/OrgDetail.vue')
       },
       {
         hidden: true,
         path: '/orgPersonDetail',
         name: 'orgPersonDetail',
+        meta: { title: '单位人员详情', icon: 'form' },
         component: () => import('@/views/admin/OrgPersonDetail.vue')
       }
     ]

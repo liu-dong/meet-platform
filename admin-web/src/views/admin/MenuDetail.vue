@@ -1,12 +1,5 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>菜单管理</el-breadcrumb-item>
-        <el-breadcrumb-item>菜单信息详情页</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
+  <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm el-form">
       <el-form-item label="父级菜单" prop="parentId">
         <el-select v-model="ruleForm.parentId">

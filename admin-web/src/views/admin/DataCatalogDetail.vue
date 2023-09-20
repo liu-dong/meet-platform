@@ -1,12 +1,5 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>数据字典</el-breadcrumb-item>
-        <el-breadcrumb-item>数据字典详情页</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
+  <div class="app-container">
     <div class="bottom">
       <el-form
         ref="dataCatalog"

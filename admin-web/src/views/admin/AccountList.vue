@@ -22,7 +22,7 @@
       <el-table-column align="center" label="序号" type="index" width="60" />
       <el-table-column align="center" label="用户名" prop="username" sortable>
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.username }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="真实姓名" prop="realName" sortable>
@@ -104,8 +104,7 @@ export default {
         }
       })
     },
-    toDetail: function(row) {
-      const id = row.id
+    toDetail: function(id) {
       this.$router.push({ name: 'accountDetail', params: { id: id }})
     },
     toPersonDetail: function(row) {
