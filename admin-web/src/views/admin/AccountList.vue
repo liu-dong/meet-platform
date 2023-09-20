@@ -1,67 +1,51 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>账号管理</el-breadcrumb-item>
-        <el-breadcrumb-item>账号列表</el-breadcrumb-item>
-      </el-breadcrumb>
-      <el-form
-        :inline="true"
-        :model="account"
-        class="demo-form-inline"
-        style="padding-left: 15px;padding-bottom: 10px;"
-      >
-        <el-form-item label="用户名">
-          <el-input v-model="account.username" placeholder="用户名" />
-        </el-form-item>
-        <el-form-item>
-          <el-button round type="primary" @click="findAccountList">查询</el-button>
-          <el-button plain type="primary" @click="toDetail">新增</el-button>
-          <el-button plain type="primary" @click="deleteInfo">删除</el-button>
-        </el-form-item>
-      </el-form>
+  <div class="app-container">
+    <!--查询条件-->
+    <div class="filter-container">
+      <el-form-item label="用户名">
+        <el-input v-model="listQuery.username" placeholder="用户名" />
+      </el-form-item>
+      <el-form-item>
+        <el-button v-waves class="filter-item" round type="primary" @click="findAccountList">查询</el-button>
+        <el-button v-waves class="filter-item" plain type="primary" @click="toDetail">新增</el-button>
+        <el-button v-waves class="filter-item" plain type="primary" @click="deleteInfo">删除</el-button>
+      </el-form-item>
     </div>
-    <div class="bottom">
-      <el-table
-        :data="tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
-        :default-sort="{prop: 'userType', order: 'ascending'}"
-        :header-cell-style="{background:'#303133','text-align':'center'}"
-        height="0px"
-        highlight-current-row
-        @current-change="getCurrentRow"
-      >
-        <!--                <el-table-column type="selection" width="50" align="center"/>--><!--多选-->
-        <el-table-column align="center" label="序号" prop="" type="index" />
-        <el-table-column align="center" label="用户名" prop="username" sortable>
-          <template slot-scope="{row}">
-            <span style="color: #409EFF;" @click="toDetail(row)">{{ row.username }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="真实姓名" prop="realName" sortable>
-          <template slot-scope="{row}">
-            <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.realName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable />
-        <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable />
-        <el-table-column align="center" label="登录次数" prop="loginCount" sortable />
-        <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
-      </el-table>
-      <el-pagination
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :page-sizes="[5, 10, 15, 20]"
-        :total="total"
-        background
-        layout="sizes, prev, pager, next, total"
-        next-text="下一页"
-        prev-text="上一页"
-        style="padding: 10px;"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
+    <!--数据列表-->
+    <el-table
+      v-loading="listLoading"
+      border
+      :data="list"
+      :header-cell-style="{background: '#b3d8ff50','text-align':'center'}"
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      @current-change="getCurrentRow"
+    >
+      <el-table-column align="center" label="序号" prop="" type="index" wdith="60" />
+      <el-table-column align="center" label="用户名" prop="username" sortable>
+        <template slot-scope="{row}">
+          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.username }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="真实姓名" prop="realName" sortable>
+        <template slot-scope="{row}">
+          <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.realName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable />
+      <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable />
+      <el-table-column align="center" label="登录次数" prop="loginCount" sortable />
+      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
+    </el-table>
+    <!--分页-->
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="findAccountList"
+    />
   </div>
 </template>
 
@@ -70,16 +54,24 @@ import qs from 'qs'
 import { deleteAccount, findAccountList } from '@/api/account'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
+import Pagination from '@/components/Pagination'
+import waves from '@/directive/waves'
 
 export default {
   name: 'AccountList',
+  components: { Pagination },
+  directives: { waves },
   data() {
     return {
-      account: {},
-      tableData: [],
-      currentPage: 1, // 初始页
-      pageSize: 10, // 每页的数据
-      total: 1000,
+      tableKey: 0,
+      list: null,
+      total: 0,
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 10,
+        username: undefined
+      },
       currentRow: {},
       userTypeOption: []
     }
@@ -96,10 +88,12 @@ export default {
       return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     findAccountList: function() {
-      findAccountList({}).then(res => {
+      this.listLoading = true
+      findAccountList(this.listQuery).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.dataList
+          this.list = res.data.dataList
           this.total = res.data.total
+          this.listLoading = false
         }
       })
     },
@@ -125,12 +119,6 @@ export default {
         }
       })
     },
-    handleSizeChange: function(size) { // 改变每页大小
-      this.pageSize = size
-    },
-    handleCurrentChange: function(currentPage) { // 改变页码
-      this.currentPage = currentPage
-    },
     getCurrentRow(val) {
       this.currentRow = val
       console.log(this.currentRow)
@@ -140,36 +128,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  /*两行居中*/
-  /*display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;*/
-  /*两行居中*/
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-}
-
-.top {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.bottom {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
 
 </style>

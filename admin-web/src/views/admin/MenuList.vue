@@ -145,36 +145,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  /*两行居中*/
-  /*display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;*/
-  /*两行居中*/
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-}
-
-.top {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.bottom {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
 
 </style>
