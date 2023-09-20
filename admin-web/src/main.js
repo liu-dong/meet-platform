@@ -35,5 +35,11 @@ new Vue({
   el: '#app',
   router,
   store,
+  mounted() {
+    setInterval(async() => {
+      console.log('刷新token')
+      await store.dispatch('user/refreshToken')
+    }, 300000)// 修改为5分钟刷新
+  },
   render: h => h(App)
 })

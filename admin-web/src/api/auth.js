@@ -17,6 +17,14 @@ export function getUserInfo() {
   })
 }
 
+// 获取用户信息
+export function refreshToken() {
+  return request({
+    url: '/refreshToken',
+    method: 'get'
+  })
+}
+
 // 登出
 export function logout(data) {
   return request({
