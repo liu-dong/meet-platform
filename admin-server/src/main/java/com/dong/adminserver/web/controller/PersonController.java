@@ -33,8 +33,8 @@ public class PersonController {
      * @return
      */
     @ApiOperation("查询人员信息列表")
-    @PostMapping("/findPersonList")
-    public ResponseResult findPersonList(@RequestBody PersonDTO dto, Pager<PersonVO> pager) {
+    @GetMapping("/findPersonList")
+    public ResponseResult findPersonList(PersonDTO dto, Pager<PersonVO> pager) {
         Pager<PersonVO> personList = personService.findPersonList(dto, pager);
         return ResponseResult.success(personList, ResponseMessageConstant.QUERY_SUCCESS);
     }

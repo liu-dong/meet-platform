@@ -1,10 +1,9 @@
 import axios from '@/axios/adminAxios.js'
 
-export function findAccountList(data, params) {
+export function findAccountList(params) {
   return axios({
     url: '/account/findAccountList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }

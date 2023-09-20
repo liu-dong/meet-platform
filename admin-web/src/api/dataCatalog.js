@@ -1,11 +1,10 @@
 import request from '@/axios/adminAxios'
 
 // 查询数据字典目录列表
-export function findDataCatalogList(data, params) {
+export function findDataCatalogList(params) {
   return request({
     url: '/dataCatalog/findDataCatalogList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }

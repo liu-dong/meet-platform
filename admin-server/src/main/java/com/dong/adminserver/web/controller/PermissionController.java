@@ -34,7 +34,7 @@ public class PermissionController {
      * @return
      */
     @ApiOperation("查询权限信息列表")
-    @PostMapping("/findPermissionList")
+    @GetMapping("/findPermissionList")
     public ResponseResult findPermissionList(PermissionDTO dto, Pager<PermissionVO> pager) {
         Pager<PermissionVO> permissionList = permissionService.findPermissionList(dto, pager);
         return ResponseResult.success(permissionList, ResponseMessageConstant.QUERY_SUCCESS);

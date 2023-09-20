@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { CodeToText, regionData } from 'element-china-area-data'
+import { codeToText, regionData } from 'element-china-area-data'
 import { getPerson, savePerson } from '@/api/person'
 
 export default {
@@ -116,7 +116,7 @@ export default {
       let text = ''
       console.log(this.selectedOptions)
       for (let i = 0; i < this.selectedOptions.length; i++) {
-        text += CodeToText[this.selectedOptions[i]]
+        text += codeToText[this.selectedOptions[i]]
       }
       this.ruleForm.presentAddress = text
     }

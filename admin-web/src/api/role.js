@@ -1,10 +1,9 @@
 import axios from '@/axios/adminAxios'
 
-export function findRoleInfoList(data, params) {
+export function findRoleInfoList(params) {
   return axios({
     url: '/role/findRoleList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }
@@ -33,19 +32,19 @@ export function deleteRoleInfo(params) {
   })
 }
 
-export function findRoleAccountList(data) {
+export function findRoleAccountList(params) {
   return axios({
     url: '/role/findRoleAccountList',
-    method: 'post',
-    data
+    method: 'get',
+    params
   })
 }
 
-export function findRolePermissionList(data) {
+export function findRolePermissionList(params) {
   return axios({
     url: '/role/findRolePermissionList',
-    method: 'post',
-    data
+    method: 'get',
+    params
   })
 }
 

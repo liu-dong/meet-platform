@@ -35,9 +35,9 @@ public class MenuController {
      * @return
      */
     @ApiOperation("查询菜单信息列表")
-    @PostMapping("/findMenuList")
+    @GetMapping("/findMenuList")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult findMenuList(@RequestBody MenuDTO dto, Pager<MenuVO> pager) {
+    public ResponseResult findMenuList(MenuDTO dto, Pager<MenuVO> pager) {
         Pager<MenuVO> menuList = menuService.findMenuList(dto, pager);
         return ResponseResult.success(menuList, ResponseMessageConstant.QUERY_SUCCESS);
     }

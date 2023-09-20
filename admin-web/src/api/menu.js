@@ -10,11 +10,10 @@ export function getMenuTree(params) {
 }
 
 // 查询菜单列表
-export function findMenuList(data, params) {
+export function findMenuList(params) {
   return axios({
     url: '/menu/findMenuList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }

@@ -46,7 +46,7 @@
 
 <script>
 
-import { addPerson, findOrgPersonList } from '@/api/org'
+import { addPerson, findOrgPersonList, getOrg } from '@/api/org'
 import { findPersonList } from '@/api/person'
 
 export default {

@@ -34,8 +34,8 @@ public class RoleController {
      * @return
      */
     @ApiOperation("查询角色信息列表")
-    @PostMapping("/findRoleList")
-    public ResponseResult findRoleList(@RequestBody RoleDTO dto, Pager<RoleVO> pager) {
+    @GetMapping("/findRoleList")
+    public ResponseResult findRoleList(RoleDTO dto, Pager<RoleVO> pager) {
         Pager<RoleVO> roleList = roleService.findRoleList(dto, pager);
         return ResponseResult.success(roleList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -98,8 +98,8 @@ public class RoleController {
      * @return
      */
     @ApiOperation("查询角色权限信息")
-    @PostMapping("/findRolePermissionList")
-    public ResponseResult findRolePermissionList(@RequestBody RoleDTO dto) {
+    @GetMapping("/findRolePermissionList")
+    public ResponseResult findRolePermissionList(RoleDTO dto) {
         return roleService.findRolePermissionList(dto);
     }
 

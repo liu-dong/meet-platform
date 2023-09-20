@@ -1,10 +1,9 @@
 import axios from '@/axios/adminAxios'
 
-export function findPersonList(data, params) {
+export function findPersonList(params) {
   return axios({
     url: '/person/findPersonList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }

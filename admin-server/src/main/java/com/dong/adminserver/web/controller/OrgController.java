@@ -36,8 +36,8 @@ public class OrgController {
      * @return
      */
     @ApiOperation("查询组织机构列表")
-    @PostMapping("/findOrgList")
-    public ResponseResult findOrgList(@RequestBody OrgDTO dto, Pager<OrgVO> pager) {
+    @GetMapping("/findOrgList")
+    public ResponseResult findOrgList(OrgDTO dto, Pager<OrgVO> pager) {
         Pager<OrgVO> orgList = orgService.findOrgList(dto, pager);
         return ResponseResult.success(orgList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -110,7 +110,7 @@ public class OrgController {
     }
 
     /**
-     * 添加人员
+     * 查询当前单位所属人员列表
      *
      * @param orgId
      * @return

@@ -1,10 +1,9 @@
 import axios from '@/axios/adminAxios'
 
-export function findOrgList(data, params) {
+export function findOrgList(params) {
   return axios({
     url: '/org/findOrgList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }

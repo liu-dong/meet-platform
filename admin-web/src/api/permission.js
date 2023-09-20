@@ -10,11 +10,10 @@ export function getPermissionTree(params) {
 }
 
 // 查询权限列表
-export function findPermissionList(data, params) {
+export function findPermissionList(params) {
   return axios({
     url: '/permission/findPermissionList',
-    method: 'post',
-    data,
+    method: 'get',
     params
   })
 }
@@ -48,7 +47,7 @@ export function deletePermission(params) {
 export function findParentPermissionList() {
   return axios({
     url: '/permission/findParentPermissionList',
-    method: 'post'
+    method: 'get'
   })
 }
 
