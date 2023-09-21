@@ -10,6 +10,8 @@ export const baseUrl = 'http://localhost:8480'
 export const uuaUrl = 'http://localhost:8580'
 // 用户服务地址
 export const accountUrl = 'http://localhost:8084'
+
+export const websocketUrl = 'ws://localhost:8185/websocket/'
 // 项目环境
 export const env = 'dev'// 开发模式，需要开启后端应用
 
@@ -25,6 +27,7 @@ export default {
   baseUrl,
   uuaUrl,
   accountUrl,
+  websocketUrl,
   env,
   kaptchaUrl,
   QRCodeUrl

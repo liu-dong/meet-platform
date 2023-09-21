@@ -31,7 +31,7 @@ public class ServerManagement {
         hashMap.put("server", server);
         hashMap.put("username", username);
         servers.add(hashMap);
-        sendAll("有新连接加入！接入人是：" + username + "当前总连接数是：" + servers.size());
+        sendAll("有新连接加入！接入人是：" + username + "，当前总连接数是：" + servers.size());
         System.out.println("有新连接加入！ 当前总连接数是：" + servers.size());
     }
 
@@ -42,6 +42,7 @@ public class ServerManagement {
      */
     public static void remove(WebSocketServer server) {
         servers.removeIf(hashMap -> server.equals(hashMap.get("server")));
+        sendAll("有连接退出！ 当前总连接数是：" + servers.size());
         System.out.println("有连接退出！ 当前总连接数是：" + servers.size());
     }
 
