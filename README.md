@@ -13,6 +13,7 @@
     ·log-server(8182)：日志管理
     ·generator-server(8183)：代码生成
     ·common-server(8184)：公共模块
+    ·message-server(8185)：消息服务
 
 #### Service(8280—8299)
 

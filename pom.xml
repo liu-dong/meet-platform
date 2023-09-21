@@ -82,6 +82,7 @@
         <module>event-service</module>
         <module>demo</module>
         <module>plan-service</module>
+        <module>websocket-server</module>
     </modules>
 
     <dependencies>
