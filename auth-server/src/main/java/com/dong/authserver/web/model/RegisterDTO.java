@@ -4,13 +4,13 @@ package com.dong.authserver.web.model;
 import lombok.Data;
 
 /**
- * 登录
- *
- * @author LD 2021/5/18
+ * 注册用户
  */
 @Data
-public class LoginDTO {
+public class RegisterDTO {
     private String username;
     private String password;
-    private String captcha;//验证码
+    private String realName;
+    private String identityCard;
+    private Integer userType;
 }

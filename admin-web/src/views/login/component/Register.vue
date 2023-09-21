@@ -22,7 +22,7 @@
       <el-form-item label="用户类型" prop="userType">
         <el-select v-model="form.userType" placeholder="请选择用户类型">
           <el-option
-            v-for="item in userTypeO"
+            v-for="item in userTypeOptions"
             :key="item.propertyCode"
             :label="item.propertyName"
             :value="item.propertyCode-0"
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+
+import { register } from '@/api/account'
 
 export default {
   name: 'Register',
@@ -68,7 +70,7 @@ export default {
         ]
       },
       dialogFormVisible: false,
-      userType: []
+      userTypeOptions: []
     }
   },
   created() {
@@ -77,7 +79,6 @@ export default {
   mounted() {
   },
   methods: {
-
     register() { // 修改个人信息
       this.$refs['form'].validate(valid => {
         if (valid) {

@@ -1,7 +1,9 @@
 package com.dong.authserver.web.controller;
 
 import com.dong.authserver.web.model.LoginDTO;
+import com.dong.authserver.web.model.RegisterDTO;
 import com.dong.authserver.web.service.LoginService;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
@@ -148,6 +150,19 @@ public class LoginController {
     @PostMapping("/logout")
     public ResponseResult logout() {
         return loginService.logout();
+    }
+
+    /**
+     * 注册用户
+     *
+     * @param dto
+     * @return
+     */
+    @ApiOperation("注册用户")
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody RegisterDTO dto) {
+        String username = loginService.register(dto);
+        return ResponseResult.success(username, ResponseMessageConstant.REGISTER_SUCCESS);
     }
 
     /**

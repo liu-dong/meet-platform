@@ -1,4 +1,14 @@
 import request from '@/axios/authAxios'
+import axios from '@/axios/adminAxios'
+
+// 注册账号
+export function register(data) {
+  return axios({
+    url: '/register',
+    method: 'post',
+    data
+  })
+}
 
 // 登录
 export function login(data) {

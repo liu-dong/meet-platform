@@ -2,6 +2,7 @@ package com.dong.authserver.web.service;
 
 
 import com.dong.authserver.web.model.LoginDTO;
+import com.dong.authserver.web.model.RegisterDTO;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
 import com.dong.securitycore.entity.Account;
@@ -21,9 +22,12 @@ public interface LoginService {
 
     ResponseResult logout();
 
+    String register(RegisterDTO dto);
+
     ResponseResult cancel(String username);
 
     UserDetail getUserDetail(HttpServletRequest request);
 
     UserDetail getUserDetail(LoginDTO dto);
+
 }
