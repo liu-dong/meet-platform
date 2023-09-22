@@ -1,57 +1,48 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>账号管理</el-breadcrumb-item>
-        <el-breadcrumb-item>账号信息详情页</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="bottom">
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="ruleForm.username" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="ruleForm.password" />
-        </el-form-item>
-        <el-form-item label="用户类型" prop="userType">
-          <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">
-            <el-option
-              v-for="item in userTypeOption"
-              :key="item.propertyCode"
-              :label="item.propertyName"
-              :value="item.propertyCode-0"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="真实姓名" prop="realName">
-          <el-input v-model="ruleForm.realName" />
-        </el-form-item>
-        <el-form-item label="是否注销" prop="userStatus">
-          <el-switch v-model="ruleForm.userStatus" :active-value="0" :inactive-value="1" />
-        </el-form-item>
-        <el-form-item />
-        <el-form-item prop="remark" style="width: 70%;height: 60%; overflow: auto">
-          <el-transfer
-            v-model="roleAccount.roleIdList"
-            :button-texts="['删除角色', '添加角色']"
-            :data="roleList"
-            :format="{noChecked: '${total}',hasChecked: '${checked}/${total}'}"
-            :props="{key: 'id',label: 'roleCode'}"
-            :render-content="renderFunc"
-            :titles="['角色列表', '所属角色']"
-            filter-placeholder="请输入角色编码"
-            filterable
-            @change="addRole"
+  <div class="app-container">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="ruleForm.username" />
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="ruleForm.password" />
+      </el-form-item>
+      <el-form-item label="用户类型" prop="userType">
+        <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">
+          <el-option
+            v-for="item in userTypeOption"
+            :key="item.propertyCode"
+            :label="item.propertyName"
+            :value="item.propertyCode-0"
           />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-          <el-button @click="goBack()">返回</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="真实姓名" prop="realName">
+        <el-input v-model="ruleForm.realName" />
+      </el-form-item>
+      <el-form-item label="是否注销" prop="userStatus">
+        <el-switch v-model="ruleForm.userStatus" :active-value="0" :inactive-value="1" />
+      </el-form-item>
+      <el-form-item />
+      <el-form-item prop="remark" style="width: 70%;height: 60%; overflow: auto">
+        <el-transfer
+          v-model="roleAccount.roleIdList"
+          :button-texts="['删除角色', '添加角色']"
+          :data="roleList"
+          :format="{noChecked: '${total}',hasChecked: '${checked}/${total}'}"
+          :props="{key: 'id',label: 'roleCode'}"
+          :render-content="renderFunc"
+          :titles="['角色列表', '所属角色']"
+          filter-placeholder="请输入角色编码"
+          filterable
+          @change="addRole"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+        <el-button @click="goBack()">返回</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 

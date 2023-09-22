@@ -11,7 +11,7 @@ export const uuaUrl = 'http://localhost:8580'
 // 用户服务地址
 export const accountUrl = 'http://localhost:8084'
 
-export const websocketUrl = 'ws://localhost:8185/websocket/'
+export const websocketUrl = 'ws://localhost:8181/websocket/'
 // 项目环境
 export const env = 'dev'// 开发模式，需要开启后端应用
 

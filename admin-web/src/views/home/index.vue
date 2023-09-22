@@ -49,7 +49,7 @@ export default {
     },
     open() {
       console.log('WebSocket连接成功!')
-      this.send(this.name)
+      // this.send(this.name)
     },
     error() {
       console.log('连接错误!')
