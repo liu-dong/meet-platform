@@ -2,9 +2,10 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.roleName" class="filter-item" placeholder="人员名称" />
+      <el-input v-model="listQuery.roleName" class="filter-item" placeholder="角色名称" />
       <button-search class="filter-item" @search="findRoleInfoList">查询</button-search>
-      <button-add class="filter-item" @add="toDetail">新增</button-add>
+      <button-reset class="filter-item" @reset="reset" />
+      <button-add class="filter-item" @add="toDetail()">新增</button-add>
       <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <!--数据列表-->
@@ -21,7 +22,7 @@
       <el-table-column fixed type="index" label="序号" align="center" />
       <el-table-column prop="roleName" sortable label="角色编码" align="center">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.roleCode }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.roleCode }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="roleName" sortable label="角色名称" align="center" />
@@ -32,10 +33,10 @@
           <el-link
             type="primary"
             style="margin-right: 10px;"
-            @click="toDetail(row,'account')"
+            @click="toDetail(row.id,'account')"
           >添加账号
           </el-link>
-          <el-link type="primary" @click="toDetail(row,'permission')">分配权限</el-link>
+          <el-link type="primary" @click="toDetail(row.id,'permission')">分配权限</el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -58,10 +59,11 @@ import waves from '@/directive/waves'
 import ButtonSearch from '@/components/Button/ButtonSearch'
 import ButtonDelete from '@/components/Button/ButtonDelete'
 import ButtonAdd from '@/components/Button/ButtonAdd'
+import ButtonReset from '@/components/Button/ButtonReset'
 
 export default {
   name: 'RoleList',
-  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination },
+  components: { ButtonReset, ButtonAdd, ButtonDelete, ButtonSearch, Pagination },
   directives: { waves },
   data() {
     return {
@@ -92,13 +94,20 @@ export default {
         }
       })
     },
-    toDetail: function(row, pageType) { // account：添加账号页面，permission：分配权限页面
-      const id = row.id
-      let pageName = 'roleDetail'
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        roleName: undefined
+      }
+    },
+    // account：添加账号页面，permission：分配权限页面
+    toDetail: function(id, pageType) {
+      let pageName = 'RoleDetail'
       if (pageType === 'account') {
-        pageName = 'roleAccountDetail'
+        pageName = 'RoleAccountDetail'
       } else if (pageType === 'permission') {
-        pageName = 'rolePermissionDetail'
+        pageName = 'RolePermissionDetail'
       }
       this.$router.push({ name: pageName, params: { id: id }})
     },

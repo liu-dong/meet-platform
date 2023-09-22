@@ -25,7 +25,7 @@
         plain
         type="primary"
         icon="el-icon-edit"
-        @click="toDetail"
+        @click="toDetail()"
       >
         新增
       </el-button>
@@ -43,7 +43,7 @@
       <el-table-column align="center" fixed label="序号" type="index" width="60" />
       <el-table-column align="center" label="姓名" prop="name" width="100">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.name }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="年龄" prop="age" width="80" />
@@ -54,10 +54,10 @@
       <el-table-column align="center" label="创建时间" prop="updateTime" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="toDetail(row)">
+          <el-button type="primary" size="mini" @click="toDetail(row.id, 'view')">
             查看
           </el-button>
-          <el-button type="primary" size="mini" @click="toDetail(row)">
+          <el-button type="primary" size="mini" @click="toDetail(row.id)">
             编辑
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
@@ -131,9 +131,12 @@ export default {
     formatSex(row) {
       return row.sex === 0 ? '男' : '女'
     },
-    toDetail(row) {
-      const id = row.id
-      this.$router.push({ name: 'PersonDetail', params: { id: id }})
+    toDetail(id, viewType) {
+      const params = {
+        id,
+        viewType
+      }
+      this.$router.push({ name: 'PersonDetail', params: params })
     },
     handleDelete(row) {
       deletePerson(row.id).then(res => {

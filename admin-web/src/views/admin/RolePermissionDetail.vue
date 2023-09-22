@@ -1,12 +1,5 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 15px 0 15px 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>角色管理</el-breadcrumb-item>
-        <el-breadcrumb-item>分配权限</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
+  <div class="app-container">
     <div class="middle">
       <el-tree
         :data="permissionData"

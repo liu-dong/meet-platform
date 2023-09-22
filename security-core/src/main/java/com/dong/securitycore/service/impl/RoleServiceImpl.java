@@ -144,13 +144,15 @@ public class RoleServiceImpl implements RoleService {
         RoleDTO result = new RoleDTO();
         //根据角色id查询出所有权限
         List<RolePermission> rolePermissionList = rolePermissionJpaDao.findByRoleId(dto.getRoleId());
-        List<String> permissionIdList = new ArrayList<>();
-        //查询权限id集合
-        for (RolePermission rolePermission : rolePermissionList) {
-            permissionIdList.add(rolePermission.getPermissionId());
+        if (!CollectionUtils.isEmpty(rolePermissionList)) {
+            List<String> permissionIdList = new ArrayList<>();
+            //查询权限id集合
+            for (RolePermission rolePermission : rolePermissionList) {
+                permissionIdList.add(rolePermission.getPermissionId());
+            }
+            result.setRoleId(rolePermissionList.get(0).getRoleId());
+            result.setPermissionIdList(permissionIdList);
         }
-        result.setRoleId(rolePermissionList.get(0).getRoleId());
-        result.setPermissionIdList(permissionIdList);
         return ResponseResult.success(result, "查询成功！");
     }
 

@@ -1,45 +1,36 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>单位管理</el-breadcrumb-item>
-        <el-breadcrumb-item>单位信息详情页</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="bottom">
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
-        <el-form-item label="单位名称" prop="orgName" style="width: 70%;">
-          <el-input v-model="ruleForm.orgName" />
-        </el-form-item>
-        <el-form-item label="单位类型" prop="orgType">
-          <el-select v-model="ruleForm.orgType" placeholder="请选择单位类型">
-            <el-option :value="1" label="商家单位" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="单位编码" prop="orgCode">
-          <el-input v-model="ruleForm.orgCode" />
-        </el-form-item>
-        <el-form-item label="单位地址" prop="orgDivisionCode" style="width: 70%;">
-          <el-cascader
-            :key="modalKey"
-            ref="cascaderDivision"
-            v-model="divisionCodes"
-            :props="divisionProps"
-            separator=""
-            style="width: 100%"
-            @change="setOrgAddress"
-          />
-        </el-form-item>
-        <el-form-item label="详细地址" prop="orgAddress" style="width: 70%;">
-          <el-input v-model="ruleForm.orgAddress" />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-          <el-button @click="goBack()">返回</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div class="app-container">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
+      <el-form-item label="单位名称" prop="orgName" style="width: 70%;">
+        <el-input v-model="ruleForm.orgName" />
+      </el-form-item>
+      <el-form-item label="单位类型" prop="orgType">
+        <el-select v-model="ruleForm.orgType" placeholder="请选择单位类型">
+          <el-option :value="1" label="商家单位" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单位编码" prop="orgCode">
+        <el-input v-model="ruleForm.orgCode" />
+      </el-form-item>
+      <el-form-item label="单位地址" prop="orgDivisionCode" style="width: 70%;">
+        <el-cascader
+          :key="modalKey"
+          ref="cascaderDivision"
+          v-model="divisionCodes"
+          :props="divisionProps"
+          separator=""
+          style="width: 100%"
+          @change="setOrgAddress"
+        />
+      </el-form-item>
+      <el-form-item label="详细地址" prop="orgAddress" style="width: 70%;">
+        <el-input v-model="ruleForm.orgAddress" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+        <el-button @click="goBack()">返回</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 

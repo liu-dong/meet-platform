@@ -9,7 +9,8 @@
         <el-option label="数据权限" value="data" />
       </el-select>
       <button-search @search="findPermissionList" />
-      <button-add @add="toDetail" />
+      <button-reset @reset="reset" />
+      <button-add @add="toDetail()" />
       <button-delete @delete="deleteInfo" />
     </div>
     <!--数据列表-->
@@ -26,7 +27,7 @@
       <el-table-column type="index" label="序号" width="60" align="center" />
       <el-table-column prop="permissionCode" label="权限编码">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.permissionCode }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.permissionCode }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="permissionName" label="权限名称" />
@@ -51,10 +52,11 @@ import waves from '@/directive/waves'
 import ButtonDelete from '@/components/Button/ButtonDelete'
 import ButtonAdd from '@/components/Button/ButtonAdd'
 import ButtonSearch from '@/components/Button/ButtonSearch'
+import ButtonReset from '@/components/Button/ButtonReset'
 
 export default {
   name: 'PermissionList',
-  components: { Pagination, ButtonDelete, ButtonAdd, ButtonSearch },
+  components: { ButtonReset, Pagination, ButtonDelete, ButtonAdd, ButtonSearch },
   directives: { waves },
   data() {
     return {
@@ -85,9 +87,16 @@ export default {
         }
       })
     },
-    toDetail: function(row) {
-      const id = row.id
-      this.$router.push({ name: 'permissionDetail', params: { id: id }})
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        permissionCode: undefined,
+        permissionType: undefined
+      }
+    },
+    toDetail: function(id) {
+      this.$router.push({ name: 'PermissionDetail', params: { id: id }})
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

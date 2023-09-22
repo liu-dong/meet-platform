@@ -149,7 +149,7 @@ public class OrgServiceImpl implements OrgService {
     public List<PersonVO> findOrgPersonList(String orgId) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
-        sql.append(" SELECT t1.id,t1.company_id orgId,t1.`name`,t1.age, ");
+        sql.append(" SELECT t1.id,t1.org_id orgId,t1.`name`,t1.age, ");
         sql.append(" t1.sex,t1.phone,t1.email,t1.present_address presentAddress, ");
         sql.append(" t1.native_place nativePlace,t1.update_time updateTime ");
         sql.append(" FROM `sys_person` t1 ");

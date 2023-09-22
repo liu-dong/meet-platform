@@ -5,7 +5,8 @@
       <el-input v-model="listQuery.catalogCode" class="filter-item" placeholder="目录名称" />
       <el-input v-model="listQuery.catalogName" class="filter-item" placeholder="目录编码" />
       <button-search class="filter-item" @search="findDataCatalogList" />
-      <button-add class="filter-item" @add="toDetail" />
+      <button-reset class="filter-item" @reset="reset" />
+      <button-add class="filter-item" @add="toDetail()" />
       <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <el-table
@@ -20,7 +21,7 @@
     >
       <el-table-column align="center" label="目录编码" prop="catalogCode">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.catalogCode }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.catalogCode }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="目录名称" prop="catalogName" />
@@ -43,12 +44,13 @@
 import { deleteDataCatalog, findDataCatalogList } from '@/api/dataCatalog'
 import ButtonSearch from '@/components/Button/ButtonSearch'
 import ButtonAdd from '@/components/Button/ButtonAdd'
+import ButtonReset from '@/components/Button/ButtonReset'
 import ButtonDelete from '@/components/Button/ButtonDelete'
 import Pagination from '@/components/Pagination'
 
 export default {
   name: 'DataCatalogList',
-  components: { Pagination, ButtonDelete, ButtonAdd, ButtonSearch },
+  components: { Pagination, ButtonDelete, ButtonAdd, ButtonReset, ButtonSearch },
   data() {
     return {
       tableKey: 0,
@@ -78,10 +80,18 @@ export default {
         }
       })
     },
-    toDetail: function(row) {
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        catalogCode: '',
+        catalogName: ''
+      }
+    },
+    toDetail: function(id) {
       this.$router.push({
-        name: 'dataCatalogDetail',
-        params: { id: row.id }
+        name: 'DataCatalogDetail',
+        params: { id: id }
       })
     },
     deleteInfo: function() {

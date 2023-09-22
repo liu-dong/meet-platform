@@ -1,46 +1,37 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>单位管理</el-breadcrumb-item>
-        <el-breadcrumb-item>添加人员</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="bottom">
-      <el-form ref="ruleForm" :model="ruleForm" class="form" label-width="100px">
-        <el-form-item label="单位名称" prop="orgName">
-          <el-input v-model="ruleForm.orgName" :disabled="true" />
-        </el-form-item>
-        <el-form-item label="单位编码" prop="orgCode">
-          <el-input v-model="ruleForm.orgCode" :disabled="true" />
-        </el-form-item>
-        <el-form-item prop="personList" style="width: 70%;height: 65%; overflow: auto">
-          <el-table
-            ref="multipleTable"
-            :data="personList"
-            style="width: 100%"
-            tooltip-effect="dark"
-            @selection-change="selectPersonList"
-          >
-            <el-table-column align="center" type="selection" width="55" />
-            <el-table-column align="center" label="姓名" prop="name">
-              <template slot-scope="{row}">
-                <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.name }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="年龄" prop="age" />
-            <el-table-column align="center" label="性别" prop="sex" />
-            <el-table-column align="center" label="手机" prop="phone" />
-            <el-table-column align="center" label="邮箱" prop="email" />
-          </el-table>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="addPerson()">保存</el-button>
-          <el-button @click="goBack()">返回</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div class="app-container">
+    <el-form ref="ruleForm" :model="ruleForm" class="form" label-width="100px">
+      <el-form-item label="单位名称" prop="orgName">
+        <el-input v-model="ruleForm.orgName" :disabled="true" />
+      </el-form-item>
+      <el-form-item label="单位编码" prop="orgCode">
+        <el-input v-model="ruleForm.orgCode" :disabled="true" />
+      </el-form-item>
+      <el-form-item prop="personList" style="width: 70%;height: 65%; overflow: auto">
+        <el-table
+          ref="multipleTable"
+          :data="personList"
+          style="width: 100%"
+          tooltip-effect="dark"
+          @selection-change="selectPersonList"
+        >
+          <el-table-column align="center" type="selection" width="55" />
+          <el-table-column align="center" label="姓名" prop="name">
+            <template slot-scope="{row}">
+              <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="年龄" prop="age" />
+          <el-table-column align="center" label="性别" prop="sex" />
+          <el-table-column align="center" label="手机" prop="phone" />
+          <el-table-column align="center" label="邮箱" prop="email" />
+        </el-table>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="addPerson()">保存</el-button>
+        <el-button @click="goBack()">返回</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 

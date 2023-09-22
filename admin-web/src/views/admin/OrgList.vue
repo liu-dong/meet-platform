@@ -4,7 +4,8 @@
     <div class="filter-container">
       <el-input v-model="listQuery.orgName" class="filter-item" placeholder="人员名称" />
       <button-search class="filter-item" @search="findOrgList">查询</button-search>
-      <button-add class="filter-item" @add="toDetail">新增</button-add>
+      <button-reset class="filter-item" @reset="reset" />
+      <button-add class="filter-item" @add="toDetail()">新增</button-add>
       <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <!--数据列表-->
@@ -21,7 +22,7 @@
       <el-table-column fixed type="index" label="序号" align="center" width="60" />
       <el-table-column prop="orgName" sortable label="单位名称" align="center">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.orgName }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.orgName }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="orgCode" label="单位编码" align="center" />
@@ -29,7 +30,7 @@
       <el-table-column prop="personSum" sortable label="人员数量" align="center" />
       <el-table-column label="操作类型" align="center">
         <template slot-scope="{row}">
-          <el-link type="primary" @click="toDetail(row,'person')">添加人员</el-link>
+          <el-link type="primary" @click="toDetail(row.id,'person')">添加人员</el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -52,10 +53,11 @@ import waves from '@/directive/waves'
 import ButtonAdd from '@/components/Button/ButtonAdd'
 import ButtonDelete from '@/components/Button/ButtonDelete'
 import ButtonSearch from '@/components/Button/ButtonSearch'
+import ButtonReset from '@/components/Button/ButtonReset'
 
 export default {
   name: 'OrgList',
-  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination },
+  components: { ButtonAdd, ButtonReset, ButtonDelete, ButtonSearch, Pagination },
   directives: { waves },
   data() {
     return {
@@ -85,11 +87,17 @@ export default {
         }
       })
     },
-    toDetail: function(row, pageType) { // account：添加账号页面，permission：分配权限页面
-      const id = row.id
-      let pageName = 'orgDetail'
+    reset() {
+      this.listQuery = {
+        page: 1,
+        limit: 10,
+        orgName: undefined
+      }
+    },
+    toDetail: function(id, pageType) { // account：添加账号页面，permission：分配权限页面
+      let pageName = 'OrgDetail'
       if (pageType === 'person') {
-        pageName = 'orgPersonDetail'
+        pageName = 'OrgPersonDetail'
       }
       this.$router.push({ name: pageName, params: { id: id }})
     },

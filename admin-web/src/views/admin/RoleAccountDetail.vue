@@ -1,42 +1,33 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>角色管理</el-breadcrumb-item>
-        <el-breadcrumb-item>添加账号</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="bottom">
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
-        <el-form-item label="角色编码" prop="roleCode">
-          <el-input v-model="ruleForm.roleCode" />
-        </el-form-item>
-        <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="ruleForm.roleName" />
-        </el-form-item>
-        <el-form-item label="角色描述" prop="remark" style="width: 70%;">
-          <el-input v-model="ruleForm.remark" type="textarea" />
-        </el-form-item>
-        <el-form-item prop="remark" style="width: 70%;height: 65%; overflow: auto">
-          <el-transfer
-            v-model="roleAccount.accountIdList"
-            :button-texts="['删除账号', '添加账号']"
-            :data="accountList"
-            :format="{noChecked: '${total}',hasChecked: '${checked}/${total}'}"
-            :props="{key: 'id',label: 'username'}"
-            :render-content="renderFunc"
-            :titles="['账号列表', '所属账号']"
-            filterable
-            filter-placeholder="请输入账号"
-            @change="addAccount"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="goBack()">返回</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div class="app-container">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
+      <el-form-item label="角色编码" prop="roleCode">
+        <el-input v-model="ruleForm.roleCode" />
+      </el-form-item>
+      <el-form-item label="角色名称" prop="roleName">
+        <el-input v-model="ruleForm.roleName" />
+      </el-form-item>
+      <el-form-item label="角色描述" prop="remark" style="width: 70%;">
+        <el-input v-model="ruleForm.remark" type="textarea" />
+      </el-form-item>
+      <el-form-item prop="remark" style="width: 70%;height: 65%; overflow: auto">
+        <el-transfer
+          v-model="roleAccount.accountIdList"
+          :button-texts="['删除账号', '添加账号']"
+          :data="accountList"
+          :format="{noChecked: '${total}',hasChecked: '${checked}/${total}'}"
+          :props="{key: 'id',label: 'username'}"
+          :render-content="renderFunc"
+          :titles="['账号列表', '所属账号']"
+          filterable
+          filter-placeholder="请输入账号"
+          @change="addAccount"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="goBack()">返回</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 

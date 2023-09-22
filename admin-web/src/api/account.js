@@ -43,11 +43,11 @@ export function deleteAccount(params) {
   })
 }
 
-export function findAccountRoleInfoList(data) {
+export function findAccountRoleInfoList(params) {
   return axios({
     url: '/account/findAccountRoleInfoList',
-    method: 'post',
-    data
+    method: 'get',
+    params
   })
 }
 

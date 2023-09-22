@@ -86,8 +86,8 @@ public class RoleController {
      * @return
      */
     @ApiOperation("查询角色账号信息")
-    @PostMapping("/findRoleAccountList")
-    public ResponseResult findRoleAccountList(@RequestBody RoleDTO dto) {
+    @GetMapping("/findRoleAccountList")
+    public ResponseResult findRoleAccountList(RoleDTO dto) {
         return roleService.findRoleAccountList(dto);
     }
 

@@ -1,13 +1,14 @@
 <template>
-  <div class="container">
-    <div class="top">
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding-left: 15px;padding-top: 15px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>人员管理</el-breadcrumb-item>
-        <el-breadcrumb-item>人员信息详情页</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm el-form">
+  <div class="app-container">
+    <el-form
+      ref="ruleForm"
+      :readonly="viewType==='view'"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm el-form"
+      label-position="left"
+    >
       <el-form-item label="姓名" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>
@@ -51,10 +52,8 @@
         </el-form-item>
       </div>
       <div class="row">
-        <el-form-item>
-          <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-          <el-button @click="goBack()">返回</el-button>
-        </el-form-item>
+        <el-button v-if="viewType!=='view'" type="primary" @click="saveForm('ruleForm')">保存</el-button>
+        <el-button @click="goBack()">返回</el-button>
       </div>
     </el-form>
   </div>
@@ -68,6 +67,7 @@ export default {
   name: 'PersonDetail',
   data() {
     return {
+      viewType: '',
       ruleForm: {},
       rules: {
         name: [
@@ -84,6 +84,7 @@ export default {
   created() {
     const id = this.$route.params.id
     if (id) {
+      this.viewType = this.$route.params.viewType
       this.getPerson(id)
     }
   },
