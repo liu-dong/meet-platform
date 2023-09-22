@@ -13,8 +13,8 @@ import java.io.IOException;
 /**
  * @author LD
  */
-@ServerEndpoint("/websocket/{username}")
 @Component
+@ServerEndpoint("/websocket/{username}")
 public class WebSocketServer {
 
 
@@ -49,9 +49,9 @@ public class WebSocketServer {
         String msg = "来自客户端" + username + "的消息:" + messageDTO.getMessageContent();
         System.out.println(msg);
         if (StringUtils.isNotBlank(messageDTO.getRecipient())) {
-            ServerManagement.sendAll(msg);
+            ServerManagement.sendTo(msg, messageDTO.getRecipient());
         } else {
-            ServerManagement.sendAllByUsername(msg, messageDTO.getRecipient());
+            ServerManagement.sendAll(msg);
         }
     }
 

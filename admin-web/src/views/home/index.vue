@@ -23,7 +23,6 @@ export default {
   created() {
     if (this.websocket === null) {
       this.init()
-      this.send(this.name)
     }
   },
   destroyed() {
@@ -50,19 +49,27 @@ export default {
     },
     open() {
       console.log('WebSocket连接成功!')
+      this.send(this.name)
     },
     error() {
       console.log('连接错误!')
     },
     message(msg) {
-      this.$message.success(msg.data)
+      this.$notify({
+        type: 'success',
+        title: '消息通知',
+        message: msg.data,
+        position: 'bottom-right',
+        showClose: false
+      })
+      // this.$message.success(msg.data)
       console.log(msg.data)
     },
     // 发送消息给被连接的服务端
     send(params) {
       const messageBody = {
         'messageContent': params,
-        'recipient': 'all'
+        'recipient': 'SuperAdmin'
       }
       this.websocket.send(JSON.stringify(messageBody))
     },

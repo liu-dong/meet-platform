@@ -1,6 +1,7 @@
 package com.dong.websocket.config;
 
 import com.dong.commoncore.exception.WebSocketException;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class ServerManagement {
         hashMap.put("server", server);
         hashMap.put("username", username);
         servers.add(hashMap);
-        sendAll("有新连接加入！接入人是：" + username + "，当前总连接数是：" + servers.size());
+        String msg = getMessageTemplate("login", username);
+        sendAll(msg);
         System.out.println("有新连接加入！ 当前总连接数是：" + servers.size());
     }
 
@@ -41,9 +43,11 @@ public class ServerManagement {
      * @param server
      */
     public static void remove(WebSocketServer server) {
+        String username = getUsername(server);
         servers.removeIf(hashMap -> server.equals(hashMap.get("server")));
-        sendAll("有连接退出！ 当前总连接数是：" + servers.size());
-        System.out.println("有连接退出！ 当前总连接数是：" + servers.size());
+        String msg = getMessageTemplate("logout", username);
+        sendAll(msg);
+        System.out.println(msg);
     }
 
     /**
@@ -69,7 +73,7 @@ public class ServerManagement {
      * @param msg
      * @param username
      */
-    public static void sendAllByUsername(String msg, String username) {
+    public static void sendTo(String msg, String username) {
         for (HashMap<String, Object> server : servers) {
             try {
                 WebSocketServer webSocketServer = (WebSocketServer) server.get("server");
@@ -92,5 +96,28 @@ public class ServerManagement {
         return servers.size();
     }
 
+    public static String getUsername(WebSocketServer server) {
+        for (HashMap<String, Object> hashMap : servers) {
+            WebSocketServer currentServer = (WebSocketServer) hashMap.get("server");
+            if (currentServer == server) {
+                return (String) hashMap.get("username");
+            }
+        }
+        return "空";
+    }
+
+    @NotNull
+    private static String getMessageTemplate(String messageType, String username) {
+        String message = "";
+        if ("login".equals(messageType)) {
+//        String msg = "有新连接加入！接入人是：" + username + "，当前总连接数是：" + servers.size();
+            message = "有用户登录！登录人是：" + username + "，当前在线人数：" + servers.size() + "人";
+        }
+        if ("logout".equals(messageType)) {
+//            String logoutMessages = "有连接退出！ 当前总连接数是：" + servers.size();
+            message = username + "用户退出！ 当前在线人数：" + servers.size();
+        }
+        return message;
+    }
 
 }
