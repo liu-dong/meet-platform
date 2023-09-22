@@ -33,8 +33,7 @@ public class ServerManagement {
         hashMap.put("username", username);
         servers.add(hashMap);
         String msg = getMessageTemplate("login", username);
-        sendAll(msg);
-        System.out.println("有新连接加入！ 当前总连接数是：" + servers.size());
+        sendTo(msg, "SuperAdmin");
     }
 
     /**
@@ -46,7 +45,7 @@ public class ServerManagement {
         String username = getUsername(server);
         servers.removeIf(hashMap -> server.equals(hashMap.get("server")));
         String msg = getMessageTemplate("logout", username);
-        sendAll(msg);
+        sendTo(msg, "SuperAdmin");
         System.out.println(msg);
     }
 
