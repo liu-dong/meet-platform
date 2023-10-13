@@ -33,6 +33,17 @@
             <artifactId>security-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.dong</groupId>
+            <artifactId>log-server</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- kaptcha -->
         <dependency>
             <groupId>com.github.penggle</groupId>
