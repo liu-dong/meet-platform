@@ -1,9 +1,11 @@
-package com.dong.authserver.security;
+package com.dong.securitycore.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
+ * 自定义密码编码器
+ *
  * @author LD
  */
 @Configuration

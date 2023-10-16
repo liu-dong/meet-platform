@@ -1,4 +1,4 @@
-//package com.dong.authserver.security;
+//package com.dong.securitycore.security;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;

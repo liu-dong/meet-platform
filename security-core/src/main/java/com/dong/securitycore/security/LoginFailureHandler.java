@@ -1,4 +1,4 @@
-package com.dong.authserver.security;
+package com.dong.securitycore.security;
 
 import com.alibaba.fastjson.JSON;
 import com.dong.commoncore.model.ResponseResult;
@@ -25,6 +25,5 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         writer.write(JSON.toJSONString(result));
-
     }
 }

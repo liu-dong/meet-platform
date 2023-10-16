@@ -232,4 +232,22 @@ class AccountServiceImpl implements AccountService {
         }
         return entityList;
     }
+
+    @Override
+    public Account getAccountByUsername(String username) {
+        return accountJpaDao.getAccountByUsername(username);
+    }
+
+    @Override
+    public String updateLastLoginTime(Account account) {
+        String lastLoginTime = "第一次登录";
+        if (account.getLastLoginTime() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+            lastLoginTime = sdf.format(account.getLastLoginTime());
+        }
+        account.setLastLoginTime(new Date());
+        account.setLoginCount(account.getLoginCount() + 1);
+        accountJpaDao.save(account);
+        return lastLoginTime;
+    }
 }

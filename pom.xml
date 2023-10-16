@@ -43,7 +43,7 @@
         <guava.version>30.0-android</guava.version>
 
         <!--other-->
-        <lombok.version>1.18.24</lombok.version>
+        <lombok.version>1.18.26</lombok.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>2.9.2</swagger.version>
         <mail.version>1.5.0-b01</mail.version>
@@ -51,7 +51,7 @@
         <mysql-version>5.1.47</mysql-version>
         <jjwt.version>0.9.1</jjwt.version>
         <amqp-client-version>5.14.2</amqp-client-version>
-        <hutool.version>5.8.10</hutool.version>
+        <hutool.version>5.8.18</hutool.version>
         <mybatis.version>2.0.0</mybatis.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <minio.version>8.5.3</minio.version>

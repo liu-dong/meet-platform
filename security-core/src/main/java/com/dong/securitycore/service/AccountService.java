@@ -97,4 +97,8 @@ public interface AccountService {
      * @return
      */
     List<AccountRole> assignRoles(AccountDTO dto);
+
+    Account getAccountByUsername(String username);
+
+    String updateLastLoginTime(Account account);
 }
