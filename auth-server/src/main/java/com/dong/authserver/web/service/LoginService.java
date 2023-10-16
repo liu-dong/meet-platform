@@ -5,7 +5,7 @@ import com.dong.authserver.web.model.LoginDTO;
 import com.dong.authserver.web.model.RegisterDTO;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
-import com.dong.securitycore.entity.Account;
+import com.dong.security.core.entity.Account;
 
 import javax.servlet.http.HttpServletRequest;
 

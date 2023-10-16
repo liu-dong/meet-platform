@@ -33,12 +33,6 @@
             <artifactId>security-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.dong</groupId>
-            <artifactId>log-server</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
         <!-- kaptcha -->
         <dependency>
             <groupId>com.github.penggle</groupId>

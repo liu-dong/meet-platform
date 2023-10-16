@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@ComponentScan(basePackages = {"com.dong.**", "com.dong.securitycore.config"})
-@EnableJpaRepositories(basePackages = {"com.dong.securitycore.dao"})
+@ComponentScan(basePackages = {"com.dong.**", "com.dong.security.config"})
+@EnableJpaRepositories(basePackages = {"com.dong.security.core.dao"})
 @EntityScan(basePackages = {"com.dong.securitycore.entity"})
 @SpringBootApplication
 public class AuthServerApplication {
