@@ -30,8 +30,8 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             try {
-                String requestCode = request.getParameter("kaptcha");
-                if (!"1".equals(requestCode)) {
+                String requestCode = request.getParameter("captcha");
+                if ("1".equals(requestCode)) {
                     verificationCode(request);
                 }
                 filterChain.doFilter(request, response);
@@ -43,7 +43,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
     }
 
     public void verificationCode(HttpServletRequest request) {
-        String requestCode = request.getParameter("kaptcha");
+        String requestCode = request.getParameter("captcha");
         HttpSession session = request.getSession();
         String savedCode = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
         if (StringUtils.isNotBlank(savedCode)) {

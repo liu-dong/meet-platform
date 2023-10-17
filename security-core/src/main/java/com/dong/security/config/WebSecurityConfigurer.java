@@ -45,7 +45,8 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()//关跨域保护
                 .authorizeRequests() //授权的请求
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/security/login", "/accountInfo/register")
+                .permitAll()
                 .anyRequest().authenticated(); //其他任何请求都需要通过认证
         httpSecurity.formLogin()//表单认证
                 //指定处理登录请求的路径
@@ -61,17 +62,14 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
 
 
     /**
-     * 配置 WebSecurity
+     * 配置 WebSecurity(主要用于忽略静态资源)
      *
      * @return
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-                .antMatchers("/security/login", "/accountInfo/register")
-                .antMatchers("/index", "/successPage", "/errorPage")
-                .antMatchers("index.html", "successPage.html", "errorPage.html")
-                .antMatchers("/authorization/**", "/authentication/**");
+                .antMatchers("/css/**", "/js/**", "/images/**");
     }
 
     @Bean
