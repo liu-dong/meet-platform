@@ -31,7 +31,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         } else {
             try {
                 String requestCode = request.getParameter("captcha");
-                if ("1".equals(requestCode)) {
+                if (!"1".equals(requestCode)) {
                     verificationCode(request);
                 }
                 filterChain.doFilter(request, response);

@@ -1,11 +1,11 @@
 import request from '@/axios/authAxios'
 
 // 登录
-export function login(data) {
+export function login(params) {
   return request({
-    url: '/login',
+    url: '/authenticate',
     method: 'post',
-    data
+    params
   })
 }
 
