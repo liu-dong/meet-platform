@@ -13,7 +13,7 @@ import zsoft.gov.platform.base.domain.AbstractDomainEntity;
 @Table(name = "${tableName}")
 public class ${className?cap_first} extends AbstractDomainEntity {
 
-private static final long serialVersionUID = ${serialUID}
+    private static final long serialVersionUID = ${serialUID}
 
 <#list propertyList as property>
     <#if ["id","creation_time","creator_id","last_modification_time","last_modificator_id"]?seq_index_of(property.fieldName) == -1>
