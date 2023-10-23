@@ -40,6 +40,11 @@ public class CodeGenerateParamDTO {
     private String templateName;
 
     /**
+     * 模板路径
+     */
+    private String templatePath;
+
+    /**
      * 生成路径
      */
     private String generatePath;

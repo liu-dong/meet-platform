@@ -48,7 +48,8 @@ public class CodeGenerateUtils {
      * @throws TemplateException 模板异常
      */
     public static String generate(Map<String, Object> map, CodeGenerateParamDTO dto) throws IOException, TemplateException {
-        Configuration configuration = loadConfiguration();
+        File templateFile = getTemplateFile(dto.getTemplatePath());
+        Configuration configuration = loadConfiguration(templateFile);
         //获取模板
         Template template = configuration.getTemplate(dto.getTemplateName());
         //创建类文件
@@ -92,20 +93,36 @@ public class CodeGenerateUtils {
     /**
      * 加载配置
      *
+     * @param templateFile 模板文件
      * @return
      * @throws IOException
      */
     @NotNull
-    private static Configuration loadConfiguration() throws IOException {
+    private static Configuration loadConfiguration(File templateFile) throws IOException {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_22);
-        //classpath路径
-        String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        //模板路径
-        String templatePath = classpath + "templates";
-        configuration.setDirectoryForTemplateLoading(new File(templatePath));
+        configuration.setDirectoryForTemplateLoading(templateFile);
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         return configuration;
+    }
+
+    /**
+     * 获取模板文件
+     *
+     * @param templatePath
+     * @return
+     */
+    @NotNull
+    private static File getTemplateFile(String templatePath) {
+        //classpath路径
+        String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        //模板路径
+        if (StringUtils.isNotBlank(templatePath)) {
+            templatePath = classpath + templatePath;
+        } else {
+            templatePath = classpath + "templates";
+        }
+        return new File(templatePath);
     }
 
     /**
