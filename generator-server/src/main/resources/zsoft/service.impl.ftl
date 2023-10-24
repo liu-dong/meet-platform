@@ -10,17 +10,17 @@ import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.model.list.vo.${className?cap_first}ListVO;
 import ${basePackageName}.service.${className?cap_first}Service;
 import ${basePackageName}.repository.${className?cap_first}Repository;
+import ${basePackageName}.entity.${className?cap_first};
 
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 
-import javax.annotation.Resource;
 
 /**
-*  ${classComment}
-*
-*  @author ${author}
-*/
+ *  ${classComment}
+ *
+ *  @author ${author}
+ */
 @Service
 public class ${className?cap_first}ServiceImpl
 extends AbstractGenericService<${className?cap_first}, ${className?cap_first}Repository>
@@ -36,23 +36,28 @@ implements ${className?cap_first}Service {
     }
 
     /**
-    * 查询列表
-    *
-    * @param pageNumber
-    * @param pageSize
-    * @param dto
-    * @return
-    */
+     * 查询列表
+     *
+     * @param pageNumber
+     * @param pageSize
+     * @param dto
+     * @return
+     */
     @Override
-    public Page<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto,
-        Pager<${className?cap_first}VO> pager) {
+    public Page<${className?cap_first}ListVO> find${className?cap_first}List(Integer pageNumber, Integer pageSize, ${className?cap_first}ListDTO dto) {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "createdDate");
-        Page<${className?cap_first}> page = this.query(listVo, pageable);
+        Page<${className?cap_first}> page = this.query(dto, pageable);
         List<${className?cap_first}ListVO> result = convertVO(page.getContent());
         return new PageImpl<>(result, pageable, page.getTotalElements());
     }
 
+    /**
+     * 转换列表响应信息
+     *
+     * @param content
+     * @return
+     */
     private List<${className?cap_first}ListVO> convertVO(List<${className?cap_first}> content) {
         List<${className?cap_first}ListVO> result = new ArrayList<>();
         return result;
@@ -76,17 +81,17 @@ implements ${className?cap_first}Service {
      * @return
      */
     @Override
-    public ${className?cap_first}VO get${className?cap_first}(String id) {
+    public ${className?cap_first}VO get${className?cap_first}Detail(String id) {
         ${className?cap_first} entity = this.findById(id);
         return convertVO(entity);
     }
 
     /**
-    * 转换响应信息
-    *
-    * @param id
-    * @return
-    */
+     * 转换详情响应信息
+     *
+     * @param entity
+     * @return
+     */
     private ${className?cap_first}VO convertVO(${className?cap_first} entity) {
         return null;
     }
