@@ -1,8 +1,11 @@
 package ${packageName};
 
-import javax.persistence.*;
-import java.util.Date;
 import zsoft.gov.platform.base.domain.AbstractDomainEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * ${classComment}

@@ -1,14 +1,13 @@
 package ${packageName};
 
 import org.springframework.data.domain.Page;
-
 import zsoft.gov.platform.base.service.GenericService;
-import ${basePackageName}.repository.${className?cap_first}Repository;
 import ${basePackageName}.entity.${className?cap_first};
 import ${basePackageName}.model.dto.${className?cap_first}DTO;
 import ${basePackageName}.model.dto.${className?cap_first}ListDTO;
 import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.model.vo.${className?cap_first}ListVO;
+import ${basePackageName}.repository.${className?cap_first}Repository;
 
 /**
  * ${classComment}

@@ -1,19 +1,18 @@
 package ${packageName};
 
 import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
 import zsoft.gov.platform.base.query.ListConditionVo;
 import zsoft.gov.platform.base.query.QueryFilter;
 import zsoft.gov.platform.base.service.AbstractGenericService;
 
+import ${basePackageName}.entity.${className?cap_first};
 import ${basePackageName}.model.dto.${className?cap_first}DTO;
 import ${basePackageName}.model.dto.${className?cap_first}ListDTO;
-import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.model.vo.${className?cap_first}ListVO;
-import ${basePackageName}.service.${className?cap_first}Service;
+import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.repository.${className?cap_first}Repository;
-import ${basePackageName}.entity.${className?cap_first};
-
-import org.springframework.stereotype.Service;
+import ${basePackageName}.service.${className?cap_first}Service;
 
 import java.util.ArrayList;
 import java.util.List;

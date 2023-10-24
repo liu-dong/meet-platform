@@ -1,8 +1,8 @@
 package ${packageName};
 
-import ${basePackageName}.entity.${className?cap_first};
-import zsoft.gov.platform.base.repository.GenericJpaRepository;
 import org.springframework.stereotype.Repository;
+import zsoft.gov.platform.base.repository.GenericJpaRepository;
+import ${basePackageName}.entity.${className?cap_first};
 
 /**
  * ${classComment}
