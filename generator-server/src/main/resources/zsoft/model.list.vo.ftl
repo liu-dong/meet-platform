@@ -7,7 +7,7 @@ import java.util.Date;
  *
  *  @author ${author}
  */
-public class ${className?cap_first}ListVO{
+public class ${className?cap_first}ListVO {
 
 <#list propertyList as property>
     <#if ["is_delete","creation_time","creator_id","last_modification_time","last_modificator_id"]?seq_index_of(property.fieldName?lower_case) == -1>
