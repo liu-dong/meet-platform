@@ -69,8 +69,8 @@ public class ${className?cap_first}Controller {
      * @param id
      * @return
      */
-    @PostMapping("/delete${className?cap_first}")
-    public Result<?> delete${className?cap_first}(String id) {
+    @PostMapping("/remove${className?cap_first}")
+    public Result<?> remove${className?cap_first}(String id) {
         ${className}Service.remove(id);
         return Result.ok();
     }
