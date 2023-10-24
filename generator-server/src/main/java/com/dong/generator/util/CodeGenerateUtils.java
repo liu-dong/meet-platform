@@ -237,6 +237,7 @@ public class CodeGenerateUtils {
         Map<String, String> dataTypeMap = new HashMap<>();
         dataTypeMap.put("VARCHAR", "String");
         dataTypeMap.put("BIGINT", "Long");
+        dataTypeMap.put("TINYINT", "Integer");
         dataTypeMap.put("INT", "Integer");
         dataTypeMap.put("SMALLINT", "Short");
         dataTypeMap.put("DATETIME", "Date");
