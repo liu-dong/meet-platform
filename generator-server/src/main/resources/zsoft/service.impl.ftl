@@ -19,35 +19,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  ${classComment}
-*
-*  @author ${author}
-*/
+ * ${classComment}
+ *
+ * @author ${author}
+ */
 @Service
 public class ${className?cap_first}ServiceImpl
 extends AbstractGenericService<${className?cap_first}, ${className?cap_first}Repository>
 implements ${className?cap_first}Service {
 
-@Override
-public QueryFilter setQueryString(ListConditionVo listConditionVo) {
-${className?cap_first}ListDTO dto = (${className?cap_first}ListDTO) listConditionVo;
-QueryFilter filter = new QueryFilter();
-filter.addEqual("isDelete", 0, false);
+    @Override
+    public QueryFilter setQueryString(ListConditionVo listConditionVo) {
+        ${className?cap_first}ListDTO dto = (${className?cap_first}ListDTO) listConditionVo;
+        QueryFilter filter = new QueryFilter();
+        filter.addEqual("isDelete", 0, false);
 
-return filter;
-}
+        return filter;
+    }
 
-/**
-* 查询列表
-*
-* @param pageNumber
+    /**
+     * 查询列表
+     *
+     * @param pageNumber
      * @param pageSize
      * @param dto
      * @return
      */
     @Override
     public Page<${className?cap_first}ListVO> find${className?cap_first}List(Integer pageNumber, Integer pageSize, ${className?cap_first}ListDTO dto) {
-
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "createdDate");
         Page<${className?cap_first}> page = this.query(dto, pageable);
         List<${className?cap_first}ListVO> result = convertVO(page.getContent());
@@ -62,6 +61,7 @@ return filter;
      */
     private List<${className?cap_first}ListVO> convertVO(List<${className?cap_first}> content) {
         List<${className?cap_first}ListVO> result = new ArrayList<>();
+
         return result;
     }
 
@@ -95,7 +95,9 @@ return filter;
      * @return
      */
     private ${className?cap_first}VO convertVO(${className?cap_first} entity) {
-        return null;
+        ${className?cap_first}VO vo = new ${className?cap_first}VO();
+        BeanUtils.copyProperties(entity, vo);
+        return vo;
     }
 
     /**
