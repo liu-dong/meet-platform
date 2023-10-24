@@ -267,6 +267,7 @@ public class CodeGenerateUtils {
                 break;
             case "model.vo":
                 result = "VO.java";
+                break;
             case "model.list.dto":
                 result = "ListDTO.java";
                 break;
@@ -277,8 +278,6 @@ public class CodeGenerateUtils {
                 result = "ServiceImpl.java";
                 break;
             case "dao":
-                result = "Repository.java";
-                break;
             case "repository":
                 result = "Repository.java";
                 break;
