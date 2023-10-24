@@ -1,4 +1,4 @@
-package com.dong.logserver.config;
+package com.dong.log.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +34,7 @@ import java.util.Objects;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "logEntityManagerFactory",
         transactionManagerRef = "logTransactionManager",
-        basePackages = {"com.dong.logserver.web.dao"}
+        basePackages = {"com.dong.log.web.dao"}
 )
 public class LogDataSourceConfig {
 

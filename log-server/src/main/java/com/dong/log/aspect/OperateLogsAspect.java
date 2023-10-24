@@ -1,12 +1,12 @@
-package com.dong.logserver.aspect;
+package com.dong.log.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.dong.commoncore.enums.ApplicationEnum;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.AddressUtils;
 import com.dong.commoncore.util.CommonUtils;
-import com.dong.logserver.web.dao.OperateLogsJpaDao;
-import com.dong.logserver.web.entity.OperateLogs;
+import com.dong.log.web.dao.OperateLogsJpaDao;
+import com.dong.log.web.entity.OperateLogs;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;

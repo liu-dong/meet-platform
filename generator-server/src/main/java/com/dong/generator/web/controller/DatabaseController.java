@@ -28,11 +28,11 @@ import java.util.Map;
 @RequestMapping("/database")
 public class DatabaseController {
 
-    @Value("${spring.datasource.url}")
+    @Value("${spring.datasource.url:}")
     private String url;
-    @Value("${spring.datasource.username}")
+    @Value("${spring.datasource.username:}")
     private String username;
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.password:}")
     private String password;
 
     /**

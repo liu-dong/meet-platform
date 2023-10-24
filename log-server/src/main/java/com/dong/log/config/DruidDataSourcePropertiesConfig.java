@@ -1,4 +1,4 @@
-package com.dong.logserver.config;
+package com.dong.log.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -15,7 +15,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -25,18 +24,6 @@ import java.util.*;
  * @author LD
  */
 public class CodeGenerateUtils {
-
-    private static Connection conn;
-
-    private static void openConnection() {
-        try {
-            if (conn == null || conn.isClosed()) {
-                conn = JDBCUtils.getConnection();
-            }
-        } catch (SQLException e) {
-            throw new GlobalException("数据库连接异常");
-        }
-    }
 
     /**
      * 生成代码文件
@@ -133,7 +120,6 @@ public class CodeGenerateUtils {
      * @throws Exception 异常
      */
     public static List<String> batchGenerate(CodeGenerateParamDTO dto) throws Exception {
-        CodeGenerateUtils.openConnection();
         List<String> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(dto.getTemplateNameList())) {
             throw new GlobalException("代码模板不能为空！");
@@ -147,11 +133,17 @@ public class CodeGenerateUtils {
             Set<Map.Entry<String, String>> entrySet = dto.getTableNameComment().entrySet();
             for (Map.Entry<String, String> entry : entrySet) {
                 //获取类成员属性
-                List<AttributeDTO> attributeList = getColumnList(dto.getDatabaseName(), entry.getKey());
+                String tableName = entry.getKey();
+                List<AttributeDTO> attributeList = getColumnList(dto.getDatabaseName(), tableName);
+                String className = tableName;
+                //忽略表名前缀
+                if (StringUtils.isNotBlank(dto.getIgnorePrefix())) {
+                    className = tableName.replace(dto.getIgnorePrefix(), "");
+                }
                 //获取类属性
-                Map<String, Object> classProperty = buildClassProperty(dto.getPackageName(), packageName, attributeList, entry.getKey(), entry.getValue());
+                Map<String, Object> classProperty = buildClassProperty(dto.getPackageName(), packageName, attributeList, tableName, className, entry.getValue());
                 //获取文件名
-                String fileName = getFileName(entry.getKey(), template);
+                String fileName = getFileName(className, template);
                 dto.setFileName(fileName);
                 //生成代码文件
                 result.add(generate(classProperty, dto));
@@ -184,21 +176,27 @@ public class CodeGenerateUtils {
      */
     @NotNull
     private static String getPackageName(String packageName, String template) {
+        template = template.replace("list.", "");
         return packageName + SymbolConstant.DOT + template.substring(0, template.lastIndexOf(SymbolConstant.DOT));
     }
 
     /**
      * 构建类属性（类名、类注释、作者、类属性）
      *
-     * @param tableName 表名
-     * @return 返回元数据
+     * @param packageName     包名
+     * @param basePackageName 基础包名
+     * @param attributeList   表字段属性
+     * @param tableName       表名
+     * @param className       类名
+     * @param classComment    类注释
+     * @return
      */
-    public static Map<String, Object> buildClassProperty(String packageName, String basePackageName, List<AttributeDTO> attributeList, String tableName, String classComment) {
+    public static Map<String, Object> buildClassProperty(String packageName, String basePackageName, List<AttributeDTO> attributeList, String tableName, String className, String classComment) {
         Map<String, Object> result = new HashMap<>(4);
         result.put("packageName", packageName);
         result.put("basePackageName", basePackageName);
         result.put("tableName", tableName);
-        result.put("className", CommonUtils.toCamel(tableName));
+        result.put("className", CommonUtils.toCamel(className));
         result.put("serialUID", genSerialID());
         result.put("classComment", classComment);
         //获取电脑名称为创建人
@@ -269,11 +267,19 @@ public class CodeGenerateUtils {
                 break;
             case "model.vo":
                 result = "VO.java";
+            case "model.list.dto":
+                result = "ListDTO.java";
+                break;
+            case "model.list.vo":
+                result = "ListVO.java";
                 break;
             case "service.impl":
                 result = "ServiceImpl.java";
                 break;
             case "dao":
+                result = "Repository.java";
+                break;
+            case "repository":
                 result = "Repository.java";
                 break;
             default:

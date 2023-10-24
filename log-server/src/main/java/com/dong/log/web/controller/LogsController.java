@@ -1,16 +1,16 @@
-package com.dong.logserver.web.controller;
+package com.dong.log.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.logserver.web.entity.LoginLogs;
-import com.dong.logserver.web.entity.OperateLogs;
-import com.dong.logserver.web.model.dto.LoginLogsDTO;
-import com.dong.logserver.web.model.dto.OperateLogsDTO;
-import com.dong.logserver.web.model.vo.LoginLogsVO;
-import com.dong.logserver.web.model.vo.OperateLogsVO;
-import com.dong.logserver.web.service.LoginLogsService;
-import com.dong.logserver.web.service.OperateLogsService;
+import com.dong.log.web.entity.LoginLogs;
+import com.dong.log.web.entity.OperateLogs;
+import com.dong.log.web.model.dto.LoginLogsDTO;
+import com.dong.log.web.model.dto.OperateLogsDTO;
+import com.dong.log.web.model.vo.LoginLogsVO;
+import com.dong.log.web.model.vo.OperateLogsVO;
+import com.dong.log.web.service.LoginLogsService;
+import com.dong.log.web.service.OperateLogsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

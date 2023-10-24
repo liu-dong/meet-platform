@@ -1,4 +1,4 @@
-package com.dong.logserver.web.model.vo;
+package com.dong.log.web.model.vo;
 
 import lombok.Data;
 

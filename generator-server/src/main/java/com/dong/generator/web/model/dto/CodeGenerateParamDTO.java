@@ -30,6 +30,11 @@ public class CodeGenerateParamDTO {
     private Map<String, String> tableNameComment;
 
     /**
+     * 忽略前缀
+     */
+    private String ignorePrefix;
+
+    /**
      * 模板名称
      */
     private List<String> templateNameList;

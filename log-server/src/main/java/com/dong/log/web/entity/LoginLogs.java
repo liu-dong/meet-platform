@@ -1,4 +1,4 @@
-package com.dong.logserver.web.entity;
+package com.dong.log.web.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

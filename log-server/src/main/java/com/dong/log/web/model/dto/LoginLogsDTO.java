@@ -1,4 +1,4 @@
-package com.dong.logserver.web.model.dto;
+package com.dong.log.web.model.dto;
 
 import lombok.Data;
 

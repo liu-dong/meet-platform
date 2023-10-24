@@ -1,14 +1,14 @@
-package com.dong.logserver.web.service.impl;
+package com.dong.log.web.service.impl;
 
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
-import com.dong.logserver.web.dao.LoginLogsJpaDao;
-import com.dong.logserver.web.entity.LoginLogs;
-import com.dong.logserver.web.model.dto.LoginLogsDTO;
-import com.dong.logserver.web.model.vo.LoginLogsVO;
-import com.dong.logserver.web.service.LoginLogsService;
+import com.dong.log.web.dao.LoginLogsJpaDao;
+import com.dong.log.web.entity.LoginLogs;
+import com.dong.log.web.model.dto.LoginLogsDTO;
+import com.dong.log.web.model.vo.LoginLogsVO;
+import com.dong.log.web.service.LoginLogsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

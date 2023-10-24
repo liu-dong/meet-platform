@@ -1,4 +1,4 @@
-package com.dong.logserver.web.controller;
+package com.dong.log.web.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
