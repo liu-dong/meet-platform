@@ -1,10 +1,11 @@
 package ${packageName};
 
 import org.springframework.data.domain.Page;
+
 import ${basePackageName}.model.dto.${className?cap_first}DTO;
-import ${basePackageName}.model.dto.${className?cap_first}ListDTO;
+import ${basePackageName}.model.list.dto.${className?cap_first}ListDTO;
 import ${basePackageName}.model.vo.${className?cap_first}VO;
-import ${basePackageName}.model.vo.${className?cap_first}ListVO;
+import ${basePackageName}.model.list.vo.${className?cap_first}ListVO;
 
 /**
  *  ${classComment}

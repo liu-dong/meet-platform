@@ -1,10 +1,18 @@
 package ${packageName};
 
+import zsoft.gov.platform.base.query.ListConditionVo;
+import zsoft.gov.platform.base.query.QueryFilter;
+import zsoft.gov.platform.base.service.AbstractGenericService;
+
 import ${basePackageName}.model.dto.${className?cap_first}DTO;
+import ${basePackageName}.model.list.dto.${className?cap_first}ListDTO;
 import ${basePackageName}.model.vo.${className?cap_first}VO;
+import ${basePackageName}.model.list.vo.${className?cap_first}ListVO;
 import ${basePackageName}.service.${className?cap_first}Service;
-import ${basePackageName}.dao.${className?cap_first}Repository;
+import ${basePackageName}.repository.${className?cap_first}Repository;
+
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 
 import javax.annotation.Resource;
 

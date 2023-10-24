@@ -16,7 +16,7 @@ public class ${className?cap_first} extends AbstractDomainEntity {
     private static final long serialVersionUID = ${serialUID}
 
 <#list propertyList as property>
-    <#if ["id","creation_time","creator_id","last_modification_time","last_modificator_id"]?seq_index_of(property.fieldName) == -1>
+    <#if ["id","creation_time","creator_id","last_modification_time","last_modificator_id"]?seq_index_of(property.fieldName) != -1>
         /**
         * ${property.comment}
         */
@@ -25,7 +25,7 @@ public class ${className?cap_first} extends AbstractDomainEntity {
 </#list>
 
 <#list propertyList as property>
-    <#if ["id","creation_time","creator_id","last_modification_time","last_modificator_id"]?seq_index_of(property.fieldName) == -1>
+    <#if ["id","creation_time","creator_id","last_modification_time","last_modificator_id"]?seq_index_of(property.fieldName) != -1>
         @Column(name = "${property.fieldName}")
         public ${property.typeName} get${property.columnName?cap_first}(){
             return this.${property.columnName};
