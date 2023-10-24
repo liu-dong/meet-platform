@@ -57,7 +57,7 @@ public class ${className?cap_first}Controller {
      * @param id
      * @return
      */
-    @GetMapping("/detail")
+    @GetMapping("/get${className?cap_first}Detail")
     public Result<?> get${className?cap_first}Detail(String id) {
         ${className?cap_first}VO result = ${className}Service.get${className?cap_first}Detail(id);
         return Result.ok(result);
