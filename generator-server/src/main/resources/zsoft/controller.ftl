@@ -52,7 +52,7 @@ public class ${className?cap_first}Controller {
     }
 
     /**
-     * 查询${classComment}
+     * 查询${classComment}详情
      *
      * @param id
      * @return
