@@ -20,27 +20,27 @@ import java.util.List;
 
 /**
  *  ${classComment}
- *
- *  @author ${author}
- */
+*
+*  @author ${author}
+*/
 @Service
 public class ${className?cap_first}ServiceImpl
 extends AbstractGenericService<${className?cap_first}, ${className?cap_first}Repository>
 implements ${className?cap_first}Service {
 
-    @Override
-    public QueryFilter setQueryString(ListConditionVo listConditionVo) {
-        ${className?cap_first}ListDTO listVo = (${className?cap_first}ListDTO) listConditionVo;
-        QueryFilter filter = new QueryFilter();
-        filter.addEqual("isDelete", 0, false);
+@Override
+public QueryFilter setQueryString(ListConditionVo listConditionVo) {
+${className?cap_first}ListDTO dto = (${className?cap_first}ListDTO) listConditionVo;
+QueryFilter filter = new QueryFilter();
+filter.addEqual("isDelete", 0, false);
 
-        return filter;
-    }
+return filter;
+}
 
-    /**
-     * 查询列表
-     *
-     * @param pageNumber
+/**
+* 查询列表
+*
+* @param pageNumber
      * @param pageSize
      * @param dto
      * @return
