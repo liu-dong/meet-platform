@@ -21,13 +21,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * @author liudong
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class WebSecurityConfigurer implements WebMvcConfigurer {
 
     /**
      * 不拦截的路径
      */
-    private static final String[] excludePathPatterns = {"/test/**", "/register", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
+    private static final String[] excludePathPatterns = {"/authenticate","/test/**", "/register", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径
@@ -60,13 +60,12 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()//关跨域保护
                 .authorizeRequests() //授权的请求
-                .antMatchers("/authenticate", "/login", "/security/login", "/accountInfo/register")
+                .antMatchers("/accountInfo/register")
                 .permitAll()
                 .anyRequest().authenticated(); //其他任何请求都需要通过认证
         httpSecurity.formLogin()//表单认证
                 //指定处理登录请求的路径
-                .loginProcessingUrl("/authenticate")
-//                .permitAll()
+                .loginProcessingUrl("/authenticate").permitAll()
                 .successHandler(successHandler)//自定义成功回调
                 .failureHandler(failureHandler);//自定义失败回调
         //添加校验验证码过滤器

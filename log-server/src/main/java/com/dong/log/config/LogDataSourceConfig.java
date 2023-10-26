@@ -90,7 +90,7 @@ public class LogDataSourceConfig {
         return builder
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
-                .packages("com.dong.logserver.web.entity")
+                .packages("com.dong.log.web.entity")
                 .build();
     }
 
