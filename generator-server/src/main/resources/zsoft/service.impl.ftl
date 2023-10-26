@@ -1,5 +1,6 @@
 package ${packageName};
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import zsoft.gov.platform.base.query.ListConditionVo;
