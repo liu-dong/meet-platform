@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.dong.commoncore.enums.LoginTypeEnum;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.AddressUtils;
+import com.dong.commoncore.util.JWTUtils;
 import com.dong.log.web.model.dto.LoginLogsDTO;
 import com.dong.log.web.service.LoginLogsService;
 import com.dong.security.core.entity.Account;
@@ -54,7 +55,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         HashMap<String, Object> dataMap = new HashMap<>();
         dataMap.put("userInfo", userInfo);
         dataMap.put("roleInfo", authentication.getAuthorities());
-        ResponseResult result = ResponseResult.success(dataMap, "登录成功！");
+        String token = JWTUtils.getToken(account.getId(), account.getUsername(), account.getRealName());
+        ResponseResult result = ResponseResult.success(token, "登录成功！");
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         writer.write(JSON.toJSONString(result));

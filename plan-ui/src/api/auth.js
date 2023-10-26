@@ -12,7 +12,7 @@ export function login(params) {
 // 获取用户信息
 export function getUserInfo() {
   return request({
-    url: '/getUserDetail',
+    url: '/security/getUserDetail',
     method: 'get'
   })
 }
