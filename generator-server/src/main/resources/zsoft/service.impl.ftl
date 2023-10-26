@@ -72,7 +72,10 @@ implements ${className?cap_first}Service {
      */
     @Override
     public String save${className?cap_first}(${className?cap_first}DTO dto) {
-        return null;
+        ${className?cap_first} entity = new ${className?cap_first}();
+        BeanUtils.copyProperties(dto, entity);
+        entity = this.repository.save(entity);
+        return entity.getId();
     }
 
     /**
