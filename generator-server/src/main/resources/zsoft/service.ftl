@@ -17,7 +17,7 @@ import ${basePackageName}.repository.${className?cap_first}Repository;
 public interface ${className?cap_first}Service extends GenericService<${className?cap_first}, ${className?cap_first}Repository> {
 
  /**
-  * 查询列表
+  * 查询${classComment}列表
   *
   * @param pageNumber
   * @param pageSize
@@ -27,7 +27,7 @@ public interface ${className?cap_first}Service extends GenericService<${classNam
  Page<${className?cap_first}ListVO> find${className?cap_first}List(Integer pageNumber, Integer pageSize, ${className?cap_first}ListDTO dto);
 
   /**
-   * 保存
+   * 保存${classComment}
    *
    * @param dto
    * @return
@@ -35,7 +35,7 @@ public interface ${className?cap_first}Service extends GenericService<${classNam
   String save${className?cap_first}(${className?cap_first}DTO dto);
 
   /**
-   * 查询详情
+   * 查询${classComment}详情
    *
    * @param id
    * @return

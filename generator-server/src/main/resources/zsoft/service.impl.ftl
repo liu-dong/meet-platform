@@ -38,7 +38,7 @@ implements ${className?cap_first}Service {
     }
 
     /**
-     * 查询列表
+     * 查询${classComment}列表
      *
      * @param pageNumber
      * @param pageSize
@@ -49,7 +49,7 @@ implements ${className?cap_first}Service {
     public Page<${className?cap_first}ListVO> find${className?cap_first}List(Integer pageNumber, Integer pageSize, ${className?cap_first}ListDTO dto) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "createdDate");
         Page<${className?cap_first}> page = this.query(dto, pageable);
-        List<${className?cap_first}ListVO> result = convertVO(page.getContent());
+        List<${className?cap_first}ListVO> result = convertListVO(page.getContent());
         return new PageImpl<>(result, pageable, page.getTotalElements());
     }
 
@@ -59,14 +59,14 @@ implements ${className?cap_first}Service {
      * @param content
      * @return
      */
-    private List<${className?cap_first}ListVO> convertVO(List<${className?cap_first}> content) {
+    private List<${className?cap_first}ListVO> convertListVO(List<${className?cap_first}> content) {
         List<${className?cap_first}ListVO> result = new ArrayList<>();
 
         return result;
     }
 
     /**
-     * 保存
+     * 保存${classComment}
      *
      * @param dto
      * @return
@@ -80,7 +80,7 @@ implements ${className?cap_first}Service {
     }
 
     /**
-     * 查询详情
+     * 查询${classComment}详情
      *
      * @param id
      * @return
