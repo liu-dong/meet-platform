@@ -2,6 +2,7 @@ package com.dong.authserver.web.controller;
 
 import com.dong.authserver.web.model.LoginDTO;
 import com.dong.authserver.web.service.LoginService;
+import com.dong.authserver.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
@@ -9,7 +10,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +34,8 @@ public class LoginSessionController {
 
     @Autowired
     LoginService loginService;
+    @Autowired
+    UserService userService;
 
 
     /**
@@ -41,7 +47,7 @@ public class LoginSessionController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public ResponseResult login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDTO dto) {
-        UserDetail userDetail = loginService.getUserDetail(dto);
+        UserDetail userDetail = userService.getUserDetail(dto);
 
         HttpSession session = request.getSession();
         //用户信息放入session
@@ -53,22 +59,6 @@ public class LoginSessionController {
 
 
     /**
-     * 获取用户信息
-     *
-     * @param request
-     * @return
-     */
-    @ApiOperation("获取用户信息")
-    @GetMapping("/getUserDetail")
-    public ResponseResult getUserDetail(HttpServletRequest request) {
-        UserDetail userDetail = (UserDetail) request.getSession().getAttribute("userDetail");
-        if (userDetail == null) {
-            return ResponseResult.error("无用户信息");
-        }
-        return ResponseResult.success(userDetail, ResponseMessageConstant.QUERY_SUCCESS);
-    }
-
-    /**
      * 退出登录
      *
      * @param username 用户名
@@ -77,7 +67,7 @@ public class LoginSessionController {
     @ApiOperation("退出登录")
     @PostMapping("/logout")
     public ResponseResult logout(String username) {
-        return loginService.logout();
+        return ResponseResult.success(loginService.logout());
     }
 
 }

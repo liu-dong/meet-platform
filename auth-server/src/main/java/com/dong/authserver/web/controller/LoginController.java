@@ -3,11 +3,10 @@ package com.dong.authserver.web.controller;
 import com.dong.authserver.web.model.LoginDTO;
 import com.dong.authserver.web.model.RegisterDTO;
 import com.dong.authserver.web.service.LoginService;
+import com.dong.authserver.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.commoncore.model.UserDetail;
-import com.dong.commoncore.util.JWTUtils;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import io.swagger.annotations.Api;
@@ -24,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * 登录注册
@@ -40,6 +38,8 @@ public class LoginController {
     Producer producer;
     @Autowired
     LoginService loginService;
+    @Autowired
+    UserService userService;
 
     /**
      * 动态生成验证码
@@ -97,47 +97,6 @@ public class LoginController {
         }
     }
 
-    /**
-     * 校验token
-     *
-     * @param request
-     * @return
-     */
-    @ApiOperation("校验token")
-    @GetMapping("/checkToken")
-    public ResponseResult checkToken(HttpServletRequest request) {
-        Map<String, String> map = JWTUtils.analyzeToken(request);
-        if (map ==null){
-            return ResponseResult.error("无效令牌");
-        }
-        return ResponseResult.success(map,"有效令牌");
-    }
-
-    /**
-     * 刷新token
-     *
-     * @param request
-     * @return
-     */
-    @ApiOperation("刷新token")
-    @GetMapping("/refreshToken")
-    public ResponseResult refreshToken(HttpServletRequest request) {
-        String token = JWTUtils.refreshToken(request);
-        return ResponseResult.success(token, "登录成功！");
-    }
-
-    /**
-     * 获取用户信息
-     *
-     * @param request
-     * @return
-     */
-    @ApiOperation("获取用户信息")
-    @GetMapping("/getUserDetail")
-    public ResponseResult getUserDetail(HttpServletRequest request) {
-        UserDetail user = loginService.getUserDetail(request);
-        return ResponseResult.success(user, "校验成功！");
-    }
 
     /**
      * 退出登录
@@ -147,7 +106,7 @@ public class LoginController {
     @ApiOperation("退出登录")
     @PostMapping("/logout")
     public ResponseResult logout() {
-        return loginService.logout();
+        return ResponseResult.success(loginService.logout());
     }
 
     /**
@@ -159,20 +118,8 @@ public class LoginController {
     @ApiOperation("注册用户")
     @PostMapping("/register")
     public ResponseResult register(@RequestBody RegisterDTO dto) {
-        String username = loginService.register(dto);
+        String username = userService.register(dto);
         return ResponseResult.success(username, ResponseMessageConstant.REGISTER_SUCCESS);
-    }
-
-    /**
-     * 注销用户
-     *
-     * @param username 用户名
-     * @return 返回结果
-     */
-    @ApiOperation("注销用户")
-    @PostMapping("/cancel")
-    public ResponseResult cancel(String username) {
-        return loginService.cancel(username);
     }
 
     public void verificationCode(HttpServletRequest request, LoginDTO dto) {
