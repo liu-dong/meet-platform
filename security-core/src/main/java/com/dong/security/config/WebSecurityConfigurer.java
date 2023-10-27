@@ -27,7 +27,7 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     /**
      * 不拦截的路径
      */
-    private static final String[] excludePathPatterns = {"/authenticate","/test/**", "/register", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
+    private static final String[] excludePathPatterns = {"/authenticate", "/test/**", "/register", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径
@@ -41,6 +41,8 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     LoginSuccessHandler successHandler;
     @Autowired
     LoginFailureHandler failureHandler;
+    @Autowired
+    CustomLogoutSuccessHandler logoutSuccessHandler;
 
     /**
      * 获取AuthenticationManager（认证管理器），登录时认证使用
@@ -68,6 +70,11 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
                 .loginProcessingUrl("/authenticate").permitAll()
                 .successHandler(successHandler)//自定义成功回调
                 .failureHandler(failureHandler);//自定义失败回调
+        httpSecurity.logout()//注销登录
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)//清除session
+                .clearAuthentication(true)//清除认证信息
+                .logoutSuccessHandler(logoutSuccessHandler);
         //添加校验验证码过滤器
         httpSecurity.addFilterBefore(new VerificationCodeFilter(),
                 UsernamePasswordAuthenticationFilter.class);

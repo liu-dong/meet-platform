@@ -22,11 +22,11 @@ import java.util.Arrays;
 public class VerificationCodeFilter extends OncePerRequestFilter {
 
     private final AuthenticationFailureHandler failureHandler = new LoginFailureHandler();
-    private static final String[] loginP = {"/login","/authenticate"};
+    private static final String[] loginPath = {"/login","/authenticate"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (Arrays.asList(loginP).contains(request.getRequestURI())) {
+        if (Arrays.asList(loginPath).contains(request.getRequestURI())) {
             try {
                 String requestCode = request.getParameter("captcha");
                 if (!"1".equals(requestCode)) {

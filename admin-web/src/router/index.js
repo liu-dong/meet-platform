@@ -30,6 +30,15 @@ Vue.use(Router)
  * all roles can be accessed
  */
 export const constantRoutes = [
+  // {
+  //   path: '/',
+  //   redirect: '/portal'
+  // },
+  {
+    path: '/portal',
+    component: () => import('@/views/portal/index'),
+    hidden: true
+  },
   {
     path: '/login',
     component: () => import('@/views/login/index'),

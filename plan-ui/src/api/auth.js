@@ -12,20 +12,16 @@ export function login(params) {
 // 获取用户信息
 export function getUserInfo() {
   return request({
-    url: '/security/getUserDetail',
+    url: '/user/getUserDetail',
     method: 'get'
   })
 }
 
 // 登出
-export function logout(data) {
+export function logout() {
   return request({
-    url: '/account/logout',
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    data
+    url: '/logout',
+    method: 'get'
   })
 }
 

@@ -1,6 +1,7 @@
 package com.dong.authserver.web.controller;
 
 import com.dong.authserver.web.service.UserService;
+import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
 import io.swagger.annotations.Api;
@@ -36,7 +37,7 @@ public class UserController {
     @GetMapping("/getUserDetail")
     public ResponseResult getUserDetail(HttpServletRequest request) {
         UserDetail user = userService.getUserDetail(request);
-        return ResponseResult.success(user, "校验成功！");
+        return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**

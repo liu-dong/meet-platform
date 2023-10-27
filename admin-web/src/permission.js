@@ -8,9 +8,11 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login', '/portal'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
+  console.log(from)
+  debugger
   // start progress bar
   NProgress.start()
 
@@ -23,7 +25,7 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
+      next({ path: '/home' })
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.name
@@ -45,6 +47,7 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
+    debugger
     /* has no token*/
 
     if (whiteList.indexOf(to.path) !== -1) {
