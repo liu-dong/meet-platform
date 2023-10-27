@@ -30,10 +30,6 @@ Vue.use(Router)
  * all roles can be accessed
  */
 export const constantRoutes = [
-  // {
-  //   path: '/',
-  //   redirect: '/portal'
-  // },
   {
     path: '/portal',
     component: () => import('@/views/portal/index'),
@@ -42,16 +38,6 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error-page/404'),
     hidden: true
   },
   {
@@ -91,12 +77,22 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
