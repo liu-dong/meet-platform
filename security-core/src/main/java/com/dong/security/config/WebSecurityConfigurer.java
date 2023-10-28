@@ -66,6 +66,7 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
                 .permitAll()
                 .anyRequest().authenticated(); //其他任何请求都需要通过认证
         httpSecurity.formLogin()//表单认证
+                .loginPage("/myLogin.html")
                 //指定处理登录请求的路径
                 .loginProcessingUrl("/authenticate").permitAll()
                 .successHandler(successHandler)//自定义成功回调
