@@ -1,4 +1,4 @@
-package com.dong.securitycore.security;
+package com.dong.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,10 +57,9 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
      * 定义获取code端点和access_token端点
      *
      * @param endpoints
-     * @throws Exception
      */
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .authorizationCodeServices(authorizationCodeServices)
