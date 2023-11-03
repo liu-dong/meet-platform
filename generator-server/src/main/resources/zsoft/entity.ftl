@@ -1,5 +1,6 @@
 package ${packageName};
 
+import org.hibernate.annotations.SQLDelete;
 import zsoft.gov.platform.base.domain.AbstractDomainEntity;
 
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "${tableName}")
+@SQLDelete(sql = "UPDATE ${tableName} SET IS_DELETE = 1 WHERE id = ?")
 public class ${className?cap_first} extends AbstractDomainEntity {
 
     private static final long serialVersionUID = ${serialUID}

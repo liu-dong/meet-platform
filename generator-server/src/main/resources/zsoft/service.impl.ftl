@@ -61,7 +61,11 @@ implements ${className?cap_first}Service {
      */
     private List<${className?cap_first}ListVO> convertListVO(List<${className?cap_first}> content) {
         List<${className?cap_first}ListVO> result = new ArrayList<>();
-
+        for (${className?cap_first} entity : content) {
+            ${className?cap_first}ListVO vo = new ${className?cap_first}ListVO();
+            BeanUtils.copyProperties(entity, vo);
+            result.add(vo);
+        }
         return result;
     }
 
@@ -101,20 +105,5 @@ implements ${className?cap_first}Service {
         ${className?cap_first}VO vo = new ${className?cap_first}VO();
         BeanUtils.copyProperties(entity, vo);
         return vo;
-    }
-
-    /**
-     * 逻辑删除
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public void remove(String id) {
-        ${className?cap_first} entity = this.findById(id);
-        if (entity != null) {
-            entity.setIsDelete(1);
-            this.repository.save(entity);
-        }
     }
 }
