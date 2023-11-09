@@ -12,7 +12,7 @@ import ${basePackageName}.repository.${className?cap_first}Repository;
 /**
  * ${classComment}
  *
- * @author ${author}
+ * @author liudong
  */
 public interface ${className?cap_first}Service extends GenericService<${className?cap_first}, ${className?cap_first}Repository> {
 

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * ${classComment}列表响应对象
  *
- * @author ${author}
+ * @author liudong
  */
 public class ${className?cap_first}ListVO {
 

@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 /**
  * ${classComment}
  *
- * @author ${author}
+ * @author liudong
  */
 @RestController
 @RequestMapping("/${className}")

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * ${classComment}
  *
- * @author ${author}
+ * @author liudong
  */
 public class ${className?cap_first}DTO {
 

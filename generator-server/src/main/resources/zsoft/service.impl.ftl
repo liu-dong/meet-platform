@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * ${classComment}
  *
- * @author ${author}
+ * @author liudong
  */
 @Service
 public class ${className?cap_first}ServiceImpl

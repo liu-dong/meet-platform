@@ -6,7 +6,7 @@ import zsoft.gov.platform.base.query.ListConditionVo;
 /**
  * ${classComment}列表请求对象
  *
- * @author ${author}
+ * @author liudong
  */
 public class ${className?cap_first}ListDTO implements ListConditionVo {
 

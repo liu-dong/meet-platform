@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * ${classComment}
  *
- * @author ${author}
+ * @author liudong
  */
 @Entity
 @Table(name = "${tableName}")

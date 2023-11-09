@@ -7,7 +7,7 @@ import ${basePackageName}.entity.${className?cap_first};
 /**
  * ${classComment}
  *
- * @author ${author}
+ * @author liudong
  */
 @Repository
 public interface ${className?cap_first}Repository extends GenericJpaRepository<${className?cap_first}, String> {
