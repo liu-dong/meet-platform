@@ -161,10 +161,6 @@ public class AuthorizationServerSecurityConfiguration {
         return provider;
     }
 
-    /*@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new CustomPasswordEncoder();
-    }*/
 
     /**
      * 注册客户端信息
@@ -198,6 +194,7 @@ public class AuthorizationServerSecurityConfiguration {
 
         return new InMemoryRegisteredClientRepository(loginClient, registeredClient);
     }
+
 
     /**
      * 创建包含RSA公钥和私钥的JWK（用于生成和验证JWT）
