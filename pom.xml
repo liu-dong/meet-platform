@@ -84,6 +84,7 @@
         <module>demo</module>
         <module>plan-service</module>
         <module>websocket-server</module>
+        <module>sso-server</module>
     </modules>
 
     <dependencies>

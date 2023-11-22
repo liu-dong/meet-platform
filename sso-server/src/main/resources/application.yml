@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: oauth2-server
+
+    profiles:
+        active: dev
+        include: common
+
+session:
+    expiration:
+        time: 3600

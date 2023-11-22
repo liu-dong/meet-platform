@@ -8,6 +8,7 @@
 
 #### Server(8180—8199)
 
+    ·oauth-server(8199)：oauth2.0认证
     ·auth-server(8180)：认证服务
     ·admin-server(8181)：后台管理
     ·log-server(8182)：日志管理
