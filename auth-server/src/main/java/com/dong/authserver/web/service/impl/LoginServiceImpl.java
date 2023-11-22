@@ -5,7 +5,7 @@ import com.dong.authserver.web.service.LoginService;
 import com.dong.authserver.web.service.UserService;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.util.JWTUtils;
-import com.dong.security.core.entity.Account;
+import com.dong.user.entity.Account;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

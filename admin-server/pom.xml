@@ -20,12 +20,11 @@
     <dependencies>
         <dependency>
             <groupId>com.dong</groupId>
-            <artifactId>security-core</artifactId>
+            <artifactId>user-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.dong</groupId>
             <artifactId>log-server</artifactId>
-            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.dong</groupId>

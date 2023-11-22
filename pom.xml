@@ -61,6 +61,7 @@
 
     <modules>
         <module>common-core</module>
+        <module>user-core</module>
         <module>security-core</module>
         <module>auth-server</module>
         <module>admin-server</module>
@@ -124,6 +125,11 @@
             <dependency>
                 <groupId>com.dong</groupId>
                 <artifactId>common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dong</groupId>
+                <artifactId>user-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
