@@ -62,7 +62,6 @@
     <modules>
         <module>common-core</module>
         <module>user-core</module>
-        <module>security-core</module>
         <module>auth-server</module>
         <module>admin-server</module>
         <module>generator-server</module>
