@@ -1,6 +1,5 @@
 package com.dong.sso.config;
 
-import com.dong.sso.filter.VerificationCodeFilter;
 import com.dong.sso.service.UserDetailsServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -28,12 +27,10 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -79,8 +76,9 @@ public class AuthorizationServerSecurityConfiguration {
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
-        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+        return http.formLogin(Customizer.withDefaults()).build();
+        /*RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
         http
                 // 拦截对 授权服务器 相关端点的请求
                 .requestMatcher(endpointsMatcher)
@@ -92,13 +90,10 @@ public class AuthorizationServerSecurityConfiguration {
                 // 忽略掉相关端点的csrf（跨站请求）：对授权端点的访问可以是跨站的
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 // 表单登录
-                .formLogin()
-                .and()
-                .logout().logoutSuccessUrl("http://127.0.0.1:8000")
-                .and()
-                // 应用 授权服务器的配置
-                .apply(authorizationServerConfigurer);
-        return http.build();
+                .formLogin(Customizer.withDefaults())
+
+
+        return http.build();*/
     }
 
     /**
@@ -111,14 +106,13 @@ public class AuthorizationServerSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain standardSecurityFilterChain(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http
-                .authorizeHttpRequests((authorize) -> authorize
+        http.authorizeHttpRequests((authorize) -> authorize
+                        .antMatchers("/loginPage","/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults());
-        // @formatter:on
-
+//                .formLogin(Customizer.withDefaults());
+                .formLogin()
+                .loginPage("/loginPage");
         return http.build();
     }
 
@@ -129,7 +123,7 @@ public class AuthorizationServerSecurityConfiguration {
      * @return
      * @throws Exception
      */
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()//关跨域保护
                 .authorizeRequests() //授权的请求
@@ -139,6 +133,8 @@ public class AuthorizationServerSecurityConfiguration {
                 .permitAll()
                 .anyRequest().authenticated(); //其他任何请求都需要通过认证
         httpSecurity.formLogin()//表单认证
+//                .loginPage("/myLogin.html")
+//                .loginProcessingUrl("/login")
                 .successHandler(successHandler)//自定义成功回调
                 .failureHandler(failureHandler);//自定义失败回调
         httpSecurity.logout()//注销登录
@@ -150,8 +146,7 @@ public class AuthorizationServerSecurityConfiguration {
         httpSecurity.addFilterBefore(new VerificationCodeFilter(),
                 UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
-    }
-
+    }*/
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -182,18 +177,43 @@ public class AuthorizationServerSecurityConfiguration {
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+        /*RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("messaging-client")
                 .clientSecret("{noop}secret")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .scope("message:read")
                 .scope("message:write")
+                .build();*/
+        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("messaging-client")
+                .clientSecret("{noop}secret")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
+                .redirectUri("http://www.baidu.com")
+                .scope(OidcScopes.OPENID)
+                .scope("message.read")
+                .scope("message.write")
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         // @formatter:on
 
         return new InMemoryRegisteredClientRepository(loginClient, registeredClient);
     }
+
+    /**
+     * 配置客户端
+     *
+     * @param jdbcTemplate
+     * @return
+     */
+    /*@Bean
+    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
+        return new JdbcRegisteredClientRepository(jdbcTemplate);
+    }*/
 
 
     /**

@@ -7,5 +7,16 @@ spring:
     username: root
     password: 123456
 
+  #配置页面存放路径
+  thymeleaf:
+    prefix: classpath:/static/
+
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+
 exclude:
   path: /**/login
+
+
