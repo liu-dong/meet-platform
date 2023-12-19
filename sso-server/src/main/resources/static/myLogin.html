@@ -8,6 +8,7 @@
 <div>
     <h1>Hello World!</h1>
     <form action="/login" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <label for="username">用户名：</label><input type="text" name="username" id="username">
         <label for="password">密码：</label><input type="password" name="password" id="password">
 <!--        <label for="kaptcha">验证码：</label><input type="text" name="kaptcha" id="kaptcha">-->
