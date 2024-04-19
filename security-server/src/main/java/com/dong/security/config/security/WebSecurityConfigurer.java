@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -50,7 +51,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new CustomPasswordEncoder();
     }
 
     /**
@@ -64,16 +65,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    /**
-     * 创建用户信息服务
-     *
-     * @return
-     */
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
     }
 
     @Override
@@ -94,7 +85,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)// 清除session
                 .clearAuthentication(true)// 清除认证信息
-                .logoutSuccessHandler(logoutSuccessHandler);
+                .logoutSuccessHandler(logoutSuccessHandler);// 注销登录
         // 添加校验验证码过滤器
         httpSecurity.addFilterBefore(new VerificationCodeFilter(),
                 UsernamePasswordAuthenticationFilter.class);
@@ -107,7 +98,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        //基于自定义用户支持
-        builder.userDetailsService(userDetailsService);
+        // 基于自定义用户支持
+        builder.userDetailsService(userDetailsService).passwordEncoder(new CustomPasswordEncoder());
     }
 }

@@ -6,6 +6,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.dong.security.config.security.LoginFailureHandler;
 import com.dong.security.exception.VerificationCodeException;
+import com.google.code.kaptcha.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,18 +27,13 @@ import java.util.Arrays;
 public class VerificationCodeFilter extends OncePerRequestFilter {
 
     private final AuthenticationFailureHandler failureHandler = new LoginFailureHandler();
-    private static final String[] loginPath = {"/login","/authenticate"};
+    private static final String[] loginPath = {"/login", "/authenticate"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (Arrays.asList(loginPath).contains(request.getRequestURI())) {
             try {
-                String json = IoUtil.read(request.getInputStream(), CharsetUtil.CHARSET_UTF_8);
-                JSONObject jsonObject = JSONUtil.parseObj(json);
-                String requestCode = jsonObject.get("captcha").toString();
-                if (!"1".equals(requestCode)) {
-                    verificationCode(request);
-                }
+                verificationCode(request);
                 filterChain.doFilter(request, response);
 
             } catch (VerificationCodeException exception) {
@@ -49,12 +45,34 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         }
     }
 
-    public void verificationCode(HttpServletRequest request) {
-        String requestCode = request.getParameter("captcha");
+    /**
+     * 获取验证码
+     *
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    private static String getCaptcha(HttpServletRequest request) throws IOException {
+        String json = IoUtil.read(request.getInputStream(), CharsetUtil.CHARSET_UTF_8);
+        JSONObject jsonObject = JSONUtil.parseObj(json);
+        return jsonObject.get("captcha").toString();
+    }
+
+    /**
+     * 校验验证码
+     *
+     * @param request
+     * @throws IOException
+     */
+    public void verificationCode(HttpServletRequest request) throws IOException {
+        String requestCode = getCaptcha(request);
+        if ("1".equals(requestCode)) {
+            return;
+        }
         HttpSession session = request.getSession();
-        String savedCode = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
+        String savedCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         if (StringUtils.isNotBlank(savedCode)) {
-            session.removeAttribute("KAPTCHA_SESSION_KEY");
+            session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
         }
         if (StringUtils.isBlank(requestCode) || StringUtils.isBlank(savedCode) || !requestCode.equalsIgnoreCase(savedCode)) {
             throw new VerificationCodeException();

@@ -28,4 +28,6 @@ public interface UserService {
     UserDetail getUserDetail(LoginDTO dto);
 
     Account getAccountByUsername(String username);
+
+    UserDetail updatePassword(HttpServletRequest request);
 }

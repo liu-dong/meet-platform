@@ -41,6 +41,18 @@ public class UserController {
     }
 
     /**
+     * 修改用户密码
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/updatePassword")
+    public ResponseResult updatePassword(HttpServletRequest request) {
+        UserDetail user = userService.updatePassword(request);
+        return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
      * 注销用户
      *
      * @param username 用户名

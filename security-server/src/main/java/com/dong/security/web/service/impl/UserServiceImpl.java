@@ -1,5 +1,7 @@
 package com.dong.security.web.service.impl;
 
+import com.dong.commoncore.constant.CommonConstant;
+import com.dong.security.config.security.CustomPasswordEncoder;
 import com.dong.security.web.model.LoginDTO;
 import com.dong.security.web.model.RegisterDTO;
 import com.dong.security.web.service.UserService;
@@ -21,7 +23,9 @@ import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -45,6 +49,9 @@ public class UserServiceImpl implements UserService {
     RoleJpaDao roleJpaDao;
     @Autowired
     AccountRoleJpaDao accountRoleJpaDao;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -70,6 +77,7 @@ public class UserServiceImpl implements UserService {
         return accountJpaDao.getAccountByUsername(username);
     }
 
+    @Transactional
     @Override
     public String register(RegisterDTO dto) {
         //新增用户时初始化一条人员信息
@@ -81,17 +89,24 @@ public class UserServiceImpl implements UserService {
         return account.getUsername();
     }
 
+    @Override
+    public UserDetail updatePassword(HttpServletRequest request) {
+        return null;
+    }
+
     @NotNull
     private Account saveAccount(RegisterDTO dto, String personId) {
         Account entity = new Account();
         String accountId = CommonUtils.getUUID();
         entity.setId(accountId);
         entity.setUsername(dto.getUsername());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setCreateTime(new Date());
         entity.setPersonId(personId);
         entity.setUserType(dto.getUserType());
         entity.setRealName(dto.getRealName());
+        entity.setLoginCount(0);
+        entity.setUserStatus(0);
         entity.setUpdateTime(new Date());
         accountJpaDao.save(entity);
         return entity;
@@ -116,6 +131,8 @@ public class UserServiceImpl implements UserService {
         person.setName(dto.getRealName());
         person.setIdentityCard(dto.getIdentityCard());
         person.setCreateTime(new Date());
+        person.setDeleteStatus(CommonConstant.NO);
+        person.setOrgId("暂未入职");
         personJpaDao.save(person);
         return person.getId();
     }
