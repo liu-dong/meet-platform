@@ -6,6 +6,7 @@ package com.dong.commoncore.constant;
 public class ResponseMessageConstant {
 
     public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGOUT_SUCCESS = "退出登录成功";
     public static final String REGISTER_SUCCESS = "登录成功";
     public static final String UPLOAD_SUCCESS = "上传成功";
     public static final String OPERATE_SUCCESS = "操作成功";

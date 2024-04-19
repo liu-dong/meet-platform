@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface UserService {
 
-
     Account getAccount(LoginDTO dto);
 
     String register(RegisterDTO dto);
@@ -25,7 +24,7 @@ public interface UserService {
 
     UserDetail getUserDetail(HttpServletRequest request);
 
-    UserDetail getUserDetail(LoginDTO dto);
+    UserDetail getUserDetail(Account account);
 
     Account getAccountByUsername(String username);
 }

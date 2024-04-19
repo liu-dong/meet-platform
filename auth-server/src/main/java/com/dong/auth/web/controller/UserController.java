@@ -40,6 +40,7 @@ public class UserController {
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
+
     /**
      * 注销用户
      *

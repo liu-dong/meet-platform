@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -152,9 +153,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetail getUserDetail(LoginDTO dto) {
+    public UserDetail getUserDetail(Account account) {
         UserDetail user = new UserDetail();
-        Account account = getAccount(dto);
         if (account != null) {
             user.setUserId(account.getId());
             user.setUsername(account.getUsername());
