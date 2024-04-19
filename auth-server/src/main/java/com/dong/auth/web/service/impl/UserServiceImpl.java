@@ -134,23 +134,6 @@ public class UserServiceImpl implements UserService {
         return ResponseResult.success("用户名不能为空!");
     }
 
-    @Override
-    public UserDetail getUserDetail(HttpServletRequest request) {
-        Claims claims = JWTUtils.getClaims(request);
-        UserDetail user = new UserDetail();
-        if (claims != null) {
-            user.setUserId(String.valueOf(claims.get("userId")));
-            user.setUsername(String.valueOf(claims.get("username")));
-            user.setRealName(String.valueOf(claims.get("realName")));
-            //查询账号角色
-            List<Map<String, Object>> roles = accountService.findAccountRoleInfoList(user.getUserId());
-            user.setRoles(roles);
-            //查询账号权限
-            List<Map<String, Object>> permissions = accountService.findAccountPermissionList(user.getUserId());
-            user.setPermissions(permissions);
-        }
-        return user;
-    }
 
     @Override
     public UserDetail getUserDetail(Account account) {

@@ -4,6 +4,7 @@ import com.dong.auth.web.model.LoginDTO;
 import com.dong.auth.web.service.LoginService;
 import com.dong.auth.web.service.UserService;
 import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.model.UserDetail;
 import com.dong.user.entity.Account;
 import com.google.code.kaptcha.Constants;
 import org.apache.commons.lang3.StringUtils;
@@ -80,4 +81,12 @@ public abstract class AbstractLoginService implements LoginService {
      * @param request
      */
     protected abstract void invalidAuthentication(HttpServletRequest request);
+
+    /**
+     * 获取登录用户信息
+     *
+     * @param request
+     * @return
+     */
+    public abstract UserDetail getUserDetail(HttpServletRequest request);
 }

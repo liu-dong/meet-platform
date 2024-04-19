@@ -2,6 +2,7 @@ package com.dong.auth.web.service;
 
 
 import com.dong.auth.web.model.LoginDTO;
+import com.dong.commoncore.model.UserDetail;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,4 +14,6 @@ public interface LoginService {
     String login(HttpServletRequest request, LoginDTO dto);
 
     void logout(HttpServletRequest request);
+
+    UserDetail getUserDetail(HttpServletRequest request);
 }

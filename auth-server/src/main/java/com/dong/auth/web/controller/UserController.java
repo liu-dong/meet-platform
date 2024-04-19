@@ -1,5 +1,7 @@
 package com.dong.auth.web.controller;
 
+import com.dong.auth.web.service.AuthModeFactory;
+import com.dong.auth.web.service.LoginService;
 import com.dong.auth.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
@@ -26,6 +28,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    AuthModeFactory authModeFactory;
 
     /**
      * 获取用户信息
@@ -36,7 +40,8 @@ public class UserController {
     @ApiOperation("获取用户信息")
     @GetMapping("/getUserDetail")
     public ResponseResult getUserDetail(HttpServletRequest request) {
-        UserDetail user = userService.getUserDetail(request);
+        LoginService loginService = authModeFactory.createLoginService();
+        UserDetail user = loginService.getUserDetail(request);
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

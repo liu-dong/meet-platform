@@ -22,8 +22,6 @@ public interface UserService {
 
     ResponseResult cancel(String username);
 
-    UserDetail getUserDetail(HttpServletRequest request);
-
     UserDetail getUserDetail(Account account);
 
     Account getAccountByUsername(String username);

@@ -1,13 +1,8 @@
 package com.dong.auth.web.service.impl;
 
-import com.dong.auth.web.model.LoginDTO;
-import com.dong.auth.web.service.LoginService;
 import com.dong.auth.web.service.UserService;
-import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.UserDetail;
-import com.dong.commoncore.util.JWTUtils;
 import com.dong.user.entity.Account;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,6 +37,13 @@ public class SessionLoginServiceImpl extends AbstractLoginService {
     protected void invalidAuthentication(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("userDetail");
+    }
+
+    @Override
+    public UserDetail getUserDetail(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        // 用户信息放入session
+        return (UserDetail) session.getAttribute("userDetail");
     }
 
 }
