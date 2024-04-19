@@ -1,6 +1,9 @@
-package com.dong.auth.config.security;
+package com.dong.oauth2.config.security;
 
-import com.dong.auth.config.interceptor.AuthenticationInterceptor;
+import cn.hutool.core.util.ArrayUtil;
+import com.dong.auth.config.security.CustomLogoutSuccessHandler;
+import com.dong.auth.config.security.LoginFailureHandler;
+import com.dong.auth.config.security.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -58,9 +59,10 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     // 配置安全拦截机制
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        String[] exclude = ArrayUtil.addAll(excludePathPatterns, swaggerPath, excludePath.split(","));
         httpSecurity.cors().and().csrf().disable()// 关跨域保护
                 .authorizeRequests() // 授权的请求
-                .antMatchers(excludePathPatterns)
+                .antMatchers(exclude)
                 .permitAll()
                 .anyRequest().authenticated(); // 其他任何请求都需要通过认证
         httpSecurity.formLogin()// 表单认证
@@ -89,20 +91,5 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .antMatchers("/css/**", "/js/**", "/images/**");
-    }
-
-    @Bean
-    public HandlerInterceptor authenticationInterceptor() {
-        return new AuthenticationInterceptor();
-    }
-
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticationInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(swaggerPath)
-                .excludePathPatterns(excludePathPatterns)
-                .excludePathPatterns(excludePath.split(","));
     }
 }

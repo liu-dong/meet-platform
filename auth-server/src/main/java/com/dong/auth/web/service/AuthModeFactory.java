@@ -1,5 +1,6 @@
 package com.dong.auth.web.service;
 
+import com.dong.auth.constant.AuthModeConstant;
 import com.dong.auth.web.service.impl.JwtLoginServiceImpl;
 import com.dong.auth.web.service.impl.SessionLoginServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ class AuthModeFactoryImpl implements AuthModeFactory {
     @Override
     public LoginService createLoginService() {
         switch (authMode) {
-            case "jwt":
+            case AuthModeConstant.JWT:
                 return jwtLoginService;
-            case "session":
+            case AuthModeConstant.SESSION:
                 return sessionLoginService;
             default:
                 throw new IllegalArgumentException("Invalid login service type");
