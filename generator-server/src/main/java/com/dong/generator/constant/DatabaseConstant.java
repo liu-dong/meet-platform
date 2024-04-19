@@ -25,7 +25,7 @@ public class DatabaseConstant {
     public static final Map<String, String> DRUID_PROPERTIES = new HashMap<String, String>() {{
         put("type", "com.alibaba.druid.pool.DruidDataSource");
         put("driverClassName", "com.mysql.jdbc.Driver");
-        put("url", "jdbc:mysql://192.168.154.127:3306?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false");
+        put("url", "jdbc:mysql://192.168.1.127:3306?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false");
         put("username", "root");
         put("password", "123456");
 

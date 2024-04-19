@@ -9,7 +9,7 @@ import redis.clients.jedis.Jedis;
  */
 public class RedisUtil {
 
-    public static final String ADDRESS = "192.168.154.127";
+    public static final String ADDRESS = "192.168.1.127";
 
     public static Jedis connRedis() {
         //连接本地的 Redis 服务

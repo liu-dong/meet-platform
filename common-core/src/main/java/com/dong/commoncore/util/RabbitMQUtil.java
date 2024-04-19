@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class RabbitMQUtil {
 
-    private static final String ADDRESSES = "192.168.154.127";
+    private static final String ADDRESSES = "192.168.1.127";
     private static final int PORT = 5672;
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "123456";

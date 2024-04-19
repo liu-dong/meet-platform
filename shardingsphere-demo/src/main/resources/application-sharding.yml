@@ -12,12 +12,12 @@ spring:
             names: ds
             ds:
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+                url: jdbc:mysql://192.168.1.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
                 type: com.alibaba.druid.pool.DruidDataSource
                 username: root
                 password: 123456
         #                driver-class-name: com.mysql.cj.jdbc.Driver
-        #                jdbc-url: jdbc:mysql://192.168.154.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        #                jdbc-url: jdbc:mysql://192.168.1.127:3306/my_data?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         #                type: com.zaxxer.hikari.HikariDataSource
         #                username: root
         #                password: 123456

@@ -1,9 +1,8 @@
 import request from '@/axios/authAxios'
-import axios from '@/axios/adminAxios'
 
 // 注册账号
 export function register(data) {
-  return axios({
+  return request({
     url: '/register',
     method: 'post',
     data
@@ -22,7 +21,7 @@ export function login(data) {
 // 获取用户信息
 export function getUserInfo() {
   return request({
-    url: '/getUserDetail',
+    url: '/security/getUserDetail',
     method: 'get'
   })
 }

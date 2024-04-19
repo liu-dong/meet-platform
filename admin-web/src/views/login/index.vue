@@ -4,68 +4,77 @@
       ref="loginForm"
       :model="loginForm"
       :rules="loginRules"
-      class="login-form"
       auto-complete="on"
+      class="login-form"
       label-position="left"
     >
 
       <div class="title-container">
-        <h3 class="title">计划管理系统</h3>
+        <h3 class="title">Meet后台管理系统</h3>
       </div>
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="user"/>
         </span>
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="请输入用户名"
-          name="username"
-          type="text"
-          tabindex="1"
           auto-complete="on"
+          name="username"
+          placeholder="请输入用户名"
+          tabindex="1"
+          type="text"
         />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="password"/>
         </span>
         <el-input
           :key="passwordType"
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="请输入密码"
-          name="password"
-          tabindex="2"
           auto-complete="on"
+          name="password"
+          placeholder="请输入密码"
+          tabindex="2"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
 
+      <div class="kaptcha-div">
+        <span class="svg-container">
+          <svg-icon icon-class="captcha"/>
+        </span>
+        <el-input v-model="loginForm.captcha" name="captcha" placeholder="请输入验证码" tabindex="3"/>
+        <el-image :src="getKaptcha" class="kaptcha-img" @click="updateKaptcha"/>
+      </div>
+
       <el-button
         :loading="loading"
-        type="primary"
         style="width:100%;margin-bottom:30px;"
+        type="primary"
         @click.native.prevent="handleLogin"
       >登录
       </el-button>
 
-      <div class="tips">
+      <!--<div class="tips">
         <span style="margin-right:20px;">用户名不可为中文</span>
         <span>密码：123456</span>
-      </div>
+      </div>-->
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { kaptchaUrl } from '@/utils/global'
 
 export default {
   name: 'Login',
@@ -85,14 +94,16 @@ export default {
       }
     }
     return {
+      getKaptcha: '/images/kaptcha.jpg',
       loginForm: {
         username: '',
         password: '',
-        captcha: 1
+        captcha: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        captcha: [{ required: true, trigger: 'blur', message: '请输入验证码' }]
       },
       loading: false,
       passwordType: 'password',
@@ -106,6 +117,9 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    this.updateKaptcha()
   },
   methods: {
     showPwd() {
@@ -133,6 +147,12 @@ export default {
           return false
         }
       })
+    },
+    // 刷新验证码
+    updateKaptcha() {
+      const time = new Date().getTime()
+      this.getKaptcha = 'http://localhost:8180/getKaptcha?t=' + time
+      this.loginForm.captcha = ''
     }
   }
 }
@@ -142,7 +162,7 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg: #283443;
+$bg: #138196FF;
 $light_gray: #fff;
 $cursor: #fff;
 
@@ -161,39 +181,41 @@ $cursor: #fff;
 
     input {
       background: transparent;
-      border: 0px;
+      border: 0;
       -webkit-appearance: none;
-      border-radius: 0px;
+      border-radius: 0;
       padding: 12px 5px 12px 15px;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0 1000px $bg inset !important;
+        // opacity: 0;
         -webkit-text-fill-color: $cursor !important;
       }
     }
-  }
 
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
+    .el-form-item {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      color: #454545;
+    }
   }
 }
 </style>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  background-image: url("../../assets/background_images/login.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
   overflow: hidden;
 
   .login-form {
@@ -245,6 +267,22 @@ $light_gray: #eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .kaptcha-div {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+    .el-input {
+      width: 50%;
+    }
+
+    .kaptcha-img {
+      margin-left: 10px;
+      border-radius: 3px;
+      background: #b4bccc;
+    }
   }
 }
 </style>

@@ -1,10 +1,10 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.154.127
+ Source Server         : 192.168.1.127
  Source Server Type    : MySQL
  Source Server Version : 50729
- Source Host           : 192.168.154.127:3306
+ Source Host           : 192.168.1.127:3306
  Source Schema         : meet
 
  Target Server Type    : MySQL

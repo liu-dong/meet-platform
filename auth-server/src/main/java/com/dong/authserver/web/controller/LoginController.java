@@ -31,7 +31,7 @@ import java.io.IOException;
  */
 @Api(tags = "登录注册")
 @RestController
-@RequestMapping("/security")
+// @RequestMapping("/security")
 public class LoginController {
 
     @Autowired

@@ -27,7 +27,7 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     /**
      * 不拦截的路径
      */
-    private static final String[] excludePathPatterns = {"/authenticate", "/test/**", "/register", "/login", "/getKaptcha", "/checkToken", "/logout", "/favicon.ico", "/error"};
+    private static final String[] excludePathPatterns = {"/authenticate", "/test/**", "/register", "/login", "/getKaptcha", "/session/**", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径
@@ -57,26 +57,26 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    //配置安全拦截机制
+    // 配置安全拦截机制
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().csrf().disable()//关跨域保护
-                .authorizeRequests() //授权的请求
-                .antMatchers("/accountInfo/register")
+        httpSecurity.cors().and().csrf().disable()// 关跨域保护
+                .authorizeRequests() // 授权的请求
+                .antMatchers(excludePathPatterns)
                 .permitAll()
-                .anyRequest().authenticated(); //其他任何请求都需要通过认证
-        httpSecurity.formLogin()//表单认证
+                .anyRequest().authenticated(); // 其他任何请求都需要通过认证
+        httpSecurity.formLogin()// 表单认证
                 .loginPage("/myLogin.html")
-                //指定处理登录请求的路径
+                // 指定处理登录请求的路径
                 .loginProcessingUrl("/authenticate").permitAll()
-                .successHandler(successHandler)//自定义成功回调
-                .failureHandler(failureHandler);//自定义失败回调
-        httpSecurity.logout()//注销登录
+                .successHandler(successHandler)// 自定义成功回调
+                .failureHandler(failureHandler);// 自定义失败回调
+        httpSecurity.logout()// 注销登录
                 .logoutUrl("/logout")
-                .invalidateHttpSession(true)//清除session
-                .clearAuthentication(true)//清除认证信息
+                .invalidateHttpSession(true)// 清除session
+                .clearAuthentication(true)// 清除认证信息
                 .logoutSuccessHandler(logoutSuccessHandler);
-        //添加校验验证码过滤器
+        // 添加校验验证码过滤器
         httpSecurity.addFilterBefore(new VerificationCodeFilter(),
                 UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
