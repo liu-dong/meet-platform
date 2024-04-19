@@ -1,4 +1,4 @@
-package com.dong.auth.web.model;
+package com.dong.oauth2.web.model;
 
 
 import lombok.Data;

@@ -1,8 +1,8 @@
-package com.dong.auth.web.service;
+package com.dong.oauth2.web.service;
 
 
-import com.dong.auth.web.model.LoginDTO;
-import com.dong.auth.web.model.RegisterDTO;
+import com.dong.oauth2.web.model.LoginDTO;
+import com.dong.oauth2.web.model.RegisterDTO;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
 import com.dong.user.entity.Account;

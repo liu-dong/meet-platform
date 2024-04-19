@@ -1,4 +1,4 @@
-package com.dong.auth.config.security;
+package com.dong.auth.config;
 
 import com.dong.auth.config.interceptor.AuthenticationInterceptor;
 import org.springframework.beans.factory.annotation.Value;

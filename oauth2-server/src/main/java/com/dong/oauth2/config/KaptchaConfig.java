@@ -1,4 +1,4 @@
-package com.dong.auth.config;
+package com.dong.oauth2.config;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;

@@ -1,4 +1,4 @@
-package com.dong.auth.config.security;
+package com.dong.oauth2.config.security;
 
 import com.alibaba.fastjson.JSON;
 import com.dong.commoncore.enums.LoginTypeEnum;

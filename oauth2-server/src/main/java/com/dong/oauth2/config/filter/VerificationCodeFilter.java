@@ -1,13 +1,19 @@
-package com.dong.auth.config.filter;
+package com.dong.oauth2.config.filter;
 
-import com.dong.auth.config.security.LoginFailureHandler;
-import com.dong.auth.exception.VerificationCodeException;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import com.dong.oauth2.config.security.LoginFailureHandler;
+import com.dong.oauth2.exception.VerificationCodeException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,7 +34,9 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (Arrays.asList(loginPath).contains(request.getRequestURI())) {
             try {
-                String requestCode = request.getParameter("captcha");
+                String json = IoUtil.read(request.getInputStream(), CharsetUtil.CHARSET_UTF_8);
+                JSONObject jsonObject = JSONUtil.parseObj(json);
+                String requestCode = jsonObject.get("captcha").toString();
                 if (!"1".equals(requestCode)) {
                     verificationCode(request);
                 }

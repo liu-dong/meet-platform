@@ -1,4 +1,4 @@
-package com.dong.auth.config;
+package com.dong.oauth2.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;

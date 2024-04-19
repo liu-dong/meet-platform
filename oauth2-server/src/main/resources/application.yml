@@ -1,16 +1,11 @@
 spring:
   application:
-    name: auth-server
+    name: oauth2-server
 
   profiles:
     active: dev
-    include: common,auth
-
-session:
-  expiration:
-    time: 3600
-
-
-logging:
-  level:
-    root: debug
+    include: common
+#
+#logging:
+#  level:
+#    root: debug

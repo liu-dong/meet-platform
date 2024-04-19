@@ -74,7 +74,6 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { kaptchaUrl } from '@/utils/global'
 
 export default {
   name: 'Login',

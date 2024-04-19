@@ -1,4 +1,4 @@
-package com.dong.auth.exception;
+package com.dong.oauth2.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

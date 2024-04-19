@@ -1,6 +1,6 @@
-package com.dong.auth.web.controller;
+package com.dong.oauth2.web.controller;
 
-import com.dong.auth.web.service.UserService;
+import com.dong.oauth2.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;

@@ -1,4 +1,4 @@
-package com.dong.auth.web.controller;
+package com.dong.oauth2.web.controller;
 
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.JWTUtils;

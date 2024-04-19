@@ -1,8 +1,8 @@
-package com.dong.auth.web.service.impl;
+package com.dong.oauth2.web.service.impl;
 
-import com.dong.auth.web.model.LoginDTO;
-import com.dong.auth.web.model.RegisterDTO;
-import com.dong.auth.web.service.UserService;
+import com.dong.oauth2.web.model.LoginDTO;
+import com.dong.oauth2.web.model.RegisterDTO;
+import com.dong.oauth2.web.service.UserService;
 import com.dong.commoncore.enums.UserTypeEnum;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.ResponseResult;
