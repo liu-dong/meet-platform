@@ -34,8 +34,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       const param = {
         username: username.trim(),
-        password: password,
-        captcha: captcha || 1
+        password: password.trim(),
+        captcha: captcha.trim() || 1
       }
       login(param).then(response => {
         const { data } = response
