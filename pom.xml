@@ -63,7 +63,7 @@
         <module>common-core</module>
         <module>user-core</module>
         <module>auth-server</module>
-        <module>oauth2-server</module>
+        <module>security-server</module>
         <module>admin-server</module>
         <module>generator-server</module>
 
