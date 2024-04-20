@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class LoginDTO {
+
     /**
      * 验证码
      */
@@ -17,5 +18,13 @@ public class LoginDTO {
     /**
      * 登录方式
      */
-    private String loginWay;
+    private String loginWay = "account";
+
+    private String username;
+
+    private String password;
+
+    private String phone;
+
+    private String email;
 }

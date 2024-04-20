@@ -21,7 +21,6 @@ import java.util.Date;
  *
  * @author LD 2023/10/27
  */
-@Api(tags = "登录注册")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -35,7 +34,6 @@ public class UserController {
      * @param request
      * @return
      */
-    @ApiOperation("获取用户信息")
     @GetMapping("/getUserDetail")
     public ResponseResult<UserDetail> getUserDetail(HttpServletRequest request) {
         UserDetail user = userService.getUserDetail(request);
@@ -49,7 +47,6 @@ public class UserController {
      * @param username 用户名
      * @return 返回结果
      */
-    @ApiOperation("注销用户")
     @PostMapping("/cancel")
     public ResponseResult<?> cancel(String username) {
         userService.cancel(username);

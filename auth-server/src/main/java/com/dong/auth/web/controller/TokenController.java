@@ -16,7 +16,6 @@ import java.util.Map;
  *
  * @author LD 2023/10/27
  */
-@Api(tags = "登录注册")
 @RestController
 @RequestMapping("/token")
 public class TokenController {
@@ -27,7 +26,6 @@ public class TokenController {
      * @param request
      * @return
      */
-    @ApiOperation("校验token")
     @GetMapping("/checkToken")
     public ResponseResult checkToken(HttpServletRequest request) {
         Map<String, String> map = JWTUtils.analyzeToken(request);
@@ -43,7 +41,6 @@ public class TokenController {
      * @param request
      * @return
      */
-    @ApiOperation("刷新token")
     @GetMapping("/refreshToken")
     public ResponseResult refreshToken(HttpServletRequest request) {
         String token = JWTUtils.refreshToken(request);

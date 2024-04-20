@@ -1,9 +1,6 @@
 package com.dong.auth.web.service;
 
-import com.dong.auth.web.model.EmailLoginDTO;
 import com.dong.auth.web.model.LoginDTO;
-import com.dong.auth.web.model.PhoneLoginDTO;
-import com.dong.auth.web.model.UsernameLoginDTO;
 import com.dong.commoncore.constant.RedisCacheKeyConstant;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.util.RedisUtil;
@@ -32,13 +29,9 @@ class UsernameLoginWayServiceImpl implements LoginWayService {
     AccountRepository accountRepository;
 
     @Override
-    public Account login(HttpServletRequest request, LoginDTO loginDTO) {
-        if (!(loginDTO instanceof UsernameLoginDTO)) {
-            throw new GlobalException("登录参数错误");
-        }
+    public Account login(HttpServletRequest request, LoginDTO dto) {
         // 校验验证码
-        verificationCode(request, loginDTO);
-        UsernameLoginDTO dto = (UsernameLoginDTO) loginDTO;
+        verificationCode(request, dto);
         Account account = accountRepository.getAccountByUsername(dto.getUsername());
         if (account == null) {
             throw new GlobalException("无此用户");
@@ -79,11 +72,7 @@ class PhoneLoginWayServiceImpl implements LoginWayService {
     AccountRepository accountRepository;
 
     @Override
-    public Account login(HttpServletRequest request, LoginDTO loginDTO) {
-        if (!(loginDTO instanceof PhoneLoginDTO)) {
-            throw new GlobalException("登录参数错误");
-        }
-        PhoneLoginDTO dto = (PhoneLoginDTO) loginDTO;
+    public Account login(HttpServletRequest request, LoginDTO dto) {
         Account account = accountRepository.getByPhone(dto.getPhone());
         if (account == null) {
             throw new GlobalException("无此用户");
@@ -106,12 +95,7 @@ class EmailLoginWayServiceImpl implements LoginWayService {
     AccountRepository accountRepository;
 
     @Override
-    public Account login(HttpServletRequest request, LoginDTO loginDTO) {
-        if (!(loginDTO instanceof EmailLoginDTO)) {
-            throw new GlobalException("登录参数错误");
-        }
-        EmailLoginDTO dto = (EmailLoginDTO) loginDTO;
-
+    public Account login(HttpServletRequest request, LoginDTO dto) {
         Account account = accountRepository.getByEmail(dto.getEmail());
         if (account == null) {
             throw new GlobalException("无此用户");
