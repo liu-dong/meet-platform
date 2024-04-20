@@ -24,7 +24,7 @@ public class LoginServiceImpl implements LoginService {
     AbstractLoginWayFactory loginWayFactory;
 
     @Autowired
-    AbstractAuthModeFactory authModeFactory;
+    AbstractAuthenticationFactory authenticationFactory;
 
     @Override
     public String login(HttpServletRequest request, LoginDTO dto) {
@@ -36,29 +36,17 @@ public class LoginServiceImpl implements LoginService {
         // 登录
         Account account = loginWayService.login(request, dto);
         // 从认证模式工厂获取认证模式
-        AuthModeService authModeService = authModeFactory.createAuthModeService();
+        AuthenticationService authenticationService = authenticationFactory.createAuthModeService();
         // 认证
-        return authModeService.createAuthentication(request, account);
+        return authenticationService.createAuthentication(request, account);
     }
 
     @Override
     public void logout(HttpServletRequest request) {
         // 从认证模式工厂获取认证模式
-        AuthModeService authModeService = authModeFactory.createAuthModeService();
+        AuthenticationService authenticationService = authenticationFactory.createAuthModeService();
         // 使当前认证失效
-        authModeService.invalidAuthentication(request);
+        authenticationService.invalidAuthentication(request);
     }
 
-    /**
-     * 获取登录用户信息
-     *
-     * @param request
-     * @return
-     */
-    public UserDetail getUserDetail(HttpServletRequest request) {
-        // 从认证模式工厂获取认证模式
-        AuthModeService authModeService = authModeFactory.createAuthModeService();
-        // 获取登录用户信息
-        return authModeService.getUserDetail(request);
-    }
 }

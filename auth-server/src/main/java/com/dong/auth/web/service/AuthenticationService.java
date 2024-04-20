@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author liudong 2024/4/20
  */
-public interface AuthModeService extends UserDetailService {
+public interface AuthenticationService extends UserDetailService {
 
     /**
      * 创建认证
@@ -38,7 +38,7 @@ public interface AuthModeService extends UserDetailService {
 }
 
 @Service
-class JwtAuthModeService implements AuthModeService {
+class JwtAuthenticationService implements AuthenticationService {
 
     @Autowired
     AccountService accountService;
@@ -73,7 +73,7 @@ class JwtAuthModeService implements AuthModeService {
     }
 }
 @Service
-class SessionAuthModeService implements AuthModeService {
+class SessionAuthenticationService implements AuthenticationService {
 
     @Value("${session.expiration.time}")
     private Integer expirationTime;

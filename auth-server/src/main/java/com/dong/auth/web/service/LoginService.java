@@ -14,6 +14,4 @@ public interface LoginService {
     String login(HttpServletRequest request, LoginDTO dto);
 
     void logout(HttpServletRequest request);
-
-    UserDetail getUserDetail(HttpServletRequest request);
 }

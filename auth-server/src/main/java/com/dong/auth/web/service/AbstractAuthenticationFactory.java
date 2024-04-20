@@ -10,26 +10,26 @@ import org.springframework.stereotype.Service;
  *
  * @author liudong 2024/4/19
  */
-public abstract class AbstractAuthModeFactory {
+public abstract class AbstractAuthenticationFactory {
 
-    public abstract AuthModeService createAuthModeService();
+    public abstract AuthenticationService createAuthModeService();
 }
 
 @Service
-class AuthModeFactory extends AbstractAuthModeFactory {
+class AuthenticationFactory extends AbstractAuthenticationFactory {
 
     @Value("${auth.mode}")
     private String authMode;
 
     @Autowired
-    private JwtAuthModeService jwtAuthModeService;
+    private JwtAuthenticationService jwtAuthModeService;
 
     @Autowired
-    private SessionAuthModeService sessionAuthModeService;
+    private SessionAuthenticationService sessionAuthModeService;
 
 
     @Override
-    public AuthModeService createAuthModeService() {
+    public AuthenticationService createAuthModeService() {
         switch (authMode) {
             case AuthModeConstant.JWT:
                 return jwtAuthModeService;
