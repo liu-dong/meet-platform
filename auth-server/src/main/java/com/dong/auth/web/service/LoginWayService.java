@@ -32,6 +32,9 @@ class UsernameLoginWayServiceImpl implements LoginWayService {
     public Account login(HttpServletRequest request, LoginDTO dto) {
         // 校验验证码
         verificationCode(request, dto);
+        if (StringUtils.isBlank(dto.getUsername()) || StringUtils.isBlank(dto.getPassword())) {
+            throw new GlobalException("用户名和密码不能为空！");
+        }
         Account account = accountRepository.getAccountByUsername(dto.getUsername());
         if (account == null) {
             throw new GlobalException("无此用户");
@@ -65,6 +68,7 @@ class UsernameLoginWayServiceImpl implements LoginWayService {
 
     }
 }
+
 @Service
 class PhoneLoginWayServiceImpl implements LoginWayService {
 
@@ -73,6 +77,9 @@ class PhoneLoginWayServiceImpl implements LoginWayService {
 
     @Override
     public Account login(HttpServletRequest request, LoginDTO dto) {
+        if (StringUtils.isBlank(dto.getPhone())) {
+            throw new GlobalException("手机号不能为空！");
+        }
         Account account = accountRepository.getByPhone(dto.getPhone());
         if (account == null) {
             throw new GlobalException("无此用户");
@@ -84,10 +91,14 @@ class PhoneLoginWayServiceImpl implements LoginWayService {
         }
         if (!dto.getCaptcha().equals(code)) {
             throw new GlobalException("验证码错误");
+        } else {
+            // 登录成功删除验证码
+            RedisUtil.del(RedisCacheKeyConstant.EMAIL_CODE_PATH + dto.getEmail());
         }
         return account;
     }
 }
+
 @Service
 class EmailLoginWayServiceImpl implements LoginWayService {
 
@@ -96,6 +107,9 @@ class EmailLoginWayServiceImpl implements LoginWayService {
 
     @Override
     public Account login(HttpServletRequest request, LoginDTO dto) {
+        if (StringUtils.isBlank(dto.getEmail())) {
+            throw new GlobalException("邮箱不能为空！");
+        }
         Account account = accountRepository.getByEmail(dto.getEmail());
         if (account == null) {
             throw new GlobalException("无此用户");
@@ -107,6 +121,9 @@ class EmailLoginWayServiceImpl implements LoginWayService {
         }
         if (!dto.getCaptcha().equals(code)) {
             throw new GlobalException("验证码错误");
+        } else {
+            // 登录成功删除验证码
+            RedisUtil.del(RedisCacheKeyConstant.EMAIL_CODE_PATH + dto.getEmail());
         }
         return account;
     }

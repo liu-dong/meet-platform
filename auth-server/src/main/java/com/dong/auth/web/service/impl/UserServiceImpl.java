@@ -1,7 +1,10 @@
 package com.dong.auth.web.service.impl;
 
+import cn.hutool.core.util.DesensitizedUtil;
 import com.dong.auth.web.model.RegisterDTO;
-import com.dong.auth.web.service.*;
+import com.dong.auth.web.service.UserDetailFactory;
+import com.dong.auth.web.service.UserDetailService;
+import com.dong.auth.web.service.UserService;
 import com.dong.commoncore.enums.UserTypeEnum;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.UserDetail;
@@ -62,10 +65,15 @@ public class UserServiceImpl implements UserService {
         entity.setId(accountId);
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
-        entity.setCreateTime(new Date());
+        entity.setPasswordHash(DesensitizedUtil.password(dto.getPassword()));
+        entity.setEmail(dto.getEmail());
+        entity.setPhone(dto.getPhone());
         entity.setPersonId(personId);
-        entity.setUserType(dto.getUserType());
         entity.setRealName(dto.getRealName());
+        entity.setUserType(UserTypeEnum.USER.getCode());
+        entity.setUserStatus(0);
+        entity.setLoginCount(0);
+        entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
         accountRepository.save(entity);
         return entity;
