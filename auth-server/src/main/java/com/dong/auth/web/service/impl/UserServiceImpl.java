@@ -1,9 +1,7 @@
 package com.dong.auth.web.service.impl;
 
 import com.dong.auth.web.model.RegisterDTO;
-import com.dong.auth.web.service.AbstractAuthModeFactory;
-import com.dong.auth.web.service.AuthModeService;
-import com.dong.auth.web.service.UserService;
+import com.dong.auth.web.service.*;
 import com.dong.commoncore.enums.UserTypeEnum;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.UserDetail;
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
     AccountRoleRepository accountRoleRepository;
 
     @Autowired
-    AbstractAuthModeFactory authModeFactory;
+    UserDetailFactory userDetailFactory;
 
     @Override
     public String register(RegisterDTO dto) {
@@ -128,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetail getUserDetail(HttpServletRequest request) {
-        AuthModeService authModeService = authModeFactory.createAuthModeService();
-        return authModeService.getUserDetail(request);
+        UserDetailService userDetailService = userDetailFactory.createUserDetailService();
+        return userDetailService.getUserDetail(request);
     }
 }

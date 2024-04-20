@@ -37,7 +37,7 @@ public class UserController {
      */
     @ApiOperation("获取用户信息")
     @GetMapping("/getUserDetail")
-    public ResponseResult getUserDetail(HttpServletRequest request) {
+    public ResponseResult<UserDetail> getUserDetail(HttpServletRequest request) {
         UserDetail user = userService.getUserDetail(request);
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -51,7 +51,7 @@ public class UserController {
      */
     @ApiOperation("注销用户")
     @PostMapping("/cancel")
-    public ResponseResult cancel(String username) {
+    public ResponseResult<?> cancel(String username) {
         userService.cancel(username);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         return ResponseResult.success("注销成功!注销时间：" + sdf.format(new Date()));

@@ -17,13 +17,24 @@ import java.util.Map;
 /**
  * @author liudong 2024/4/20
  */
-public interface AuthModeService {
+public interface AuthModeService extends UserDetailService {
 
+    /**
+     * 创建认证
+     *
+     * @param request
+     * @param account
+     * @return
+     */
     String createAuthentication(HttpServletRequest request, Account account);
 
+    /**
+     * 使认证失效
+     *
+     * @param request
+     */
     void invalidAuthentication(HttpServletRequest request);
 
-    UserDetail getUserDetail(HttpServletRequest request);
 }
 
 @Service

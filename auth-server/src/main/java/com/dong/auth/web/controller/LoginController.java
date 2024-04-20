@@ -81,7 +81,7 @@ public class LoginController {
      */
     @ApiOperation("登录")
     @PostMapping("/login")
-    public ResponseResult login(HttpServletRequest request, @RequestBody LoginDTO dto) {
+    public ResponseResult<?> login(HttpServletRequest request, @RequestBody LoginDTO dto) {
         String result = loginService.login(request, dto);
         if (StringUtils.isEmpty(result)) {
             return ResponseResult.error("登录失败！");
@@ -98,7 +98,7 @@ public class LoginController {
      */
     @ApiOperation("退出登录")
     @PostMapping("/logout")
-    public ResponseResult logout(HttpServletRequest request) {
+    public ResponseResult<?> logout(HttpServletRequest request) {
         loginService.logout(request);
         return ResponseResult.success(ResponseMessageConstant.LOGOUT_SUCCESS);
     }
@@ -111,7 +111,7 @@ public class LoginController {
      */
     @ApiOperation("注册用户")
     @PostMapping("/register")
-    public ResponseResult register(@RequestBody RegisterDTO dto) {
+    public ResponseResult<String> register(@RequestBody RegisterDTO dto) {
         String username = userService.register(dto);
         return ResponseResult.success(username, ResponseMessageConstant.REGISTER_SUCCESS);
     }
