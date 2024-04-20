@@ -1,7 +1,7 @@
 package com.dong.sso.config;
 
 import com.alibaba.fastjson.JSON;
-import com.dong.commoncore.enums.LoginTypeEnum;
+import com.dong.commoncore.enums.LoginWayEnum;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.AddressUtils;
 import com.dong.commoncore.util.JWTUtils;
@@ -68,7 +68,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         dto.setAccount(authentication.getName());
         dto.setLoginIp(AddressUtils.getIP(request));
         dto.setLoginAddress("广州市越秀区");
-        dto.setLoginType(LoginTypeEnum.ACCOUNT.getCode());
+        dto.setLoginType(LoginWayEnum.ACCOUNT.getCode());
         dto.setRemark("登录成功");
         loginLogsService.saveLoginLogs(dto);
     }

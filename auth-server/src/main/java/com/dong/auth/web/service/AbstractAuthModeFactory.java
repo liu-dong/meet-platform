@@ -1,8 +1,6 @@
 package com.dong.auth.web.service;
 
 import com.dong.auth.constant.AuthModeConstant;
-import com.dong.auth.web.service.impl.JwtLoginServiceImpl;
-import com.dong.auth.web.service.impl.SessionLoginServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,33 +10,33 @@ import org.springframework.stereotype.Service;
  *
  * @author liudong 2024/4/19
  */
-public interface AuthModeFactory {
+public abstract class AbstractAuthModeFactory {
 
-    LoginService createLoginService();
+    public abstract AuthModeService createAuthModeService();
 }
 
 @Service
-class AuthModeFactoryImpl implements AuthModeFactory {
+class AuthModeFactory extends AbstractAuthModeFactory {
 
     @Value("${auth.mode}")
     private String authMode;
 
     @Autowired
-    private JwtLoginServiceImpl jwtLoginService;
+    private JwtAuthModeService jwtAuthModeService;
 
     @Autowired
-    private SessionLoginServiceImpl sessionLoginService;
+    private SessionAuthModeService sessionAuthModeService;
 
 
     @Override
-    public LoginService createLoginService() {
+    public AuthModeService createAuthModeService() {
         switch (authMode) {
             case AuthModeConstant.JWT:
-                return jwtLoginService;
+                return jwtAuthModeService;
             case AuthModeConstant.SESSION:
-                return sessionLoginService;
+                return sessionAuthModeService;
             default:
-                throw new IllegalArgumentException("Invalid login service type");
+                throw new IllegalArgumentException("无效的认证模式类型");
         }
     }
 }

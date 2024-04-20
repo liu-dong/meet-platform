@@ -1,7 +1,5 @@
 package com.dong.auth.web.controller;
 
-import com.dong.auth.web.service.AuthModeFactory;
-import com.dong.auth.web.service.LoginService;
 import com.dong.auth.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 用户信息
@@ -28,8 +28,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    AuthModeFactory authModeFactory;
 
     /**
      * 获取用户信息
@@ -40,8 +38,7 @@ public class UserController {
     @ApiOperation("获取用户信息")
     @GetMapping("/getUserDetail")
     public ResponseResult getUserDetail(HttpServletRequest request) {
-        LoginService loginService = authModeFactory.createLoginService();
-        UserDetail user = loginService.getUserDetail(request);
+        UserDetail user = userService.getUserDetail(request);
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -55,7 +52,10 @@ public class UserController {
     @ApiOperation("注销用户")
     @PostMapping("/cancel")
     public ResponseResult cancel(String username) {
-        return userService.cancel(username);
+        userService.cancel(username);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+        return ResponseResult.success("注销成功!注销时间：" + sdf.format(new Date()));
+
     }
 
 }

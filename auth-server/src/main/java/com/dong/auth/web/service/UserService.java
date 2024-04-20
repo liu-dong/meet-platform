@@ -16,13 +16,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface UserService {
 
-    Account getAccount(LoginDTO dto);
 
     String register(RegisterDTO dto);
 
-    ResponseResult cancel(String username);
+    void cancel(String username);
 
     UserDetail getUserDetail(Account account);
 
-    Account getAccountByUsername(String username);
+    UserDetail getUserDetail(HttpServletRequest request);
 }

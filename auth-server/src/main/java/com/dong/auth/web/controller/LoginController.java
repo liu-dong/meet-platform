@@ -2,7 +2,6 @@ package com.dong.auth.web.controller;
 
 import com.dong.auth.web.model.LoginDTO;
 import com.dong.auth.web.model.RegisterDTO;
-import com.dong.auth.web.service.AuthModeFactory;
 import com.dong.auth.web.service.LoginService;
 import com.dong.auth.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
@@ -38,7 +37,7 @@ public class LoginController {
     @Autowired
     Producer producer;
     @Autowired
-    AuthModeFactory authModeFactory;
+    LoginService loginService;
     @Autowired
     UserService userService;
 
@@ -83,7 +82,6 @@ public class LoginController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public ResponseResult login(HttpServletRequest request, @RequestBody LoginDTO dto) {
-        LoginService loginService = authModeFactory.createLoginService();
         String result = loginService.login(request, dto);
         if (StringUtils.isEmpty(result)) {
             return ResponseResult.error("登录失败！");
@@ -101,7 +99,6 @@ public class LoginController {
     @ApiOperation("退出登录")
     @PostMapping("/logout")
     public ResponseResult logout(HttpServletRequest request) {
-        LoginService loginService = authModeFactory.createLoginService();
         loginService.logout(request);
         return ResponseResult.success(ResponseMessageConstant.LOGOUT_SUCCESS);
     }

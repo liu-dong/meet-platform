@@ -1,51 +1,68 @@
 package com.dong.auth.web.service;
 
-import com.dong.commoncore.constant.CommonConstant;
-import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.constant.RedisCacheKeyConstant;
+import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.util.EmailUtils;
 import com.dong.commoncore.util.RedisUtil;
 import com.dong.user.dao.AccountRepository;
-import com.dong.user.entity.Person;
+import com.dong.user.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * 发送验证验证码
+ *
  * @author liudong 2024/4/20
  */
 public interface SecurityCodeService {
 
-    void sendSecurityCode();
+    void sendSecurityCode(String number);
 }
 
 @Service
-class PhoneSecurityCodeService implements  SecurityCodeService {
-
-    @Override
-    public void sendSecurityCode() {
-
-    }
-}
-
-@Service
-class EmailSecurityCodeService implements  SecurityCodeService {
+class PhoneSecurityCodeServiceImpl implements  SecurityCodeService {
 
     @Autowired
     AccountRepository accountRepository;
 
     @Override
-    public void sendSecurityCode() {
-       /*  Person person = personRepository.getPersonByEmail(email);
-        if (person == null) {
-            return ResponseResult.error("邮箱不存在！");
+    public void sendSecurityCode(String number) {
+
+        Account account = accountRepository.getByPhone(number);
+        if (account == null) {
+            throw new GlobalException("手机号不存在！");
         }
         try {
-            String code = EmailUtils.sendSecurityCode(person.getEmail(), person.getName());
+            // String code = EmailUtils.sendSecurityCode(account.getEmail(), account.getRealName());
+            String code = "123456";
             //验证码存放到redis，15分钟过期
-            RedisUtil.set(CommonConstant.EMAIL_CODE_PATH + email, code, CommonConstant.SECURITY_CODE_EXPIRE);
+            RedisUtil.set(RedisCacheKeyConstant.PHONE_CODE_PATH + account.getPhone(), code, RedisCacheKeyConstant.SECURITY_CODE_EXPIRE);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseResult.error("发送失败！");
+            throw new GlobalException("发送失败！");
         }
-        return ResponseResult.success("验证码已发送！"); */
+    }
+}
+
+@Service
+class EmailSecurityCodeServiceImpl implements  SecurityCodeService {
+
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Override
+    public void sendSecurityCode(String number) {
+        Account account = accountRepository.getByEmail(number);
+        if (account == null) {
+            throw new GlobalException("邮箱不存在！");
+        }
+        try {
+            String code = EmailUtils.sendSecurityCode(account.getEmail(), account.getRealName());
+            //验证码存放到redis，15分钟过期
+            RedisUtil.set(RedisCacheKeyConstant.EMAIL_CODE_PATH + account.getEmail(), code, RedisCacheKeyConstant.SECURITY_CODE_EXPIRE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException("发送失败！");
+        }
     }
 }
