@@ -1,16 +1,21 @@
 package com.dong.auth.web.model;
 
-
 import lombok.Data;
 
 /**
  * 登录
  *
- * @author LD 2021/5/18
+ * @author liudong 2024/4/20
  */
 @Data
 public class LoginDTO {
-    private String username;
-    private String password;
-    private String captcha;//验证码
+    /**
+     * 验证码
+     */
+    private String captcha;
+
+    /**
+     * 登录方式
+     */
+    private String loginWay;
 }
