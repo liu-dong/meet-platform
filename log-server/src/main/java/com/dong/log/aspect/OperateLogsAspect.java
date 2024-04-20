@@ -5,7 +5,7 @@ import com.dong.commoncore.enums.ApplicationEnum;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.util.AddressUtils;
 import com.dong.commoncore.util.CommonUtils;
-import com.dong.log.web.dao.OperateLogsJpaDao;
+import com.dong.log.web.dao.OperateLogsRepository;
 import com.dong.log.web.entity.OperateLogs;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -37,7 +37,7 @@ public class OperateLogsAspect {
     private String resourceId;
 
     @Resource
-    OperateLogsJpaDao operateLogsJpaDao;
+    OperateLogsRepository operateLogsRepository;
 
     /**
      * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
@@ -140,6 +140,6 @@ public class OperateLogsAspect {
         operateLogs.setLoginIp(ip);
         operateLogs.setCreateTime(new Date());
         operateLogs.setUpdateTime(new Date());
-        operateLogsJpaDao.save(operateLogs);
+        operateLogsRepository.save(operateLogs);
     }
 }

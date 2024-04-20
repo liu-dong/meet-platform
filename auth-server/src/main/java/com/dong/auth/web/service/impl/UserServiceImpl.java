@@ -9,10 +9,10 @@ import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.JWTUtils;
-import com.dong.user.dao.AccountJpaDao;
-import com.dong.user.dao.AccountRoleJpaDao;
-import com.dong.user.dao.PersonJpaDao;
-import com.dong.user.dao.RoleJpaDao;
+import com.dong.user.dao.AccountRepository;
+import com.dong.user.dao.AccountRoleRepository;
+import com.dong.user.dao.PersonRepository;
+import com.dong.user.dao.RoleRepository;
 import com.dong.user.entity.Account;
 import com.dong.user.entity.AccountRole;
 import com.dong.user.entity.Person;
@@ -37,15 +37,15 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    AccountJpaDao accountJpaDao;
+    AccountRepository accountRepository;
     @Autowired
-    PersonJpaDao personJpaDao;
+    PersonRepository personRepository;
     @Autowired
     AccountService accountService;
     @Autowired
-    RoleJpaDao roleJpaDao;
+    RoleRepository roleRepository;
     @Autowired
-    AccountRoleJpaDao accountRoleJpaDao;
+    AccountRoleRepository accountRoleRepository;
 
 
     @Override
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isBlank(dto.getPassword())) {
             throw new GlobalException("密码为空");
         }
-        Account account = accountJpaDao.getAccountByUsername(dto.getUsername());
+        Account account = accountRepository.getAccountByUsername(dto.getUsername());
         if (account == null) {
             throw new GlobalException("无此用户");
         }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Account getAccountByUsername(String username) {
-        return accountJpaDao.getAccountByUsername(username);
+        return accountRepository.getAccountByUsername(username);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         entity.setUserType(dto.getUserType());
         entity.setRealName(dto.getRealName());
         entity.setUpdateTime(new Date());
-        accountJpaDao.save(entity);
+        accountRepository.save(entity);
         return entity;
     }
 
@@ -105,10 +105,10 @@ public class UserServiceImpl implements UserService {
         String roleId = "32047ea768ff4c72a784e0bc02650eaa";
         if (dto.getUserType() != null) {
             //根据用户类型获取角色id
-            roleId = roleJpaDao.getByRoleName(UserTypeEnum.getNameByRole(dto.getUserType())).getId();
+            roleId = roleRepository.getByRoleName(UserTypeEnum.getNameByRole(dto.getUserType())).getId();
         }
         accountRole.setRoleId(roleId);
-        accountRoleJpaDao.save(accountRole);
+        accountRoleRepository.save(accountRole);
     }
 
     private String initPerson(RegisterDTO dto) {
@@ -117,17 +117,17 @@ public class UserServiceImpl implements UserService {
         person.setName(dto.getRealName());
         person.setIdentityCard(dto.getIdentityCard());
         person.setCreateTime(new Date());
-        personJpaDao.save(person);
+        personRepository.save(person);
         return person.getId();
     }
 
     @Override
     public ResponseResult cancel(String username) {
         if (!StringUtils.isEmpty(username)) {
-            Account user = accountJpaDao.getAccountByUsername(username);
+            Account user = accountRepository.getAccountByUsername(username);
             user.setUserStatus(1);//注销
             user.setUpdateTime(new Date());
-            accountJpaDao.save(user);
+            accountRepository.save(user);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
             return ResponseResult.success("注销成功!注销时间：" + sdf.format(new Date()));
         }

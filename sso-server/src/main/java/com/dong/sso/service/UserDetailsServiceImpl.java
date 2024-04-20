@@ -1,7 +1,7 @@
 package com.dong.sso.service;
 
 import com.dong.sso.model.UserDetailsVO;
-import com.dong.user.dao.RoleJpaDao;
+import com.dong.user.dao.RoleRepository;
 import com.dong.user.entity.Account;
 import com.dong.user.entity.Role;
 import com.dong.user.service.AccountService;
@@ -23,7 +23,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    RoleJpaDao roleJpaDao;
+    RoleRepository roleRepository;
     @Autowired
     AccountService accountService;
     @Autowired
@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetailsVO loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountService.getAccountByUsername(username);
-        List<Role> roleList = roleJpaDao.getByAccountId(account.getId());
+        List<Role> roleList = roleRepository.getByAccountId(account.getId());
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         for (Role role : roleList) {
             authorityList.add(new SimpleGrantedAuthority(role.getRoleName()));

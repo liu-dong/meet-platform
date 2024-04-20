@@ -4,7 +4,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
-import com.dong.log.web.dao.OperateLogsJpaDao;
+import com.dong.log.web.dao.OperateLogsRepository;
 import com.dong.log.web.entity.OperateLogs;
 import com.dong.log.web.model.dto.OperateLogsDTO;
 import com.dong.log.web.model.vo.OperateLogsVO;
@@ -24,7 +24,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
     @Resource
     CommonDao commonDao;
     @Resource
-    OperateLogsJpaDao operateLogsJpaDao;
+    OperateLogsRepository operateLogsRepository;
 
     /**
      * 查询操作日志列表
@@ -59,7 +59,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
         entity.setOperateTime(new Date());
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
-        entity = operateLogsJpaDao.save(entity);
+        entity = operateLogsRepository.save(entity);
         return entity;
     }
 
@@ -74,7 +74,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("id不能为空");
         }
-        return operateLogsJpaDao.findById(id).get();
+        return operateLogsRepository.findById(id).get();
     }
 
     /**
@@ -88,7 +88,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("id不能为空");
         }
-        operateLogsJpaDao.deleteById(id);
+        operateLogsRepository.deleteById(id);
     }
 
 }

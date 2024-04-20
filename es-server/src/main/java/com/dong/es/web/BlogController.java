@@ -1,7 +1,7 @@
 package com.dong.es.web;
 
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.es.dao.BlogJpaDao;
+import com.dong.es.dao.BlogRepository;
 import com.dong.es.domain.BlogModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -20,11 +20,11 @@ import java.util.Optional;
 public class BlogController {
 
     @Autowired
-    private BlogJpaDao blogJpaDao;
+    private BlogRepository blogRepository;
 
     @PostMapping("/add")
     public ResponseResult add(@RequestBody BlogModel blogModel) {
-        BlogModel result = blogJpaDao.save(blogModel);
+        BlogModel result = blogRepository.save(blogModel);
         return ResponseResult.success(result, "保存成功");
     }
 
@@ -32,7 +32,7 @@ public class BlogController {
     public ResponseResult getById(@PathVariable String id) {
         if (StringUtils.isEmpty(id))
             return ResponseResult.error("查询失败");
-        Optional<BlogModel> blogModelOptional = blogJpaDao.findById(id);
+        Optional<BlogModel> blogModelOptional = blogRepository.findById(id);
         if (blogModelOptional.isPresent()) {
             BlogModel blogModel = blogModelOptional.get();
             return ResponseResult.success(blogModel, "查询成功");
@@ -42,7 +42,7 @@ public class BlogController {
 
     @GetMapping("/getAll")
     public ResponseResult getAll() {
-        Iterable<BlogModel> iterable = blogJpaDao.findAll();
+        Iterable<BlogModel> iterable = blogRepository.findAll();
         List<BlogModel> list = new ArrayList<>();
         iterable.forEach(list::add);
         return ResponseResult.success(list, "查询成功");
@@ -53,7 +53,7 @@ public class BlogController {
         String id = blogModel.getId();
         if (StringUtils.isEmpty(id))
             return ResponseResult.error("修改失败");
-        BlogModel result = blogJpaDao.save(blogModel);
+        BlogModel result = blogRepository.save(blogModel);
         return ResponseResult.success(result, "修改成功");
     }
 
@@ -61,13 +61,13 @@ public class BlogController {
     public ResponseResult deleteById(@PathVariable String id) {
         if (StringUtils.isEmpty(id))
             return ResponseResult.error("id不能为空");
-        blogJpaDao.deleteById(id);
+        blogRepository.deleteById(id);
         return ResponseResult.success("删除成功");
     }
 
     @DeleteMapping("/deleteAll")
     public ResponseResult deleteAll() {
-        blogJpaDao.deleteAll();
+        blogRepository.deleteAll();
         return ResponseResult.success("删除成功");
     }
 
@@ -75,6 +75,6 @@ public class BlogController {
     public ResponseResult searchTitle(String keyword) {
         if (StringUtils.isEmpty(keyword))
             return ResponseResult.error("查询失败");
-        return ResponseResult.success(blogJpaDao.findByTitleLike(keyword), "查询成功");
+        return ResponseResult.success(blogRepository.findByTitleLike(keyword), "查询成功");
     }
 }

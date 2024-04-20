@@ -7,7 +7,7 @@ import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.enums.EventStatusEnum;
 import com.dong.event.util.EventUtils;
-import com.dong.event.web.dao.EventJpaDao;
+import com.dong.event.web.dao.EventRepository;
 import com.dong.event.web.entity.Event;
 import com.dong.event.web.model.dto.EventDTO;
 import com.dong.event.web.model.dto.EventGroupDTO;
@@ -29,7 +29,7 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
 
     @Resource
-    EventJpaDao eventJpaDao;
+    EventRepository eventRepository;
     @Resource
     EventGroupService eventGroupService;
 
@@ -42,7 +42,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Pager<EventVO> findEventList(EventDTO dto, Pager<EventVO> pager) {
-        List<Event> all = eventJpaDao.findAll();
+        List<Event> all = eventRepository.findAll();
         for (Event event : all) {
             EventVO vo = new EventVO();
             BeanUtils.copyProperties(event, vo);
@@ -64,7 +64,7 @@ public class EventServiceImpl implements EventService {
         Event entity = saveEvent(dto);
         //保存事件群聊关系
         saveEventGroup(entity.getEventCode(), dto.getGroupId());
-        return eventJpaDao.save(entity);
+        return eventRepository.save(entity);
     }
 
     /**
@@ -94,7 +94,7 @@ public class EventServiceImpl implements EventService {
             entity.setEventCode(CommonUtils.getRandomSixNum());
             entity.setEventStatus(EventStatusEnum.register.name());
         } else {
-            Event event = eventJpaDao.findById(dto.getId()).orElse(new Event());
+            Event event = eventRepository.findById(dto.getId()).orElse(new Event());
             entity.setId(event.getId());
         }
         entity.setUpdateTime(new Date());
@@ -114,7 +114,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventVO getEvent(String id) {
         Assert.notNull(id, "id不能为空");
-        Event event = eventJpaDao.findById(id).orElseThrow(() -> new GlobalException("无此事件"));
+        Event event = eventRepository.findById(id).orElseThrow(() -> new GlobalException("无此事件"));
         return convertVO(event);
     }
 
@@ -134,10 +134,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public void deleteEvent(String id) {
         Assert.notNull(id, "id不能为空");
-        Event event = eventJpaDao.findById(id).orElse(new Event());
+        Event event = eventRepository.findById(id).orElse(new Event());
         event.setDeleteStatus(CommonConstant.YES);
         event.setUpdateTime(new Date());
-        eventJpaDao.save(event);
+        eventRepository.save(event);
     }
 
 }

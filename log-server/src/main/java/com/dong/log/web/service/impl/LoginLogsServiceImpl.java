@@ -4,7 +4,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
-import com.dong.log.web.dao.LoginLogsJpaDao;
+import com.dong.log.web.dao.LoginLogsRepository;
 import com.dong.log.web.entity.LoginLogs;
 import com.dong.log.web.model.dto.LoginLogsDTO;
 import com.dong.log.web.model.vo.LoginLogsVO;
@@ -27,7 +27,7 @@ public class LoginLogsServiceImpl implements LoginLogsService {
     @Resource
     CommonDao commonDao;
     @Resource
-    LoginLogsJpaDao loginLogsJpaDao;
+    LoginLogsRepository loginLogsRepository;
 
     @Override
     public Pager<LoginLogsVO> findLoginLogsList(LoginLogsVO vo, Pager<LoginLogsVO> pager) {
@@ -48,7 +48,7 @@ public class LoginLogsServiceImpl implements LoginLogsService {
         entity.setLoginTime(new Date());
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
-        entity = loginLogsJpaDao.save(entity);
+        entity = loginLogsRepository.save(entity);
         return entity;
     }
 
@@ -57,6 +57,6 @@ public class LoginLogsServiceImpl implements LoginLogsService {
         if (StringUtils.isEmpty(id)) {
             throw new GlobalException("id不能为空");
         }
-        return loginLogsJpaDao.findById(id).get();
+        return loginLogsRepository.findById(id).get();
     }
 }

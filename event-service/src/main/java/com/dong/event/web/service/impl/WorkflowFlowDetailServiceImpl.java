@@ -3,7 +3,7 @@ package com.dong.event.web.service.impl;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
-import com.dong.event.web.dao.WorkflowFlowDetailJpaDao;
+import com.dong.event.web.dao.WorkflowFlowDetailRepository;
 import com.dong.event.web.entity.WorkflowFlowDetail;
 import com.dong.event.web.model.dto.WorkflowFlowDetailDTO;
 import com.dong.event.web.service.WorkflowFlowDetailService;
@@ -20,7 +20,7 @@ import java.util.List;
 public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService {
 
     @Resource
-    WorkflowFlowDetailJpaDao workflowFlowDetailJpaDao;
+    WorkflowFlowDetailRepository workflowFlowDetailRepository;
 
     /**
      * 查询流程环节详情列表
@@ -30,7 +30,7 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
      */
     @Override
     public List<WorkflowFlowDetail> findWorkflowFlowDetailList(String workflowId) {
-        return workflowFlowDetailJpaDao.findByWorkflowId(workflowId);
+        return workflowFlowDetailRepository.findByWorkflowId(workflowId);
     }
 
     /**
@@ -49,14 +49,14 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
             entity.setCreateUserId(CurrentUserUtils.getUserId());
             entity.setDeleteStatus(CommonConstant.NO);
         } else {
-            WorkflowFlowDetail workflowFlowDetail = workflowFlowDetailJpaDao.findById(dto.getId()).orElse(new WorkflowFlowDetail());
+            WorkflowFlowDetail workflowFlowDetail = workflowFlowDetailRepository.findById(dto.getId()).orElse(new WorkflowFlowDetail());
             entity.setId(workflowFlowDetail.getId());
             entity.setCreateTime(workflowFlowDetail.getCreateTime());
             entity.setCreateUserId(workflowFlowDetail.getCreateUserId());
         }
         entity.setUpdateTime(new Date());
         entity.setUpdateUserId(CurrentUserUtils.getUserId());
-        return workflowFlowDetailJpaDao.save(entity);
+        return workflowFlowDetailRepository.save(entity);
     }
 
     /**
@@ -68,7 +68,7 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
     @Override
     public WorkflowFlowDetail getWorkflowFlowDetail(String id) {
         Assert.notNull(id, "id不能为空");
-        return workflowFlowDetailJpaDao.findById(id).orElse(new WorkflowFlowDetail());
+        return workflowFlowDetailRepository.findById(id).orElse(new WorkflowFlowDetail());
     }
 
     /**
@@ -80,20 +80,20 @@ public class WorkflowFlowDetailServiceImpl implements WorkflowFlowDetailService 
     @Override
     public void deleteWorkflowFlowDetail(String id) {
         Assert.notNull(id, "id不能为空");
-        WorkflowFlowDetail workflowFlowDetail = workflowFlowDetailJpaDao.findById(id).orElse(new WorkflowFlowDetail());
+        WorkflowFlowDetail workflowFlowDetail = workflowFlowDetailRepository.findById(id).orElse(new WorkflowFlowDetail());
         workflowFlowDetail.setDeleteStatus(CommonConstant.YES);
         workflowFlowDetail.setUpdateTime(new Date());
-        workflowFlowDetailJpaDao.save(workflowFlowDetail);
+        workflowFlowDetailRepository.save(workflowFlowDetail);
     }
 
 
     @Override
     public void deleteWorkflowFlowDetailByWorkflow(String workflowId) {
-        List<WorkflowFlowDetail> flowDetails = workflowFlowDetailJpaDao.findByWorkflowId(workflowId);
+        List<WorkflowFlowDetail> flowDetails = workflowFlowDetailRepository.findByWorkflowId(workflowId);
         for (WorkflowFlowDetail flowDetail : flowDetails) {
             flowDetail.setDeleteStatus(CommonConstant.YES);
         }
-        workflowFlowDetailJpaDao.saveAll(flowDetails);
+        workflowFlowDetailRepository.saveAll(flowDetails);
     }
 
 }

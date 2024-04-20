@@ -5,7 +5,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
-import com.dong.event.web.dao.WorkflowJpaDao;
+import com.dong.event.web.dao.WorkflowRepository;
 import com.dong.event.web.entity.Workflow;
 import com.dong.event.web.model.dto.WorkflowDTO;
 import com.dong.event.web.model.vo.WorkflowVO;
@@ -25,7 +25,7 @@ import java.util.List;
 public class WorkflowServiceImpl implements WorkflowService {
 
     @Resource
-    WorkflowJpaDao workflowJpaDao;
+    WorkflowRepository workflowRepository;
     @Resource
     CommonDao commonDao;
 
@@ -75,13 +75,13 @@ public class WorkflowServiceImpl implements WorkflowService {
             entity.setDeleteStatus(CommonConstant.NO);
             entity.setWorkflowCode(CommonUtils.getRandomSixNum());
         } else {
-            Workflow workflow = workflowJpaDao.findById(dto.getId()).orElse(new Workflow());
+            Workflow workflow = workflowRepository.findById(dto.getId()).orElse(new Workflow());
             entity.setId(workflow.getId());
 
         }
         entity.setUpdateUserId(CurrentUserUtils.getUserId());
         entity.setUpdateTime(new Date());
-        return workflowJpaDao.save(entity);
+        return workflowRepository.save(entity);
     }
 
     /**
@@ -93,7 +93,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Override
     public WorkflowVO getWorkflow(String id) {
         Assert.notNull(id, "id不能为空");
-        Workflow workflow = workflowJpaDao.findById(id).orElse(new Workflow());
+        Workflow workflow = workflowRepository.findById(id).orElse(new Workflow());
         return convertVO(workflow);
     }
 
@@ -113,10 +113,10 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Override
     public void deleteWorkflow(String id) {
         Assert.notNull(id, "id不能为空");
-        Workflow workflow = workflowJpaDao.findById(id).orElse(new Workflow());
+        Workflow workflow = workflowRepository.findById(id).orElse(new Workflow());
         workflow.setDeleteStatus(CommonConstant.YES);
         workflow.setUpdateTime(new Date());
-        workflowJpaDao.save(workflow);
+        workflowRepository.save(workflow);
     }
 
 }

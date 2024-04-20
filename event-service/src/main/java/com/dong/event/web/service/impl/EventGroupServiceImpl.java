@@ -4,7 +4,7 @@ import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.event.enums.RelationTypeEnum;
-import com.dong.event.web.dao.EventGroupJpaDao;
+import com.dong.event.web.dao.EventGroupRepository;
 import com.dong.event.web.entity.EventGroup;
 import com.dong.event.web.model.dto.EventGroupDTO;
 import com.dong.event.web.model.vo.EventGroupVO;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 public class EventGroupServiceImpl implements EventGroupService {
 
     @Resource
-    EventGroupJpaDao eventGroupJpaDao;
+    EventGroupRepository eventGroupRepository;
 
     /**
     * 查询事件群聊关联列表
@@ -46,7 +46,7 @@ public class EventGroupServiceImpl implements EventGroupService {
         entity.setCurrentStatus(dto.getCurrentStatus());
         entity.setRelationType(RelationTypeEnum.register.name());
         entity.setDeleteStatus(CommonConstant.NO);
-        return eventGroupJpaDao.save(entity);
+        return eventGroupRepository.save(entity);
     }
 
     /**

@@ -4,7 +4,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.DateUtils;
-import com.dong.shardingspheredemo.web.dao.BillingDetailsJpaDao;
+import com.dong.shardingspheredemo.web.dao.BillingDetailsRepository;
 import com.dong.shardingspheredemo.web.entity.BillingDetails;
 import com.dong.shardingspheredemo.web.model.BillingDetailsDTO;
 import com.dong.shardingspheredemo.web.service.BillingDetailsService;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class BillingDetailsServiceImpl implements BillingDetailsService {
 
     @Autowired
-    private BillingDetailsJpaDao billingDetailsJpaDao;
+    private BillingDetailsRepository billingDetailsRepository;
 
     @Resource
     private CommonDao commonDao;
@@ -37,7 +37,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     @Override
     public BillingDetails saveBilling(BillingDetailsDTO dto) throws ParseException {
         BillingDetails billingDetails = convertEntity(dto);
-        billingDetailsJpaDao.save(billingDetails);
+        billingDetailsRepository.save(billingDetails);
         return billingDetails;
     }
 
@@ -46,7 +46,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         if (StringUtils.isEmpty(id)) {
             throw new Exception("主键不能为空");
         }
-        return billingDetailsJpaDao.getOne(id);
+        return billingDetailsRepository.getOne(id);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         if (StringUtils.isEmpty(id)) {
             throw new Exception("主键不能为空");
         }
-        billingDetailsJpaDao.deleteById(id);
+        billingDetailsRepository.deleteById(id);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             }
             entity.setCreateUserId(dto.getCreateUserId());
         } else {
-            entity = billingDetailsJpaDao.getById(dto.getId());
+            entity = billingDetailsRepository.getById(dto.getId());
         }
         entity.setSpendingType(dto.getSpendingType());
         entity.setAmountPaid(dto.getAmountPaid());
@@ -171,7 +171,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     @Override
     public Map<String, BigDecimal> statisticsBilling(String date) {
         Map<String, BigDecimal> result = new HashMap<>();
-        List<BillingDetails> list = billingDetailsJpaDao.findByRecordTimeStartingWith(date + "%");
+        List<BillingDetails> list = billingDetailsRepository.findByRecordTimeStartingWith(date + "%");
         //总支出
         BigDecimal amountSum = list.stream()
                 // 将BillingDetails对象的amountPaid取出来map为BigDecimal

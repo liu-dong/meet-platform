@@ -1,7 +1,7 @@
 package com.dong.adminserver.web.service.impl;
 
 import com.dong.adminserver.constant.MenuConstant;
-import com.dong.adminserver.web.dao.MenuJpaDao;
+import com.dong.adminserver.web.dao.MenuRepository;
 import com.dong.adminserver.web.entity.Menu;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
@@ -22,7 +22,7 @@ import java.util.*;
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
-    private MenuJpaDao menuJpaDao;
+    private MenuRepository menuRepository;
 
     @Autowired
     private CommonDao commonDao;
@@ -73,7 +73,7 @@ public class MenuServiceImpl implements MenuService {
             result = getMenuTreeByRecursion("");
         } else if (2 == type) {
             // 根据所有菜单数据生成菜单树
-            List<Menu> menuList = menuJpaDao.findAllByMenuStatusOrderByMenuOrderAsc(CommonConstant.YES);
+            List<Menu> menuList = menuRepository.findAllByMenuStatusOrderByMenuOrderAsc(CommonConstant.YES);
             result = getMenuTreeByALL(menuList);
         }
         return result;
@@ -86,7 +86,7 @@ public class MenuServiceImpl implements MenuService {
             entity.setId(CommonUtils.getUUID());
             entity.setCreateTime(new Date());
         } else {
-            entity = menuJpaDao.findById(dto.getId()).orElse(new Menu());
+            entity = menuRepository.findById(dto.getId()).orElse(new Menu());
             entity.setUpdateTime(new Date());
         }
         entity.setParentId(dto.getParentId());
@@ -99,7 +99,7 @@ public class MenuServiceImpl implements MenuService {
         entity.setMenuStatus(dto.getMenuStatus());
         entity.setHasChild(dto.getHasChild());
         entity.setUpdateTime(new Date());
-        return menuJpaDao.save(entity);
+        return menuRepository.save(entity);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class MenuServiceImpl implements MenuService {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
-        return menuJpaDao.findById(id).orElse(new Menu());
+        return menuRepository.findById(id).orElse(new Menu());
 
     }
 
@@ -117,17 +117,17 @@ public class MenuServiceImpl implements MenuService {
             throw new GlobalException("删除失败，id不能为空!");
         }
         List<Menu> sysMenus = new ArrayList<>();
-        Menu entity = menuJpaDao.findById(id).orElse(new Menu());
+        Menu entity = menuRepository.findById(id).orElse(new Menu());
         sysMenus.add(entity);
         //判断是否有子菜单
         sysMenus.addAll(findChildrenMenuList(id));
-        menuJpaDao.deleteAll(sysMenus);
+        menuRepository.deleteAll(sysMenus);
 
     }
 
     @Override
     public List<Menu> findParentMenuList() {
-        return menuJpaDao.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
+        return menuRepository.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
     }
 
     /**
@@ -139,7 +139,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> findChildrenMenuList(String id) {
         List<Menu> result = new ArrayList<>();
         //判断是否有子菜单
-        List<Menu> childrenList = menuJpaDao.getAllByParentIdAndMenuStatus(id, CommonConstant.YES);
+        List<Menu> childrenList = menuRepository.getAllByParentIdAndMenuStatus(id, CommonConstant.YES);
         if (!CollectionUtils.isEmpty(childrenList)) {
             result.addAll(childrenList);
             for (Menu sysMenu : childrenList) {
@@ -160,9 +160,9 @@ public class MenuServiceImpl implements MenuService {
         List<Map<String, Object>> menuMapList = new ArrayList<>();
         List<Menu> menuList;
         if (StringUtils.isEmpty(parentId)) {//如果父菜单主键为空说明找的是一级菜单
-            menuList = menuJpaDao.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
+            menuList = menuRepository.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
         } else {
-            menuList = menuJpaDao.getAllByParentIdAndMenuStatus(parentId, CommonConstant.YES);
+            menuList = menuRepository.getAllByParentIdAndMenuStatus(parentId, CommonConstant.YES);
         }
         if (!CollectionUtils.isEmpty(menuList)) {
             for (Menu sysMenu : menuList) {

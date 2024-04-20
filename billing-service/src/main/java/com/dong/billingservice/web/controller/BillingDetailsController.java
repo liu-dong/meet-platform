@@ -1,7 +1,7 @@
 package com.dong.billingservice.web.controller;
 
 import com.dong.billingservice.util.SyncData;
-import com.dong.billingservice.web.dao.SsjJpaDao;
+import com.dong.billingservice.web.dao.SsjRepository;
 import com.dong.billingservice.web.entity.BillingDetails;
 import com.dong.billingservice.web.entity.Suishouji;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
@@ -33,7 +33,7 @@ public class BillingDetailsController {
     @Autowired
     private BillingDetailsService billingDetailsService;
     @Autowired
-    private SsjJpaDao ssjJpaDao;
+    private SsjRepository ssjRepository;
 
     @ApiOperation("保存账单")
     @PostMapping("/saveBillingDetails")
@@ -74,7 +74,7 @@ public class BillingDetailsController {
             BeanUtils.copyProperties(dtoList.get(i), entity);
             entityList.add(entity);
         }
-        ssjJpaDao.saveAll(entityList);
+        ssjRepository.saveAll(entityList);
         return dtoList.size();
     }
 

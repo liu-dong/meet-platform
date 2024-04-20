@@ -18,7 +18,7 @@
 		<!--公共模块-->
 		<dependency>
 			<groupId>com.dong</groupId>
-			<artifactId>security-core</artifactId>
+			<artifactId>common-core</artifactId>
 		</dependency>
 	</dependencies>
 

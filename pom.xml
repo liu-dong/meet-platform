@@ -22,6 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <meet-core.version>1.0.0</meet-core.version>
         <!--spring-->
 
         <!--apache-->
@@ -60,8 +61,6 @@
     </properties>
 
     <modules>
-        <module>common-core</module>
-        <module>user-core</module>
         <module>auth-server</module>
         <module>security-server</module>
         <module>admin-server</module>
@@ -126,17 +125,12 @@
             <dependency>
                 <groupId>com.dong</groupId>
                 <artifactId>common-core</artifactId>
-                <version>${project.version}</version>
+                <version>${meet-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.dong</groupId>
                 <artifactId>user-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dong</groupId>
-                <artifactId>security-core</artifactId>
-                <version>${project.version}</version>
+                <version>${meet-core.version}</version>
             </dependency>
 
             <!--<dependency>

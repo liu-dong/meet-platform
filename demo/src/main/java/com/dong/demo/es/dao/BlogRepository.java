@@ -1,6 +1,6 @@
-package com.dong.es.dao;
+package com.dong.demo.es.dao;
 
-import com.dong.es.domain.BlogModel;
+import com.dong.demo.es.domain.BlogModel;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

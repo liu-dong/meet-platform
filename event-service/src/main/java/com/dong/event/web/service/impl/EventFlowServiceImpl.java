@@ -1,7 +1,7 @@
 package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.model.Pager;
-import com.dong.event.web.dao.EventFlowJpaDao;
+import com.dong.event.web.dao.EventFlowRepository;
 import com.dong.event.web.model.dto.EventFlowDTO;
 import com.dong.event.web.model.vo.EventFlowVO;
 import com.dong.event.web.service.EventFlowService;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class EventFlowServiceImpl implements EventFlowService {
 
     @Autowired
-    EventFlowJpaDao eventFlowJpaDao;
+    EventFlowRepository eventFlowRepository;
 
     /**
      * 查询事件流程列表

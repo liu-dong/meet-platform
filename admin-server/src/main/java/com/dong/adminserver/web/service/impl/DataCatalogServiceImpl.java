@@ -1,7 +1,7 @@
 package com.dong.adminserver.web.service.impl;
 
-import com.dong.adminserver.web.dao.DataCatalogItemJpaDao;
-import com.dong.adminserver.web.dao.DataCatalogJpaDao;
+import com.dong.adminserver.web.dao.DataCatalogItemRepository;
+import com.dong.adminserver.web.dao.DataCatalogRepository;
 import com.dong.adminserver.web.entity.DataCatalog;
 import com.dong.adminserver.web.entity.DataCatalogItem;
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
@@ -33,9 +33,9 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     @Autowired
     CommonDao commonDao;
     @Autowired
-    DataCatalogJpaDao dataCatalogJpaDao;
+    DataCatalogRepository dataCatalogRepository;
     @Autowired
-    DataCatalogItemJpaDao dataCatalogItemJpaDao;
+    DataCatalogItemRepository dataCatalogItemRepository;
 
     /**
      * 保存数据目录
@@ -48,7 +48,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     public DataCatalogVO saveDataCatalog(DataCatalogDTO dto) {
         DataCatalog entity = new DataCatalog();
         if (StringUtils.isNotBlank(dto.getId())) {
-            entity = dataCatalogJpaDao.findById(dto.getId()).orElse(new DataCatalog());
+            entity = dataCatalogRepository.findById(dto.getId()).orElse(new DataCatalog());
             entity.setUpdateTime(new Date());
         } else {
             entity.setId(CommonUtils.getUUID());
@@ -56,7 +56,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
         }
         convertEntity(dto, entity);
         //保存数据字典目录
-        DataCatalog dataCatalog = dataCatalogJpaDao.save(entity);
+        DataCatalog dataCatalog = dataCatalogRepository.save(entity);
         //保存数据字典条目
         List<DataCatalogItem> itemList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(dto.getItemList())) {
@@ -125,7 +125,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
                 entityList.add(entity);
             }
         }
-        return dataCatalogItemJpaDao.saveAll(entityList);
+        return dataCatalogItemRepository.saveAll(entityList);
     }
 
     /**
@@ -138,7 +138,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     private DataCatalogItem buildDataCatalogItem(String catalogId, DataCatalogItemDTO dto) {
         DataCatalogItem entity = new DataCatalogItem();
         if (StringUtils.isNotBlank(dto.getId())) {
-            entity = dataCatalogItemJpaDao.findById(dto.getId()).orElse(new DataCatalogItem());
+            entity = dataCatalogItemRepository.findById(dto.getId()).orElse(new DataCatalogItem());
             entity.setUpdateTime(new Date());
         } else {
             entity.setId(CommonUtils.getUUID());
@@ -152,25 +152,25 @@ public class DataCatalogServiceImpl implements DataCatalogService {
 
     @Override
     public DataCatalogVO getDataCatalogDetail(String id) {
-        DataCatalog dataCatalog = dataCatalogJpaDao.findById(id).orElse(new DataCatalog());
-        List<DataCatalogItem> catalogItemList = dataCatalogItemJpaDao.findByCatalogIdAndStatus(id, CommonConstant.YES);
+        DataCatalog dataCatalog = dataCatalogRepository.findById(id).orElse(new DataCatalog());
+        List<DataCatalogItem> catalogItemList = dataCatalogItemRepository.findByCatalogIdAndStatus(id, CommonConstant.YES);
         return convertDataCatalogVO(dataCatalog, catalogItemList);
     }
 
     @Override
     public void deleteDataCatalog(String id) {
-        if (dataCatalogJpaDao.existsById(id)) {
+        if (dataCatalogRepository.existsById(id)) {
             //删除数据字典条目
-            dataCatalogItemJpaDao.deleteByCatalogId(id);
+            dataCatalogItemRepository.deleteByCatalogId(id);
             //删除数据字典目录
-            dataCatalogJpaDao.deleteById(id);
+            dataCatalogRepository.deleteById(id);
         }
     }
 
     @Override
     public void deleteDataCatalogItem(String id) {
-        if (dataCatalogItemJpaDao.existsById(id)) {
-            dataCatalogItemJpaDao.deleteById(id);
+        if (dataCatalogItemRepository.existsById(id)) {
+            dataCatalogItemRepository.deleteById(id);
         }
     }
 
@@ -200,9 +200,9 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     @Override
     public Map<String, Object> findDataCatalogItemList() {
         Map<String, Object> result = new HashMap<>();
-        List<DataCatalog> dataCatalogs = dataCatalogJpaDao.findAll();
+        List<DataCatalog> dataCatalogs = dataCatalogRepository.findAll();
         for (DataCatalog dataCatalog : dataCatalogs) {
-            List<DataCatalogItem> itemList = dataCatalogItemJpaDao.findByCatalogId(dataCatalog.getId());
+            List<DataCatalogItem> itemList = dataCatalogItemRepository.findByCatalogId(dataCatalog.getId());
             result.put(dataCatalog.getCatalogCode(), itemList);
         }
         return result;

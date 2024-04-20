@@ -3,7 +3,7 @@ package com.dong.event.web.service.impl;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
-import com.dong.event.web.dao.WorkflowMainFlowJpaDao;
+import com.dong.event.web.dao.WorkflowMainFlowRepository;
 import com.dong.event.web.entity.WorkflowMainFlow;
 import com.dong.event.web.model.dto.WorkflowMainFlowDTO;
 import com.dong.event.web.service.WorkflowMainFlowService;
@@ -20,7 +20,7 @@ import java.util.List;
 public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
 
     @Resource
-    WorkflowMainFlowJpaDao workflowMainFlowJpaDao;
+    WorkflowMainFlowRepository workflowMainFlowRepository;
 
     /**
      * 查询主干流程列表
@@ -30,7 +30,7 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
      */
     @Override
     public List<WorkflowMainFlow> findWorkflowMainFlowList(String workflowId) {
-        return workflowMainFlowJpaDao.findByWorkflowIdOrderByFlowSortAsc(workflowId);
+        return workflowMainFlowRepository.findByWorkflowIdOrderByFlowSortAsc(workflowId);
     }
 
     /**
@@ -46,7 +46,7 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
             WorkflowMainFlow entity = new WorkflowMainFlow();
             BeanUtils.copyProperties(dto, entity);
             if (StringUtils.isNotBlank(dto.getId())) {
-                WorkflowMainFlow workflowMainFlow = workflowMainFlowJpaDao.findById(dto.getId()).orElse(new WorkflowMainFlow());
+                WorkflowMainFlow workflowMainFlow = workflowMainFlowRepository.findById(dto.getId()).orElse(new WorkflowMainFlow());
                 entity.setId(workflowMainFlow.getId());
                 entity.setCreateTime(workflowMainFlow.getCreateTime());
                 entity.setCreateUserId(CurrentUserUtils.getUserId());
@@ -59,7 +59,7 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
             entity.setUpdateTime(new Date());
             entityList.add(entity);
         }
-        return workflowMainFlowJpaDao.saveAll(entityList);
+        return workflowMainFlowRepository.saveAll(entityList);
     }
 
     /**
@@ -70,7 +70,7 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
      */
     @Override
     public WorkflowMainFlow getWorkflowMainFlow(String id) {
-        return workflowMainFlowJpaDao.findById(id).orElse(new WorkflowMainFlow());
+        return workflowMainFlowRepository.findById(id).orElse(new WorkflowMainFlow());
     }
 
     /**
@@ -81,17 +81,17 @@ public class WorkflowMainFlowServiceImpl implements WorkflowMainFlowService {
      */
     @Override
     public void deleteWorkflowMainFlow(String id) {
-        WorkflowMainFlow entity = workflowMainFlowJpaDao.findById(id).orElse(new WorkflowMainFlow());
+        WorkflowMainFlow entity = workflowMainFlowRepository.findById(id).orElse(new WorkflowMainFlow());
         entity.setDeleteStatus(CommonConstant.YES);
-        workflowMainFlowJpaDao.save(entity);
+        workflowMainFlowRepository.save(entity);
     }
 
     @Override
     public void deleteWorkflowMainFlowByWorkflow(String workflowId) {
-        List<WorkflowMainFlow> mainFlows = workflowMainFlowJpaDao.findByWorkflowIdOrderByFlowSortAsc(workflowId);
+        List<WorkflowMainFlow> mainFlows = workflowMainFlowRepository.findByWorkflowIdOrderByFlowSortAsc(workflowId);
         for (WorkflowMainFlow mainFlow : mainFlows) {
             mainFlow.setDeleteStatus(CommonConstant.YES);
         }
-        workflowMainFlowJpaDao.saveAll(mainFlows);
+        workflowMainFlowRepository.saveAll(mainFlows);
     }
 }

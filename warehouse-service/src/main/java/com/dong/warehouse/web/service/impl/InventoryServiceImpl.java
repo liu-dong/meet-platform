@@ -5,7 +5,7 @@ import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.util.CurrentUserUtils;
-import com.dong.warehouse.web.dao.InventoryJpaDao;
+import com.dong.warehouse.web.dao.InventoryRepository;
 import com.dong.warehouse.web.entity.Inventory;
 import com.dong.warehouse.web.model.dto.InventoryDTO;
 import com.dong.warehouse.web.model.vo.InventoryVO;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
-    InventoryJpaDao inventoryJpaDao;
+    InventoryRepository inventoryRepository;
     @Autowired
     CommonDao commonDao;
 
@@ -61,7 +61,7 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryVO saveInventory(InventoryDTO dto) {
         InventoryVO vo = new InventoryVO();
         Inventory inventory = convertEntity(dto);
-        inventoryJpaDao.save(inventory);
+        inventoryRepository.save(inventory);
         BeanUtils.copyProperties(inventory, vo);
         return vo;
     }
@@ -77,7 +77,7 @@ public class InventoryServiceImpl implements InventoryService {
                 entity.setCreateUserId(CurrentUserUtils.getUsername());
             }
         } else {
-            entity = inventoryJpaDao.findById(dto.getId()).orElse(new Inventory());
+            entity = inventoryRepository.findById(dto.getId()).orElse(new Inventory());
         }
 
         entity.setProductType(dto.getProductType());
@@ -107,7 +107,7 @@ public class InventoryServiceImpl implements InventoryService {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
-        Inventory inventory = inventoryJpaDao.findById(id).orElse(new Inventory());
+        Inventory inventory = inventoryRepository.findById(id).orElse(new Inventory());
         InventoryVO vo = new InventoryVO();
         BeanUtils.copyProperties(inventory, vo);
         return vo;
@@ -124,9 +124,9 @@ public class InventoryServiceImpl implements InventoryService {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("删除失败，id不能为空!");
         }
-        Inventory inventory = inventoryJpaDao.findById(id).orElse(new Inventory());
+        Inventory inventory = inventoryRepository.findById(id).orElse(new Inventory());
         inventory.setDeleteStatus(CommonConstant.YES);
-        inventoryJpaDao.save(inventory);
+        inventoryRepository.save(inventory);
     }
 
     @Override
