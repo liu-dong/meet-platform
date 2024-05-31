@@ -10,11 +10,11 @@ import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.user.dao.AccountRepository;
-import com.dong.user.dao.AccountRoleRepository;
+import com.dong.user.dao.UserRoleRepository;
 import com.dong.user.dao.PersonRepository;
 import com.dong.user.dao.RoleRepository;
 import com.dong.user.entity.Account;
-import com.dong.user.entity.AccountRole;
+import com.dong.user.entity.UserRole;
 import com.dong.user.entity.Person;
 import com.dong.user.service.AccountService;
 import org.apache.commons.lang3.StringUtils;
@@ -42,20 +42,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleRepository roleRepository;
     @Autowired
-    AccountRoleRepository accountRoleRepository;
+    UserRoleRepository userRoleRepository;
 
     @Autowired
     UserDetailFactory userDetailFactory;
 
     @Override
     public String register(RegisterDTO dto) {
-        // 新增用户时初始化一条人员信息
-        String personId = initPerson(dto);
-        // 保存账号
+        // 创建人员信息
+        String personId = createPerson(dto);
+        // 创建用户信息
+        String userId = createUser(dto);
+        // 创建账号
         Account account = saveAccount(dto, personId);
         // 新增用户时默认分配普通用户权限
         saveAccountRole(dto, account.getId());
         return account.getUsername();
+    }
+
+    private String createUser(RegisterDTO dto) {
     }
 
     @NotNull
@@ -80,19 +85,24 @@ public class UserServiceImpl implements UserService {
     }
 
     private void saveAccountRole(RegisterDTO dto, String accountId) {
-        AccountRole accountRole = new AccountRole();
-        accountRole.setId(CommonUtils.getUUID());
-        accountRole.setAccountId(accountId);
+        UserRole userRole = new UserRole();
+        userRole.setId(CommonUtils.getUUID());
+        userRole.setUserId(accountId);
         String roleId = "32047ea768ff4c72a784e0bc02650eaa";
         if (dto.getUserType() != null) {
             // 根据用户类型获取角色id
             roleId = roleRepository.getByRoleName(UserTypeEnum.getNameByRole(dto.getUserType())).getId();
         }
-        accountRole.setRoleId(roleId);
-        accountRoleRepository.save(accountRole);
+        userRole.setRoleId(roleId);
+        userRoleRepository.save(userRole);
     }
 
-    private String initPerson(RegisterDTO dto) {
+    /**
+     * 创建人员信息
+     * @param dto 
+     * @return
+     */
+    private String createPerson(RegisterDTO dto) {
         Person person = new Person();
         person.setId(CommonUtils.getUUID());
         person.setName(dto.getRealName());

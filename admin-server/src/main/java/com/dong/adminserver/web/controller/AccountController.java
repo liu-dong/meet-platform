@@ -4,8 +4,9 @@ import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.Pager;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.Account;
-import com.dong.user.entity.AccountRole;
+import com.dong.user.entity.UserRole;
 import com.dong.user.model.dto.AccountDTO;
+import com.dong.user.model.dto.AccountRegisterDTO;
 import com.dong.user.model.vo.AccountVO;
 import com.dong.user.service.AccountService;
 import io.swagger.annotations.Api;
@@ -29,58 +30,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
-
-    /**
-     * 注册用户
-     *
-     * @param dto
-     * @return
-     */
-    @ApiOperation("注册用户")
-    @PostMapping("/register")
-    public ResponseResult register(@RequestBody AccountDTO dto) {
-        Account account = accountService.register(dto);
-        return ResponseResult.success(account, ResponseMessageConstant.REGISTER_SUCCESS);
-    }
-
-    /**
-     * 用户登录
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return 返回结果
-     */
-    @ApiOperation("用户登录")
-    @PostMapping(value = "/login")
-    public ResponseResult login(String username, String password) {
-        AccountVO accountVO = accountService.login(username, password);
-        return ResponseResult.success(accountVO, ResponseMessageConstant.LOGIN_SUCCESS);
-    }
-
-    /**
-     * 退出登录
-     *
-     * @param username 用户名
-     * @return 返回结果
-     */
-    @ApiOperation("退出登录")
-    @PostMapping("/logout")
-    public ResponseResult logout(String username) {
-        return accountService.logout(username);
-    }
-
-    /**
-     * 注销用户
-     *
-     * @param username 用户名
-     * @return 返回结果
-     */
-    @ApiOperation("注销用户")
-    @PostMapping("/cancel")
-    public ResponseResult cancel(String username) {
-        String cancel = accountService.cancel(username);
-        return ResponseResult.success(cancel);
-    }
 
     /**
      * 查询用户信息列表
@@ -145,8 +94,8 @@ public class AccountController {
     @ApiOperation("分派角色")
     @PostMapping("/assignRoles")
     public ResponseResult assignRoles(@RequestBody AccountDTO dto) {
-        List<AccountRole> accountRoles = accountService.assignRoles(dto);
-        return ResponseResult.success(accountRoles, ResponseMessageConstant.OPERATE_SUCCESS);
+        List<UserRole> userRoles = accountService.assignRoles(dto);
+        return ResponseResult.success(userRoles, ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
 }

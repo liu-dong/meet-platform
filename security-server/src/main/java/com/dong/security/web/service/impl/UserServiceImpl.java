@@ -1,7 +1,6 @@
 package com.dong.security.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
-import com.dong.security.config.security.CustomPasswordEncoder;
 import com.dong.security.web.model.LoginDTO;
 import com.dong.security.web.model.RegisterDTO;
 import com.dong.security.web.service.UserService;
@@ -12,11 +11,11 @@ import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.JWTUtils;
 import com.dong.user.dao.AccountRepository;
-import com.dong.user.dao.AccountRoleRepository;
+import com.dong.user.dao.UserRoleRepository;
 import com.dong.user.dao.PersonRepository;
 import com.dong.user.dao.RoleRepository;
 import com.dong.user.entity.Account;
-import com.dong.user.entity.AccountRole;
+import com.dong.user.entity.UserRole;
 import com.dong.user.entity.Person;
 import com.dong.user.service.AccountService;
 import io.jsonwebtoken.Claims;
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleRepository roleRepository;
     @Autowired
-    AccountRoleRepository accountRoleRepository;
+    UserRoleRepository userRoleRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -113,16 +112,16 @@ public class UserServiceImpl implements UserService {
     }
 
     private void saveAccountRole(RegisterDTO dto, String accountId) {
-        AccountRole accountRole = new AccountRole();
-        accountRole.setId(CommonUtils.getUUID());
-        accountRole.setAccountId(accountId);
+        UserRole userRole = new UserRole();
+        userRole.setId(CommonUtils.getUUID());
+        userRole.setUserId(accountId);
         String roleId = "32047ea768ff4c72a784e0bc02650eaa";
         if (dto.getUserType() != null) {
             //根据用户类型获取角色id
             roleId = roleRepository.getByRoleName(UserTypeEnum.getNameByRole(dto.getUserType())).getId();
         }
-        accountRole.setRoleId(roleId);
-        accountRoleRepository.save(accountRole);
+        userRole.setRoleId(roleId);
+        userRoleRepository.save(userRole);
     }
 
     private String initPerson(RegisterDTO dto) {

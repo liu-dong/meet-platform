@@ -62,7 +62,7 @@
 
     <modules>
         <module>auth-server</module>
-        <module>security-server</module>
+        <!-- <module>security-server</module> -->
         <module>admin-server</module>
         <module>generator-server</module>
 
@@ -83,7 +83,7 @@
         <module>demo</module>
         <module>plan-service</module>
         <module>websocket-server</module>
-        <module>sso-server</module>
+        <!-- <module>sso-server</module> -->
     </modules>
 
     <dependencies>

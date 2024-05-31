@@ -32,7 +32,6 @@
             <groupId>com.dong</groupId>
             <artifactId>user-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.dong</groupId>
             <artifactId>log-server</artifactId>

@@ -3,6 +3,7 @@ package com.dong.sso.config;
 import com.alibaba.fastjson.JSON;
 import com.dong.commoncore.enums.LoginWayEnum;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.AddressUtils;
 import com.dong.commoncore.util.JWTUtils;
 import com.dong.log.web.model.dto.LoginLogsDTO;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 登录成功回调
@@ -42,21 +44,21 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        Account account = accountService.getAccountByUsername(authentication.getName());
+        UserDetail userDetail = accountService.getAccountByUsername(authentication.getName());
         // 修改登录时间
-        String lastLoginTime = accountService.updateLastLoginTime(account);
-        //保存登录日志
+        String lastLoginTime = accountService.updateLastLoginTime(userDetail.getAccountId());
+        // 保存登录日志
         saveLoginLogs(request, authentication);
         HashMap<String, Object> userInfo = new HashMap<>();
-        userInfo.put("username", account.getUsername());
-        userInfo.put("realName", account.getRealName());
+        userInfo.put("username", userDetail.getUsername());
+        userInfo.put("realName", userDetail.getRealName());
         userInfo.put("lastLoginTime", lastLoginTime);
 
-        HashMap<String, Object> dataMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("userInfo", userInfo);
         dataMap.put("roleInfo", authentication.getAuthorities());
-        String token = JWTUtils.getToken(account.getId(), account.getUsername(), account.getRealName());
-        ResponseResult result = ResponseResult.success(token, "登录成功！");
+        String token = JWTUtils.getToken(userDetail.getUserId(), userDetail.getUsername(), userDetail.getRealName());
+        ResponseResult<String> result = ResponseResult.success(token, "登录成功！");
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         writer.write(JSON.toJSONString(result));

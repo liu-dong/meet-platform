@@ -32,7 +32,7 @@ import java.util.Objects;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "adminEntityManagerFactory",
         transactionManagerRef = "adminTransactionManager",
-        basePackages = {"com.dong.adminserver.web.dao", "com.dong.security.dao"}
+        basePackages = {"com.dong.adminserver.web.dao", "com.dong.user.dao"}
 )
 public class AdminDataSourceConfig {
 
@@ -56,7 +56,7 @@ public class AdminDataSourceConfig {
         return builder
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
-                .packages("com.dong.adminserver.web.entity", "com.dong.securitycore.entity")
+                .packages("com.dong.adminserver.web.entity", "com.dong.user.entity")
                 .build();
     }
 
