@@ -8,6 +8,7 @@ import com.dong.commoncore.util.RedisUtil;
 import com.dong.commoncore.util.RegularCheckUtils;
 import com.dong.user.dao.AccountRepository;
 import com.dong.user.entity.Account;
+import com.dong.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +38,10 @@ class SecurityCodeServiceImpl implements SecurityCodeService {
         if (account == null) {
             throw new GlobalException("邮箱不存在！");
         }
+
         String code;
         try {
-            code = EmailUtils.sendSecurityCode(account.getEmail(), account.getRealName());
+            code = EmailUtils.sendSecurityCode(account.getEmail(), account.getUsername());
             // 验证码存放到redis，15分钟过期
             RedisUtil.set(RedisCacheKeyConstant.EMAIL_CODE_PATH + account.getEmail(), code, RedisCacheKeyConstant.SECURITY_CODE_EXPIRE);
         } catch (Exception e) {

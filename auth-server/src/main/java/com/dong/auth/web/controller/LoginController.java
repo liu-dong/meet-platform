@@ -1,12 +1,12 @@
 package com.dong.auth.web.controller;
 
 import com.dong.auth.web.model.LoginDTO;
-import com.dong.auth.web.model.RegisterDTO;
 import com.dong.auth.web.service.LoginService;
 import com.dong.auth.web.service.SecurityCodeService;
-import com.dong.auth.web.service.UserService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.ResponseResult;
+import com.dong.user.model.dto.RegisterDTO;
+import com.dong.user.service.AccountService;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +37,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
     @Autowired
-    UserService userService;
+    AccountService accountService;
     @Autowired
     SecurityCodeService securityCodeService;
 
@@ -120,7 +120,7 @@ public class LoginController {
      */
     @PostMapping("/register")
     public ResponseResult<String> register(@RequestBody RegisterDTO dto) {
-        String username = userService.register(dto);
+        String username = accountService.register(dto);
         return ResponseResult.success(username, ResponseMessageConstant.REGISTER_SUCCESS);
     }
 

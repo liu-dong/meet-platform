@@ -6,7 +6,6 @@ import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.Account;
 import com.dong.user.entity.UserRole;
 import com.dong.user.model.dto.AccountDTO;
-import com.dong.user.model.dto.AccountRegisterDTO;
 import com.dong.user.model.vo.AccountVO;
 import com.dong.user.service.AccountService;
 import io.swagger.annotations.Api;

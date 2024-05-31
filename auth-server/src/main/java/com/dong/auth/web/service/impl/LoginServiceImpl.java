@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
         // 从认证模式工厂获取认证模式
         AuthenticationService authenticationService = authenticationFactory.createAuthModeService();
         // 认证
-        return authenticationService.createAuthentication(request, account);
+        return authenticationService.createAuthentication(request, account.getUserId());
     }
 
     @Override
