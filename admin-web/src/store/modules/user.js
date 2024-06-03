@@ -1,4 +1,4 @@
-import { getUserInfo, login, logout, refreshToken } from '@/api/auth'
+import { getUserDetail, login, logout, refreshToken } from '@/api/auth'
 import { getToken, removeToken, setToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -51,14 +51,16 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getUserInfo(state.token).then(response => {
+      getUserDetail(state.token).then(response => {
+        debugger
+        console.log('响应结果：' + response)
         const { data } = response
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-        const { username } = data
-        commit('SET_NAME', username)
-        commit('SET_AVATAR', 'https://tupian.qqw21.com/article/UploadPic/2020-6/2020651254036599.jpg')
+        const { nickname, avatar } = data
+        commit('SET_NAME', nickname)
+        commit('SET_AVATAR', avatar || 'https://tupian.qqw21.com/article/UploadPic/2020-6/2020651254036599.jpg')
         resolve(data)
       }).catch(error => {
         reject(error)

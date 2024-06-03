@@ -23,6 +23,27 @@ export const adminRouter = [
     ]
   },
   {
+    path: '/user',
+    name: 'User',
+    redirect: '/userList',
+    component: Layout,
+    children: [
+      {
+        path: '/userList',
+        name: 'userList',
+        meta: { title: '用户列表', icon: 'table' },
+        component: () => import('@/views/admin/UserList.vue')
+      },
+      {
+        hidden: true,
+        path: '/userDetail',
+        name: 'userDetail',
+        meta: { title: '用户详情', icon: 'form' },
+        component: () => import('@/views/admin/UserDetail.vue')
+      }
+    ]
+  },
+  {
     path: '/role',
     name: 'Role',
     redirect: '/roleList',
