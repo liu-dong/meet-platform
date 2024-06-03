@@ -9,8 +9,7 @@
       <button-delete class="filter-item" @delete="deleteInfo">删除</button-delete>
     </div>
     <!--数据列表-->
-    <!--<el-table
-      key="key-account"
+    <el-table
       v-loading="listLoading"
       border
       :data="list"
@@ -35,7 +34,7 @@
       <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable/>
       <el-table-column align="center" label="登录次数" prop="loginCount" sortable/>
       <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
-    </el-table>-->
+    </el-table>
     <!--分页-->
     <pagination
       v-show="total>0"
