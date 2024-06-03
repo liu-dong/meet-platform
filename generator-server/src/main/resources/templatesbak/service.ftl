@@ -2,7 +2,7 @@ package ${packageName};
 
 import ${basePackageName}.model.dto.${className?cap_first}DTO;
 import ${basePackageName}.model.vo.${className?cap_first}VO;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
 
 public interface ${className?cap_first}Service {
 
@@ -10,10 +10,10 @@ public interface ${className?cap_first}Service {
     * 查询${classComment}列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
-    Pager<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager);
+    PageVO<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pagination pagination);
 
     /**
     * 保存${classComment}

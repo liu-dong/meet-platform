@@ -9,7 +9,8 @@ import com.dong.chat.web.model.vo.GroupChatVO;
 import com.dong.chat.web.service.GroupChatService;
 import com.dong.chat.web.service.GroupMemberService;
 import com.dong.commoncore.constant.CommonConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -31,16 +32,14 @@ public class GroupChatServiceImpl implements GroupChatService {
      * 查询群聊列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<GroupChatVO> findGroupChatList(GroupChatDTO dto, Pager<GroupChatVO> pager) {
-        List<GroupChatVO> groupChatList = groupChatMapper.findGroupChatList(dto,pager.getOffset(), pager.getLimit());
+    public PageVO<GroupChatVO> findGroupChatList(GroupChatDTO dto, Pagination pagination) {
+        List<GroupChatVO> groupChatList = groupChatMapper.findGroupChatList(dto, pagination.getOffset(), pagination.getLimit());
         Integer total = groupChatMapper.getTotal(dto);
-        pager.setDataList(groupChatList);
-        pager.setTotal(total);
-        return pager;
+        return new PageVO<>(pagination.getPage(), total, groupChatList);
     }
 
     /**
@@ -65,17 +64,17 @@ public class GroupChatServiceImpl implements GroupChatService {
         entity.setUpdateTime(new Date());
         entity.setIsDelete(CommonConstant.NO);
         groupChatMapper.insert(entity);
-        //保存群成员
+        // 保存群成员
         saveGroupMember(dto, entity);
         return entity;
     }
 
     private void saveGroupMember(GroupChatDTO dto, GroupChat entity) {
-        //插入群id
+        // 插入群id
         for (GroupMemberDTO groupMemberDTO : dto.getGroupMemberList()) {
             groupMemberDTO.setGroupId(entity.getId());
         }
-        //保存群成员
+        // 保存群成员
         groupMemberService.batchSaveGroupMember(dto.getGroupMemberList());
     }
 
@@ -86,7 +85,7 @@ public class GroupChatServiceImpl implements GroupChatService {
         BeanUtils.copyProperties(dto, entity);
         entity.setUpdateTime(new Date());
         groupChatMapper.update(entity);
-        //保存群成员
+        // 保存群成员
         saveGroupMember(dto, entity);
         return entity;
     }
@@ -99,9 +98,9 @@ public class GroupChatServiceImpl implements GroupChatService {
      */
     @Override
     public GroupChatVO getGroupChat(String id) {
-        //查询群详情
+        // 查询群详情
         GroupChat groupChat = groupChatMapper.getById(id);
-        //查询群成员
+        // 查询群成员
         List<GroupMember> groupMemberList = groupMemberService.getGroupMemberByGroupId(groupChat.getId());
         return convertGroupChatVO(groupChat, groupMemberList);
     }

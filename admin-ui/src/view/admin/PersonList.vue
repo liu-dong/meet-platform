@@ -56,7 +56,7 @@
           :page-sizes="[5, 10, 15, 20]"
           :total="total"
           background
-          layout="sizes, prev, pager, next, total"
+          layout="sizes, prev, pagination, next, total"
           next-text="下一页"
           prev-text="上一页"
           style="padding: 10px;"

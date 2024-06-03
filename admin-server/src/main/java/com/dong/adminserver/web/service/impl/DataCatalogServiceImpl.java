@@ -12,7 +12,8 @@ import com.dong.adminserver.web.service.DataCatalogService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -175,7 +176,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     }
 
     @Override
-    public Pager<DataCatalogVO> findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager) {
+    public PageVO<DataCatalogVO> findDataCatalogList(DataCatalogDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,catalog_code catalogCode,catalog_name catalogName,description,`status`,create_time createTime ");
@@ -194,7 +195,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
             params.add("%" + dto.getCatalogCode() + "%");
         }
         sql.append(" ORDER BY create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, DataCatalogVO.class);
+        return commonDao.findListBySql(pagination, sql, params, DataCatalogVO.class);
     }
 
     @Override

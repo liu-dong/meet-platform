@@ -4,7 +4,7 @@ import ${basePackageName}.model.dto.${className?cap_first}DTO;
 import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.service.${className?cap_first}Service;
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.model.ResponseResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +26,12 @@ public class ${className?cap_first}Controller {
      * 查询${classComment}列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @GetMapping("/find${className?cap_first}List")
-    public ResponseResult find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
-        Pager<${className?cap_first}VO> result = ${className}Service.find${className?cap_first}List(dto, pager);
+    public ResponseResult find${className?cap_first}List(${className?cap_first}DTO dto, Pagination pagination) {
+        PageVO<${className?cap_first}VO> result = ${className}Service.find${className?cap_first}List(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

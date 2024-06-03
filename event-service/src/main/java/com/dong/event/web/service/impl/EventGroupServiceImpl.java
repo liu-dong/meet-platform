@@ -1,7 +1,8 @@
 package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.event.enums.RelationTypeEnum;
 import com.dong.event.web.dao.EventGroupRepository;
@@ -23,11 +24,11 @@ public class EventGroupServiceImpl implements EventGroupService {
     * 查询事件群聊关联列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
     @Override
-    public Pager<EventGroupVO> findEventGroupList(EventGroupDTO dto, Pager<EventGroupVO> pager) {
+    public PageVO<EventGroupVO> findEventGroupList(EventGroupDTO dto, Pagination pagination) {
         return null;
     }
 

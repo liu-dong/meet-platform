@@ -9,7 +9,8 @@ import com.dong.adminserver.web.service.MenuService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,11 @@ public class MenuServiceImpl implements MenuService {
      * 查询菜单列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<MenuVO> findMenuList(MenuDTO dto, Pager<MenuVO> pager) {
+    public PageVO<MenuVO> findMenuList(MenuDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT sm.id, sm.parent_id parentId, sm.menu_name menuName, sm.menu_level menuLevel, ");
@@ -56,7 +57,7 @@ public class MenuServiceImpl implements MenuService {
             params.add(dto.getHasChild());
         }
         sql.append(" ORDER BY sm.menu_level,sm.menu_order,sm.menu_status ASC ");
-        return commonDao.findListBySql(pager, sql, params, MenuVO.class);
+        return commonDao.findListBySql(pagination, sql, params, MenuVO.class);
     }
 
     /**

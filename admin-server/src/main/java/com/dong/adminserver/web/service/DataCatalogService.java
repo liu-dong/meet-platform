@@ -3,7 +3,8 @@ package com.dong.adminserver.web.service;
 import com.dong.adminserver.web.model.dto.DataCatalogDTO;
 import com.dong.adminserver.web.model.vo.DataCatalogVO;
 import com.dong.adminserver.web.model.vo.SelectItemVO;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 
 import java.util.List;
 import java.util.Map;
@@ -47,10 +48,10 @@ public interface DataCatalogService {
      * 查询数据目录
      *
      * @param dto   查询参数
-     * @param pager 分页参数
+     * @param pagination 分页参数
      * @return 数据目录列表
      */
-    Pager<DataCatalogVO> findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager);
+    PageVO<DataCatalogVO> findDataCatalogList(DataCatalogDTO dto, Pagination pagination);
 
     /**
      * 查询数据字典条目集合

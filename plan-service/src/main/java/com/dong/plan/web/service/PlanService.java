@@ -1,6 +1,7 @@
 package com.dong.plan.web.service;
 
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.plan.web.model.dto.PlanDTO;
 import com.dong.plan.web.model.vo.PlanVO;
 
@@ -17,10 +18,10 @@ public interface PlanService {
      * 查询计划列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
-    Pager<PlanVO> findPlanList(PlanDTO dto, Pager<PlanVO> pager);
+    PageVO<PlanVO> findPlanList(PlanDTO dto, Pagination pagination);
 
     /**
      * 保存计划

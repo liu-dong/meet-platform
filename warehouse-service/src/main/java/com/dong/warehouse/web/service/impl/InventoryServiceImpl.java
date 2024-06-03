@@ -3,7 +3,8 @@ package com.dong.warehouse.web.service.impl;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.warehouse.web.dao.InventoryRepository;
 import com.dong.warehouse.web.entity.Inventory;
@@ -32,11 +33,11 @@ public class InventoryServiceImpl implements InventoryService {
      * 查询库存表列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<InventoryVO> findInventoryList(InventoryDTO dto, Pager<InventoryVO> pager) {
+    public PageVO<InventoryVO> findInventoryList(InventoryDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,product_name productName,product_code productCode,product_type product_type, ");
@@ -48,7 +49,7 @@ public class InventoryServiceImpl implements InventoryService {
             params.add("%" + dto.getProductName().trim() + "%");
         }
         sql.append(" ORDER BY update_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, InventoryVO.class);
+        return commonDao.findListBySql(pagination, sql, params, InventoryVO.class);
     }
 
     /**

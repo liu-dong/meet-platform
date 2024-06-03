@@ -1,7 +1,8 @@
 package com.dong.plan.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.plan.web.model.dto.PlanDTO;
 import com.dong.plan.web.model.vo.PlanVO;
@@ -28,12 +29,12 @@ public class PlanController {
      * 查询计划列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @GetMapping("/findPlanList")
-    public ResponseResult findPlanList(PlanDTO dto, Pager<PlanVO> pager) {
-        Pager<PlanVO> result = planService.findPlanList(dto, pager);
+    public ResponseResult findPlanList(PlanDTO dto, Pagination pagination) {
+        PageVO<PlanVO> result = planService.findPlanList(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

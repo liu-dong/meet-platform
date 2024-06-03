@@ -3,7 +3,8 @@ package com.dong.chat.web.service;
 import com.dong.chat.web.domain.GroupMember;
 import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupMemberVO;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 
 import java.util.List;
 
@@ -13,10 +14,10 @@ public interface GroupMemberService {
     * 查询群聊列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
-    Pager<GroupMemberVO> findGroupMemberList(GroupMemberDTO dto, Pager<GroupMemberVO> pager);
+    PageVO<GroupMemberVO> findGroupMemberList(GroupMemberDTO dto, Pagination pagination);
 
     /**
      * 保存群聊

@@ -1,6 +1,7 @@
 package com.dong.event.web.service.impl;
 
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.event.web.dao.EventFlowRepository;
 import com.dong.event.web.model.dto.EventFlowDTO;
 import com.dong.event.web.model.vo.EventFlowVO;
@@ -18,11 +19,11 @@ public class EventFlowServiceImpl implements EventFlowService {
      * 查询事件流程列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<EventFlowVO> findEventFlowList(EventFlowDTO dto, Pager<EventFlowVO> pager) {
+    public PageVO<EventFlowVO> findEventFlowList(EventFlowDTO dto, Pagination pagination) {
         return null;
     }
 

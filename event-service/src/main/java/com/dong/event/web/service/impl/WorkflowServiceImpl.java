@@ -2,7 +2,8 @@ package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.web.dao.WorkflowRepository;
@@ -33,11 +34,11 @@ public class WorkflowServiceImpl implements WorkflowService {
      * 查询工作流列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<WorkflowVO> findWorkflowList(WorkflowDTO dto, Pager<WorkflowVO> pager) {
+    public PageVO<WorkflowVO> findWorkflowList(WorkflowDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id, workflow_name workflowName, workflow_code workflowCode, ");
@@ -54,7 +55,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         }
 
         sql.append(" ORDER BY create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, WorkflowVO.class);
+        return commonDao.findListBySql(pagination, sql, params, WorkflowVO.class);
 
     }
 

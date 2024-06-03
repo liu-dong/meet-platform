@@ -1,6 +1,7 @@
 package com.dong.event.web.service;
 
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.event.web.entity.Workflow;
 import com.dong.event.web.model.dto.WorkflowDTO;
 import com.dong.event.web.model.vo.WorkflowVO;
@@ -11,10 +12,10 @@ public interface WorkflowService {
      * 查询工作流列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
-    Pager<WorkflowVO> findWorkflowList(WorkflowDTO dto, Pager<WorkflowVO> pager);
+    PageVO<WorkflowVO> findWorkflowList(WorkflowDTO dto, Pagination pagination);
 
     /**
      * 保存工作流

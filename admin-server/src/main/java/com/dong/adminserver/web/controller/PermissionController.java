@@ -1,7 +1,8 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.Permission;
 import com.dong.user.model.dto.PermissionDTO;
@@ -35,8 +36,8 @@ public class PermissionController {
      */
     @ApiOperation("查询权限信息列表")
     @GetMapping("/findPermissionList")
-    public ResponseResult findPermissionList(PermissionDTO dto, Pager<PermissionVO> pager) {
-        Pager<PermissionVO> permissionList = permissionService.findPermissionList(dto, pager);
+    public ResponseResult findPermissionList(PermissionDTO dto, Pagination pagination) {
+        PageVO<PermissionVO> permissionList = permissionService.findPermissionList(dto, pagination);
         return ResponseResult.success(permissionList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

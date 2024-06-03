@@ -6,7 +6,8 @@ import com.dong.adminserver.web.model.vo.MenuVO;
 import com.dong.adminserver.web.service.MenuService;
 import com.dong.commoncore.annotation.Log;
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,8 +38,8 @@ public class MenuController {
     @ApiOperation("查询菜单信息列表")
     @GetMapping("/findMenuList")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult findMenuList(MenuDTO dto, Pager<MenuVO> pager) {
-        Pager<MenuVO> menuList = menuService.findMenuList(dto, pager);
+    public ResponseResult findMenuList(MenuDTO dto, Pagination pagination) {
+        PageVO<MenuVO> menuList = menuService.findMenuList(dto, pagination);
         return ResponseResult.success(menuList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

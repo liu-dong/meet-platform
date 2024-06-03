@@ -1,10 +1,11 @@
 package com.dong.warehouse.web.controller;
 
+import com.dong.commoncore.model.Pagination;
 import com.dong.warehouse.web.model.dto.InventoryDTO;
 import com.dong.warehouse.web.model.vo.InventoryVO;
 import com.dong.warehouse.web.service.InventoryService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.model.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,12 @@ public class InventoryController {
     * 查询库存表列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
     @GetMapping("/findInventoryList")
-    public ResponseResult findInventoryList(InventoryDTO dto, Pager<InventoryVO> pager) {
-        Pager<InventoryVO> result = inventoryService.findInventoryList(dto, pager);
+    public ResponseResult findInventoryList(InventoryDTO dto, Pagination pagination) {
+        PageVO<InventoryVO> result = inventoryService.findInventoryList(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

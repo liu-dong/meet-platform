@@ -2,7 +2,8 @@ package com.dong.log.web.service.impl;
 
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.log.web.dao.OperateLogsRepository;
 import com.dong.log.web.entity.OperateLogs;
@@ -30,11 +31,11 @@ public class OperateLogsServiceImpl implements OperateLogsService {
      * 查询操作日志列表
      *
      * @param vo
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<OperateLogsVO> findOperateLogsList(OperateLogsVO vo, Pager<OperateLogsVO> pager) {
+    public PageVO<OperateLogsVO> findOperateLogsList(OperateLogsVO vo, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,account,operate_type operateType,operate_time operateTime,module_name moduleName, ");
@@ -42,7 +43,7 @@ public class OperateLogsServiceImpl implements OperateLogsService {
         sql.append(" create_time createTime,update_time updateTime ");
         sql.append(" FROM sys_operate_logs ");
         sql.append(" ORDER BY create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, OperateLogsVO.class);
+        return commonDao.findListBySql(pagination, sql, params, OperateLogsVO.class);
     }
 
     /**

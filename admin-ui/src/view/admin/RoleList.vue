@@ -52,7 +52,7 @@
       <el-pagination
           background
           style="padding: 10px;"
-          layout="sizes, prev, pager, next, total"
+          layout="sizes, prev, pagination, next, total"
           prev-text="上一页"
           next-text="下一页"
           :page-sizes="[5, 10, 15, 20]"

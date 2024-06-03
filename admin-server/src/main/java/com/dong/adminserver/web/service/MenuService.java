@@ -3,7 +3,8 @@ package com.dong.adminserver.web.service;
 import com.dong.adminserver.web.entity.Menu;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,10 @@ public interface MenuService {
      * 查询菜单列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
-    Pager<MenuVO> findMenuList(MenuDTO dto, Pager<MenuVO> pager);
+    PageVO<MenuVO> findMenuList(MenuDTO dto, Pagination pagination);
 
     /**
      * 查询菜单树

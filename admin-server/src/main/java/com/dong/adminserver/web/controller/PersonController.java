@@ -1,7 +1,8 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.Person;
 import com.dong.user.model.dto.PersonDTO;
@@ -29,13 +30,13 @@ public class PersonController {
      * 查询人员信息列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @ApiOperation("查询人员信息列表")
     @GetMapping("/findPersonList")
-    public ResponseResult findPersonList(PersonDTO dto, Pager<PersonVO> pager) {
-        Pager<PersonVO> personList = personService.findPersonList(dto, pager);
+    public ResponseResult findPersonList(PersonDTO dto, Pagination pagination) {
+        PageVO<PersonVO> personList = personService.findPersonList(dto, pagination);
         return ResponseResult.success(personList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

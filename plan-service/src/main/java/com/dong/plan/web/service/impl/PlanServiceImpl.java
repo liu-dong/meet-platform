@@ -6,7 +6,8 @@ import com.dong.commoncore.constant.FormatterConstant;
 import com.dong.commoncore.constant.SymbolConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.DateUtils;
 import com.dong.plan.enums.PlanStatusEnum;
 import com.dong.plan.enums.PlanTypeEnum;
@@ -37,11 +38,11 @@ public class PlanServiceImpl implements PlanService {
      * 查询计划列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<PlanVO> findPlanList(PlanDTO dto, Pager<PlanVO> pager) {
+    public PageVO<PlanVO> findPlanList(PlanDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,plan_code,plan_name,plan_type,plan_target,plan_status,create_time ");
@@ -60,7 +61,7 @@ public class PlanServiceImpl implements PlanService {
             params.add(dto.getPlanStatus());
         }
         sql.append(" ORDER BY create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, PlanVO.class);
+        return commonDao.findListBySql(pagination, sql, params, PlanVO.class);
 
     }
 

@@ -1,7 +1,8 @@
 package com.dong.event.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.event.web.entity.Workflow;
 import com.dong.event.web.model.dto.WorkflowDTO;
@@ -26,12 +27,12 @@ public class WorkflowController {
      * 查询工作流列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @PostMapping("/findWorkflowList")
-    public ResponseResult findWorkflowList(@RequestBody WorkflowDTO dto, Pager<WorkflowVO> pager) {
-        Pager<WorkflowVO> result = workflowService.findWorkflowList(dto, pager);
+    public ResponseResult findWorkflowList(@RequestBody WorkflowDTO dto, Pagination pagination) {
+        PageVO<WorkflowVO> result = workflowService.findWorkflowList(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

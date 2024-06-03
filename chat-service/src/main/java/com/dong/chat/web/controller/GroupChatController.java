@@ -5,7 +5,8 @@ import com.dong.chat.web.model.dto.GroupChatDTO;
 import com.dong.chat.web.model.vo.GroupChatVO;
 import com.dong.chat.web.service.GroupChatService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,12 @@ public class GroupChatController {
      * 查询群聊列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @PostMapping("/findGroupChatList")
-    public ResponseResult findGroupChatList(@RequestBody GroupChatDTO dto, Pager<GroupChatVO> pager) {
-        Pager<GroupChatVO> result = groupChatService.findGroupChatList(dto, pager);
+    public ResponseResult findGroupChatList(@RequestBody GroupChatDTO dto, Pagination pagination) {
+        PageVO<GroupChatVO> result = groupChatService.findGroupChatList(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

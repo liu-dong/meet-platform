@@ -5,7 +5,8 @@ import com.dong.adminserver.web.model.vo.DataCatalogVO;
 import com.dong.adminserver.web.model.vo.SelectItemVO;
 import com.dong.adminserver.web.service.DataCatalogService;
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,14 +33,14 @@ public class DataCatalogController {
      * 查询数据字典目录列表
      *
      * @param dto   查询参数
-     * @param pager 分页参数
+     * @param pagination 分页参数
      * @return 数据目录列表
      */
     @ApiOperation("查询数据字典目录列表")
     @GetMapping("/findDataCatalogList")
-    public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pager<DataCatalogVO> pager) {
+    public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pagination pagination) {
         try {
-            return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pager), ResponseMessageConstant.QUERY_SUCCESS);
+            return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pagination), ResponseMessageConstant.QUERY_SUCCESS);
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
         }

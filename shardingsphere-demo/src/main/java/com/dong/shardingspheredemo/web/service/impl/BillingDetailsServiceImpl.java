@@ -2,7 +2,7 @@ package com.dong.shardingspheredemo.web.service.impl;
 
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.util.DateUtils;
 import com.dong.shardingspheredemo.web.dao.BillingDetailsRepository;
 import com.dong.shardingspheredemo.web.entity.BillingDetails;
@@ -58,7 +58,7 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
     }
 
     @Override
-    public Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager) {
+    public PageVO<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id,DATE_FORMAT(record_time,'%Y-%m-%d') recordTime,spending_type spendingType,amount_paid amountPaid, ");
@@ -98,13 +98,13 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
             params.add(CurrentUserUtils.getUsername());
         }*/
         sql.append(" ORDER BY record_time DESC ");
-        return commonDao.findListBySql(pager, sql, params);
+        return commonDao.findListBySql(pagination, sql, params);
     }
 
     @Override
     public Map<String, List<BillingDetailsDTO>> findBillingListGroup(BillingDetailsDTO dto) {
-        Pager<BillingDetailsDTO> pager = new Pager<>();
-        Pager<BillingDetailsDTO> resultPage = findBillingList(dto, pager);
+        Pagination pagination = new PageVO<>();
+        PageVO<BillingDetailsDTO> resultPage = findBillingList(dto, pagination);
         List<BillingDetailsDTO> dataList = resultPage.getDataList();
         return dataList.stream().collect(Collectors.groupingBy(BillingDetailsDTO::getRecordTime));
     }

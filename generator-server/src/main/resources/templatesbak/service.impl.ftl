@@ -5,7 +5,7 @@ import ${basePackageName}.model.vo.${className?cap_first}VO;
 import ${basePackageName}.service.${className?cap_first}Service;
 import ${basePackageName}.dao.${className?cap_first}Repository;
 import org.springframework.stereotype.Service;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
 
 import javax.annotation.Resource;
 
@@ -19,11 +19,11 @@ public class ${className?cap_first}ServiceImpl implements ${className?cap_first}
     * 查询${classComment}列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
     @Override
-    public Pager<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pager<${className?cap_first}VO> pager) {
+    public PageVO<${className?cap_first}VO> find${className?cap_first}List(${className?cap_first}DTO dto, Pagination pagination) {
         return null;
     }
 

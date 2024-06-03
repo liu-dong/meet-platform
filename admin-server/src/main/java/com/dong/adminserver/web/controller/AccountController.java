@@ -1,7 +1,8 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.Account;
 import com.dong.user.entity.UserRole;
@@ -34,13 +35,13 @@ public class AccountController {
      * 查询用户信息列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @ApiOperation("查询用户信息列表")
     @GetMapping("/findAccountList")
-    public ResponseResult findAccountList(AccountDTO dto, Pager<AccountVO> pager) {
-        Pager<AccountVO> accountList = accountService.findAccountList(dto, pager);
+    public ResponseResult findAccountList(AccountDTO dto, Pagination pagination) {
+        PageVO<AccountVO> accountList = accountService.findAccountList(dto, pagination);
         return ResponseResult.success(accountList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

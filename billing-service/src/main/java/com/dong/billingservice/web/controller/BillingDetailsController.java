@@ -7,7 +7,8 @@ import com.dong.billingservice.web.entity.Suishouji;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
 import com.dong.billingservice.web.model.DataDTO;
 import com.dong.billingservice.web.service.BillingDetailsService;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -91,9 +92,9 @@ public class BillingDetailsController {
 
     @ApiOperation("查询分页列表")
     @PostMapping("/findBillingList")
-    public ResponseResult findBillingList(@RequestBody BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager) {
+    public ResponseResult findBillingList(@RequestBody BillingDetailsDTO dto, Pagination pagination) {
         try {
-            return ResponseResult.success(billingDetailsService.findBillingList(dto, pager), "查询成功！");
+            return ResponseResult.success(billingDetailsService.findBillingList(dto, pagination), "查询成功！");
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
         }

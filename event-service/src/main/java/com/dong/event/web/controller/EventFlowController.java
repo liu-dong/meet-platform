@@ -1,7 +1,8 @@
 package com.dong.event.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.event.web.model.dto.EventFlowDTO;
 import com.dong.event.web.model.vo.EventFlowVO;
@@ -25,12 +26,12 @@ public class EventFlowController {
     * 查询事件流程列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
     @PostMapping("/findEventFlowList")
-    public ResponseResult findEventFlowList(@RequestBody EventFlowDTO dto, Pager<EventFlowVO> pager) {
-        Pager<EventFlowVO> result = eventFlowService.findEventFlowList(dto, pager);
+    public ResponseResult findEventFlowList(@RequestBody EventFlowDTO dto, Pagination pagination) {
+        PageVO<EventFlowVO> result = eventFlowService.findEventFlowList(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

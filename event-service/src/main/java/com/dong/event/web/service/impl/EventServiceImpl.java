@@ -2,7 +2,8 @@ package com.dong.event.web.service.impl;
 
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.event.enums.EventStatusEnum;
@@ -37,18 +38,19 @@ public class EventServiceImpl implements EventService {
      * 查询事件列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<EventVO> findEventList(EventDTO dto, Pager<EventVO> pager) {
+    public PageVO<EventVO> findEventList(EventDTO dto, Pagination pagination) {
+        PageVO<EventVO> result = new PageVO<>();
         List<Event> all = eventRepository.findAll();
         for (Event event : all) {
             EventVO vo = new EventVO();
             BeanUtils.copyProperties(event, vo);
-            pager.getDataList().add(vo);
+            result.getDataList().add(vo);
         }
-        return pager;
+        return result;
     }
 
     /**

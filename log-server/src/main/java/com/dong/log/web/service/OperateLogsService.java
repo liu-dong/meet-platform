@@ -1,6 +1,7 @@
 package com.dong.log.web.service;
 
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.log.web.entity.OperateLogs;
 import com.dong.log.web.model.dto.OperateLogsDTO;
 import com.dong.log.web.model.vo.OperateLogsVO;
@@ -11,10 +12,10 @@ public interface OperateLogsService {
      * 查询操作日志列表
      *
      * @param vo
-     * @param pager
+     * @param pagination
      * @return
      */
-    Pager<OperateLogsVO> findOperateLogsList(OperateLogsVO vo, Pager<OperateLogsVO> pager);
+    PageVO<OperateLogsVO> findOperateLogsList(OperateLogsVO vo, Pagination pagination);
 
     /**
      * 保存操作日志

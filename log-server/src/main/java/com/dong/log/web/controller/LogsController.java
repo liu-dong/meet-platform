@@ -1,7 +1,8 @@
 package com.dong.log.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.log.web.entity.LoginLogs;
 import com.dong.log.web.entity.OperateLogs;
@@ -34,8 +35,8 @@ public class LogsController {
 
     @ApiOperation("查询登录日志信息列表")
     @PostMapping("/findLoginLogsList")
-    public ResponseResult findLoginLogsList(@RequestBody LoginLogsVO vo, Pager<LoginLogsVO> pager) {
-        Pager<LoginLogsVO> loginLogsList = loginLogsService.findLoginLogsList(vo, pager);
+    public ResponseResult findLoginLogsList(@RequestBody LoginLogsVO vo, Pagination pagination) {
+        PageVO<LoginLogsVO> loginLogsList = loginLogsService.findLoginLogsList(vo, pagination);
         return ResponseResult.success(loginLogsList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -59,13 +60,13 @@ public class LogsController {
      * 查询操作日志列表
      *
      * @param vo
-     * @param pager
+     * @param pagination
      * @return
      */
     @ApiOperation("查询操作日志列表")
     @PostMapping("/findOperateLogsList")
-    public ResponseResult findOperateLogsList(@RequestBody OperateLogsVO vo, Pager<OperateLogsVO> pager) {
-        Pager<OperateLogsVO> operateLogsList = operateLogsService.findOperateLogsList(vo, pager);
+    public ResponseResult findOperateLogsList(@RequestBody OperateLogsVO vo, Pagination pagination) {
+        PageVO<OperateLogsVO> operateLogsList = operateLogsService.findOperateLogsList(vo, pagination);
         return ResponseResult.success(operateLogsList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

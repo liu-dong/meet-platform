@@ -2,7 +2,8 @@ package com.dong.billingservice.web.service;
 
 import com.dong.billingservice.web.entity.BillingDetails;
 import com.dong.billingservice.web.model.BillingDetailsDTO;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -45,10 +46,10 @@ public interface BillingDetailsService {
   /**
    * 查询账单明细
    * @param dto 查询参数
-   * @param pager 分页参数
+   * @param pagination 分页参数
    * @return 账单明细列表
    */
-  Pager<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pager<BillingDetailsDTO> pager);
+  PageVO<BillingDetailsDTO> findBillingList(BillingDetailsDTO dto, Pagination pagination);
 
   /**
    * 查询账单分组列表

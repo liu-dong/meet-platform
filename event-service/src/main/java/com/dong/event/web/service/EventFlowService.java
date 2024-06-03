@@ -1,6 +1,7 @@
 package com.dong.event.web.service;
 
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.event.web.model.dto.EventFlowDTO;
 import com.dong.event.web.model.vo.EventFlowVO;
 
@@ -10,10 +11,10 @@ public interface EventFlowService {
     * 查询事件流程列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
-    Pager<EventFlowVO> findEventFlowList(EventFlowDTO dto, Pager<EventFlowVO> pager);
+    PageVO<EventFlowVO> findEventFlowList(EventFlowDTO dto, Pagination pagination);
 
     /**
     * 保存事件流程

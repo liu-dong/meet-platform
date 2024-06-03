@@ -1,7 +1,8 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.Org;
 import com.dong.user.model.dto.OrgDTO;
@@ -32,13 +33,13 @@ public class OrgController {
      * 查询组织机构列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @ApiOperation("查询组织机构列表")
     @GetMapping("/findOrgList")
-    public ResponseResult findOrgList(OrgDTO dto, Pager<OrgVO> pager) {
-        Pager<OrgVO> orgList = orgService.findOrgList(dto, pager);
+    public ResponseResult findOrgList(OrgDTO dto, Pagination pagination) {
+        PageVO<OrgVO> orgList = orgService.findOrgList(dto, pagination);
         return ResponseResult.success(orgList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

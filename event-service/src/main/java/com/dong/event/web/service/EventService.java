@@ -1,6 +1,7 @@
 package com.dong.event.web.service;
 
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.event.web.entity.Event;
 import com.dong.event.web.model.dto.EventDTO;
 import com.dong.event.web.model.vo.EventVO;
@@ -11,10 +12,10 @@ public interface EventService {
     * 查询事件列表
     *
     * @param dto
-    * @param pager
+    * @param pagination
     * @return
     */
-    Pager<EventVO> findEventList(EventDTO dto, Pager<EventVO> pager);
+    PageVO<EventVO> findEventList(EventDTO dto, Pagination pagination);
 
     /**
      * 保存事件

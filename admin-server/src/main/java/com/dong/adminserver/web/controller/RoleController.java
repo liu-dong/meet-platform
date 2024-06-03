@@ -1,7 +1,8 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.entity.UserRole;
 import com.dong.user.entity.Role;
@@ -34,13 +35,13 @@ public class RoleController {
      * 查询角色信息列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @ApiOperation("查询角色信息列表")
     @GetMapping("/findRoleList")
-    public ResponseResult findRoleList(RoleDTO dto, Pager<RoleVO> pager) {
-        Pager<RoleVO> roleList = roleService.findRoleList(dto, pager);
+    public ResponseResult findRoleList(RoleDTO dto, Pagination pagination) {
+        PageVO<RoleVO> roleList = roleService.findRoleList(dto, pagination);
         return ResponseResult.success(roleList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

@@ -1,7 +1,8 @@
 package com.dong.plan.web.controller;
 
 import com.dong.commoncore.constant.ResponseMessageConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.plan.web.model.dto.TaskDTO;
 import com.dong.plan.web.model.vo.TaskVO;
@@ -26,12 +27,12 @@ public class TaskController {
      * 查询任务列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @GetMapping("/findTaskList")
-    public ResponseResult findTaskList(TaskDTO dto, Pager<TaskVO> pager) {
-        Pager<TaskVO> result = taskService.findTaskList(dto, pager);
+    public ResponseResult findTaskList(TaskDTO dto, Pagination pagination) {
+        PageVO<TaskVO> result = taskService.findTaskList(dto, pagination);
         return ResponseResult.success(result, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

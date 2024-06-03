@@ -2,7 +2,8 @@ package com.dong.log.web.service.impl;
 
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import com.dong.log.web.dao.LoginLogsRepository;
 import com.dong.log.web.entity.LoginLogs;
@@ -30,14 +31,14 @@ public class LoginLogsServiceImpl implements LoginLogsService {
     LoginLogsRepository loginLogsRepository;
 
     @Override
-    public Pager<LoginLogsVO> findLoginLogsList(LoginLogsVO vo, Pager<LoginLogsVO> pager) {
+    public PageVO<LoginLogsVO> findLoginLogsList(LoginLogsVO vo, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT id, account, login_type loginType, login_time loginTime, login_address loginAddress, ");
         sql.append(" login_ip loginIp, remark, create_time createTime ");
         sql.append(" FROM sys_login_logs ");
         sql.append(" ORDER BY create_time DESC ");
-        return commonDao.findListBySql(pager, sql, params, LoginLogsVO.class);
+        return commonDao.findListBySql(pagination, sql, params, LoginLogsVO.class);
     }
 
     @Override

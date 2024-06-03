@@ -6,7 +6,8 @@ import com.dong.chat.web.model.dto.GroupMemberDTO;
 import com.dong.chat.web.model.vo.GroupMemberVO;
 import com.dong.chat.web.service.GroupMemberService;
 import com.dong.commoncore.constant.CommonConstant;
-import com.dong.commoncore.model.Pager;
+import com.dong.commoncore.model.PageVO;
+import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -27,16 +28,14 @@ public class GroupMemberServiceImpl implements GroupMemberService {
      * 查询群聊列表
      *
      * @param dto
-     * @param pager
+     * @param pagination
      * @return
      */
     @Override
-    public Pager<GroupMemberVO> findGroupMemberList(GroupMemberDTO dto, Pager<GroupMemberVO> pager) {
-        List<GroupMemberVO> groupMemberList = groupMemberMapper.findGroupMemberList(dto, pager.getPage(), pager.getLimit());
+    public PageVO<GroupMemberVO> findGroupMemberList(GroupMemberDTO dto, Pagination pagination) {
+        List<GroupMemberVO> groupMemberList = groupMemberMapper.findGroupMemberList(dto, pagination.getPage(), pagination.getLimit());
         Integer total = groupMemberMapper.getTotal(dto);
-        pager.setDataList(groupMemberList);
-        pager.setTotal(total);
-        return pager;
+        return new PageVO<>(pagination.getPage(), total, groupMemberList);
     }
 
     /**
@@ -50,9 +49,9 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         List<GroupMember> groupMembers = new ArrayList<>();
         for (GroupMemberDTO dto : dtoList) {
             GroupMember groupMember;
-            if (StringUtils.isNotBlank(dto.getId())){
+            if (StringUtils.isNotBlank(dto.getId())) {
                 groupMember = this.updateGroupMember(dto);
-            }else {
+            } else {
                 groupMember = this.insertGroupMember(dto);
             }
             groupMembers.add(groupMember);
