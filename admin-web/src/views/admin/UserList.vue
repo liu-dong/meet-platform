@@ -10,7 +10,9 @@
     </div>
     <!--数据列表-->
     <el-table
+      key="userList"
       v-loading="listLoading"
+      row-key="id"
       border
       :data="list"
       :header-cell-style="{background: '#b3d8ff50','text-align':'center'}"

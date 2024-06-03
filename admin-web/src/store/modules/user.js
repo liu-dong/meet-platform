@@ -52,7 +52,6 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getUserDetail(state.token).then(response => {
-        debugger
         console.log('响应结果：' + response)
         const { data } = response
         if (!data) {

@@ -11,7 +11,6 @@ const dataCatalogUtils = {
       }
     })
     if (data) {
-      console.log(data[name])
       return data[name]
     }
     return null

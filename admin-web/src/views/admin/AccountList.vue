@@ -2,14 +2,15 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名" />
+      <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名"/>
       <button-search class="filter-item" @search="findAccountList">查询</button-search>
-      <button-reset class="filter-item" @reset="reset" />
+      <button-reset class="filter-item" @reset="reset"/>
       <button-add class="filter-item" @add="toDetail">新增</button-add>
       <button-delete class="filter-item" @delete="deleteInfo">删除</button-delete>
     </div>
     <!--数据列表-->
-    <el-table
+    <!--<el-table
+      key="key-account"
       v-loading="listLoading"
       border
       :data="list"
@@ -19,7 +20,7 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column align="center" label="序号" type="index" width="60" />
+      <el-table-column align="center" label="序号" type="index" width="60"/>
       <el-table-column align="center" label="用户名" prop="username" sortable>
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.username }}</span>
@@ -31,10 +32,10 @@
         </template>
       </el-table-column>
       <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable />
-      <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable />
-      <el-table-column align="center" label="登录次数" prop="loginCount" sortable />
+      <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable/>
+      <el-table-column align="center" label="登录次数" prop="loginCount" sortable/>
       <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
-    </el-table>
+    </el-table>-->
     <!--分页-->
     <pagination
       v-show="total>0"
@@ -64,7 +65,7 @@ export default {
   directives: { waves },
   data() {
     return {
-      list: null,
+      list: [],
       total: 0,
       listLoading: true,
       listQuery: {
@@ -77,6 +78,7 @@ export default {
     }
   },
   async created() {
+    debugger
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
     this.findAccountList()
   },
@@ -96,10 +98,15 @@ export default {
     },
     findAccountList: function() {
       this.listLoading = true
+      debugger
       findAccountList(this.listQuery).then(res => {
+        console.log('结果：', res)
         if (res.code === 200) {
-          this.list = res.data.dataList
-          this.total = res.data.total
+          const { dataList, total } = res.data
+          this.list = dataList
+          this.total = total
+          console.log('列表', this.list)
+          debugger
           this.listLoading = false
         }
       })
@@ -118,7 +125,6 @@ export default {
         alert('请选择要删除的数据')
       }
       deleteAccount(qs.stringify({ id: currentRow.id })).then(res => {
-        console.log(res.data)
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
           this.findAccountList()
