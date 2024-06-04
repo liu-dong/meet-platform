@@ -3,10 +3,11 @@
     <div class="middle">
       <el-tree
         :data="permissionData"
-        :default-checked-keys="rolePermission.permissionIdList"
+        :default-checked-keys="checkedPermissions"
         :expand-on-click-node="false"
         default-expand-all
-        node-key="id"
+        node-key="permissionCode"
+        :props="defaultProps"
         show-checkbox
         style="padding-left: 15px;"
         @check-change="checkChange"
@@ -27,24 +28,26 @@
 
 import { getPermissionTree } from '@/api/permission'
 import { assignPermissions, findRolePermissionList } from '@/api/role'
-import { recursionData } from "@/utils";
+import { recursionData } from '@/utils'
 
 export default {
   name: 'RolePermissionDetail',
   data() {
     return {
+      defaultProps: {
+        children: 'children',
+        label: 'permissionName'
+      },
+      roleCode: '',
       permissionData: [], // 权限数据
-      rolePermission: { // 角色权限数据
-        roleId: '',
-        permissionIdList: []// 选中的数据
-      }
+      checkedPermissions: []// 选中的权限集合数据
     }
   },
   created() {
     this.getPermissionTree()
-    this.rolePermission.roleId = this.$route.params.id
-    if (this.rolePermission.roleId) {
-      this.findRolePermissionList(this.rolePermission.roleId)
+    this.roleCode = this.$route.params.roleCode
+    if (this.roleCode) {
+      this.findRolePermissionList(this.roleCode)
     }
   },
   methods: {
@@ -57,11 +60,10 @@ export default {
         }
       })
     },
-    findRolePermissionList: function(id) { // 获取角色权限信息
-      findRolePermissionList({ roleId: id }).then(res => {
+    findRolePermissionList: function(roleCode) { // 获取角色权限信息
+      findRolePermissionList({ roleCode: roleCode }).then(res => {
         if (res.code === 200) {
-          this.rolePermission.roleId = res.data.roleId
-          this.rolePermission.permissionIdList = res.data.permissionIdList
+          this.checkedPermissions = res.data
         }
       })
     },
@@ -72,29 +74,33 @@ export default {
      * @param indeterminate 节点的子树中是否有被选中的节点
      */
     checkChange(data, checked) {
-      const array = this.rolePermission.permissionIdList
+      const array = this.checkedPermissions
       if (checked) { // 选中添加选中值
-        array.push(data.id)
+        array.push(data.permissionCode)
       } else { // 未选中删除选中值
-        const index = array.findIndex(id => id === data.id)
+        const index = array.findIndex(code => code === data.permissionCode)
         if (index !== -1) {
           array.splice(index, 1)
         }
       }
-      this.rolePermission.permissionIdList = array
-      console.log('change：', this.rolePermission)
+      this.checkedPermissions = array
+      console.log('change：', this.checkedPermissions)
     },
     assignPermissions() {
-      console.log('this.rolePermission：', this.rolePermission)
-      assignPermissions(this.rolePermission).then(res => {
+      const data = {
+        roleCode: this.roleCode,
+        permissionCodeList: this.checkedPermissions
+      }
+      console.log('this.rolePermission：', this.data)
+      assignPermissions(data).then(res => {
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
-          this.findRolePermissionList(res.data)
+          this.goBack()
         }
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'permissionDetail', params: { id: id }})
+      this.$router.push({ name: 'PermissionDetail', params: { id: id } })
     },
     goBack() {
       this.$router.go(-1)// 返回上一层
@@ -104,19 +110,6 @@ export default {
 </script>
 
 <style>
-
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-
-}
-
-.top {
-  width: 100%;
-  height: 10%;
-}
 
 .middle {
   width: 100%;

@@ -14,16 +14,16 @@
       <el-form-item label="权限编码" prop="permissionCode">
         <el-input v-model="ruleForm.permissionCode" />
       </el-form-item>
-      <el-form-item label="菜单" prop="resourceId">
-        <el-select v-model="ruleForm.resourceId">
-          <el-option
-            v-for="item in menuList"
-            :key="item.id"
-            :label="item.menuName"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
+      <!--<el-form-item label="菜单" prop="resourceId">-->
+      <!--  <el-select v-model="ruleForm.resourceId">-->
+      <!--    <el-option-->
+      <!--      v-for="item in menuList"-->
+      <!--      :key="item.id"-->
+      <!--      :label="item.menuName"-->
+      <!--      :value="item.id"-->
+      <!--    />-->
+      <!--  </el-select>-->
+      <!--</el-form-item>-->
       <el-form-item>
         <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
         <el-button @click="goBack()">返回</el-button>
@@ -69,7 +69,7 @@ export default {
     } else if (id) {
       await this.initPermission(id)
     }
-    this.findMenuList()
+    // this.findMenuList()
   },
   methods: {
     // 获取权限信息

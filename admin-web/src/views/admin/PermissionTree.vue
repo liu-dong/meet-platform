@@ -1,13 +1,12 @@
 <template>
-  <div class="custom-tree-container">
-    <div class="block">
-      <p>权限树</p>
-      <el-tree
-        :data="permissionTreeData"
-        :expand-on-click-node="false"
-        default-expand-all
-        node-key="id"
-      >
+  <div class="app-container">
+    <div style="font-weight: bolder;margin-bottom: 10px">权限树</div>
+    <el-tree
+      :data="permissionTreeData"
+      :expand-on-click-node="false"
+      default-expand-all
+      node-key="id"
+    >
         <span slot-scope="{ node, data }" class="custom-tree-node">
           <span @click="toDetail(data.id)">{{ node.label }}({{ data.permissionCode }})</span>
           <span>
@@ -16,8 +15,7 @@
             <el-button size="mini" type="text" @click="() => remove(node, data)">删除当前权限</el-button>
           </span>
         </span>
-      </el-tree>
-    </div>
+    </el-tree>
   </div>
 </template>
 
@@ -46,13 +44,13 @@ export default {
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'permissionDetail', params: { id: id }})
+      this.$router.push({ name: 'PermissionDetail', params: { id: id } })
     },
     // 添加菜单 type：1表示同级菜单，2表示子级菜单
     append(data, type) {
       console.log(data, type)
       const id = data.id
-      this.$router.push({ name: 'permissionDetail', params: { id: id, type: type }})
+      this.$router.push({ name: 'PermissionDetail', params: { id: id, type: type } })
     },
     remove(node) {
       console.log('node：', node)
@@ -91,6 +89,11 @@ export default {
 </script>
 
 <style>
+.el-tree {
+  width: 50%;
+
+}
+
 .custom-tree-node {
   flex: 1;
   display: flex;

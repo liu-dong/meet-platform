@@ -33,10 +33,10 @@
           <el-link
             type="primary"
             style="margin-right: 10px;"
-            @click="toDetail(row.id,'account')"
+            @click="toDetail(row,'account')"
           >添加账号
           </el-link>
-          <el-link type="primary" @click="toDetail(row.id,'permission')">分配权限</el-link>
+          <el-link type="primary" @click="toDetail(row,'permission')">分配权限</el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -102,14 +102,14 @@ export default {
       }
     },
     // account：添加账号页面，permission：分配权限页面
-    toDetail: function(id, pageType) {
+    toDetail: function(row, pageType) {
       let pageName = 'RoleDetail'
       if (pageType === 'account') {
         pageName = 'RoleAccountDetail'
       } else if (pageType === 'permission') {
         pageName = 'RolePermissionDetail'
       }
-      this.$router.push({ name: pageName, params: { id: id }})
+      this.$router.push({ name: pageName, params: { id: row.id, roleCode: row.roleCode } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

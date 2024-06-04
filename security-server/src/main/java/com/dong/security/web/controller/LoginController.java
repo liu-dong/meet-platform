@@ -75,7 +75,7 @@ public class LoginController {
      */
     @ApiOperation("注册用户")
     @PostMapping("/register")
-    public ResponseResult register(@RequestBody RegisterDTO dto) {
+    public ResponseResult<?> register(@RequestBody RegisterDTO dto) {
         String username = userService.register(dto);
         return ResponseResult.success(username, ResponseMessageConstant.REGISTER_SUCCESS);
     }

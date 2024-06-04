@@ -74,8 +74,8 @@ public class PermissionController {
      */
     @ApiOperation("查询权限详细信息")
     @GetMapping("/getPermission")
-    public ResponseResult getPermission(String id) {
-        Permission permission = permissionService.getPermission(id);
+    public ResponseResult<PermissionVO> getPermission(String id) {
+        PermissionVO permission = permissionService.getPermission(id);
         return ResponseResult.success(permission, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

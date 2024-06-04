@@ -4,10 +4,8 @@ import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
-import com.dong.user.entity.UserRole;
 import com.dong.user.entity.Role;
 import com.dong.user.model.dto.RoleDTO;
-import com.dong.user.model.vo.PermissionVO;
 import com.dong.user.model.vo.RoleVO;
 import com.dong.user.service.RoleService;
 import io.swagger.annotations.Api;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 角色信息管理
@@ -111,14 +110,14 @@ public class RoleController {
     /**
      * 查询角色权限信息
      *
-     * @param roleId
+     * @param roleCode
      * @return
      */
     @ApiOperation("查询角色权限信息")
-    @GetMapping("/getPermissionList")
-    public ResponseResult findRolePermissionList(String roleId) {
-        List<PermissionVO> permissionVOList = roleService.findRolePermissionList(roleId);
-        return ResponseResult.success(permissionVOList, ResponseMessageConstant.QUERY_SUCCESS);
+    @GetMapping("/findRolePermissionList")
+    public ResponseResult<Set<String>> findRolePermissionList(String roleCode) {
+        Set<String> permissionCodes = roleService.findRolePermissionList(roleCode);
+        return ResponseResult.success(permissionCodes, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -129,9 +128,9 @@ public class RoleController {
      */
     @ApiOperation("分派账号")
     @PostMapping("/assignAccounts")
-    public ResponseResult assignAccounts(@RequestBody RoleDTO dto) {
-        List<UserRole> userRoles = roleService.assignAccounts(dto);
-        return ResponseResult.success(userRoles, ResponseMessageConstant.OPERATE_SUCCESS);
+    public ResponseResult<?> assignAccounts(@RequestBody RoleDTO dto) {
+        roleService.assignAccounts(dto);
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
     /**
@@ -142,9 +141,9 @@ public class RoleController {
      */
     @ApiOperation("分派权限")
     @PostMapping("/assignPermissions")
-    public ResponseResult assignPermissions(@RequestBody RoleDTO dto) {
-        String roleId = roleService.assignPermissions(dto);
-        return ResponseResult.success(roleId, ResponseMessageConstant.OPERATE_SUCCESS);
+    public ResponseResult<?> assignPermissions(@RequestBody RoleDTO dto) {
+        roleService.assignPermissions(dto.getRoleCode(), dto.getPermissionCodeList());
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
 

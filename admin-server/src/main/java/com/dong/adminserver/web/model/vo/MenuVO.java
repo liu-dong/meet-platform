@@ -21,6 +21,6 @@ public class MenuVO {
     private String menuPath;//菜单路径
     private Integer menuStatus;//菜单状态，是否显示
     private Integer hasChild;//是否有子菜单
-    private Date createTime;
+    private String createTime;
 }
 

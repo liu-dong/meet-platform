@@ -13,9 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -70,22 +67,32 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String[] exclude = ArrayUtil.addAll(excludePathPatterns, swaggerPath);
-        httpSecurity.cors().and().csrf().disable()// 关跨域保护
-                .authorizeRequests() // 授权的请求
+        // 关跨域保护
+        httpSecurity.cors().and().csrf().disable();
+        httpSecurity.authorizeRequests()
+                // 授权的请求
                 .antMatchers(exclude)
                 .permitAll()
-                .anyRequest().authenticated(); // 其他任何请求都需要通过认证
-        httpSecurity.formLogin()// 表单认证
-                .loginPage("/myLogin.html")
+                // 其他任何请求都需要通过认证
+                .anyRequest().authenticated();
+        // 表单认证
+        httpSecurity.formLogin()
+                // .loginPage("/myLogin.html")
                 // 指定处理登录请求的路径
                 .loginProcessingUrl("/login").permitAll()
-                .successHandler(successHandler)// 自定义成功回调
-                .failureHandler(failureHandler);// 自定义失败回调
-        httpSecurity.logout()// 注销登录
+                // 自定义成功回调
+                .successHandler(successHandler)
+                // 自定义失败回调
+                .failureHandler(failureHandler);
+        // 注销登录
+        httpSecurity.logout()
                 .logoutUrl("/logout")
-                .invalidateHttpSession(true)// 清除session
-                .clearAuthentication(true)// 清除认证信息
-                .logoutSuccessHandler(logoutSuccessHandler);// 注销登录
+                // 清除session
+                .invalidateHttpSession(true)
+                // 清除认证信息
+                .clearAuthentication(true)
+                // 注销登录
+                .logoutSuccessHandler(logoutSuccessHandler);
         // 添加校验验证码过滤器
         httpSecurity.addFilterBefore(new VerificationCodeFilter(),
                 UsernamePasswordAuthenticationFilter.class);

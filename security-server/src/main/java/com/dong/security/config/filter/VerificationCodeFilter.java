@@ -35,13 +35,11 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
             try {
                 verificationCode(request);
                 filterChain.doFilter(request, response);
-
             } catch (VerificationCodeException exception) {
                 failureHandler.onAuthenticationFailure(request, response, exception);
             }
         } else {
             filterChain.doFilter(request, response);
-
         }
     }
 
@@ -53,6 +51,10 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
      * @throws IOException
      */
     private static String getCaptcha(HttpServletRequest request) throws IOException {
+        String captcha = request.getParameter("captcha");
+        if (StringUtils.isNotBlank(captcha)) {
+            return captcha;
+        }
         String json = IoUtil.read(request.getInputStream(), CharsetUtil.CHARSET_UTF_8);
         JSONObject jsonObject = JSONUtil.parseObj(json);
         return jsonObject.get("captcha").toString();
@@ -77,6 +79,5 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         if (StringUtils.isBlank(requestCode) || StringUtils.isBlank(savedCode) || !requestCode.equalsIgnoreCase(savedCode)) {
             throw new VerificationCodeException();
         }
-
     }
 }

@@ -35,8 +35,9 @@ public class UserController {
      */
     @ApiOperation("获取用户信息")
     @GetMapping("/getUserDetail")
-    public ResponseResult getUserDetail(HttpServletRequest request) {
-        UserDetail user = userService.getUserDetail(request);
+    public ResponseResult<UserDetail> getUserDetail(HttpServletRequest request) {
+        // UserDetail user = userService.getUserDetail(request);
+        UserDetail user = new UserDetail();
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -47,7 +48,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/updatePassword")
-    public ResponseResult updatePassword(HttpServletRequest request) {
+    public ResponseResult<UserDetail> updatePassword(HttpServletRequest request) {
         UserDetail user = userService.updatePassword(request);
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -60,7 +61,7 @@ public class UserController {
      */
     @ApiOperation("注销用户")
     @PostMapping("/cancel")
-    public ResponseResult cancel(String username) {
+    public ResponseResult<?> cancel(String username) {
         return userService.cancel(username);
     }
 
