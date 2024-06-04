@@ -117,3 +117,15 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+// 递归无限层数据
+export function recursionData(data) {
+  return data.map(item => {
+    item.label = item.permissionName
+    const childrenData = item.children
+    if (childrenData.length !== 0) {
+      recursionData(childrenData)
+    }
+    return item
+  })
+}

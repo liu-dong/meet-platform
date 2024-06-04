@@ -70,4 +70,18 @@ public class AccountController {
         accountService.deleteAccount(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
+
+
+
+    /**
+     * 修改账号状态 （正常、禁用、注销）
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping("/updateAccountStatus")
+    public ResponseResult<?> updateAccountStatus(String userId, Integer accountStatus) {
+        accountService.updateAccountStatus(userId, accountStatus);
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
+    }
 }

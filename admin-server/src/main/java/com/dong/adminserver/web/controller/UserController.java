@@ -107,16 +107,4 @@ public class UserController {
         return ResponseResult.success(userRoles, ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
-    /**
-     * 修改账号状态 （正常、禁用、注销）
-     *
-     * @param userId
-     * @return
-     */
-    @PostMapping("/updateAccountStatus")
-    public ResponseResult<?> updateAccountStatus(String userId, Integer accountStatus) {
-        accountService.updateAccountStatus(userId, accountStatus);
-        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
-    }
-
 }

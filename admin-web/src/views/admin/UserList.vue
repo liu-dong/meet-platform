@@ -89,6 +89,7 @@ export default {
   },
   async created() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
+    this.accountStatusOption = await dataCatalogUtils.getData(DataCatalog.accountStatus)
     this.findUserList()
   },
   methods: {

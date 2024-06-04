@@ -10,26 +10,26 @@
     >
       <div class="row">
         <el-form-item label="目录名称" prop="catalogName">
-          <el-input v-model="dataCatalog.catalogName" />
+          <el-input v-model="dataCatalog.catalogName"/>
         </el-form-item>
         <el-form-item label="目录编码" prop="catalogCode">
-          <el-input v-model="dataCatalog.catalogCode" />
+          <el-input v-model="dataCatalog.catalogCode"/>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-select v-model="dataCatalog.status">
-            <el-option label="禁用" :value="0" />
-            <el-option label="启用" :value="1" />
+            <el-option label="禁用" :value="0"/>
+            <el-option label="启用" :value="1"/>
           </el-select>
         </el-form-item>
       </div>
       <div class="row">
         <el-form-item label="描述" prop="description" style="width: 100%">
-          <el-input v-model="dataCatalog.description" />
+          <el-input v-model="dataCatalog.description"/>
         </el-form-item>
       </div>
       <div class="row">
         <el-form-item label="备注" prop="remark" style="width: 100%">
-          <el-input v-model="dataCatalog.remark" />
+          <el-input v-model="dataCatalog.remark"/>
         </el-form-item>
       </div>
 
@@ -43,11 +43,11 @@
           :row-style="{height: '0'}"
           :cell-style="{padding: '0'}"
         >
-          <el-table-column label="序号" type="index" align="center" width="50" />
+          <el-table-column label="序号" type="index" align="center" width="50"/>
           <el-table-column prop="sort" align="center" width="80" :required="true" label="排序">
             <template slot-scope="{row,$index}">
               <span v-if="!isEdit[$index]">{{ row.sort }}</span>
-              <el-input v-else v-model="dataCatalog.itemList[$index].sort" placeholder="排序" />
+              <el-input v-else v-model="dataCatalog.itemList[$index].sort" placeholder="排序"/>
             </template>
           </el-table-column>
           <el-table-column prop="itemCode" align="center" width="180" :required="true" label="条目编码">
@@ -73,7 +73,7 @@
           <el-table-column prop="remark" align="center" label="备注">
             <template slot-scope="{row,$index}">
               <span v-if="! isEdit[$index]">{{ row.remark }}</span>
-              <el-input v-else v-model="dataCatalog.itemList[$index].remark" />
+              <el-input v-else v-model="dataCatalog.itemList[$index].remark"/>
             </template>
           </el-table-column>
           <el-table-column prop="status" align="center" width="150" label="状态">
@@ -82,8 +82,8 @@
                 v-model="dataCatalog.itemList[$index].status"
                 :aria-disabled="!isEdit[$index]"
               >
-                <el-option label="禁用" :value="0" />
-                <el-option label="启用" :value="1" />
+                <el-option label="禁用" :value="0" aria-selected="true"/>
+                <el-option label="启用" :value="1"/>
               </el-select>
             </template>
           </el-table-column>
@@ -92,7 +92,6 @@
               <el-button v-if="!isEdit[$index]" type="text" size="small" @click="edit($index,row)">
                 编辑
               </el-button>
-              <!--                <el-button type="text" size="small" style="color: red;">取消</el-button>-->
               <el-button
                 v-if="isEdit[$index]"
                 type="text"
@@ -120,7 +119,7 @@
 </template>
 
 <script>
-import { getDataCatalogDetail } from '@/api/dataCatalog'
+import { getDataCatalogDetail, saveDataCatalog } from '@/api/dataCatalog'
 
 export default {
   name: 'DictionaryDetail',
@@ -181,11 +180,9 @@ export default {
     },
     // 删除一行数据
     deleteItem(index) {
-      // this.dataCatalog.itemList.splice(index, 1)
       const item = this.dataCatalog.itemList[index]
       item.isDelete = 1
       this.$set(this.dataCatalog.itemList, index, item)
-      console.log('删除：', this.dataCatalog.itemList)
     },
     getDataCatalogDetail(id) { // id
       getDataCatalogDetail({ id: id }).then(res => {
@@ -199,13 +196,12 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log('请求参数：', this.dataCatalog)
-          // saveDataCatalog(this.dataCatalog).then(res => {
-          //     this.$message({message: res.message, duration: 2000})
-          //     if (res.code === 200) {
-          //         this.dataCatalog = res.data
-          //     }
-          // })
+          saveDataCatalog(this.dataCatalog).then(res => {
+            this.$message({ message: res.message, duration: 2000 })
+            if (res.code === 200) {
+              this.dataCatalog = res.data
+            }
+          })
         }
         return false
       })
@@ -216,6 +212,7 @@ export default {
     // 点击修改
     edit(index, row) {
       console.log('index')
+      this.dataCatalog.itemList[index].sort = index + 1
       this.isEdit[index] = true
       this.$set(this.isEdit, index, true) // 这里要用$set方法，否则页面状态不更新
     },

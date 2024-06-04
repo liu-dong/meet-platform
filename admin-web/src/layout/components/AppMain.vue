@@ -24,6 +24,8 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
+  display: flex; /* 新增 */
+  flex-direction: column; /* 新增，确保内部元素垂直排列 */
 }
 
 .fixed-header + .app-main {

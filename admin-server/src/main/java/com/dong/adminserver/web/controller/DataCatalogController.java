@@ -32,18 +32,14 @@ public class DataCatalogController {
     /**
      * 查询数据字典目录列表
      *
-     * @param dto   查询参数
+     * @param dto        查询参数
      * @param pagination 分页参数
      * @return 数据目录列表
      */
     @ApiOperation("查询数据字典目录列表")
     @GetMapping("/findDataCatalogList")
-    public ResponseResult findDataCatalogList(DataCatalogDTO dto, Pagination pagination) {
-        try {
-            return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pagination), ResponseMessageConstant.QUERY_SUCCESS);
-        } catch (Exception e) {
-            return ResponseResult.error(e.getMessage());
-        }
+    public ResponseResult<PageVO<DataCatalogVO>> findDataCatalogList(DataCatalogDTO dto, Pagination pagination) {
+        return ResponseResult.success(dataCatalogService.findDataCatalogList(dto, pagination), ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -53,7 +49,7 @@ public class DataCatalogController {
      */
     @ApiOperation("查询所有数据字典条目")
     @GetMapping("/findDataCatalogItemList")
-    public ResponseResult findDataCatalogItemList() {
+    public ResponseResult<Map<String, Object>> findDataCatalogItemList() {
         Map<String, Object> dataCatalogItem = dataCatalogService.findDataCatalogItemList();
         return ResponseResult.success(dataCatalogItem, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -66,7 +62,7 @@ public class DataCatalogController {
      */
     @ApiOperation("根据目录编码查询数据条目")
     @GetMapping("/getDataCatalogItem")
-    public ResponseResult getDataCatalogItem(String catalogCode) {
+    public ResponseResult<List<SelectItemVO>> getDataCatalogItem(String catalogCode) {
         List<SelectItemVO> selectItemVOList = dataCatalogService.getDataCatalogItem(catalogCode);
         return ResponseResult.success(selectItemVOList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -79,7 +75,7 @@ public class DataCatalogController {
      */
     @ApiOperation("查询数据字典详情")
     @GetMapping("/getDataCatalogDetail")
-    public ResponseResult getDataCatalogDetail(String id) {
+    public ResponseResult<DataCatalogVO> getDataCatalogDetail(String id) {
         DataCatalogVO detail = dataCatalogService.getDataCatalogDetail(id);
         return ResponseResult.success(detail, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -91,7 +87,7 @@ public class DataCatalogController {
      */
     @ApiOperation("保存数据字典")
     @PostMapping("/saveDataCatalog")
-    public ResponseResult saveDataCatalog(@RequestBody DataCatalogDTO dto) {
+    public ResponseResult<DataCatalogVO> saveDataCatalog(@RequestBody DataCatalogDTO dto) {
         DataCatalogVO vo = dataCatalogService.saveDataCatalog(dto);
         return ResponseResult.success(vo, ResponseMessageConstant.SAVE_SUCCESS);
     }
@@ -103,7 +99,7 @@ public class DataCatalogController {
      */
     @ApiOperation("删除数据目录")
     @PostMapping("/deleteDataCatalog")
-    public ResponseResult deleteDataCatalog(String id) {
+    public ResponseResult<?> deleteDataCatalog(String id) {
         dataCatalogService.deleteDataCatalog(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
@@ -115,7 +111,7 @@ public class DataCatalogController {
      */
     @ApiOperation("删除数据字典条目")
     @PostMapping("/deleteDataCatalogItem")
-    public ResponseResult deleteDataCatalogItem(String id) {
+    public ResponseResult<?> deleteDataCatalogItem(String id) {
         dataCatalogService.deleteDataCatalogItem(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }

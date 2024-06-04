@@ -154,7 +154,7 @@ public class DataCatalogServiceImpl implements DataCatalogService {
     @Override
     public DataCatalogVO getDataCatalogDetail(String id) {
         DataCatalog dataCatalog = dataCatalogRepository.findById(id).orElse(new DataCatalog());
-        List<DataCatalogItem> catalogItemList = dataCatalogItemRepository.findByCatalogIdAndStatus(id, CommonConstant.YES);
+        List<DataCatalogItem> catalogItemList = dataCatalogItemRepository.findByCatalogIdAndStatusOrderBySortAsc(id, CommonConstant.YES);
         return convertDataCatalogVO(dataCatalog, catalogItemList);
     }
 

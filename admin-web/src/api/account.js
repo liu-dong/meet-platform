@@ -54,7 +54,7 @@ export function findAccountRoleInfoList(params) {
 // 修改账号状态
 export function updateAccountStatus(params) {
   return axios({
-    url: '/user/updateAccountStatus',
+    url: '/account/updateAccountStatus',
     method: 'post',
     params
   })

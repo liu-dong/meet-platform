@@ -42,6 +42,6 @@ public class DataCatalogVO {
      */
     private List<DataCatalogItem> itemList;
 
-    private Date createTime;
+    private String createTime;
 
 }

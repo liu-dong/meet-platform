@@ -2,12 +2,12 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.catalogCode" class="filter-item" placeholder="目录名称" />
-      <el-input v-model="listQuery.catalogName" class="filter-item" placeholder="目录编码" />
-      <button-search class="filter-item" @search="findDataCatalogList" />
-      <button-reset class="filter-item" @reset="reset" />
-      <button-add class="filter-item" @add="toDetail()" />
-      <button-delete class="filter-item" @delete="deleteInfo" />
+      <el-input v-model="listQuery.catalogCode" class="filter-item" placeholder="目录名称"/>
+      <el-input v-model="listQuery.catalogName" class="filter-item" placeholder="目录编码"/>
+      <button-search class="filter-item" @search="findDataCatalogList"/>
+      <button-reset class="filter-item" @reset="reset"/>
+      <button-add class="filter-item" @add="toDetail()"/>
+      <button-delete class="filter-item" @delete="deleteInfo"/>
     </div>
     <el-table
       v-loading="listLoading"
@@ -19,14 +19,15 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
+      <el-table-column align="center" label="序号" type="index" width="60"/>
       <el-table-column align="center" label="目录编码" prop="catalogCode">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.catalogCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="目录名称" prop="catalogName" />
-      <el-table-column align="center" label="状态" prop="status" />
-      <el-table-column align="center" label="创建时间" prop="createTime" />
+      <el-table-column align="center" label="目录名称" prop="catalogName"/>
+      <el-table-column align="center" label="状态" prop="status" :formatter="formatStatus"/>
+      <el-table-column align="center" label="创建时间" prop="createTime"/>
     </el-table>
     <!--分页-->
     <pagination
@@ -47,6 +48,7 @@ import ButtonAdd from '@/components/Button/ButtonAdd'
 import ButtonReset from '@/components/Button/ButtonReset'
 import ButtonDelete from '@/components/Button/ButtonDelete'
 import Pagination from '@/components/Pagination'
+import dataCatalogUtils from "@/utils/dataCatalogUtils";
 
 export default {
   name: 'DataCatalogList',
@@ -70,6 +72,9 @@ export default {
     this.findDataCatalogList()
   },
   methods: {
+    formatStatus: function(row) {
+      return row.status === 1 ? '启用' : '禁用'
+    },
     findDataCatalogList() {
       this.listLoading = true
       findDataCatalogList(this.listQuery).then(res => {

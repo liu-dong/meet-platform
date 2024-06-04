@@ -84,16 +84,18 @@ export default {
         username: undefined
       },
       currentRow: {},
+      accountStatusOption: [],
       userTypeOption: []
     }
   },
   async created() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
+    this.accountStatusOption = await dataCatalogUtils.getData(DataCatalog.accountStatus)
     this.findAccountList()
   },
   methods: {
     formatStatus: function(row) {
-      return row.accountStatus === 0 ? '正常' : '已注销'
+      return dataCatalogUtils.getName(row.accountStatus, this.accountStatusOption)
     },
     reset() {
       this.listQuery = {
@@ -119,9 +121,9 @@ export default {
      * @returns {[{handler: default.methods.toDetail, label: string},{handler: ((function(*): AxiosPromise<any>)|*|(function(*): AxiosPromise<any>)|(function(*): AxiosPromise<any>)), label: string}]}
      */
     getActions(row) {
-      const recover = { label: '恢复', handler: () => this.updateAccountStatus(row.id, 1) }
-      const cancel = { label: '注销', handler: () => this.updateAccountStatus(row.id, 2) }
-      const disable = { label: '禁用', handler: () => this.updateAccountStatus(row.id, 3) }
+      const recover = { label: '恢复', handler: () => this.updateAccountStatus(row.userId, 1) }
+      const cancel = { label: '注销', handler: () => this.updateAccountStatus(row.userId, 2) }
+      const disable = { label: '禁用', handler: () => this.updateAccountStatus(row.userId, 3) }
       const actions = [
         { label: '查看', handler: () => this.toDetail(row.id) }
       ]

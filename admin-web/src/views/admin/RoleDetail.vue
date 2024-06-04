@@ -2,19 +2,30 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
       <el-form-item label="角色编码" prop="roleCode">
-        <el-input v-model="ruleForm.roleCode" />
+        <el-input v-model="ruleForm.roleCode"/>
       </el-form-item>
       <el-form-item label="角色名称" prop="roleName">
-        <el-input v-model="ruleForm.roleName" />
+        <el-input v-model="ruleForm.roleName"/>
       </el-form-item>
       <el-form-item label="角色描述" prop="remark" style="width: 70%;">
-        <el-input v-model="ruleForm.remark" type="textarea" />
+        <el-input v-model="ruleForm.remark" type="textarea"/>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-        <el-button @click="goBack()">返回</el-button>
+      <el-form-item label="Menus">
+        <el-tree
+          ref="tree"
+          :check-strictly="checkStrictly"
+          :data="permissionTree"
+          :props="defaultProps"
+          show-checkbox
+          node-key="path"
+          class="permission-tree"
+        />
       </el-form-item>
     </el-form>
+    <div class="form-button">
+      <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+      <el-button @click="goBack()">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -22,6 +33,8 @@
 import { findRoleAccountList, getRoleInfo, saveRoleInfo } from '@/api/role'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
+import { getPermissionTree } from "@/api/permission";
+import { recursionData } from "@/utils";
 
 export default {
   name: 'RoleDetail',
@@ -32,28 +45,43 @@ export default {
         roleName: [
           { required: true, message: '请填写角色名称', trigger: 'blur' }
         ],
-        remark: [
-          { required: true, message: '请填写角色描述', trigger: 'blur' }
+        roleCode: [
+          { required: true, message: '请填写角色编码', trigger: 'blur' }
         ]
       },
-      userTypeOption: []
+      checkStrictly: false,
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      // 权限树
+      permissionTree: []
     }
   },
   async created() {
-    this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
+    this.getPermissionTree()
     const id = this.$route.params.id
     if (id) {
       this.getRoleInfo(id)
     }
   },
   methods: {
+    // 获取权限树
+    getPermissionTree: function() {
+      getPermissionTree({}).then(res => {
+        if (res.code === 200) {
+          const treeData = res.data
+          recursionData(treeData)
+          this.permissionTree = treeData
+        }
+      })
+    },
     // 查询角色信息
     getRoleInfo: function(id) {
       getRoleInfo({ id: id }).then(res => {
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
           this.ruleForm = res.data
-          this.findRoleAccountList(this.ruleForm.roleCode)
         }
       })
     },
@@ -66,9 +94,6 @@ export default {
           }
         }
       })
-    },
-    formatType: function(row) {
-      return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -90,23 +115,11 @@ export default {
 }
 </script>
 
-<style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-
-}
-
-.top {
-  width: 100%;
-  height: 10%;
-}
-
-.bottom {
-  width: 100%;
-  height: 90%;
+<style lang="scss" scoped>
+.app-container {
+  .permission-tree {
+    margin-bottom: 30px;
+  }
 }
 
 .form {
@@ -116,20 +129,10 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   align-items: flex-start;
+
+  .el-form-item {
+    width: 35%;
+  }
 }
 
-.el-form-item {
-  width: 35%;
-  margin-bottom: 0;
-}
-
-/*控制穿梭框左右模块*/
-.el-transfer-panel {
-  width: 35%;
-}
-
-/*控制穿梭框按钮模块*/
-.el-transfer__buttons {
-  padding: 0;
-}
 </style>

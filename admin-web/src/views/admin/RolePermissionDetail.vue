@@ -12,7 +12,7 @@
         @check-change="checkChange"
       >
         <span slot-scope="{ node, data }" class="custom-tree-node">
-          <span @click="toDetail(data.id)">{{ node.label }}({{ data.permissionCode }})</span>
+          <span @click="toDetail(data.id)">{{ node.label }}</span>
         </span>
       </el-tree>
     </div>
@@ -27,6 +27,7 @@
 
 import { getPermissionTree } from '@/api/permission'
 import { assignPermissions, findRolePermissionList } from '@/api/role'
+import { recursionData } from "@/utils";
 
 export default {
   name: 'RolePermissionDetail',
@@ -40,18 +41,18 @@ export default {
     }
   },
   created() {
+    this.getPermissionTree()
     this.rolePermission.roleId = this.$route.params.id
     if (this.rolePermission.roleId) {
       this.findRolePermissionList(this.rolePermission.roleId)
     }
-    this.getPermissionTree()
   },
   methods: {
     getPermissionTree: function() { // 获取权限树
       getPermissionTree({}).then(res => {
         if (res.code === 200) {
           const treeData = res.data
-          this.recursionData(treeData)
+          recursionData(treeData)
           this.permissionData = treeData
         }
       })
@@ -94,17 +95,6 @@ export default {
     },
     toDetail: function(id) {
       this.$router.push({ name: 'permissionDetail', params: { id: id }})
-    },
-    // 递归无限层数据
-    recursionData(data) {
-      return data.map(item => {
-        item.label = item.permissionName
-        const childrenData = item.children
-        if (childrenData.length !== 0) {
-          this.recursionData(childrenData)
-        }
-        return item
-      })
     },
     goBack() {
       this.$router.go(-1)// 返回上一层

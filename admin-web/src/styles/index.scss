@@ -122,6 +122,16 @@ aside {
 //main-container全局样式
 .app-container {
   padding: 20px;
+  height: 100%;
+  border: 1px solid red;
+  flex-grow: 1; /* 让内层 div 占据所有可用空间 */
+
+  .form-button {
+    margin-top: 10px;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .components-container {
