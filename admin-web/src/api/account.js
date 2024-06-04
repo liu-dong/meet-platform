@@ -51,12 +51,12 @@ export function findAccountRoleInfoList(params) {
   })
 }
 
-// 分配角色
-export function assignRoles(data) {
+// 修改账号状态
+export function updateAccountStatus(params) {
   return axios({
-    url: '/account/assignRoles',
+    url: '/user/updateAccountStatus',
     method: 'post',
-    data
+    params
   })
 }
 

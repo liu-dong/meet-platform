@@ -2,9 +2,9 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名" />
+      <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名"/>
       <button-search class="filter-item" @search="findUserList">查询</button-search>
-      <button-reset class="filter-item" @reset="reset" />
+      <button-reset class="filter-item" @reset="reset"/>
     </div>
     <!--数据列表-->
     <el-table
@@ -17,27 +17,33 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column align="center" label="序号" type="index" width="60" />
-      <el-table-column align="center" label="用户名" prop="username" sortable>
+      <el-table-column align="center" label="序号" type="index" width="60"/>
+      <el-table-column align="center" label="用户名" prop="username" width="150">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="手机号" prop="phone" />
-      <el-table-column align="center" label="邮箱" prop="email" />
-      <el-table-column align="center" label="昵称" prop="nickname" />
-      <el-table-column align="center" label="真实姓名" prop="realName">
+      <el-table-column align="center" label="手机号" prop="phone" width="150"/>
+      <el-table-column align="center" label="邮箱" prop="email" width="200"/>
+      <el-table-column align="center" label="昵称" prop="nickname" width="150"/>
+      <el-table-column align="center" label="真实姓名" prop="realName" width="120">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.realName }}</span>
+          <span style="color: #409EFF;" @click="toPersonDetail(row.personId)">{{ row.realName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable />
-      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
-      <el-table-column header-align="center" align="center" width="100" label="操作">
-        <template slot-scope="{row,$index}">
-          <el-button @click="edit($index,row)" size="small">编辑</el-button>
-          <el-button @click="cancel($index)" size="small">取消</el-button>
-          <el-button type="text" size="small" @click="deleteItem($index)">删除</el-button>
+      <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable width="150"/>
+      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable width="150"/>
+      <el-table-column header-align="center" align="center" label="操作">
+        <template slot-scope="{row}">
+          <el-button
+            v-for="action in getActions(row)"
+            :key="action.label"
+            type="text"
+            size="mini"
+            @click="action.handler(row)"
+          >
+            {{ action.label }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -61,12 +67,10 @@ import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 import ButtonReset from '@/components/Button/ButtonReset'
 import ButtonSearch from '@/components/Button/ButtonSearch'
-import ButtonDelete from '@/components/Button/ButtonDelete'
-import ButtonAdd from '@/components/Button/ButtonAdd'
 
 export default {
   name: 'UserList',
-  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination, ButtonReset },
+  components: { ButtonSearch, Pagination, ButtonReset },
   directives: { waves },
   data() {
     return {
@@ -112,13 +116,29 @@ export default {
         }
       })
     },
-    toDetail: function(id) {
-      this.$router.push({ name: 'userDetail', params: { id: id }})
+    /**
+     * 行操作按钮
+     * @param row
+     * @returns {[{handler: default.methods.toDetail, label: string},{handler: ((function(*): AxiosPromise<any>)|*|(function(*): AxiosPromise<any>)|(function(*): AxiosPromise<any>)), label: string}]}
+     */
+    getActions(row) {
+      const assign = { label: '分配角色', handler: () => this.assignRoles(row.id) }
+      const actions = [
+        { label: '查看', handler: () => this.toDetail(row.id) }
+      ]
+      if (row.accountStatus === 1) {
+        actions.push(assign)
+      }
+      return actions
     },
-    toPersonDetail: function(row) {
-      const id = row.personId
-      alert(id)
-      this.$router.push({ name: 'personDetail', params: { id: id }})
+    toDetail: function(id) {
+      this.$router.push({ name: 'userDetail', params: { id: id } })
+    },
+    assignRoles: function(id) {
+      this.$router.push({ name: 'userDetail', params: { id: id } })
+    },
+    toPersonDetail: function(personId) {
+      this.$router.push({ name: 'personDetail', params: { id: personId } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

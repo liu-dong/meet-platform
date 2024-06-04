@@ -32,6 +32,19 @@
       <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable/>
       <el-table-column align="center" label="注册时间" prop="createTime" sortable/>
       <el-table-column :formatter="formatStatus" align="center" label="状态" prop="accountStatus" sortable/>
+      <el-table-column header-align="center" align="center" label="操作">
+        <template slot-scope="{row}">
+          <el-button
+            v-for="action in getActions(row)"
+            :key="action.label"
+            type="text"
+            size="mini"
+            @click="action.handler(row)"
+          >
+            {{ action.label }}
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!--分页-->
     <pagination
@@ -46,7 +59,7 @@
 
 <script>
 import qs from 'qs'
-import { deleteAccount, findAccountList } from '@/api/account'
+import { deleteAccount, findAccountList, updateAccountStatus } from '@/api/account'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import Pagination from '@/components/Pagination'
@@ -100,6 +113,32 @@ export default {
         }
       })
     },
+    /**
+     * 行操作按钮
+     * @param row
+     * @returns {[{handler: default.methods.toDetail, label: string},{handler: ((function(*): AxiosPromise<any>)|*|(function(*): AxiosPromise<any>)|(function(*): AxiosPromise<any>)), label: string}]}
+     */
+    getActions(row) {
+      const recover = { label: '恢复', handler: () => this.updateAccountStatus(row.id, 1) }
+      const cancel = { label: '注销', handler: () => this.updateAccountStatus(row.id, 2) }
+      const disable = { label: '禁用', handler: () => this.updateAccountStatus(row.id, 3) }
+      const actions = [
+        { label: '查看', handler: () => this.toDetail(row.id) }
+      ]
+      // 正常状态下有：注销、禁用
+      if (row.accountStatus === 1) {
+        actions.push(cancel, disable)
+      }
+      // 注销状态下有：恢复
+      if (row.accountStatus === 2) {
+        actions.push(recover)
+      }
+      // 禁用状态下有：注销、恢复
+      if (row.accountStatus === 3) {
+        actions.push(cancel, recover)
+      }
+      return actions
+    },
     toDetail: function(id) {
       this.$router.push({ name: 'accountDetail', params: { id: id } })
     },
@@ -109,6 +148,16 @@ export default {
         alert('请选择要删除的数据')
       }
       deleteAccount(qs.stringify({ id: currentRow.id })).then(res => {
+        this.$message({ message: res.message, duration: 2000 })
+        if (res.code === 200) {
+          this.findAccountList()
+        }
+      })
+    },
+    updateAccountStatus: function(userId, accountStatus) {
+      const params = { userId: userId, accountStatus: accountStatus }
+      updateAccountStatus(params).then(res => {
+        console.log(res.data)
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
           this.findAccountList()

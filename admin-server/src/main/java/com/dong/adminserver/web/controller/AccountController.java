@@ -53,8 +53,8 @@ public class AccountController {
      */
     @ApiOperation("查询账号信息")
     @GetMapping("/getAccount")
-    public ResponseResult getAccount(String id) {
-        Account account = accountService.getAccount(id);
+    public ResponseResult<AccountVO> getAccount(String id) {
+        AccountVO account = accountService.getAccount(id);
         return ResponseResult.success(account, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -66,7 +66,7 @@ public class AccountController {
      */
     @ApiOperation("删除账号信息")
     @PostMapping("/deleteAccount")
-    public ResponseResult deleteAccount(String id) {
+    public ResponseResult<?> deleteAccount(String id) {
         accountService.deleteAccount(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }

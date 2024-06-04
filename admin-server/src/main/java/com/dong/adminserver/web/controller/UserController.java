@@ -12,6 +12,7 @@ import com.dong.user.model.dto.UserDTO;
 import com.dong.user.model.dto.UserDTO;
 import com.dong.user.model.vo.UserVO;
 import com.dong.user.model.vo.UserVO;
+import com.dong.user.service.AccountService;
 import com.dong.user.service.UserService;
 import com.dong.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -34,7 +35,9 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
+    @Autowired
+    AccountService accountService;
 
     /**
      * 查询用户信息列表
@@ -101,6 +104,18 @@ public class UserController {
     public ResponseResult<List<UserRole>> assignRoles(@RequestBody UserDTO dto) {
         List<UserRole> userRoles = userService.assignRoles(dto.getId(), dto.getRoleIdList());
         return ResponseResult.success(userRoles, ResponseMessageConstant.OPERATE_SUCCESS);
+    }
+
+    /**
+     * 修改账号状态 （正常、禁用、注销）
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping("/updateAccountStatus")
+    public ResponseResult<?> updateAccountStatus(String userId,Integer accountStatus) {
+        accountService.updateAccountStatus(userId,accountStatus);
+        return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
 }
