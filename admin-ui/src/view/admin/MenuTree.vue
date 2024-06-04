@@ -56,7 +56,6 @@ export default {
       this.$router.push({name: 'menuDetail', params: {id: id, type: type}})
     },
     remove(node) {
-      console.log('node：', node)
       this.$confirm('是否删除 ' + node.label + ' 菜单?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

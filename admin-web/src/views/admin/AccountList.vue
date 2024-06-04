@@ -20,20 +20,18 @@
       @current-change="getCurrentRow"
     >
       <el-table-column align="center" label="序号" type="index" width="60"/>
-      <el-table-column align="center" label="用户名" prop="username" sortable>
+      <el-table-column align="center" label="用户名" prop="username">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="真实姓名" prop="realName" sortable>
-        <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.realName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable />
+      <el-table-column align="center" label="手机号" prop="phone"/>
+      <el-table-column align="center" label="邮箱" prop="email"/>
+      <el-table-column align="center" label="登录次数" prop="loginCount" sortable width="120"/>
+      <el-table-column align="center" label="登录失败次数" prop="loginFailCount" sortable width="150"/>
       <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable/>
-      <el-table-column align="center" label="登录次数" prop="loginCount" sortable/>
-      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
+      <el-table-column align="center" label="注册时间" prop="createTime" sortable/>
+      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="accountStatus" sortable/>
     </el-table>
     <!--分页-->
     <pagination
@@ -77,16 +75,12 @@ export default {
     }
   },
   async created() {
-    debugger
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
     this.findAccountList()
   },
   methods: {
     formatStatus: function(row) {
-      return row.userStatus === 0 ? '正常' : '已注销'
-    },
-    formatType: function(row) {
-      return dataCatalogUtils.getName(row.userType, this.userTypeOption)
+      return row.accountStatus === 0 ? '正常' : '已注销'
     },
     reset() {
       this.listQuery = {
@@ -97,26 +91,17 @@ export default {
     },
     findAccountList: function() {
       this.listLoading = true
-      debugger
       findAccountList(this.listQuery).then(res => {
-        console.log('结果：', res)
         if (res.code === 200) {
           const { dataList, total } = res.data
           this.list = dataList
           this.total = total
-          console.log('列表', this.list)
-          debugger
           this.listLoading = false
         }
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'accountDetail', params: { id: id }})
-    },
-    toPersonDetail: function(row) {
-      const id = row.personId
-      alert(id)
-      this.$router.push({ name: 'personDetail', params: { id: id }})
+      this.$router.push({ name: 'accountDetail', params: { id: id } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

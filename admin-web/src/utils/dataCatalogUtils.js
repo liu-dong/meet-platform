@@ -3,37 +3,24 @@ import { findDataCatalogItemList } from '@/api/dataCatalog'
 const dataCatalogUtils = {
 
   async getData(name) {
-    const data = await findDataCatalogItemList({}).then(res => {
-      if (res['code'] === 200) {
-        return res['data']
-      } else {
-        return null
+    try {
+      const response = await findDataCatalogItemList({})
+      if (response['code'] === 200) {
+        return response['data'] ? response['data'][name] : null
       }
-    })
-    if (data) {
-      return data[name]
+    } catch (error) {
+      console.error('查询数据字典失败：', error)
     }
-    return null
   },
 
   getName(value, data) {
-    let result = '暂无内容'
-    data.forEach(item => {
-      if (item.itemCode === value) {
-        result = item.itemName
-      }
-    })
-    return result
+    const item = data.find(item => item.itemCode === String(value))
+    return item ? item.itemName : '暂无内容'
   },
 
   getValue(name, data) {
-    let result = ''
-    data.forEach(item => {
-      if (item.itemName === name) {
-        result = item.itemCode
-      }
-    })
-    return result
+    const item = data.find(item => item.itemName === String(name))
+    return item ? item.itemCode : ''
   }
 }
 

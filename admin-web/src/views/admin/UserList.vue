@@ -3,16 +3,12 @@
     <!--查询条件-->
     <div class="filter-container">
       <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名" />
-      <button-search class="filter-item" @search="findAccountList">查询</button-search>
+      <button-search class="filter-item" @search="findUserList">查询</button-search>
       <button-reset class="filter-item" @reset="reset" />
-      <button-add class="filter-item" @add="toDetail">新增</button-add>
-      <button-delete class="filter-item" @delete="deleteInfo">删除</button-delete>
     </div>
     <!--数据列表-->
     <el-table
-      key="userList"
       v-loading="listLoading"
-      row-key="id"
       border
       :data="list"
       :header-cell-style="{background: '#b3d8ff50','text-align':'center'}"
@@ -27,15 +23,23 @@
           <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="真实姓名" prop="realName" sortable>
+      <el-table-column align="center" label="手机号" prop="phone" />
+      <el-table-column align="center" label="邮箱" prop="email" />
+      <el-table-column align="center" label="昵称" prop="nickname" />
+      <el-table-column align="center" label="真实姓名" prop="realName">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toPersonDetail(row)">{{ row.realName }}</span>
         </template>
       </el-table-column>
       <el-table-column :formatter="formatType" align="center" label="用户类型" prop="userType" sortable />
-      <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable />
-      <el-table-column align="center" label="登录次数" prop="loginCount" sortable />
       <el-table-column :formatter="formatStatus" align="center" label="状态" prop="userStatus" sortable />
+      <el-table-column header-align="center" align="center" width="100" label="操作">
+        <template slot-scope="{row,$index}">
+          <el-button @click="edit($index,row)" size="small">编辑</el-button>
+          <el-button @click="cancel($index)" size="small">取消</el-button>
+          <el-button type="text" size="small" @click="deleteItem($index)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!--分页-->
     <pagination
@@ -43,14 +47,14 @@
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
-      @pagination="findAccountList"
+      @pagination="findUserList"
     />
   </div>
 </template>
 
 <script>
 import qs from 'qs'
-import { deleteAccount, findAccountList } from '@/api/account'
+import { deleteUser, findUserList } from '@/api/user'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import Pagination from '@/components/Pagination'
@@ -75,18 +79,20 @@ export default {
         username: undefined
       },
       currentRow: {},
-      userTypeOption: []
+      userTypeOption: [],
+      accountStatusOption: []
     }
   },
   async created() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
-    this.findAccountList()
+    this.findUserList()
   },
   methods: {
     formatStatus: function(row) {
-      return row.userStatus === 0 ? '正常' : '已注销'
+      return dataCatalogUtils.getName(row.accountStatus, this.accountStatusOption)
     },
     formatType: function(row) {
+      debugger
       return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     reset() {
@@ -96,9 +102,9 @@ export default {
         username: undefined
       }
     },
-    findAccountList: function() {
+    findUserList: function() {
       this.listLoading = true
-      findAccountList(this.listQuery).then(res => {
+      findUserList(this.listQuery).then(res => {
         if (res.code === 200) {
           this.list = res.data.dataList
           this.total = res.data.total
@@ -107,7 +113,7 @@ export default {
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'accountDetail', params: { id: id }})
+      this.$router.push({ name: 'userDetail', params: { id: id }})
     },
     toPersonDetail: function(row) {
       const id = row.personId
@@ -119,11 +125,11 @@ export default {
       if (JSON.stringify(currentRow) === '{}') {
         alert('请选择要删除的数据')
       }
-      deleteAccount(qs.stringify({ id: currentRow.id })).then(res => {
+      deleteUser(qs.stringify({ id: currentRow.id })).then(res => {
         console.log(res.data)
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
-          this.findAccountList()
+          this.findUserList()
         }
       })
     },
