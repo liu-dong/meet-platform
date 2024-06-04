@@ -44,11 +44,6 @@ export default {
       default: 2
     }
   },
-  computed: {
-    dataCatalogUtils() {
-      return dataCatalogUtils
-    }
-  },
   data() {
     return {
       checkAll: false,
@@ -58,8 +53,12 @@ export default {
       checkedRoles: [] // 选中的角色集合
     }
   },
+  computed: {
+    dataCatalogUtils() {
+      return dataCatalogUtils
+    }
+  },
   async created() {
-    debugger
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
     this.findAllRoleListMap()
     if (this.userId) {
@@ -97,11 +96,6 @@ export default {
     },
     // 分配角色
     assignRoles() {
-      console.log('已选角色：', this.checkedRoles)
-      if (this.checkedRoles.length === 0) {
-        this.$message({ message: '请勾选角色', duration: 2000, type: 'warning' })
-        return
-      }
       const data = {
         userId: this.userId,
         roleCodes: this.checkedRoles

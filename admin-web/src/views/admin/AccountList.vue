@@ -31,7 +31,7 @@
       <el-table-column align="center" label="登录失败次数" prop="loginFailCount" sortable width="150"/>
       <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable/>
       <el-table-column align="center" label="注册时间" prop="createTime" sortable/>
-      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="accountStatus" sortable width="150"/>
+      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="accountStatus" sortable width="100"/>
       <el-table-column header-align="center" align="center" label="操作" width="150">
         <template slot-scope="{row}">
           <el-button

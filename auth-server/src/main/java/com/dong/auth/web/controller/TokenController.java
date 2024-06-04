@@ -17,7 +17,6 @@ import java.util.Map;
  * @author LD 2023/10/27
  */
 @RestController
-@RequestMapping("/token")
 public class TokenController {
 
     /**
