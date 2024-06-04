@@ -10,6 +10,7 @@ import com.dong.user.entity.User;
 import com.dong.user.entity.UserRole;
 import com.dong.user.model.dto.UserDTO;
 import com.dong.user.model.dto.UserDTO;
+import com.dong.user.model.dto.UserRoleDTO;
 import com.dong.user.model.vo.UserVO;
 import com.dong.user.model.vo.UserVO;
 import com.dong.user.service.AccountService;
@@ -87,8 +88,8 @@ public class UserController {
      */
 
     @ApiOperation("查询角色用户信息")
-    @GetMapping("/findUserRoleInfoList")
-    public ResponseResult<List<String>> findUserRoleInfoList(String userId) {
+    @GetMapping("/findUserRoleList")
+    public ResponseResult<List<String>> findUserRoleList(String userId) {
         List<String> dataList = userService.findUserRoleList(userId);
         return ResponseResult.success(dataList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -101,8 +102,8 @@ public class UserController {
      */
     @ApiOperation("分派角色")
     @PostMapping("/assignRoles")
-    public ResponseResult<List<UserRole>> assignRoles(@RequestBody UserDTO dto) {
-        List<UserRole> userRoles = userService.assignRoles(dto.getId(), dto.getRoleIdList());
+    public ResponseResult<List<UserRole>> assignRoles(@RequestBody UserRoleDTO dto) {
+        List<UserRole> userRoles = userService.assignRoles(dto.getUserId(), dto.getRoleCodes());
         return ResponseResult.success(userRoles, ResponseMessageConstant.OPERATE_SUCCESS);
     }
 
@@ -113,8 +114,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/updateAccountStatus")
-    public ResponseResult<?> updateAccountStatus(String userId,Integer accountStatus) {
-        accountService.updateAccountStatus(userId,accountStatus);
+    public ResponseResult<?> updateAccountStatus(String userId, Integer accountStatus) {
+        accountService.updateAccountStatus(userId, accountStatus);
         return ResponseResult.success(ResponseMessageConstant.OPERATE_SUCCESS);
     }
 

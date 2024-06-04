@@ -24,9 +24,9 @@
         </template>
       </el-table-column>
       <el-table-column align="center" label="手机号" prop="phone" width="150"/>
-      <el-table-column align="center" label="邮箱" prop="email" width="200"/>
-      <el-table-column align="center" label="昵称" prop="nickname" width="150"/>
-      <el-table-column align="center" label="真实姓名" prop="realName" width="120">
+      <el-table-column align="center" label="邮箱" prop="email" />
+      <el-table-column align="center" label="昵称" prop="nickname" />
+      <el-table-column align="center" label="真实姓名" prop="realName" width="150">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toPersonDetail(row.personId)">{{ row.realName }}</span>
         </template>
@@ -96,7 +96,6 @@ export default {
       return dataCatalogUtils.getName(row.accountStatus, this.accountStatusOption)
     },
     formatType: function(row) {
-      debugger
       return dataCatalogUtils.getName(row.userType, this.userTypeOption)
     },
     reset() {
@@ -122,7 +121,7 @@ export default {
      * @returns {[{handler: default.methods.toDetail, label: string},{handler: ((function(*): AxiosPromise<any>)|*|(function(*): AxiosPromise<any>)|(function(*): AxiosPromise<any>)), label: string}]}
      */
     getActions(row) {
-      const assign = { label: '分配角色', handler: () => this.assignRoles(row.id) }
+      const assign = { label: '分配角色', handler: () => this.assignRoles(row) }
       const actions = [
         { label: '查看', handler: () => this.toDetail(row.id) }
       ]
@@ -134,8 +133,10 @@ export default {
     toDetail: function(id) {
       this.$router.push({ name: 'userDetail', params: { id: id } })
     },
-    assignRoles: function(id) {
-      this.$router.push({ name: 'userDetail', params: { id: id } })
+    assignRoles: function(row) {
+      const params = { userId: row.id, username: row.username, userType: row.userType }
+      console.log(params)
+      this.$router.push({ name: 'userRoleDetail', params: params })
     },
     toPersonDetail: function(personId) {
       this.$router.push({ name: 'personDetail', params: { id: personId } })

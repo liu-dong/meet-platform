@@ -40,8 +40,19 @@ public class RoleController {
      */
     @ApiOperation("查询角色信息列表")
     @GetMapping("/findRoleList")
-    public ResponseResult findRoleList(RoleDTO dto, Pagination pagination) {
+    public ResponseResult<PageVO<RoleVO>> findRoleList(RoleDTO dto, Pagination pagination) {
         PageVO<RoleVO> roleList = roleService.findRoleList(dto, pagination);
+        return ResponseResult.success(roleList, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 查询所有角色
+     *
+     * @return 角色id-角色名称的键值对
+     */
+    @GetMapping("/findAllRoleListMap")
+    public ResponseResult<List<Map<String, String>>> findAllRoleListMap() {
+        List<Map<String, String>> roleList = roleService.findAllRoleListMap();
         return ResponseResult.success(roleList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

@@ -25,14 +25,14 @@
           <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="手机号" prop="phone"/>
-      <el-table-column align="center" label="邮箱" prop="email"/>
+      <el-table-column align="center" label="手机号" prop="phone" width="150"/>
+      <el-table-column align="center" label="邮箱" prop="email" width="200"/>
       <el-table-column align="center" label="登录次数" prop="loginCount" sortable width="120"/>
       <el-table-column align="center" label="登录失败次数" prop="loginFailCount" sortable width="150"/>
       <el-table-column align="center" label="上次登录时间" prop="lastLoginTime" sortable/>
       <el-table-column align="center" label="注册时间" prop="createTime" sortable/>
-      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="accountStatus" sortable/>
-      <el-table-column header-align="center" align="center" label="操作">
+      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="accountStatus" sortable width="150"/>
+      <el-table-column header-align="center" align="center" label="操作" width="150">
         <template slot-scope="{row}">
           <el-button
             v-for="action in getActions(row)"

@@ -40,6 +40,14 @@ export const adminRouter = [
         name: 'userDetail',
         meta: { title: '用户详情', icon: 'form' },
         component: () => import('@/views/admin/UserDetail.vue')
+      },
+      {
+        hidden: true,
+        path: '/userRoleDetail',
+        name: 'userRoleDetail',
+        meta: { title: '用户角色详情', icon: 'form' },
+        component: () => import('@/views/admin/UserRoleDetail.vue'),
+        props: true
       }
     ]
   },

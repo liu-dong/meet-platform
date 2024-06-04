@@ -8,6 +8,13 @@ export function findRoleInfoList(params) {
   })
 }
 
+export function findAllRoleListMap() {
+  return axios({
+    url: '/role/findAllRoleListMap',
+    method: 'get'
+  })
+}
+
 export function getRoleInfo(params) {
   return axios({
     url: '/role/getRoleDetail',
