@@ -1,21 +1,21 @@
 <template>
   <div class="app-container">
-    <div
-      style="border: 1px solid #20a0ff;height: 60px;line-height: 60px; font-size: 18px;display: flex; justify-content: space-around;">
+    <div class="top">
       <div style="font-weight: bolder;">用户名</div>
       <div style="color: #20a0ff">{{ username }}</div>
       <div style="font-weight: bolder;">用户类型</div>
       <div style="color: #20a0ff">{{ dataCatalogUtils.getName(userType, userTypeOption) }}</div>
     </div>
-    <div style="margin: 20px 0;"/>
-    <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
-    <div style="margin: 15px 0;"/>
-    <el-checkbox-group v-model="checkedRoles" @change="handleCheckedCitiesChange">
-      <el-checkbox v-for="role in roleList" :key="role.roleCode" :label="role.roleCode">
-        {{ role.roleName }}
-      </el-checkbox>
-    </el-checkbox-group>
-    <div>
+    <div class="middle">
+      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
+      <div style="margin: 15px 0;"/>
+      <el-checkbox-group v-model="checkedRoles" @change="handleCheckedCitiesChange">
+        <el-checkbox v-for="role in roleList" :key="role.roleCode" :label="role.roleCode">
+          {{ role.roleName }}
+        </el-checkbox>
+      </el-checkbox-group>
+    </div>
+    <div class="bottom">
       <el-button type="primary" @click="assignRoles">保存</el-button>
       <el-button @click="goBack()">返回</el-button>
     </div>
@@ -118,55 +118,25 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-
-}
-
 .top {
   width: 100%;
   height: 10%;
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: space-between;*/
+  line-height: 60px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.middle {
+  margin: 20px 0;
+  padding: 20px;
+  min-height: 480px;
 }
 
 .bottom {
   width: 100%;
-  height: 90%;
-}
-
-.form {
-  width: 100%;
-  height: 100%;
+  height: 10%;
   display: flex;
-  flex-flow: row wrap;
   justify-content: center;
-  align-items: flex-start;
-}
-
-.el-form-item {
-  width: 35%;
-  margin-bottom: 0;
-}
-
-/*控制穿梭框左右模块*/
-.el-transfer-panel {
-  width: 35%;
-}
-
-/*控制穿梭框按钮模块*/
-.el-transfer__buttons {
-  padding: 0;
-}
-
-.el-select {
-  position: relative;
-  font-size: 14px;
-  display: inline-block;
-  width: 100%;
 }
 </style>

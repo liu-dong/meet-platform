@@ -16,7 +16,7 @@ export function getUser(params) {
   })
 }
 
-// 删除账号信息
+// 删除用户信息
 export function deleteUser(params) {
   return axios({
     url: '/user/deleteUser',
@@ -25,6 +25,7 @@ export function deleteUser(params) {
   })
 }
 
+// 查询用户已有角色
 export function findUserRoleList(params) {
   return axios({
     url: '/user/findUserRoleList',
