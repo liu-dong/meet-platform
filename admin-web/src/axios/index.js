@@ -54,7 +54,7 @@ const builder = function(config) {
             })
           })
         }
-        return Promise.reject(new Error(res.message || 'Error'))
+        return Promise.reject(new Error(res.message || 'Error：未知错误'))
       } else {
         return res
       }
