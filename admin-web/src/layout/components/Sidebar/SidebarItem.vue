@@ -68,7 +68,6 @@ export default {
   methods: {
     // 判断是否有一个显示的子菜单
     hasOneShowingChild(children = [], parent) {
-      debugger
       const showingChildren = children.filter(item => {
         // 如果子菜单被设置隐藏，或者没有菜单权限，则不显示
         if (item.hidden || !this.hasMenuPermission(item)) {
@@ -86,7 +85,6 @@ export default {
 
       // 没有子路由可显示时，则显示父节点路由
       if (showingChildren.length === 0) {
-        debugger
         if (this.hasMenuPermission(parent)) {
           // 如果父节点有权限，则只显示这一个父节点（即使它没有显示的子节点）
           this.onlyOneChild = { ...parent, path: '', noShowingChildren: true };

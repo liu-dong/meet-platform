@@ -36,6 +36,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    historyApiFallback: true,
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {

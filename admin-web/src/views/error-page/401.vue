@@ -14,8 +14,13 @@
         <ul class="list-unstyled">
           <li>或者你可以去:</li>
           <li class="link-type">
-            <router-link to="/dashboard">
+            <router-link to="/">
               回首页
+            </router-link>
+          </li>
+          <li class="link-type">
+            <router-link to="/login">
+              重新登录
             </router-link>
           </li>
           <li class="link-type">
