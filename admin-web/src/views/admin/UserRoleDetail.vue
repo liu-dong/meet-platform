@@ -9,7 +9,7 @@
     <div class="middle">
       <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
       <div style="margin: 15px 0;"/>
-      <el-checkbox-group v-model="checkedRoles" @change="handleCheckedCitiesChange">
+      <el-checkbox-group v-model="checkedRoles" @change="handleCheckedRolesChange">
         <el-checkbox v-for="role in roleList" :key="role.roleCode" :label="role.roleCode">
           {{ role.roleName }}
         </el-checkbox>
@@ -46,8 +46,6 @@ export default {
   },
   data() {
     return {
-      checkAll: false,
-      isIndeterminate: true,
       userTypeOption: [],
       roleList: [], // 角色集合
       checkedRoles: [] // 选中的角色集合
@@ -56,15 +54,22 @@ export default {
   computed: {
     dataCatalogUtils() {
       return dataCatalogUtils
+    },
+    checkAll() {
+      return this.roleList.length === this.checkedRoles.length
+    },
+    isIndeterminate() {
+      return this.checkedRoles.length > 0 && this.checkedRoles.length < this.roleList.length
     }
   },
-  async created() {
+  created: async function() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
     this.findAllRoleListMap()
     if (this.userId) {
       this.findUserRoleList(this.userId)
     }
   },
+
   methods: {
     // 查询角色信息
     findAllRoleListMap() {
@@ -79,6 +84,12 @@ export default {
       findUserRoleList({ userId: userId }).then(res => {
         if (res.code === 200) {
           this.checkedRoles = res.data
+          // 根据选中的角色数量来设置isIndeterminate和checkAll的状态
+          // if (this.checkedRoles.length > 0) {
+          //   // 如果有选中的角色
+          //   this.isIndeterminate = this.checkedRoles.length < this.roleList.length
+          //   this.checkAll = this.roleList.length === this.checkedRoles.length
+          // }
         }
       })
     },
@@ -86,10 +97,10 @@ export default {
       this.$router.go(-1)// 返回上一层
     },
     handleCheckAllChange(val) {
-      this.checkedRoles = val ? this.roleList : []
+      this.checkedRoles = val ? this.roleList.map(item => item.roleCode) : []
       this.isIndeterminate = false
     },
-    handleCheckedCitiesChange(value) {
+    handleCheckedRolesChange(value) {
       const checkedCount = value.length
       this.checkAll = checkedCount === this.roleList.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.roleList.length
