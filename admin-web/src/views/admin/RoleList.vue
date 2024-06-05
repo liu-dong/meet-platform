@@ -2,11 +2,11 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.roleName" class="filter-item" placeholder="角色名称" />
+      <el-input v-model="listQuery.roleName" class="filter-item" placeholder="角色名称"/>
       <button-search class="filter-item" @search="findRoleInfoList">查询</button-search>
-      <button-reset class="filter-item" @reset="reset" />
+      <button-reset class="filter-item" @reset="reset"/>
       <button-add class="filter-item" @add="toDetail()">新增</button-add>
-      <button-delete class="filter-item" @delete="deleteInfo" />
+      <button-delete class="filter-item" @delete="deleteInfo"/>
     </div>
     <!--数据列表-->
     <el-table
@@ -19,15 +19,15 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column fixed type="index" label="序号" align="center" />
+      <el-table-column fixed type="index" label="序号" align="center"/>
       <el-table-column prop="roleName" sortable label="角色编码" align="center">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row.id)">{{ row.roleCode }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.roleCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="roleName" sortable label="角色名称" align="center" />
-      <el-table-column prop="remark" label="角色描述" align="left" />
-      <el-table-column prop="createTime" sortable label="创建时间" align="center" />
+      <el-table-column prop="roleName" sortable label="角色名称" align="center"/>
+      <el-table-column prop="remark" label="角色描述" align="left"/>
+      <el-table-column prop="createTime" sortable label="创建时间" align="center"/>
       <el-table-column label="操作类型" align="center">
         <template slot-scope="{row}">
           <el-link
@@ -103,6 +103,9 @@ export default {
     },
     // account：添加账号页面，permission：分配权限页面
     toDetail: function(row, pageType) {
+      if (!row) {
+        this.$router.push({ name: 'RoleDetail' })
+      }
       let pageName = 'RoleDetail'
       if (pageType === 'account') {
         pageName = 'RoleAccountDetail'

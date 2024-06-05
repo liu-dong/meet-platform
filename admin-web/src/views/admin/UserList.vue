@@ -132,15 +132,15 @@ export default {
       return actions
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'userDetail', params: { id: id } })
+      this.$router.push({ name: 'UserDetail', params: { id: id } })
     },
     assignRoles: function(row) {
       const params = { userId: row.id, username: row.username, userType: row.userType }
       console.log(params)
-      this.$router.push({ name: 'userRoleDetail', params: params })
+      this.$router.push({ name: 'UserRoleDetail', params: params })
     },
     toPersonDetail: function(personId) {
-      this.$router.push({ name: 'personDetail', params: { id: personId } })
+      this.$router.push({ name: 'PersonDetail', params: { id: personId } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

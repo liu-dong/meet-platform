@@ -87,12 +87,12 @@ export default {
     },
     toAccountDetail(row) {
       const id = row.id
-      this.$router.push({ name: 'accountDetail', params: { id: id }})
+      this.$router.push({ name: 'AccountDetail', params: { id: id }})
     },
     toPersonDetail: function(row) {
       const id = row.personId
       alert(id)
-      this.$router.push({ name: 'personDetail', params: { id: id }})
+      this.$router.push({ name: 'PersonDetail', params: { id: id }})
     },
     goBack() {
       this.$router.go(-1)// 返回上一层

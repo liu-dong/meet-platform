@@ -142,7 +142,7 @@ export default {
       return actions
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'accountDetail', params: { id: id } })
+      this.$router.push({ name: 'AccountDetail', params: { id: id } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

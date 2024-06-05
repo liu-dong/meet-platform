@@ -64,7 +64,7 @@ export default {
     toPersonDetail: function(row) {
       const id = row.id
       alert(id)
-      this.$router.push({ name: 'personDetail', params: { id: id }})
+      this.$router.push({ name: 'PersonDetail', params: { id: id }})
     },
     goBack() {
       this.$router.go(-1)// 返回上一层

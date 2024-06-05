@@ -121,7 +121,7 @@ export default {
     },
     toDetail: function(row) {
       const id = row.id
-      this.$router.push({ name: 'menuDetail', params: { id: id }})
+      this.$router.push({ name: 'MenuDetail', params: { id: id }})
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

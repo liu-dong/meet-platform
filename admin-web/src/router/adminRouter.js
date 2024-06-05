@@ -9,14 +9,14 @@ export const adminRouter = [
     children: [
       {
         path: '/accountList',
-        name: 'accountList',
+        name: 'AccountList',
         meta: { title: '账号列表', icon: 'table' },
         component: () => import('@/views/admin/AccountList.vue')
       },
       {
         hidden: true,
         path: '/accountDetail',
-        name: 'accountDetail',
+        name: 'AccountDetail',
         meta: { title: '账号详情', icon: 'form' },
         component: () => import('@/views/admin/AccountDetail.vue')
       }
@@ -30,21 +30,21 @@ export const adminRouter = [
     children: [
       {
         path: '/userList',
-        name: 'userList',
+        name: 'UserList',
         meta: { title: '用户列表', icon: 'table' },
         component: () => import('@/views/admin/UserList.vue')
       },
       {
         hidden: true,
         path: '/userDetail',
-        name: 'userDetail',
+        name: 'UserDetail',
         meta: { title: '用户详情', icon: 'form' },
         component: () => import('@/views/admin/UserDetail.vue')
       },
       {
         hidden: true,
         path: '/userRoleDetail',
-        name: 'userRoleDetail',
+        name: 'UserRoleDetail',
         meta: { title: '用户角色详情', icon: 'form' },
         component: () => import('@/views/admin/UserRoleDetail.vue'),
         props: true
@@ -123,20 +123,20 @@ export const adminRouter = [
     children: [
       {
         path: '/menuList',
-        name: 'menuList',
+        name: 'MenuList',
         meta: { title: '菜单列表', icon: 'table' },
         component: () => import('@/views/admin/MenuList.vue')
       },
       {
         path: '/menuTree',
-        name: 'menuTree',
+        name: 'MenuTree',
         meta: { title: '菜单树', icon: 'table' },
         component: () => import('@/views/admin/MenuTree.vue')
       },
       {
         hidden: true,
         path: '/menuDetail',
-        name: 'menuDetail',
+        name: 'MenuDetail',
         meta: { title: '菜单详情', icon: 'form' },
         component: () => import('@/views/admin/MenuDetail.vue')
       }

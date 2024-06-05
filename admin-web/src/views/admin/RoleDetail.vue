@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
       <el-form-item label="角色编码" prop="roleCode">
-        <el-input v-model="ruleForm.roleCode"/>
+        <el-input v-model="ruleForm.roleCode" :readonly="ruleForm.id"/>
       </el-form-item>
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="ruleForm.roleName"/>
@@ -10,14 +10,15 @@
       <el-form-item label="角色描述" prop="remark" style="width: 70%;">
         <el-input v-model="ruleForm.remark" type="textarea"/>
       </el-form-item>
-      <el-form-item label="Menus">
+      <el-form-item label="所属权限" style="width: 70%;" v-if="ruleForm.id">
         <el-tree
           ref="tree"
           :check-strictly="checkStrictly"
+          :default-checked-keys="checkedPermissions"
           :data="permissionTree"
           :props="defaultProps"
           show-checkbox
-          node-key="path"
+          node-key="permissionCode"
           class="permission-tree"
         />
       </el-form-item>
@@ -30,7 +31,7 @@
 </template>
 
 <script>
-import { findRoleAccountList, getRoleInfo, saveRoleInfo } from '@/api/role'
+import { findRoleAccountList, findRolePermissionList, getRoleInfo, saveRoleInfo } from '@/api/role'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import { getPermissionTree } from "@/api/permission";
@@ -55,7 +56,9 @@ export default {
         label: 'label'
       },
       // 权限树
-      permissionTree: []
+      permissionTree: [],
+      roleCode: '',
+      checkedPermissions: []// 选中的权限集合数据
     }
   },
   async created() {
@@ -63,6 +66,10 @@ export default {
     const id = this.$route.params.id
     if (id) {
       this.getRoleInfo(id)
+    }
+    this.roleCode = this.$route.params.roleCode
+    if (this.roleCode) {
+      this.findRolePermissionList(this.roleCode)
     }
   },
   methods: {
@@ -73,6 +80,13 @@ export default {
           const treeData = res.data
           recursionData(treeData)
           this.permissionTree = treeData
+        }
+      })
+    },
+    findRolePermissionList: function(roleCode) { // 获取角色权限信息
+      findRolePermissionList({ roleCode: roleCode }).then(res => {
+        if (res.code === 200) {
+          this.checkedPermissions = res.data
         }
       })
     },

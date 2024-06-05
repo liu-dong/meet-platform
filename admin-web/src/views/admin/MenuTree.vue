@@ -47,13 +47,13 @@ export default {
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'menuDetail', params: { id: id }})
+      this.$router.push({ name: 'MenuDetail', params: { id: id }})
     },
     // 添加菜单 type：1表示同级菜单，2表示子级菜单
     append(data, type) {
       console.log(data, type)
       const id = data.id
-      this.$router.push({ name: 'menuDetail', params: { id: id, type: type }})
+      this.$router.push({ name: 'MenuDetail', params: { id: id, type: type }})
     },
     remove(node) {
       console.log('node：', node)
