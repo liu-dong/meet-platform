@@ -11,14 +11,14 @@ export const adminRouter = [
       {
         path: '/accountList',
         name: 'AccountList',
-        meta: { title: '账号列表', icon: 'table', roles: ['SuperAdmin']  },
+        meta: { title: '账号列表', icon: 'table', roles: ['SuperAdmin'] },
         component: () => import('@/views/admin/AccountList.vue')
       },
       {
         hidden: true,
         path: '/accountDetail',
         name: 'AccountDetail',
-        meta: { title: '账号详情', icon: 'form', roles: ['SuperAdmin']  },
+        meta: { title: '账号详情', icon: 'form', roles: ['SuperAdmin'] },
         component: () => import('@/views/admin/AccountDetail.vue')
       },
       {
