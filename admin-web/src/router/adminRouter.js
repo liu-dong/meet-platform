@@ -2,10 +2,11 @@ import Layout from '@/layout'
 
 export const adminRouter = [
   {
-    path: '/account',
-    name: 'Account',
-    redirect: '/accountList',
+    path: '/user',
+    name: 'User',
+    redirect: '/userList',
     component: Layout,
+    meta: { title: '用户管理', icon: 'table', roles: ['SuperAdmin'] },
     children: [
       {
         path: '/accountList',
@@ -19,15 +20,7 @@ export const adminRouter = [
         name: 'AccountDetail',
         meta: { title: '账号详情', icon: 'form', roles: ['SuperAdmin']  },
         component: () => import('@/views/admin/AccountDetail.vue')
-      }
-    ]
-  },
-  {
-    path: '/user',
-    name: 'User',
-    redirect: '/userList',
-    component: Layout,
-    children: [
+      },
       {
         path: '/userList',
         name: 'UserList',
