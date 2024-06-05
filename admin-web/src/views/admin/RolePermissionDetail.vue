@@ -84,7 +84,6 @@ export default {
         }
       }
       this.checkedPermissions = array
-      console.log('change：', this.checkedPermissions)
     },
     assignPermissions() {
       const data = {

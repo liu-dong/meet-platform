@@ -63,7 +63,7 @@ export const constantRoutes = [
         path: '/list',
         component: () => import('@/views/plan/list'),
         name: 'Plan',
-        meta: { title: '计划制定', icon: 'table' }
+        meta: { title: '计划制定', icon: 'table', roles: ['SuperAdmin'] }
       }
     ]
   },
@@ -87,7 +87,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/404'),
     hidden: true
   },
-  // 404 page must be placed at the end !!!
+  // 404页面必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]
 
