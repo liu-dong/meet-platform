@@ -6,39 +6,39 @@ export const adminRouter = [
     name: 'User',
     redirect: '/userList',
     component: Layout,
-    meta: { title: '用户管理', icon: 'table', roles: ['SuperAdmin'] },
+    meta: { title: '用户管理', icon: 'table', roles: ['SuperAdmin', 'Admin'] },
     children: [
       {
         path: '/accountList',
         name: 'AccountList',
-        meta: { title: '账号列表', icon: 'table', roles: ['SuperAdmin'] },
+        meta: { title: '账号列表', icon: 'table', roles: ['SuperAdmin', 'Admin'] },
         component: () => import('@/views/admin/AccountList.vue')
       },
       {
         hidden: true,
         path: '/accountDetail',
         name: 'AccountDetail',
-        meta: { title: '账号详情', icon: 'form', roles: ['SuperAdmin'] },
+        meta: { title: '账号详情', icon: 'form', roles: ['SuperAdmin', 'Admin'] },
         component: () => import('@/views/admin/AccountDetail.vue')
       },
       {
         path: '/userList',
         name: 'UserList',
-        meta: { title: '用户列表', icon: 'table', roles: ['SuperAdmin'] },
+        meta: { title: '用户列表', icon: 'table', roles: ['SuperAdmin', 'Admin'] },
         component: () => import('@/views/admin/UserList.vue')
       },
       {
         hidden: true,
         path: '/userDetail',
         name: 'UserDetail',
-        meta: { title: '用户详情', icon: 'form', roles: ['SuperAdmin'] },
+        meta: { title: '用户详情', icon: 'form', roles: ['SuperAdmin', 'Admin'] },
         component: () => import('@/views/admin/UserDetail.vue')
       },
       {
         hidden: true,
         path: '/userRoleDetail',
         name: 'UserRoleDetail',
-        meta: { title: '用户角色详情', icon: 'form', roles: ['SuperAdmin'] },
+        meta: { title: '用户角色详情', icon: 'form', roles: ['SuperAdmin', 'Admin'] },
         component: () => import('@/views/admin/UserRoleDetail.vue'),
         props: true
       }
@@ -202,6 +202,50 @@ export const adminRouter = [
         path: '/dataCatalogList',
         name: 'DataCatalogList',
         meta: { title: '数据字典列表', icon: 'table', roles: ['SuperAdmin', 'Admin'] },
+        component: () => import('@/views/admin/DataCatalogList.vue')
+      }
+    ]
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    redirect: '/order',
+    meta: { title: '订单管理', icon: 'table', roles: ['SuperAdmin', 'Admin', 'BusinessUser'] },
+    component: Layout,
+    children: [
+      {
+        // hidden: true,
+        path: '/orderDetail',
+        name: 'OrderDetail',
+        meta: { title: '订单详情', icon: 'form', roles: ['SuperAdmin', 'Admin', 'BusinessUser'] },
+        component: () => import('@/views/admin/DataCatalogDetail.vue')
+      },
+      {
+        path: '/orderList',
+        name: 'OrderList',
+        meta: { title: '订单列表', icon: 'table', roles: ['SuperAdmin', 'Admin', 'BusinessUser'] },
+        component: () => import('@/views/admin/DataCatalogList.vue')
+      }
+    ]
+  },
+  {
+    path: '/warehouse',
+    name: 'Warehouse',
+    redirect: '/warehouse',
+    meta: { title: '库存管理', icon: 'table', roles: ['SuperAdmin', 'Admin', 'BusinessUser'] },
+    component: Layout,
+    children: [
+      {
+        // hidden: true,
+        path: '/dataCatalogDetail',
+        name: 'DataCatalogDetail',
+        meta: { title: '数据字典详情', icon: 'form', roles: ['SuperAdmin', 'Admin', 'BusinessUser'] },
+        component: () => import('@/views/admin/DataCatalogDetail.vue')
+      },
+      {
+        path: '/dataCatalogList',
+        name: 'DataCatalogList',
+        meta: { title: '数据字典列表', icon: 'table', roles: ['SuperAdmin', 'Admin', 'BusinessUser'] },
         component: () => import('@/views/admin/DataCatalogList.vue')
       }
     ]

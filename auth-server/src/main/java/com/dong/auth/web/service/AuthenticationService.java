@@ -45,7 +45,7 @@ class JwtAuthenticationService implements AuthenticationService {
     public String createAuthentication(HttpServletRequest request, String userId) {
         UserDetail userDetail = userService.getUserDetail(userId);
         // 生成token
-        return JWTUtils.getToken(userDetail.getUserId(), userDetail.getUsername(), userDetail.getRealName());
+        return JWTUtils.getToken(userDetail);
     }
 
     @Override

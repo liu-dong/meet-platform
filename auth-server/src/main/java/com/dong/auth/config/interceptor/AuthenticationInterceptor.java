@@ -5,6 +5,7 @@ import com.dong.commoncore.exception.GlobalException;
 import com.dong.commoncore.model.UserDetail;
 import com.dong.commoncore.util.CurrentUserUtils;
 import com.dong.commoncore.util.JWTUtils;
+import com.dong.commoncore.util.ObjectUtils;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,10 +87,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         Claims claims = JWTUtils.getClaims(token);
         if (claims != null) {
             //将登录用户放到ThreadLocal变量变量中，方便业务获取当前登录用户
-            UserDetail userDetail = new UserDetail();
-            userDetail.setUserId(String.valueOf(claims.get("userId")));
-            userDetail.setUsername(String.valueOf(claims.get("username")));
-            userDetail.setRealName(String.valueOf(claims.get("realName")));
+            UserDetail userDetail = JWTUtils.convertUserDetail(claims);
             //当前用户放到ThreadLocal变量变量中
             CurrentUserUtils.set(userDetail);
             return true;
