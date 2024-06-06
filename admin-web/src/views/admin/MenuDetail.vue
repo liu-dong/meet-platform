@@ -56,8 +56,9 @@
         <el-switch v-model="ruleForm.hasChild" :active-value="1" :inactive-value="0" />
       </el-form-item>
       <el-form-item label="菜单角色" prop="roles">
-        <el-input v-model="ruleForm.roles" />
+        <role-checkbox-group :checked="checkedRoles"/>
       </el-form-item>
+      <el-form-item></el-form-item>
     </el-form>
     <div class="form-button">
       <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
@@ -68,9 +69,11 @@
 
 <script>
 import { findParentMenuList, getMenu, saveMenu } from '@/api/menu'
+import RoleCheckboxGroup from '@/views/admin/components/RoleCheckboxGroup.vue'
 
 export default {
   name: 'MenuDetail',
+  components: { RoleCheckboxGroup },
   data() {
     return {
       ruleForm: {
@@ -84,6 +87,8 @@ export default {
         menuStatus: 1,
         hasChild: false
       },
+      // 选中的角色
+      checkedRoles: [],
       rules: {
         menuName: [
           { required: true, message: '请填写菜单名称', trigger: 'blur' }

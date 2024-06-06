@@ -3,7 +3,7 @@ import axios from '@/axios/adminAxios'
 // 查找菜单树
 export function getMenuTree(params) {
   return axios({
-    url: '/menu/getMenuTree',
+    url: '/menuRoute/getMenuTree',
     method: 'get',
     params
   })
@@ -12,7 +12,7 @@ export function getMenuTree(params) {
 // 查询菜单列表
 export function findMenuList(params) {
   return axios({
-    url: '/menu/findMenuList',
+    url: '/menuRoute/findMenuList',
     method: 'get',
     params
   })
@@ -20,7 +20,7 @@ export function findMenuList(params) {
 
 export function getMenu(params) {
   return axios({
-    url: '/menu/getMenu',
+    url: '/menuRoute/getMenu',
     method: 'get',
     params
   })
@@ -29,7 +29,7 @@ export function getMenu(params) {
 // 保存菜单信息
 export function saveMenu(data) {
   return axios({
-    url: '/menu/saveMenu',
+    url: '/menuRoute/saveMenu',
     method: 'post',
     data
   })
@@ -38,7 +38,7 @@ export function saveMenu(data) {
 // 删除菜单信息
 export function deleteMenu(params) {
   return axios({
-    url: '/menu/deleteMenu',
+    url: '/menuRoute/deleteMenu',
     method: 'post',
     params
   })
@@ -46,7 +46,7 @@ export function deleteMenu(params) {
 
 export function findParentMenuList(params) {
   return axios({
-    url: '/menu/findParentMenuList',
+    url: '/menuRoute/findParentMenuList',
     method: 'get',
     params
   })
@@ -54,7 +54,7 @@ export function findParentMenuList(params) {
 
 export function findRouteList(params) {
   return axios({
-    url: '/menu/findRouteList',
+    url: '/menuRoute/findRouteList',
     method: 'get',
     params
   })

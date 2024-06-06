@@ -32,7 +32,7 @@ import java.util.Map;
 public class MenuRouteController {
 
     @Autowired
-    private MenuRouteService menuRouteService;
+    MenuRouteService menuRouteService;
 
     /**
      * 查询菜单信息列表
@@ -105,9 +105,8 @@ public class MenuRouteController {
      */
     @ApiOperation("查询菜单详细信息")
     @GetMapping("/getMenu")
-    @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult getMenu(String id) {
-        Menu menu = menuRouteService.getMenu(id);
+    public ResponseResult<MenuRouteVO> getMenu(String id) {
+        MenuRouteVO menu = menuRouteService.getMenu(id);
         return ResponseResult.success(menu, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

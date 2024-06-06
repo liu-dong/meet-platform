@@ -17,6 +17,7 @@ import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -184,11 +185,20 @@ public class MenuRouteServiceImpl implements MenuRouteService {
     }
 
     @Override
-    public Menu getMenu(String id) {
+    public MenuRouteVO getMenu(String id) {
         if (StringUtils.isBlank(id)) {
             throw new GlobalException("查询失败，id不能为空!");
         }
-        return menuRepository.findById(id).orElse(new Menu());
+        Menu menu = menuRepository.findById(id).orElse(new Menu());
+        MenuRoute menuRoute = menuRouteRepository.getByMenuId(menu.getId());
+        return convertMenuRouteVO(menu, menuRoute);
+    }
+
+    private MenuRouteVO convertMenuRouteVO(Menu menu, MenuRoute menuRoute) {
+        MenuRouteVO vo = new MenuRouteVO();
+        BeanUtils.copyProperties(menu, vo);
+        BeanUtils.copyProperties(menuRoute, vo);
+        return vo;
     }
 
     @Override

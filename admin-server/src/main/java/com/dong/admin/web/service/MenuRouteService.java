@@ -52,7 +52,7 @@ public interface MenuRouteService {
      * @param id
      * @return
      */
-    Menu getMenu(String id);
+    MenuRouteVO getMenu(String id);
 
     /**
      * 删除菜单信息
