@@ -18,7 +18,6 @@
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import { assignRoles, findUserRoleList } from '@/api/user'
-import { findAllRoleListMap } from '@/api/role'
 import RoleCheckboxGroup from '@/views/admin/components/RoleCheckboxGroup.vue'
 
 export default {
@@ -41,63 +40,31 @@ export default {
   data() {
     return {
       userTypeOption: [],
-      roleList: [], // 角色集合
       checkedRoles: [] // 选中的角色集合
     }
   },
   computed: {
     dataCatalogUtils() {
       return dataCatalogUtils
-    },
-    checkAll() {
-      return this.roleList.length === this.checkedRoles.length
-    },
-    isIndeterminate() {
-      return this.checkedRoles.length > 0 && this.checkedRoles.length < this.roleList.length
     }
   },
   created: async function() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
-    this.findAllRoleListMap()
     if (this.userId) {
       this.findUserRoleList(this.userId)
     }
   },
-
   methods: {
-    // 查询角色信息
-    findAllRoleListMap() {
-      findAllRoleListMap().then(res => {
-        if (res.code === 200) {
-          this.roleList = res.data
-        }
-      })
-    },
     // 查询用户已有的角色
     findUserRoleList(userId) {
       findUserRoleList({ userId: userId }).then(res => {
         if (res.code === 200) {
           this.checkedRoles = res.data
-          // 根据选中的角色数量来设置isIndeterminate和checkAll的状态
-          // if (this.checkedRoles.length > 0) {
-          //   // 如果有选中的角色
-          //   this.isIndeterminate = this.checkedRoles.length < this.roleList.length
-          //   this.checkAll = this.roleList.length === this.checkedRoles.length
-          // }
         }
       })
     },
     goBack() {
       this.$router.go(-1)// 返回上一层
-    },
-    handleCheckAllChange(val) {
-      this.checkedRoles = val ? this.roleList.map(item => item.roleCode) : []
-      this.isIndeterminate = false
-    },
-    handleCheckedRolesChange(value) {
-      const checkedCount = value.length
-      this.checkAll = checkedCount === this.roleList.length
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.roleList.length
     },
     // 分配角色
     assignRoles() {

@@ -2,7 +2,7 @@
   <div>
     <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
     <div style="margin: 15px 0;"/>
-    <el-checkbox-group v-model="checkedRoles" @change="handleCheckedRolesChange">
+    <el-checkbox-group v-model="checked" @change="handleCheckedChange">
       <el-checkbox v-for="role in roleList" :key="role.roleCode" :label="role.roleCode">
         {{ role.roleName }}
       </el-checkbox>
@@ -15,22 +15,25 @@ import { findAllRoleListMap } from '@/api/role'
 export default {
   name: 'RoleCheckboxGroup',
   props: {
-    checkedRoles: {
+    // 选中的值
+    checked: {
       type: Array,
       default: () => []
     }
   },
   data() {
     return {
-      roleList: [] // 初始化为空数组
+      roleList: [] // 角色列表，初始化为空数组
     }
   },
   computed: {
+    // 计算是否全部选中
     checkAll() {
-      return this.roleList.length === this.checkedRoles.length
+      return this.roleList.length === this.checked.length
     },
+    // 计算是否部分选中
     isIndeterminate() {
-      return this.checkedRoles.length > 0 && this.checkedRoles.length < this.roleList.length
+      return this.checked.length > 0 && this.checked.length < this.roleList.length
     }
   },
   created() {
@@ -46,15 +49,16 @@ export default {
         }
       })
     },
+    // 全选操作
     handleCheckAllChange(val) {
-      this.checkedRoles = val ? this.roleList.map(item => item.roleCode) : []
-      this.$emit('update:checkedRoles', this.checkedRoles)
+      this.checked = val ? this.roleList.map(item => item.roleCode) : []
+      // 修改选中的值
+      this.$emit('update:checked', this.checked)
     },
-    handleCheckedRolesChange(value) {
-      this.$emit('update:checkedRoles', value)
-      const checkedCount = value.length
-      this.checkAll = checkedCount === this.roleList.length
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.roleList.length
+    // 选中操作
+    handleCheckedChange(value) {
+      // 修改选中的值
+      this.$emit('update:checked', value)
     }
   }
 }
