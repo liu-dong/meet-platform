@@ -98,46 +98,89 @@ public class MenuRouteServiceImpl implements MenuRouteService {
 
     @Override
     public String saveMenu(MenuRouteDTO dto) {
-        Menu menu = new Menu();
-        MenuRoute route = new MenuRoute();
-        if (StringUtils.isEmpty(dto.getId())) {// 新增
-            String menuId = CommonUtils.getUUID();
-            menu.setId(menuId);
-            menu.setCreateTime(new Date());
-
-            route.setId(CommonUtils.getUUID());
-            route.setMenuId(menuId);
-            route.setCreateTime(new Date());
-        } else {
-            menu = menuRepository.findById(dto.getId()).orElse(new Menu());
-            route = menuRouteRepository.getByMenuId(dto.getId());
+        Date now = new Date();
+        Menu menu;
+        MenuRoute route;
+        // 新增
+        if (StringUtils.isEmpty(dto.getId())) {
+            menu = createMenu(dto, now);
+            route = createRoute(dto, menu.getId(), now);
+        } else {// 更新
+            menu = updateMenu(dto, now);
+            route = updateRoute(dto, menu.getId(), now);
         }
+        menuRouteRepository.save(route);
+        return menuRepository.save(menu).getId();
+    }
+
+    private Menu createMenu(MenuRouteDTO dto, Date now) {
+        Menu menu = new Menu();
+        menu.setId(CommonUtils.getUUID());
+        menu.setCreateTime(now);
+        populateMenuFields(menu, dto);
+        return menu;
+    }
+
+    private MenuRoute createRoute(MenuRouteDTO dto, String menuId, Date now) {
+        MenuRoute route = new MenuRoute();
+        route.setId(CommonUtils.getUUID());
+        route.setMenuId(menuId);
+        route.setCreateTime(now);
+        populateRouteFields(route, dto);
+        route.setComponent("Layout");
+        route.setAlwaysShow(false);
+        route.setHidden(false);
+        return route;
+    }
+
+    private Menu updateMenu(MenuRouteDTO dto, Date now) {
+        Menu menu = menuRepository.findById(dto.getId()).orElse(new Menu());
+        populateMenuFields(menu, dto);
+        menu.setUpdateTime(now);
+        return menu;
+    }
+
+    private MenuRoute updateRoute(MenuRouteDTO dto, String menuId, Date now) {
+        MenuRoute route = menuRouteRepository.getByMenuId(menuId);
+        populateRouteFields(route, dto);
+        route.setUpdateTime(now);
+        return route;
+    }
+
+    private void populateMenuFields(Menu menu, MenuRouteDTO dto) {
         menu.setParentId(dto.getParentId());
         menu.setMenuName(dto.getMenuName());
         menu.setMenuLevel(dto.getMenuLevel());
         menu.setMenuIcon(dto.getMenuIcon());
         menu.setMenuSort(dto.getMenuSort());
-        menu.setMenuUrl(dto.getMenuUrl());
+        menu.setMenuUrl(dto.getRoutePath());
         menu.setMenuPath(dto.getMenuPath());
         menu.setMenuStatus(dto.getMenuStatus());
         menu.setHasChild(dto.getHasChild());
-        menu.setUpdateTime(new Date());
+    }
 
-        route.setName(getRouteName(dto.getMenuUrl()));
+    private void populateRouteFields(MenuRoute route, MenuRouteDTO dto) {
+        route.setName(getRouteName(dto.getRoutePath()));
         route.setActiveMenu(dto.getActiveMenu());
-        route.setComponent("Layout");
-        route.setAlwaysShow(false);
-        route.setHidden(false);
         route.setRedirect(dto.getRedirect());
         route.setPermission(dto.getPermission());
-        route.setRoles(Arrays.toString(dto.getRoles()));
-        route.setUpdateTime(new Date());
-        menuRouteRepository.save(route);
-        return menuRepository.save(menu).getId();
+        route.setRoles(dto.getRoles());
     }
 
     private String getRouteName(String menuUrl) {
-        return null;
+        if (StringUtils.isBlank(menuUrl)) {
+            return menuUrl; // 返回原字符串，或根据需求可能抛出异常
+        }
+        // 如果第一个字符是'/'，则去除它
+        if (menuUrl.startsWith("/")) {
+            menuUrl = menuUrl.substring(1);
+        }
+        // 如果去除'/'后字符串为空，则直接返回
+        if (menuUrl.isEmpty()) {
+            return menuUrl;
+        }
+        // 将第一个字符转换为大写，然后拼接回其余的部分
+        return Character.toUpperCase(menuUrl.charAt(0)) + menuUrl.substring(1);
     }
 
     @Override
@@ -146,7 +189,6 @@ public class MenuRouteServiceImpl implements MenuRouteService {
             throw new GlobalException("查询失败，id不能为空!");
         }
         return menuRepository.findById(id).orElse(new Menu());
-
     }
 
     @Override

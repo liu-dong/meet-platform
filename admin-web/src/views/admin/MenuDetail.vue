@@ -22,25 +22,41 @@
       <el-form-item label="菜单名称" prop="menuName">
         <el-input v-model="ruleForm.menuName" />
       </el-form-item>
+      <el-form-item label="菜单编码" prop="permission">
+        <el-input v-model="ruleForm.hasChild" />
+      </el-form-item>
       <el-form-item label="菜单图标" prop="menuIcon">
         <el-input v-model="ruleForm.menuIcon" />
       </el-form-item>
       <el-form-item label="菜单路径" prop="menuPath">
         <el-input v-model="ruleForm.menuPath" />
       </el-form-item>
-      <el-form-item label="菜单地址" prop="menuUrl">
-        <el-input v-model="ruleForm.menuUrl" />
+      <el-form-item label="路由路径" prop="routePath">
+        <el-input v-model="ruleForm.routePath" />
       </el-form-item>
-      <el-form-item label="顺序" prop="menuOrder">
-        <el-input v-model="ruleForm.menuOrder" />
+      <el-form-item label="路由名称" prop="routeName">
+        <el-input v-model="ruleForm.routeName" />
       </el-form-item>
-      <el-form-item label="是否显示" prop="menuStatus">
+      <el-form-item label="重定向" prop="redirect">
+        <el-input v-model="ruleForm.redirect" />
+      </el-form-item>
+      <el-form-item label="激活菜单" prop="activeMenu">
+        <el-input v-model="ruleForm.activeMenu" />
+      </el-form-item>
+      <el-form-item label="顺序" prop="menuSort">
+        <el-input v-model="ruleForm.menuSort" />
+      </el-form-item>
+      <el-form-item label="是否隐藏" prop="menuStatus">
         <el-switch v-model="ruleForm.menuStatus" :active-value="1" :inactive-value="0" />
+      </el-form-item>
+      <el-form-item label="是否总是显示" prop="alwaysShow">
+        <el-switch v-model="ruleForm.alwaysShow" :active-value="1" :inactive-value="0" />
       </el-form-item>
       <el-form-item label="是否有子菜单" prop="hasChild">
         <el-switch v-model="ruleForm.hasChild" :active-value="1" :inactive-value="0" />
       </el-form-item>
-      <el-form-item>
+      <el-form-item label="菜单角色" prop="roles">
+        <el-input v-model="ruleForm.roles" />
       </el-form-item>
     </el-form>
     <div class="form-button">

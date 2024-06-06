@@ -12,7 +12,6 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/portal'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
-  debugger
   // 开始进度条
   NProgress.start()
   document.title = getPageTitle(to.meta.title)

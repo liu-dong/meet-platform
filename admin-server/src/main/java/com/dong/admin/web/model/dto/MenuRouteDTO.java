@@ -22,11 +22,14 @@ public class MenuRouteDTO {
     // 菜单排序
     private Integer menuSort;
 
-    // 菜单地址
-    private String menuUrl;
-
     // 菜单路径
     private String menuPath;
+
+    // 路由名称
+    private String routeName;
+
+    // 路由路径
+    private String routePath;
 
     // 菜单状态，是否显示
     private Integer menuStatus;
@@ -59,7 +62,7 @@ public class MenuRouteDTO {
     /**
      * 控制页面角色(你可以设置多个角色)
      */
-    private String[] roles;
+    private String roles;
 
     /**
      * 控制页面权限(每个菜单对应一个权限码)

@@ -6,15 +6,7 @@
       <div style="font-weight: bolder;">用户类型</div>
       <div style="color: #20a0ff">{{ dataCatalogUtils.getName(userType, userTypeOption) }}</div>
     </div>
-    <div class="middle">
-      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
-      <div style="margin: 15px 0;"/>
-      <el-checkbox-group v-model="checkedRoles" @change="handleCheckedRolesChange">
-        <el-checkbox v-for="role in roleList" :key="role.roleCode" :label="role.roleCode">
-          {{ role.roleName }}
-        </el-checkbox>
-      </el-checkbox-group>
-    </div>
+    <role-checkbox-group class="middle" :checked.sync="checkedRoles"/>
     <div class="bottom">
       <el-button type="primary" @click="assignRoles">保存</el-button>
       <el-button @click="goBack()">返回</el-button>
@@ -27,9 +19,11 @@ import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import { assignRoles, findUserRoleList } from '@/api/user'
 import { findAllRoleListMap } from '@/api/role'
+import RoleCheckboxGroup from '@/views/admin/components/RoleCheckboxGroup.vue'
 
 export default {
   name: 'UserRoleDetail',
+  components: { RoleCheckboxGroup },
   props: {
     userId: {
       type: String,

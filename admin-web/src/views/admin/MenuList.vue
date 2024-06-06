@@ -2,17 +2,17 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.menuName" class="filter-item" placeholder="菜单名称" />
+      <el-input v-model="listQuery.menuName" class="filter-item" placeholder="菜单名称"/>
       <el-select v-model="listQuery.menuLevel" class="filter-item" placeholder="菜单级别">
-        <el-option label="一级菜单" value="1" />
-        <el-option label="二级菜单" value="2" />
-        <el-option label="三级菜单" value="3" />
-        <el-option label="四级菜单" value="4" />
+        <el-option label="一级菜单" value="1"/>
+        <el-option label="二级菜单" value="2"/>
+        <el-option label="三级菜单" value="3"/>
+        <el-option label="四级菜单" value="4"/>
       </el-select>
-      <button-search class="filter-item" @search="findMenuList" />
-      <button-reset class="filter-item" @reset="reset" />
-      <button-add class="filter-item" @add="toDetail()" />
-      <button-delete class="filter-item" @delete="deleteInfo" />
+      <button-search class="filter-item" @search="findMenuList"/>
+      <button-reset class="filter-item" @reset="reset"/>
+      <button-add class="filter-item" @add="toDetail()"/>
+      <button-delete class="filter-item" @delete="deleteInfo"/>
     </div>
     <!--数据列表-->
     <el-table
@@ -25,18 +25,18 @@
       style="width: 100%;"
       @current-change="getCurrentRow"
     >
-      <el-table-column label="序号" type="index" width="60" align="center" />
+      <el-table-column label="序号" type="index" width="60" align="center"/>
       <el-table-column align="center" label="菜单名称" prop="menuName">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.menuName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="菜单路径" prop="menuPath" />
-      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="menuLevel" />
-      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="menuStatus" />
-      <el-table-column align="center" label="菜单顺序" prop="menuSort" />
-      <el-table-column align="center" label="路由名称" prop="routeName" />
-      <el-table-column align="center" label="路由路径" prop="routePath" />
+      <el-table-column align="center" label="菜单路径" prop="menuPath"/>
+      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="menuLevel"/>
+      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="menuStatus"/>
+      <el-table-column align="center" label="菜单顺序" prop="menuSort"/>
+      <el-table-column align="center" label="路由名称" prop="routeName"/>
+      <el-table-column align="center" label="路由路径" prop="routePath"/>
     </el-table>
     <!--分页-->
     <pagination
@@ -123,7 +123,7 @@ export default {
       })
     },
     toDetail: function(row) {
-      const id = row.id
+      const id = row ? row.id : undefined
       this.$router.push({ name: 'MenuDetail', params: { id: id } })
     },
     deleteInfo: function() {

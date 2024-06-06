@@ -56,7 +56,7 @@ public class AdminDataSourceConfig {
         return builder
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
-                .packages("com.dong.adminserver.web.entity", "com.dong.user.entity")
+                .packages("com.dong.admin.web.entity", "com.dong.user.entity")
                 .build();
     }
 
