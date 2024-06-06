@@ -1,3 +1,3 @@
 # Application Context Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.dong.adminserver.MyApplicationContextInitializer
+  com.dong.admin.MyApplicationContextInitializer
