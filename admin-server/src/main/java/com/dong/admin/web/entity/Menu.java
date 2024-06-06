@@ -50,14 +50,14 @@ public class Menu implements Serializable {
     private Integer menuSort;
 
     /**
-     * 路由名称
+     * 菜单链接，没有用“#”表示
      */
-    private String routeName;
+    private String menuUrl;
 
     /**
-     * 路由路径
+     * 菜单路径
      */
-    private String routePath;
+    private String menuPath;
 
     /**
      * 菜单状态 0：不显示、1：显示
@@ -128,22 +128,22 @@ public class Menu implements Serializable {
         this.menuSort = menuSort;
     }
 
-    @Column(name = "route_name")
-    public String getRouteName() {
-        return this.routeName;
+    @Column(name = "menu_url")
+    public String getMenuUrl() {
+        return this.menuUrl;
     }
 
-    public void setRouteName(String routeName) {
-        this.routeName = routeName;
+    public void setMenuUrl(String menuUrl) {
+        this.menuUrl = menuUrl;
     }
 
-    @Column(name = "route_path")
-    public String getRoutePath() {
-        return this.routePath;
+    @Column(name = "menu_path")
+    public String getMenuPath() {
+        return this.menuPath;
     }
 
-    public void setRoutePath(String routePath) {
-        this.routePath = routePath;
+    public void setMenuPath(String menuPath) {
+        this.menuPath = menuPath;
     }
 
     @Column(name = "menu_status")
