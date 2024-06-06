@@ -2,33 +2,32 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout'
 import AdminRouter from '@/router/adminRouter'
-import { findRouteList } from "@/api/menu";
 
 Vue.use(Router)
 
 /**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ * 注意: 当路由的子路由数量至少为1时，子菜单才会显示
+ * 具体详情参考: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * hidden: true                   如果设置为true，该项将不会在侧边栏中显示(默认是false)
+ * alwaysShow: true               如果设置为true，将始终显示根菜单
+ *                                如果没有设置alwaysShow且子路由数量超过一个时，
+ *                                它会变成嵌套模式，否则不显示根菜单
+ * redirect: noRedirect           如果设置了noRedirect，则在面包屑中不会重定向
+ * name:'router-name'             名称由<keep-alive>使用(必须设置!!!)
  * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
+ roles: ['admin','editor']    控制页面角色(你可以设置多个角色)
+ title: 'title'               显示在侧边栏和面包屑中的名称(推荐设置)
+ icon: 'svg-name'/'el-icon-x' 在侧边栏中显示的图标
+ breadcrumb: false            如果设置为false，该项将隐藏在面包屑中(默认是true)
+ activeMenu: '/example/list'  如果设置了路径，侧边栏将高亮你设置的路径
+ }
  */
 
 /**
  * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
+ * 一个不需要权限要求的基本页面
+ * 所有角色都可以访问
  */
 export const constantRoutes = [
   {
@@ -93,7 +92,7 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  mode: 'history', // require service support
+  mode: 'history', // 需要服务支持
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

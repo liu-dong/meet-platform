@@ -1,15 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm el-form">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="form">
       <el-form-item label="父级菜单" prop="parentId">
         <el-select v-model="ruleForm.parentId">
-          <el-option v-if="ruleForm.menuLevel === 1" label="/" value="1" />
           <el-option
-            v-for="item in parentMenu"
-            v-else
-            :key="item.id"
-            :label="item.menuName"
-            :value="item.id"
+            v-for="(item, index) in computedParentMenu"
+            :key="index"
+            :label="item.menuName || '/'"
+            :value="item.id || '1'"
           />
         </el-select>
       </el-form-item>
@@ -42,13 +40,11 @@
       <el-form-item label="是否有子菜单" prop="hasChild">
         <el-switch v-model="ruleForm.hasChild" :active-value="1" :inactive-value="0" />
       </el-form-item>
-      <div class="row">
-        <el-form-item>
-          <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-          <el-button @click="goBack()">返回</el-button>
-        </el-form-item>
-      </div>
     </el-form>
+    <div class="form-button">
+      <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+      <el-button @click="goBack()">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -85,6 +81,20 @@ export default {
         ]
       },
       parentMenu: []
+    }
+  },
+  computed: {
+    computedParentMenu() {
+      // 如果菜单级别是1，则仅显示根菜单选项
+      if (this.ruleForm.menuLevel === 1) {
+        return [{
+          id: '1', // 假设1代表根菜单的id
+          menuName: '/'
+        }]
+      } else {
+        // 否则返回可选的父级菜单列表
+        return this.parentMenu
+      }
     }
   },
   async created() {
@@ -151,35 +161,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
 
-}
-
-.top {
-  width: 100%;
-  height: 10%;
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: space-between;*/
-}
-
-.el-form {
-  /*border: 1px solid red;*/
-  padding: 20px 20%;
-  overflow: auto;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-content: center;
-
-}
-
-.row {
-  width: 80%;
-  margin-bottom: 22px;
-}
 </style>

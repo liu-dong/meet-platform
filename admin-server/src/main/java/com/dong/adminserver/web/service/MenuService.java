@@ -1,6 +1,7 @@
 package com.dong.adminserver.web.service;
 
 import com.dong.adminserver.web.entity.Menu;
+import com.dong.adminserver.web.model.RouteVO;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
 import com.dong.commoncore.model.PageVO;
@@ -28,6 +29,13 @@ public interface MenuService {
      * @return
      */
     List<Map<String, Object>> getMenuTree(int type);
+
+    /**
+     * 获取菜单路由列表
+     *
+     * @return
+     */
+    List<RouteVO> findRouteList();
 
     /**
      * 保存菜单信息

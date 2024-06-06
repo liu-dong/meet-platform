@@ -3,6 +3,7 @@ package com.dong.adminserver.web.service.impl;
 import com.dong.adminserver.constant.MenuConstant;
 import com.dong.adminserver.web.dao.MenuRepository;
 import com.dong.adminserver.web.entity.Menu;
+import com.dong.adminserver.web.model.RouteVO;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
 import com.dong.adminserver.web.service.MenuService;
@@ -40,8 +41,8 @@ public class MenuServiceImpl implements MenuService {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
         sql.append(" SELECT sm.id, sm.parent_id parentId, sm.menu_name menuName, sm.menu_level menuLevel, ");
-        sql.append(" sm.menu_icon menuIcon, sm.menu_order menuOrder, sm.menu_url menuUrl, ");
-        sql.append(" sm.menu_path menuPath, sm.menu_status menuStatus, sm.has_child hasChild,sm.create_time createTime ");
+        sql.append(" sm.menu_icon menuIcon, sm.menu_sort menuOrder, sm.route_name menuUrl, ");
+        sql.append(" sm.route_path menuPath, sm.menu_status menuStatus, sm.has_child hasChild,sm.create_time createTime ");
         sql.append(" FROM sys_menu sm ");
         sql.append(" WHERE 1 = 1 ");
         if (dto.getMenuStatus() != null) {
@@ -56,7 +57,7 @@ public class MenuServiceImpl implements MenuService {
             sql.append(" AND sm.has_child = ? ");
             params.add(dto.getHasChild());
         }
-        sql.append(" ORDER BY sm.menu_level,sm.menu_order,sm.menu_status ASC ");
+        sql.append(" ORDER BY sm.menu_level,sm.menu_sort,sm.menu_status ASC ");
         return commonDao.findListBySql(pagination, sql, params, MenuVO.class);
     }
 
@@ -74,10 +75,20 @@ public class MenuServiceImpl implements MenuService {
             result = getMenuTreeByRecursion("");
         } else if (2 == type) {
             // 根据所有菜单数据生成菜单树
-            List<Menu> menuList = menuRepository.findAllByMenuStatusOrderByMenuOrderAsc(CommonConstant.YES);
+            List<Menu> menuList = menuRepository.findAllByMenuStatusOrderByMenuSortAsc(CommonConstant.YES);
             result = getMenuTreeByALL(menuList);
         }
         return result;
+    }
+
+    @Override
+    public List<RouteVO> findRouteList() {
+        List<Menu> menuList = menuRepository.findAll();
+        return convertRouteVO(menuList);
+    }
+
+    private List<RouteVO> convertRouteVO(List<Menu> menuList) {
+        return null;
     }
 
     @Override
@@ -94,9 +105,9 @@ public class MenuServiceImpl implements MenuService {
         entity.setMenuName(dto.getMenuName());
         entity.setMenuLevel(dto.getMenuLevel());
         entity.setMenuIcon(dto.getMenuIcon());
-        entity.setMenuOrder(dto.getMenuOrder());
-        entity.setMenuUrl(dto.getMenuUrl());
-        entity.setMenuPath(dto.getMenuPath());
+        entity.setMenuSort(dto.getMenuOrder());
+        entity.setRouteName(dto.getMenuUrl());
+        entity.setRoutePath(dto.getMenuPath());
         entity.setMenuStatus(dto.getMenuStatus());
         entity.setHasChild(dto.getHasChild());
         entity.setUpdateTime(new Date());
@@ -233,9 +244,9 @@ public class MenuServiceImpl implements MenuService {
         Map<String, Object> map = new HashMap<>();
         map.put("id", menu.getId());
         map.put("title", menu.getMenuName());
-        map.put("url", menu.getMenuUrl());
+        map.put("url", menu.getRouteName());
         map.put("icon", menu.getMenuIcon());
-        map.put("order", menu.getMenuOrder());
+        map.put("order", menu.getMenuSort());
         map.put("children", childrenList);
         return map;
     }

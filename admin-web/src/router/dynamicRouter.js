@@ -2,8 +2,8 @@ import { findRouteList } from '@/api/menu'
 import Layout from '@/layout/index.vue'
 import router from '@/router/index'
 
-// 更新路由
-export async function fetchRouter() {
+// 获取路由
+export async function fetchRoutes() {
   const response = await findRouteList() // 调用API获取路由
   const routes = response.data // 假设路由数据在响应的data字段中
   addRoutes(routes) // 添加路由

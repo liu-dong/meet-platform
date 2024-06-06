@@ -54,7 +54,7 @@ export function findParentMenuList(params) {
 
 export function findRouteList(params) {
   return axios({
-    url: '/menu/findParentMenuList',
+    url: '/menu/findRouteList',
     method: 'get',
     params
   })

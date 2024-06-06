@@ -126,6 +126,23 @@ aside {
   // border: 1px solid red;
   flex-grow: 1; /* 让内层 div 占据所有可用空间 */
 
+  .form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+
+    .el-form-item {
+      width: 35%;
+
+      .el-select {
+        width: 100%;
+      }
+    }
+  }
+
   .form-button {
     margin-top: 10px;
     height: 10%;

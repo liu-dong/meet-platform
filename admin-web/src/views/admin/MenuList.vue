@@ -9,12 +9,10 @@
         <el-option label="三级菜单" value="3" />
         <el-option label="四级菜单" value="4" />
       </el-select>
-      <el-button v-waves round type="primary" @click="findMenuList">查询</el-button>
-      <el-button v-waves type="primary" icon="el-icon-search" @click="reset">
-        重置
-      </el-button>
-      <el-button v-waves plain type="primary" @click="toDetail">新增</el-button>
-      <el-button v-waves circle icon="el-icon-delete" type="danger" @click="deleteInfo" />
+      <button-search class="filter-item" @search="findMenuList" />
+      <button-reset class="filter-item" @reset="reset" />
+      <button-add class="filter-item" @add="toDetail()" />
+      <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <!--数据列表-->
     <el-table
@@ -54,10 +52,14 @@
 import { deleteMenu, findMenuList } from '@/api/menu'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
+import ButtonSearch from "@/components/Button/ButtonSearch.vue";
+import ButtonReset from "@/components/Button/ButtonReset.vue";
+import ButtonAdd from "@/components/Button/ButtonAdd.vue";
+import ButtonDelete from "@/components/Button/ButtonDelete.vue";
 
 export default {
   name: 'MenuList',
-  components: { Pagination },
+  components: { ButtonDelete, ButtonAdd, ButtonReset, ButtonSearch, Pagination },
   directives: { waves },
   data() {
     return {

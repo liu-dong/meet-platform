@@ -1,6 +1,7 @@
 package com.dong.adminserver.web.controller;
 
 import com.dong.adminserver.web.entity.Menu;
+import com.dong.adminserver.web.model.RouteVO;
 import com.dong.adminserver.web.model.dto.MenuDTO;
 import com.dong.adminserver.web.model.vo.MenuVO;
 import com.dong.adminserver.web.service.MenuService;
@@ -54,6 +55,17 @@ public class MenuController {
     public ResponseResult getMenuTree(Integer type) {
         List<Map<String, Object>> menuTree = menuService.getMenuTree(type);
         return ResponseResult.success(menuTree, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 获取菜单路由列表
+     *
+     * @return
+     */
+    @GetMapping("/findRouteList")
+    public ResponseResult findRouteList() {
+        List<RouteVO> routeList = menuService.findRouteList();
+        return ResponseResult.success(routeList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**

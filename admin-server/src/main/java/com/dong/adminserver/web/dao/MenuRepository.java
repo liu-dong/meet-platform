@@ -13,6 +13,6 @@ public interface MenuRepository extends JpaRepository<Menu, String> {
 
     List<Menu> getAllByMenuLevelAndMenuStatus(Integer menuLevel, Integer menuStatus);
 
-    List<Menu> findAllByMenuStatusOrderByMenuOrderAsc(Integer menuStatus);
+    List<Menu> findAllByMenuStatusOrderByMenuSortAsc(Integer menuStatus);
 
 }

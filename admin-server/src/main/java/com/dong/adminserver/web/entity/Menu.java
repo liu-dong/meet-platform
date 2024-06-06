@@ -47,17 +47,17 @@ public class Menu implements Serializable {
     /**
      * 菜单显示顺序
      */
-    private Integer menuOrder;
+    private Integer menuSort;
 
     /**
-     * 菜单链接，没有用“#”表示
+     * 路由名称
      */
-    private String menuUrl;
+    private String routeName;
 
     /**
-     * 菜单路径
+     * 路由路径
      */
-    private String menuPath;
+    private String routePath;
 
     /**
      * 菜单状态 0：不显示、1：显示
@@ -119,31 +119,31 @@ public class Menu implements Serializable {
         this.menuIcon = menuIcon;
     }
 
-    @Column(name = "menu_order")
-    public Integer getMenuOrder() {
-        return this.menuOrder;
+    @Column(name = "menu_sort")
+    public Integer getMenuSort() {
+        return this.menuSort;
     }
 
-    public void setMenuOrder(Integer menuOrder) {
-        this.menuOrder = menuOrder;
+    public void setMenuSort(Integer menuSort) {
+        this.menuSort = menuSort;
     }
 
-    @Column(name = "menu_url")
-    public String getMenuUrl() {
-        return this.menuUrl;
+    @Column(name = "route_name")
+    public String getRouteName() {
+        return this.routeName;
     }
 
-    public void setMenuUrl(String menuUrl) {
-        this.menuUrl = menuUrl;
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
 
-    @Column(name = "menu_path")
-    public String getMenuPath() {
-        return this.menuPath;
+    @Column(name = "route_path")
+    public String getRoutePath() {
+        return this.routePath;
     }
 
-    public void setMenuPath(String menuPath) {
-        this.menuPath = menuPath;
+    public void setRoutePath(String routePath) {
+        this.routePath = routePath;
     }
 
     @Column(name = "menu_status")

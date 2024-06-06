@@ -48,6 +48,8 @@ export const adminRouter = [
     path: '/role',
     name: 'Role',
     redirect: '/roleList',
+    alwaysShow: true,
+    meta: { title: '角色管理', icon: 'table', roles: ['SuperAdmin', 'Admin'] },
     component: Layout,
     children: [
       {
