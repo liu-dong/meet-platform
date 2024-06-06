@@ -2,11 +2,14 @@ package com.dong.admin.web.service.impl;
 
 import com.dong.admin.constant.MenuConstant;
 import com.dong.admin.web.dao.MenuRepository;
+import com.dong.admin.web.dao.MenuRouteRepository;
 import com.dong.admin.web.entity.Menu;
-import com.dong.admin.web.model.vo.RouteVO;
+import com.dong.admin.web.entity.MenuRoute;
 import com.dong.admin.web.model.dto.MenuDTO;
-import com.dong.admin.web.model.vo.MenuVO;
-import com.dong.admin.web.service.MenuService;
+import com.dong.admin.web.model.dto.MenuRouteDTO;
+import com.dong.admin.web.model.vo.MenuRouteVO;
+import com.dong.admin.web.model.vo.RouteVO;
+import com.dong.admin.web.service.MenuRouteService;
 import com.dong.commoncore.constant.CommonConstant;
 import com.dong.commoncore.dao.CommonDao;
 import com.dong.commoncore.exception.GlobalException;
@@ -21,10 +24,12 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 
 @Service
-public class MenuServiceImpl implements MenuService {
+public class MenuRouteServiceImpl implements MenuRouteService {
 
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private MenuRouteRepository menuRouteRepository;
 
     @Autowired
     private CommonDao commonDao;
@@ -37,28 +42,28 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public PageVO<MenuVO> findMenuList(MenuDTO dto, Pagination pagination) {
+    public PageVO<MenuRouteVO> findMenuList(MenuDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
-        sql.append(" SELECT sm.id, sm.parent_id parentId, sm.menu_name menuName, sm.menu_level menuLevel, ");
-        sql.append(" sm.menu_icon menuIcon, sm.menu_sort menuOrder, sm.menu_url menuUrl, ");
-        sql.append(" sm.menu_path menuPath, sm.menu_status menuStatus, sm.has_child hasChild,sm.create_time createTime ");
-        sql.append(" FROM sys_menu sm ");
+        sql.append(" SELECT t1.id,t1.menu_name menuName,t1.menu_level menuLevel,t1.menu_icon menuIcon,t1.menu_sort, ");
+        sql.append(" t1.menu_url routePath,t1.menu_path menuPath,t1.menu_status menuStatus,t2.`name` routeName ");
+        sql.append(" FROM sys_menu t1 ");
+        sql.append(" INNER JOIN sys_menu_route t2 ON t2.menu_id=t1.id ");
         sql.append(" WHERE 1 = 1 ");
         if (dto.getMenuStatus() != null) {
-            sql.append(" AND sm.menu_status = ? ");
+            sql.append(" AND t1.menu_status = ? ");
             params.add(dto.getMenuStatus());
         }
         if (dto.getMenuLevel() != null) {
-            sql.append(" AND sm.menu_level = ? ");
+            sql.append(" AND t1.menu_level = ? ");
             params.add(dto.getMenuLevel());
         }
         if (dto.getHasChild() != null) {
-            sql.append(" AND sm.has_child = ? ");
+            sql.append(" AND t1.has_child = ? ");
             params.add(dto.getHasChild());
         }
-        sql.append(" ORDER BY sm.menu_level,sm.menu_sort,sm.menu_status ASC ");
-        return commonDao.findListBySql(pagination, sql, params, MenuVO.class);
+        sql.append(" ORDER BY t1.menu_level,t1.menu_sort,t1.menu_status ASC ");
+        return commonDao.findListBySql(pagination, sql, params, MenuRouteVO.class);
     }
 
     /**
@@ -81,31 +86,58 @@ public class MenuServiceImpl implements MenuService {
         return result;
     }
 
+    @Override
+    public List<RouteVO> findRouteList() {
+        List<Menu> menuList = menuRepository.findAll();
+        return convertRouteVO(menuList);
+    }
+
     private List<RouteVO> convertRouteVO(List<Menu> menuList) {
         return null;
     }
 
     @Override
-    public Menu saveMenu(MenuDTO dto) {
-        Menu entity = new Menu();
-        if (StringUtils.isEmpty(dto.getId())) {//新增
-            entity.setId(CommonUtils.getUUID());
-            entity.setCreateTime(new Date());
+    public String saveMenu(MenuRouteDTO dto) {
+        Menu menu = new Menu();
+        MenuRoute route = new MenuRoute();
+        if (StringUtils.isEmpty(dto.getId())) {// 新增
+            String menuId = CommonUtils.getUUID();
+            menu.setId(menuId);
+            menu.setCreateTime(new Date());
+
+            route.setId(CommonUtils.getUUID());
+            route.setMenuId(menuId);
+            route.setCreateTime(new Date());
         } else {
-            entity = menuRepository.findById(dto.getId()).orElse(new Menu());
-            entity.setUpdateTime(new Date());
+            menu = menuRepository.findById(dto.getId()).orElse(new Menu());
+            route = menuRouteRepository.getByMenuId(dto.getId());
         }
-        entity.setParentId(dto.getParentId());
-        entity.setMenuName(dto.getMenuName());
-        entity.setMenuLevel(dto.getMenuLevel());
-        entity.setMenuIcon(dto.getMenuIcon());
-        entity.setMenuSort(dto.getMenuOrder());
-        entity.setMenuUrl(dto.getMenuUrl());
-        entity.setMenuPath(dto.getMenuPath());
-        entity.setMenuStatus(dto.getMenuStatus());
-        entity.setHasChild(dto.getHasChild());
-        entity.setUpdateTime(new Date());
-        return menuRepository.save(entity);
+        menu.setParentId(dto.getParentId());
+        menu.setMenuName(dto.getMenuName());
+        menu.setMenuLevel(dto.getMenuLevel());
+        menu.setMenuIcon(dto.getMenuIcon());
+        menu.setMenuSort(dto.getMenuSort());
+        menu.setMenuUrl(dto.getMenuUrl());
+        menu.setMenuPath(dto.getMenuPath());
+        menu.setMenuStatus(dto.getMenuStatus());
+        menu.setHasChild(dto.getHasChild());
+        menu.setUpdateTime(new Date());
+
+        route.setName(getRouteName(dto.getMenuUrl()));
+        route.setActiveMenu(dto.getActiveMenu());
+        route.setComponent("Layout");
+        route.setAlwaysShow(false);
+        route.setHidden(false);
+        route.setRedirect(dto.getRedirect());
+        route.setPermission(dto.getPermission());
+        route.setRoles(Arrays.toString(dto.getRoles()));
+        route.setUpdateTime(new Date());
+        menuRouteRepository.save(route);
+        return menuRepository.save(menu).getId();
+    }
+
+    private String getRouteName(String menuUrl) {
+        return null;
     }
 
     @Override
@@ -125,7 +157,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> sysMenus = new ArrayList<>();
         Menu entity = menuRepository.findById(id).orElse(new Menu());
         sysMenus.add(entity);
-        //判断是否有子菜单
+        // 判断是否有子菜单
         sysMenus.addAll(findChildrenMenuList(id));
         menuRepository.deleteAll(sysMenus);
 
@@ -144,7 +176,7 @@ public class MenuServiceImpl implements MenuService {
      */
     public List<Menu> findChildrenMenuList(String id) {
         List<Menu> result = new ArrayList<>();
-        //判断是否有子菜单
+        // 判断是否有子菜单
         List<Menu> childrenList = menuRepository.getAllByParentIdAndMenuStatus(id, CommonConstant.YES);
         if (!CollectionUtils.isEmpty(childrenList)) {
             result.addAll(childrenList);
@@ -165,7 +197,7 @@ public class MenuServiceImpl implements MenuService {
     private List<Map<String, Object>> getMenuTreeByRecursion(String parentId) {
         List<Map<String, Object>> menuMapList = new ArrayList<>();
         List<Menu> menuList;
-        if (StringUtils.isEmpty(parentId)) {//如果父菜单主键为空说明找的是一级菜单
+        if (StringUtils.isEmpty(parentId)) {// 如果父菜单主键为空说明找的是一级菜单
             menuList = menuRepository.getAllByMenuLevelAndMenuStatus(MenuConstant.FIRST_LEVEL_MENU, CommonConstant.YES);
         } else {
             menuList = menuRepository.getAllByParentIdAndMenuStatus(parentId, CommonConstant.YES);
@@ -175,10 +207,10 @@ public class MenuServiceImpl implements MenuService {
                 parentId = sysMenu.getId();
                 List<Map<String, Object>> childrenList = new ArrayList<>();
                 if (sysMenu.getHasChild() == 1) {
-                    //递归获取子菜单
+                    // 递归获取子菜单
                     childrenList = getMenuTreeByRecursion(parentId);
                 }
-                //转换菜单对象
+                // 转换菜单对象
                 Map<String, Object> map = convertMapMenu(sysMenu, childrenList);
                 menuMapList.add(map);
             }
@@ -196,10 +228,10 @@ public class MenuServiceImpl implements MenuService {
         List<Map<String, Object>> result = new ArrayList<>();
         for (Menu menu : menuList) {
             if (menu.getMenuLevel() == 1) {
-                //转换菜单对象
+                // 转换菜单对象
                 Map<String, Object> map = convertMapMenu(menu, null);
                 if (menu.getHasChild() == 1) {
-                    map.put("children", getChildrenMenuByRecursion(menuList, map));//获取子菜单
+                    map.put("children", getChildrenMenuByRecursion(menuList, map));// 获取子菜单
                 }
                 result.add(map);
             }
@@ -215,11 +247,11 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     private List<Map<String, Object>> getChildrenMenuByRecursion(List<Menu> menuList, Map<String, Object> parentMenu) {
-        List<Map<String, Object>> childrenList = new ArrayList<>();//子菜单列表
+        List<Map<String, Object>> childrenList = new ArrayList<>();// 子菜单列表
         for (Menu menu : menuList) {
             if (StringUtils.isNotBlank(menu.getParentId()) && parentMenu.get("id").equals(menu.getParentId())) {
                 Map<String, Object> childrenMenu = convertMapMenu(menu, null);
-                //递归获取子菜单
+                // 递归获取子菜单
                 childrenMenu.put("children", getChildrenMenuByRecursion(menuList, childrenMenu));
                 childrenList.add(childrenMenu);
             }

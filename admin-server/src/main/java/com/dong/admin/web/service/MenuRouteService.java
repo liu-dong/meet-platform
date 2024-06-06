@@ -1,16 +1,17 @@
 package com.dong.admin.web.service;
 
 import com.dong.admin.web.entity.Menu;
-import com.dong.admin.web.model.vo.RouteVO;
 import com.dong.admin.web.model.dto.MenuDTO;
-import com.dong.admin.web.model.vo.MenuVO;
+import com.dong.admin.web.model.dto.MenuRouteDTO;
+import com.dong.admin.web.model.vo.MenuRouteVO;
+import com.dong.admin.web.model.vo.RouteVO;
 import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.model.Pagination;
 
 import java.util.List;
 import java.util.Map;
 
-public interface MenuService {
+public interface MenuRouteService {
 
 
     /**
@@ -20,7 +21,7 @@ public interface MenuService {
      * @param pagination
      * @return
      */
-    PageVO<MenuVO> findMenuList(MenuDTO dto, Pagination pagination);
+    PageVO<MenuRouteVO> findMenuList(MenuDTO dto, Pagination pagination);
 
     /**
      * 查询菜单树
@@ -31,12 +32,19 @@ public interface MenuService {
     List<Map<String, Object>> getMenuTree(int type);
 
     /**
+     * 获取菜单路由列表
+     *
+     * @return
+     */
+    List<RouteVO> findRouteList();
+
+    /**
      * 保存菜单信息
      *
      * @param dto
      * @return
      */
-    Menu saveMenu(MenuDTO dto);
+    String saveMenu(MenuRouteDTO dto);
 
     /**
      * 查询菜单详细页面

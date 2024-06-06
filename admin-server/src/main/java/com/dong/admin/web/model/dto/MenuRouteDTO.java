@@ -1,13 +1,38 @@
-package com.dong.admin.web.model;
+package com.dong.admin.web.model.dto;
 
 import lombok.Data;
 
 /**
  * 路由
+ *
  * @author liudong 2024-06-06 09:28:05
  */
 @Data
-public class RouteVO {
+public class MenuRouteDTO {
+
+    private String id;
+    private String parentId;
+    private String menuName;
+    // 菜单级别（一级菜单、二级菜单）
+    private Integer menuLevel;
+
+    // 菜单图标
+    private String menuIcon;
+
+    // 菜单排序
+    private Integer menuSort;
+
+    // 菜单地址
+    private String menuUrl;
+
+    // 菜单路径
+    private String menuPath;
+
+    // 菜单状态，是否显示
+    private Integer menuStatus;
+
+    // 是否有子菜单
+    private Integer hasChild;
 
     /**
      * 如果设置为true，该项将不会在侧边栏中显示(默认是false)
@@ -22,16 +47,6 @@ public class RouteVO {
     private boolean alwaysShow;
 
     /**
-     * 路由路径
-     */
-    private String path;
-
-    /**
-     * 路由名称由<keep-alive>使用(必须设置!!!)
-     */
-    private String name;
-
-    /**
      * 如果设置了noRedirect，则在面包屑中不会重定向
      */
     private String redirect;
@@ -40,20 +55,6 @@ public class RouteVO {
      * 页面布局（目前仅有Layout）
      */
     private String component = "Layout";
-
-    /**
-     * 路由元数据
-     */
-    private MetaVO meta;
-
-    /**
-     * 子路由
-     */
-    private RouteVO[] children;
-}
-
-@Data
-class MetaVO {
 
     /**
      * 控制页面角色(你可以设置多个角色)
@@ -69,11 +70,6 @@ class MetaVO {
      * 显示在侧边栏和面包屑中的名称(推荐设置)
      */
     private String title;
-
-    /**
-     * 在侧边栏中显示的图标
-     */
-    private String icon;
 
     /**
      * 如果设置为false，该项将隐藏在面包屑中(默认是true)

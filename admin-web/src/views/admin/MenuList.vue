@@ -2,8 +2,8 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.menuName" placeholder="菜单名称" />
-      <el-select v-model="listQuery.menuLevel" placeholder="菜单级别">
+      <el-input v-model="listQuery.menuName" class="filter-item" placeholder="菜单名称" />
+      <el-select v-model="listQuery.menuLevel" class="filter-item" placeholder="菜单级别">
         <el-option label="一级菜单" value="1" />
         <el-option label="二级菜单" value="2" />
         <el-option label="三级菜单" value="3" />
@@ -31,11 +31,12 @@
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.menuName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="顺序" prop="menuOrder" />
-      <el-table-column :formatter="formatLevel" align="center" label="级别" prop="menuLevel" />
       <el-table-column align="center" label="菜单路径" prop="menuPath" />
-      <el-table-column align="center" label="地址" prop="menuUrl" />
-      <el-table-column :formatter="formatStatus" align="center" label="状态" prop="menuStatus" />
+      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="menuLevel" />
+      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="menuStatus" />
+      <el-table-column align="center" label="菜单顺序" prop="menuSort" />
+      <el-table-column align="center" label="路由名称" prop="routeName" />
+      <el-table-column align="center" label="路由路径" prop="routePath" />
     </el-table>
     <!--分页-->
     <pagination
@@ -52,10 +53,10 @@
 import { deleteMenu, findMenuList } from '@/api/menu'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
-import ButtonSearch from "@/components/Button/ButtonSearch.vue";
-import ButtonReset from "@/components/Button/ButtonReset.vue";
-import ButtonAdd from "@/components/Button/ButtonAdd.vue";
-import ButtonDelete from "@/components/Button/ButtonDelete.vue";
+import ButtonSearch from '@/components/Button/ButtonSearch.vue'
+import ButtonReset from '@/components/Button/ButtonReset.vue'
+import ButtonAdd from '@/components/Button/ButtonAdd.vue'
+import ButtonDelete from '@/components/Button/ButtonDelete.vue'
 
 export default {
   name: 'MenuList',
@@ -123,7 +124,7 @@ export default {
     },
     toDetail: function(row) {
       const id = row.id
-      this.$router.push({ name: 'MenuDetail', params: { id: id }})
+      this.$router.push({ name: 'MenuDetail', params: { id: id } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow

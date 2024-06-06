@@ -40,6 +40,8 @@
       <el-form-item label="是否有子菜单" prop="hasChild">
         <el-switch v-model="ruleForm.hasChild" :active-value="1" :inactive-value="0" />
       </el-form-item>
+      <el-form-item>
+      </el-form-item>
     </el-form>
     <div class="form-button">
       <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
