@@ -7,14 +7,14 @@
       default-expand-all
       node-key="id"
     >
-        <span slot-scope="{ node, data }" class="custom-tree-node">
-          <span @click="toDetail(data.id)">{{ node.label }}({{ data.permissionCode }})</span>
-          <span>
-            <el-button size="mini" type="text" @click="() => append(data,1)">添加同级权限</el-button>
-            <el-button size="mini" type="text" @click="() => append(data,2)">添加子级权限</el-button>
-            <el-button size="mini" type="text" @click="() => remove(node, data)">删除当前权限</el-button>
-          </span>
+      <span slot-scope="{ node, data }" class="custom-tree-node">
+        <span @click="toDetail(data.id)">{{ node.label }}({{ data.permissionCode }})</span>
+        <span>
+          <el-button size="mini" type="text" @click="() => append(data,1)">添加同级权限</el-button>
+          <el-button size="mini" type="text" @click="() => append(data,2)">添加子级权限</el-button>
+          <el-button size="mini" type="text" @click="() => remove(node, data)">删除当前权限</el-button>
         </span>
+      </span>
     </el-tree>
   </div>
 </template>

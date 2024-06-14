@@ -1,14 +1,10 @@
 package com.dong.admin.web.controller;
 
-import com.dong.admin.web.entity.Menu;
 import com.dong.admin.web.entity.MenuRoute;
-import com.dong.admin.web.model.dto.MenuDTO;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
-import com.dong.admin.web.model.vo.MenuVO;
 import com.dong.admin.web.model.vo.RouteVO;
 import com.dong.admin.web.service.MenuRouteService;
-import com.dong.admin.web.service.MenuService;
 import com.dong.commoncore.annotation.Log;
 import com.dong.commoncore.constant.ResponseMessageConstant;
 import com.dong.commoncore.model.PageVO;
@@ -79,8 +75,7 @@ public class MenuRouteController {
      */
     @ApiOperation("获取父级菜单")
     @GetMapping("/findParentMenuRouteList")
-    @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult findParentMenuRouteList() {
+    public ResponseResult<List<MenuRoute>> findParentMenuRouteList() {
         List<MenuRoute> parentMenuRouteList = menuRouteService.findParentMenuRouteList();
         return ResponseResult.success(parentMenuRouteList, ResponseMessageConstant.QUERY_SUCCESS);
     }
@@ -119,7 +114,7 @@ public class MenuRouteController {
      */
     @ApiOperation("删除菜单信息")
     @PostMapping("/deleteMenuRoute")
-    public ResponseResult deleteMenuRoute(String id) {
+    public ResponseResult<?> deleteMenuRoute(String id) {
         menuRouteService.deleteMenuRoute(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }

@@ -129,3 +129,11 @@ export function recursionData(data) {
     return item
   })
 }
+
+export function camelToUpperSnake(camelStr) {
+  // 替换小驼峰中的每一个小写字母+大写字母组合为_大写字母，并且将整体结果转换为大写
+  // 例如：myExampleString -> MY_EXAMPLE_STRING
+  return camelStr
+    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .toUpperCase()
+}

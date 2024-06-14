@@ -33,7 +33,7 @@ public class MenuRouteDTO {
     /**
      * 菜单所在的层级
      */
-    private Long level;
+    private Integer level;
 
     /**
      * 小图标样式
@@ -43,19 +43,24 @@ public class MenuRouteDTO {
     /**
      * 菜单显示顺序
      */
-    private Long sort;
+    private Integer sort;
+
+    /**
+     * 是否有子菜单
+     */
+    private Integer hasChild;
 
     /**
      * 如果设置为true，该项将不会在侧边栏中显示(默认是false)
      */
-    private Boolean hidden = false;
+    private Integer hidden;
 
     /**
      * 如果设置为true，将始终显示根菜单
      * 如果没有设置alwaysShow且子路由数量超过一个时，
      * 它会变成嵌套模式，否则不显示根菜单
      */
-    private boolean alwaysShow;
+    private Integer alwaysShow;
 
     /**
      * 如果设置了noRedirect，则在面包屑中不会重定向
@@ -92,3 +97,4 @@ public class MenuRouteDTO {
      */
     private String activeMenu;
 }
+

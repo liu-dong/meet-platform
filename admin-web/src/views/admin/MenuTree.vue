@@ -1,30 +1,28 @@
 <template>
-  <div class="custom-tree-container" style="margin-left: 50px;">
-    <div class="block">
-      <p>菜单树</p>
-      <el-tree
-        :data="menuTreeData"
-        :expand-on-click-node="false"
-        draggable
-        default-expand-all
-        node-key="id"
-      >
-        <span slot-scope="{ node, data }" class="custom-tree-node">
-          <span @click="toDetail(data.id)">{{ node.label }}</span>
-          <span>
-            <el-button size="mini" type="text" @click="() => append(data,1)">添加同级菜单</el-button>
-            <el-button size="mini" type="text" @click="() => append(data,2)">添加子级菜单</el-button>
-            <el-button size="mini" type="text" @click="() => remove(node, data)">删除当前菜单</el-button>
-          </span>
+  <div class="app-container">
+    <div style="font-weight: bolder;margin-bottom: 10px">菜单树</div>
+    <el-tree
+      :data="menuTreeData"
+      :expand-on-click-node="false"
+      draggable
+      default-expand-all
+      node-key="id"
+    >
+      <span slot-scope="{ node, data }" class="custom-tree-node">
+        <span @click="toDetail(data.id)">{{ node.label }}</span>
+        <span>
+          <el-button size="mini" type="text" @click="() => append(data,1)">添加同级菜单</el-button>
+          <el-button size="mini" type="text" @click="() => append(data,2)">添加子级菜单</el-button>
+          <el-button size="mini" type="text" @click="() => remove(node, data)">删除当前菜单</el-button>
         </span>
-      </el-tree>
-    </div>
+      </span>
+    </el-tree>
   </div>
 </template>
 
 <script>
 
-import { deleteMenu, getMenuTree } from '@/api/menu'
+import { deleteMenuRoute, getMenuRouteTree } from '@/api/menu'
 
 export default {
   name: 'MenuTree',
@@ -34,11 +32,11 @@ export default {
     }
   },
   created() {
-    this.getMenuTree()
+    this.getMenuRouteTree()
   },
   methods: {
-    getMenuTree: function() { // 获取菜单信息
-      getMenuTree({ type: 2 }).then(res => {
+    getMenuRouteTree: function() { // 获取菜单信息
+      getMenuRouteTree({ type: 2 }).then(res => {
         if (res.code === 200) {
           const treeData = res.data
           this.recursionData(treeData)
@@ -47,13 +45,13 @@ export default {
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: 'MenuDetail', params: { id: id }})
+      this.$router.push({ name: 'MenuDetail', params: { id: id } })
     },
     // 添加菜单 type：1表示同级菜单，2表示子级菜单
     append(data, type) {
       console.log(data, type)
       const id = data.id
-      this.$router.push({ name: 'MenuDetail', params: { id: id, type: type }})
+      this.$router.push({ name: 'MenuDetail', params: { id: id, type: type } })
     },
     remove(node) {
       console.log('node：', node)
@@ -62,11 +60,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteMenu(this.$qs.stringify({ id: node.key })).then(res => {
+        deleteMenuRoute({ id: node.key }).then(res => {
           console.log(res.data)
           this.$message({ message: res.message, duration: 2000 })
           if (res.code === 200) {
-            this.getMenuTree()
+            this.getMenuRouteTree()
           }
         })
       }).catch(() => {
@@ -92,6 +90,11 @@ export default {
 </script>
 
 <style>
+
+.el-tree {
+  width: 50%;
+}
+
 .custom-tree-node {
   flex: 1;
   display: flex;

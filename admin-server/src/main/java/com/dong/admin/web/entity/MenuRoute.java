@@ -57,6 +57,11 @@ public class MenuRoute implements Serializable {
 	private Integer sort;
 
 	/**
+	 * 是否有子菜单 0：无 1：有
+	 */
+	private Integer hasChild;
+
+	/**
 	 * 是否隐藏  0：不隐藏、1：隐藏
 	 */
 	private Integer hidden;
@@ -166,6 +171,15 @@ public class MenuRoute implements Serializable {
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	@Column(name = "has_child")
+	public Integer getHasChild() {
+		return this.hasChild;
+	}
+
+	public void setHasChild(Integer hasChild) {
+		this.hasChild = hasChild;
 	}
 
 	@Column(name = "hidden" )

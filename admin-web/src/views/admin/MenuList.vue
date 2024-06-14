@@ -31,7 +31,6 @@
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="菜单路径" prop="menuPath"/>
       <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="level"/>
       <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="hidden"/>
       <el-table-column align="center" label="菜单顺序" prop="sort"/>
@@ -86,7 +85,7 @@ export default {
     },
     formatLevel: function(row) {
       let level
-      switch (row.menuLevel) {
+      switch (row.level) {
         case 1:
           level = '一级菜单'
           break
