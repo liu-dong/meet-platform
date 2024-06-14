@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout'
-import AdminRouter from '@/router/adminRouter'
+// import AdminRouter from '@/router/adminRouter'
 
 Vue.use(Router)
 
@@ -53,7 +53,7 @@ export const constantRoutes = [
       }
     ]
   },
-  ...AdminRouter,
+  // ...AdminRouter,
   {
     path: '/plan',
     component: Layout,

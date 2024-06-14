@@ -4,9 +4,10 @@ import Layout from '@/layout/index.vue'
 // 获取路由
 export async function fetchRoutes() {
   const response = await findRouteList() // 调用API获取路由
-  const routes = response.data // 假设路由数据在响应的data字段中
-  debugger
-  return convertRoutes(routes) // 转换路由
+  // 转换路由
+  const routes = convertRoutes(response.data)
+  console.log('路由：', routes)
+  return routes
 }
 
 // 添加路由
@@ -28,6 +29,5 @@ function convertRoutes(routes) {
 
 // 加载页面
 function loadView(view) {
-  debugger
   return () => import(`@/views/${view}.vue`)
 }
