@@ -60,7 +60,7 @@ public class Menu implements Serializable {
     private String menuPath;
 
     /**
-     * 菜单状态 0：不显示、1：显示
+     * 菜单状态 0：显示、1：不显示
      */
     private Integer menuStatus;
 

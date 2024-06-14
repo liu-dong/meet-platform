@@ -10,37 +10,45 @@ import lombok.Data;
 @Data
 public class MenuRouteDTO {
 
+    /**
+     * 主键
+     */
     private String id;
+
+    /**
+     * 上级菜单ID
+     */
     private String parentId;
-    private String menuName;
-    // 菜单级别（一级菜单、二级菜单）
-    private Integer menuLevel;
 
-    // 菜单图标
-    private String menuIcon;
+    /**
+     * 路由名称
+     */
+    private String name;
 
-    // 菜单排序
-    private Integer menuSort;
+    /**
+     * 路由路径
+     */
+    private String path;
 
-    // 菜单路径
-    private String menuPath;
+    /**
+     * 菜单所在的层级
+     */
+    private Long level;
 
-    // 路由名称
-    private String routeName;
+    /**
+     * 小图标样式
+     */
+    private String icon;
 
-    // 路由路径
-    private String routePath;
-
-    // 菜单状态，是否显示
-    private Integer menuStatus;
-
-    // 是否有子菜单
-    private Integer hasChild;
+    /**
+     * 菜单显示顺序
+     */
+    private Long sort;
 
     /**
      * 如果设置为true，该项将不会在侧边栏中显示(默认是false)
      */
-    private boolean hidden = false;
+    private Boolean hidden = false;
 
     /**
      * 如果设置为true，将始终显示根菜单
@@ -77,7 +85,7 @@ public class MenuRouteDTO {
     /**
      * 如果设置为false，该项将隐藏在面包屑中(默认是true)
      */
-    private boolean breadcrumb = true;
+    private Boolean breadcrumb = true;
 
     /**
      * 如果设置了路径，侧边栏将高亮你设置的路径

@@ -1,6 +1,7 @@
 package com.dong.admin.web.service;
 
 import com.dong.admin.web.entity.Menu;
+import com.dong.admin.web.entity.MenuRoute;
 import com.dong.admin.web.model.dto.MenuDTO;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
@@ -21,7 +22,7 @@ public interface MenuRouteService {
      * @param pagination
      * @return
      */
-    PageVO<MenuRouteVO> findMenuList(MenuDTO dto, Pagination pagination);
+    PageVO<MenuRouteVO> findMenuRouteList(MenuRouteDTO dto, Pagination pagination);
 
     /**
      * 查询菜单树
@@ -29,7 +30,7 @@ public interface MenuRouteService {
      * @param type （查询菜单树类型 1：根据递归获取菜单树(多次访问数据库)、2：根据所有菜单数据生成菜单树（访问一次菜单））
      * @return
      */
-    List<Map<String, Object>> getMenuTree(int type);
+    List<Map<String, Object>> getMenuRouteTree(int type);
 
     /**
      * 获取菜单路由列表
@@ -44,7 +45,7 @@ public interface MenuRouteService {
      * @param dto
      * @return
      */
-    String saveMenu(MenuRouteDTO dto);
+    String saveMenuRoute(MenuRouteDTO dto);
 
     /**
      * 查询菜单详细页面
@@ -52,19 +53,19 @@ public interface MenuRouteService {
      * @param id
      * @return
      */
-    MenuRouteVO getMenu(String id);
+    MenuRouteVO getMenuRoute(String id);
 
     /**
      * 删除菜单信息
      *
      * @param id
      */
-    void deleteMenu(String id);
+    void deleteMenuRoute(String id);
 
     /**
      * 获取父级菜单
      *
      * @return
      */
-    List<Menu> findParentMenuList();
+    List<MenuRoute> findParentMenuRouteList();
 }

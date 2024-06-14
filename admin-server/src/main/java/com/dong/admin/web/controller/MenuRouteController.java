@@ -1,6 +1,7 @@
 package com.dong.admin.web.controller;
 
 import com.dong.admin.web.entity.Menu;
+import com.dong.admin.web.entity.MenuRoute;
 import com.dong.admin.web.model.dto.MenuDTO;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
@@ -40,10 +41,10 @@ public class MenuRouteController {
      * @return
      */
     @ApiOperation("查询菜单信息列表")
-    @GetMapping("/findMenuList")
+    @GetMapping("/findMenuRouteList")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult<PageVO<MenuRouteVO>> findMenuList(MenuDTO dto, Pagination pagination) {
-        PageVO<MenuRouteVO> menuList = menuRouteService.findMenuList(dto, pagination);
+    public ResponseResult<PageVO<MenuRouteVO>> findMenuRouteList(MenuRouteDTO dto, Pagination pagination) {
+        PageVO<MenuRouteVO> menuList = menuRouteService.findMenuRouteList(dto, pagination);
         return ResponseResult.success(menuList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -53,10 +54,10 @@ public class MenuRouteController {
      * @return
      */
     @ApiOperation("获取菜单树")
-    @GetMapping("/getMenuTree")
+    @GetMapping("/getMenuRouteTree")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult getMenuTree(Integer type) {
-        List<Map<String, Object>> menuTree = menuRouteService.getMenuTree(type);
+    public ResponseResult getMenuRouteTree(Integer type) {
+        List<Map<String, Object>> menuTree = menuRouteService.getMenuRouteTree(type);
         return ResponseResult.success(menuTree, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -77,11 +78,11 @@ public class MenuRouteController {
      * @return
      */
     @ApiOperation("获取父级菜单")
-    @GetMapping("/findParentMenuList")
+    @GetMapping("/findParentMenuRouteList")
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
-    public ResponseResult findParentMenuList() {
-        List<Menu> parentMenuList = menuRouteService.findParentMenuList();
-        return ResponseResult.success(parentMenuList, ResponseMessageConstant.QUERY_SUCCESS);
+    public ResponseResult findParentMenuRouteList() {
+        List<MenuRoute> parentMenuRouteList = menuRouteService.findParentMenuRouteList();
+        return ResponseResult.success(parentMenuRouteList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**
@@ -91,9 +92,9 @@ public class MenuRouteController {
      * @return
      */
     @ApiOperation("保存菜单信息")
-    @PostMapping("/saveMenu")
-    public ResponseResult<String> saveMenu(@RequestBody MenuRouteDTO dto) {
-        String id = menuRouteService.saveMenu(dto);
+    @PostMapping("/saveMenuRoute")
+    public ResponseResult<String> saveMenuRoute(@RequestBody MenuRouteDTO dto) {
+        String id = menuRouteService.saveMenuRoute(dto);
         return ResponseResult.success(id, ResponseMessageConstant.SAVE_SUCCESS);
     }
 
@@ -104,9 +105,9 @@ public class MenuRouteController {
      * @return
      */
     @ApiOperation("查询菜单详细信息")
-    @GetMapping("/getMenu")
-    public ResponseResult<MenuRouteVO> getMenu(String id) {
-        MenuRouteVO menu = menuRouteService.getMenu(id);
+    @GetMapping("/getMenuRoute")
+    public ResponseResult<MenuRouteVO> getMenuRoute(String id) {
+        MenuRouteVO menu = menuRouteService.getMenuRoute(id);
         return ResponseResult.success(menu, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
@@ -117,9 +118,9 @@ public class MenuRouteController {
      * @return
      */
     @ApiOperation("删除菜单信息")
-    @PostMapping("/deleteMenu")
-    public ResponseResult deleteMenu(String id) {
-        menuRouteService.deleteMenu(id);
+    @PostMapping("/deleteMenuRoute")
+    public ResponseResult deleteMenuRoute(String id) {
+        menuRouteService.deleteMenuRoute(id);
         return ResponseResult.success(ResponseMessageConstant.DELETE_SUCCESS);
     }
 }

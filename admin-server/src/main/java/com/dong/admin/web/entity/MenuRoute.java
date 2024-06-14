@@ -13,7 +13,7 @@ import java.util.Date;
 @Table (name = "sys_menu_route")
 public class MenuRoute implements Serializable {
 
-	private static final long serialVersionUID = 8922990668179753982L;
+	private static final long serialVersionUID = 6715021842612159742L;
 
 
 	/**
@@ -22,9 +22,14 @@ public class MenuRoute implements Serializable {
 	private String id;
 
 	/**
-	 * 菜单ID
+	 * 上级菜单ID
 	 */
-	private String menuId;
+	private String parentId;
+
+	/**
+	 * 菜单名称
+	 */
+	private String title;
 
 	/**
 	 * 路由名称
@@ -32,14 +37,34 @@ public class MenuRoute implements Serializable {
 	private String name;
 
 	/**
+	 * 路由路径
+	 */
+	private String path;
+
+	/**
+	 * 菜单所在的层级
+	 */
+	private Integer level;
+
+	/**
+	 * 小图标样式
+	 */
+	private String icon;
+
+	/**
+	 * 菜单显示顺序
+	 */
+	private Integer sort;
+
+	/**
 	 * 是否隐藏  0：不隐藏、1：隐藏
 	 */
-	private Boolean hidden;
+	private Integer hidden;
 
 	/**
 	 * 是否总是显示  0：不显示、1：显示
 	 */
-	private Boolean alwaysShow;
+	private Integer alwaysShow;
 
 	/**
 	 * 页面布局
@@ -52,6 +77,11 @@ public class MenuRoute implements Serializable {
 	private String redirect;
 
 	/**
+	 * 高亮的路径
+	 */
+	private String activeMenu;
+
+	/**
 	 * 页面角色
 	 */
 	private String roles;
@@ -61,17 +91,12 @@ public class MenuRoute implements Serializable {
 	 */
 	private String permission;
 
-	/**
-	 * 高亮的路径
-	 */
-	private String activeMenu;
-
 	private Date createTime;
 
 	private Date updateTime;
 
 	@Id
- 	@Column(name = "id" )
+	@Column(name = "id" )
 	public String getId() {
 		return this.id;
 	}
@@ -80,16 +105,25 @@ public class MenuRoute implements Serializable {
 		this.id = id;
 	}
 
- 	@Column(name = "menu_id" )
-	public String getMenuId() {
-		return this.menuId;
+	@Column(name = "parent_id" )
+	public String getParentId() {
+		return this.parentId;
 	}
 
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
- 	@Column(name = "name" )
+	@Column(name = "title" )
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Column(name = "name" )
 	public String getName() {
 		return this.name;
 	}
@@ -98,25 +132,61 @@ public class MenuRoute implements Serializable {
 		this.name = name;
 	}
 
- 	@Column(name = "hidden" )
-	public Boolean getHidden() {
+	@Column(name = "path" )
+	public String getPath() {
+		return this.path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	@Column(name = "level" )
+	public Integer getLevel() {
+		return this.level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	@Column(name = "icon" )
+	public String getIcon() {
+		return this.icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	@Column(name = "sort" )
+	public Integer getSort() {
+		return this.sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	@Column(name = "hidden" )
+	public Integer getHidden() {
 		return this.hidden;
 	}
 
-	public void setHidden(Boolean hidden) {
+	public void setHidden(Integer hidden) {
 		this.hidden = hidden;
 	}
 
- 	@Column(name = "always_show" )
-	public Boolean getAlwaysShow() {
+	@Column(name = "always_show" )
+	public Integer getAlwaysShow() {
 		return this.alwaysShow;
 	}
 
-	public void setAlwaysShow(Boolean alwaysShow) {
+	public void setAlwaysShow(Integer alwaysShow) {
 		this.alwaysShow = alwaysShow;
 	}
 
- 	@Column(name = "component" )
+	@Column(name = "component" )
 	public String getComponent() {
 		return this.component;
 	}
@@ -125,7 +195,7 @@ public class MenuRoute implements Serializable {
 		this.component = component;
 	}
 
- 	@Column(name = "redirect" )
+	@Column(name = "redirect" )
 	public String getRedirect() {
 		return this.redirect;
 	}
@@ -134,25 +204,7 @@ public class MenuRoute implements Serializable {
 		this.redirect = redirect;
 	}
 
- 	@Column(name = "roles" )
-	public String getRoles() {
-		return this.roles;
-	}
-
-	public void setRoles(String roles) {
-		this.roles = roles;
-	}
-
- 	@Column(name = "permission" )
-	public String getPermission() {
-		return this.permission;
-	}
-
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
-
- 	@Column(name = "activeMenu" )
+	@Column(name = "active_menu" )
 	public String getActiveMenu() {
 		return this.activeMenu;
 	}
@@ -161,7 +213,25 @@ public class MenuRoute implements Serializable {
 		this.activeMenu = activeMenu;
 	}
 
- 	@Column(name = "create_time" )
+	@Column(name = "roles" )
+	public String getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+	@Column(name = "permission" )
+	public String getPermission() {
+		return this.permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+
+	@Column(name = "create_time" )
 	public Date getCreateTime() {
 		return this.createTime;
 	}
@@ -170,7 +240,7 @@ public class MenuRoute implements Serializable {
 		this.createTime = createTime;
 	}
 
- 	@Column(name = "update_time" )
+	@Column(name = "update_time" )
 	public Date getUpdateTime() {
 		return this.updateTime;
 	}
@@ -178,5 +248,4 @@ public class MenuRoute implements Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-
 }

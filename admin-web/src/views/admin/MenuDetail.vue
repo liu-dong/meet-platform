@@ -13,47 +13,54 @@
       </el-form-item>
       <el-form-item label="菜单级别" prop="menuOrder">
         <el-select v-model="ruleForm.menuLevel" placeholder="请选择菜单级别">
-          <el-option label="一级菜单" :value="1" />
-          <el-option label="二级菜单" :value="2" />
-          <el-option label="三级菜单" :value="3" />
-          <el-option label="四级菜单" :value="4" />
+          <el-option label="一级菜单" :value="1"/>
+          <el-option label="二级菜单" :value="2"/>
+          <el-option label="三级菜单" :value="3"/>
+          <el-option label="四级菜单" :value="4"/>
         </el-select>
       </el-form-item>
       <el-form-item label="菜单名称" prop="menuName">
-        <el-input v-model="ruleForm.menuName" />
+        <el-input v-model="ruleForm.menuName"/>
       </el-form-item>
       <el-form-item label="菜单编码" prop="permission">
-        <el-input v-model="ruleForm.hasChild" />
+        <el-input v-model="ruleForm.permission"/>
       </el-form-item>
       <el-form-item label="菜单图标" prop="menuIcon">
-        <el-input v-model="ruleForm.menuIcon" />
+        <el-select v-model="ruleForm.menuIcon" placeholder="请选择菜单图标">
+          <el-option value="table">
+            <svg-icon icon-class="table"/>
+          </el-option>
+          <el-option value="form">
+            <svg-icon icon-class="form"/>
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="菜单路径" prop="menuPath">
-        <el-input v-model="ruleForm.menuPath" />
+        <el-input v-model="ruleForm.menuPath"/>
       </el-form-item>
       <el-form-item label="路由路径" prop="routePath">
-        <el-input v-model="ruleForm.routePath" />
+        <el-input v-model="ruleForm.routePath"/>
       </el-form-item>
       <el-form-item label="路由名称" prop="routeName">
-        <el-input v-model="ruleForm.routeName" />
+        <el-input v-model="ruleForm.routeName"/>
       </el-form-item>
       <el-form-item label="重定向" prop="redirect">
-        <el-input v-model="ruleForm.redirect" />
+        <el-input v-model="ruleForm.redirect"/>
       </el-form-item>
       <el-form-item label="激活菜单" prop="activeMenu">
-        <el-input v-model="ruleForm.activeMenu" />
+        <el-input v-model="ruleForm.activeMenu"/>
       </el-form-item>
       <el-form-item label="顺序" prop="menuSort">
-        <el-input v-model="ruleForm.menuSort" />
+        <el-input v-model="ruleForm.menuSort"/>
       </el-form-item>
       <el-form-item label="是否隐藏" prop="menuStatus">
-        <el-switch v-model="ruleForm.menuStatus" :active-value="1" :inactive-value="0" />
+        <el-switch v-model="ruleForm.menuStatus" :active-value="1" :inactive-value="0"/>
       </el-form-item>
       <el-form-item label="是否总是显示" prop="alwaysShow">
-        <el-switch v-model="ruleForm.alwaysShow" :active-value="1" :inactive-value="0" />
+        <el-switch v-model="ruleForm.alwaysShow" :active-value="1" :inactive-value="0"/>
       </el-form-item>
       <el-form-item label="是否有子菜单" prop="hasChild">
-        <el-switch v-model="ruleForm.hasChild" :active-value="1" :inactive-value="0" />
+        <el-switch v-model="ruleForm.hasChild" :active-value="1" :inactive-value="0"/>
       </el-form-item>
       <el-form-item label="菜单角色" prop="roles">
         <role-checkbox-group :checked="checkedRoles"/>
@@ -77,15 +84,10 @@ export default {
   data() {
     return {
       ruleForm: {
-        menuName: '',
-        menuIcon: '',
         menuOrder: 1,
-        parentId: '1',
         menuLevel: 1,
-        menuPath: '',
-        menuUrl: '',
         menuStatus: 1,
-        hasChild: false
+        hasChild: 1
       },
       // 选中的角色
       checkedRoles: [],
@@ -166,7 +168,11 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveMenu(this.ruleForm).then(res => {
+          const data = this.ruleForm
+          if (this.checkedRoles.length > 0) {
+            data.roles = this.checkedRoles.join(',')
+          }
+          saveMenu(data).then(res => {
             this.$message({ message: res.message, duration: 2000 })
             if (res.code === 200) {
               this.ruleForm = res.data

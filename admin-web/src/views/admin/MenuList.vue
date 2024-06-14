@@ -2,14 +2,14 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.menuName" class="filter-item" placeholder="菜单名称"/>
-      <el-select v-model="listQuery.menuLevel" class="filter-item" placeholder="菜单级别">
+      <el-input v-model="listQuery.title" class="filter-item" placeholder="菜单名称"/>
+      <el-select v-model="listQuery.level" class="filter-item" placeholder="菜单级别">
         <el-option label="一级菜单" value="1"/>
         <el-option label="二级菜单" value="2"/>
         <el-option label="三级菜单" value="3"/>
         <el-option label="四级菜单" value="4"/>
       </el-select>
-      <button-search class="filter-item" @search="findMenuList"/>
+      <button-search class="filter-item" @search="findMenuRouteList"/>
       <button-reset class="filter-item" @reset="reset"/>
       <button-add class="filter-item" @add="toDetail()"/>
       <button-delete class="filter-item" @delete="deleteInfo"/>
@@ -26,17 +26,17 @@
       @current-change="getCurrentRow"
     >
       <el-table-column label="序号" type="index" width="60" align="center"/>
-      <el-table-column align="center" label="菜单名称" prop="menuName">
+      <el-table-column align="center" label="菜单名称" prop="title">
         <template slot-scope="{row}">
-          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.menuName }}</span>
+          <span style="color: #409EFF;" @click="toDetail(row)">{{ row.title }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="菜单路径" prop="menuPath"/>
-      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="menuLevel"/>
-      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="menuStatus"/>
-      <el-table-column align="center" label="菜单顺序" prop="menuSort"/>
-      <el-table-column align="center" label="路由名称" prop="routeName"/>
-      <el-table-column align="center" label="路由路径" prop="routePath"/>
+      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="level"/>
+      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="hidden"/>
+      <el-table-column align="center" label="菜单顺序" prop="sort"/>
+      <el-table-column align="center" label="路由名称" prop="name"/>
+      <el-table-column align="center" label="路由路径" prop="path"/>
     </el-table>
     <!--分页-->
     <pagination
@@ -44,13 +44,13 @@
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
-      @pagination="findMenuList"
+      @pagination="findMenuRouteList"
     />
   </div>
 </template>
 
 <script>
-import { deleteMenu, findMenuList } from '@/api/menu'
+import { deleteMenuRoute, findMenuRouteList } from '@/api/menu'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 import ButtonSearch from '@/components/Button/ButtonSearch.vue'
@@ -71,18 +71,18 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        menuName: undefined,
-        menuLevel: undefined
+        title: undefined,
+        level: undefined
       },
       currentRow: {}
     }
   },
   created() {
-    this.findMenuList()
+    this.findMenuRouteList()
   },
   methods: {
     formatStatus: function(row) {
-      return row.menuStatus === 1 ? '显示' : '不显示'
+      return row.menuStatus === 1 ? '不显示' : '显示'
     },
     formatLevel: function(row) {
       let level
@@ -108,13 +108,13 @@ export default {
       this.listQuery = {
         page: 1,
         limit: 10,
-        menuName: undefined,
-        menuLevel: undefined
+        title: undefined,
+        level: undefined
       }
     },
-    findMenuList: function() { // 获取菜单信息
+    findMenuRouteList: function() { // 获取菜单信息
       this.listLoading = true
-      findMenuList(this.listQuery).then(res => {
+      findMenuRouteList(this.listQuery).then(res => {
         if (res.code === 200) {
           this.list = res.data.dataList
           this.total = res.data.total
@@ -132,11 +132,11 @@ export default {
         this.$message({ message: '请选择要删除的数据', duration: 2000 })
         return
       }
-      deleteMenu({ id: currentRow.id }).then(res => {
+      deleteMenuRoute({ id: currentRow.id }).then(res => {
         console.log(res.data)
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
-          this.findMenuList()
+          this.findMenuRouteList()
         }
       })
     },
