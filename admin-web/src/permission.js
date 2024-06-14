@@ -6,7 +6,7 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import checkRole from '@/utils/permission'
-import { fetchRoutes } from "@/router/dynamicRouter";
+import adminRouter from "@/router/adminRouter";
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -29,10 +29,13 @@ router.beforeEach(async(to, from, next) => {
           // get user info
           await store.dispatch('user/getInfo')
           // 基于用户角色，动态获取并加载路由
-          const accessedRoutes = await fetchRoutes()
-          accessedRoutes.forEach(route => {
-            router.addRoute(route) // 动态添加可访问路由表
+          const accessedRoutes = adminRouter// await fetchRoutes()
+          store.dispatch('GenerateRoutes', accessedRoutes).then(() => { // 存储路由
+            router.addRoutes(accessedRoutes) // 动态添加可访问路由表
+            next({ ...to, replace: true })
           })
+          await store.dispatch('SetSidebarRouters', accessedRoutes)
+          // router.addRoutes(store.getters.sidebarRouters) // 动态添加可访问路由表
           // hack方法，确保addRoutes已完成
           next({ ...to, replace: true })
         } catch (error) {
