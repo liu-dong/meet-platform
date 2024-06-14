@@ -1,11 +1,8 @@
 package com.dong.admin.web.service.impl;
 
 import com.dong.admin.constant.MenuConstant;
-import com.dong.admin.web.dao.MenuRepository;
 import com.dong.admin.web.dao.MenuRouteRepository;
-import com.dong.admin.web.entity.Menu;
 import com.dong.admin.web.entity.MenuRoute;
-import com.dong.admin.web.model.dto.MenuDTO;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
 import com.dong.admin.web.model.vo.RouteVO;
@@ -90,7 +87,32 @@ public class MenuRouteServiceImpl implements MenuRouteService {
     }
 
     private List<RouteVO> convertRouteVO(List<MenuRoute> menuList) {
-        return null;
+        Map<String, RouteVO> mappedRoutes = new HashMap<>();
+        // 一级路由
+        List<RouteVO> oneLevelRoutes = new ArrayList<>();
+        // Step 1: 先转换所有菜单项为RouteVO对象，并存入Map中以便快速访问
+        for (MenuRoute menu : menuList) {
+            RouteVO routeVO = new RouteVO(menu);
+            mappedRoutes.put(menu.getId(), routeVO);
+            if (menu.getLevel() == 1) {
+                oneLevelRoutes.add(routeVO);
+            }
+        }
+        // Step 2: 处理子菜单
+        for (MenuRoute menu : menuList) {
+            if (menu.getLevel() == 1) {
+                continue;
+            }
+            RouteVO childRoute = mappedRoutes.get(menu.getId());
+            RouteVO parentRoute = mappedRoutes.get(menu.getParentId());
+            if (parentRoute != null) {
+                if (parentRoute.getChildren() == null) {
+                    parentRoute.setChildren(new ArrayList<>());
+                }
+                parentRoute.getChildren().add(childRoute);
+            }
+        }
+        return oneLevelRoutes;
     }
 
     @Override

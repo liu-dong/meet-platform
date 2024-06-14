@@ -1,12 +1,20 @@
 package com.dong.admin.web.model.vo;
 
+import com.dong.admin.web.entity.MenuRoute;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+
 
 /**
  * 路由
+ *
  * @author liudong 2024-06-06 09:28:05
  */
 @Data
+@NoArgsConstructor
 public class RouteVO {
 
     /**
@@ -49,7 +57,27 @@ public class RouteVO {
     /**
      * 子路由
      */
-    private RouteVO[] children;
+    private List<RouteVO> children;
+
+    public RouteVO(MenuRoute menu) {
+        this.hidden = menu.getHidden() == 1;
+        this.alwaysShow = menu.getAlwaysShow() == 1;
+        this.path = menu.getPath();
+        this.name = menu.getName();
+        this.redirect = menu.getRedirect();
+        this.component = menu.getComponent();
+        // 设置meta信息
+        this.meta = new MetaVO();
+        if (StringUtils.isNotBlank(menu.getRoles())) {
+            this.meta.setRoles(menu.getRoles().split(","));
+        }
+        this.meta.setPermission(menu.getPermission());
+        this.meta.setTitle(menu.getTitle());
+        this.meta.setIcon(menu.getIcon());
+        // 默认设置breadcrumb为true，如果需要可以更改
+        this.meta.setBreadcrumb(true);
+        this.meta.setActiveMenu(menu.getActiveMenu());
+    }
 }
 
 @Data

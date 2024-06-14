@@ -63,7 +63,7 @@ public class MenuRouteController {
      * @return
      */
     @GetMapping("/findRouteList")
-    public ResponseResult findRouteList() {
+    public ResponseResult<List<RouteVO>> findRouteList() {
         List<RouteVO> routeList = menuRouteService.findRouteList();
         return ResponseResult.success(routeList, ResponseMessageConstant.QUERY_SUCCESS);
     }
