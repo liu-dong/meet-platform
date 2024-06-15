@@ -1,4 +1,4 @@
-import { constantRoutes } from '@/router'
+import { constantRoutes } from '@/router/route'
 
 const permission = {
   state: {

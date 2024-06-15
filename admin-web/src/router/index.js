@@ -1,53 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/layout'
 import NProgress from 'nprogress'
 import getPageTitle from '@/utils/get-page-title'
 import { getToken } from '@/utils/auth'
 import store from '@/store'
 import { fetchRoutes } from '@/router/dynamicRoute'
-import { checkRoutePermission, otherRoutes } from '@/router/route'
+import { checkRoutePermission, constantRoutes, otherRoutes } from '@/router/route'
 import { Message } from 'element-ui'
 
 Vue.use(Router)
 
-/**
- * constantRoutes
- * 一个不需要权限要求的基本页面
- * 所有角色都可以访问
- */
-export const constantRoutes = [
-  {
-    path: '/portal',
-    component: () => import('@/views/portal/index'),
-    hidden: true
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/home',
-    children: [
-      {
-        path: '/home',
-        name: 'Home',
-        component: () => import('@/views/home/index'),
-        meta: { title: '首页', icon: 'dashboard' }
-      }
-    ]
-  }
-  // ...AdminRouter
-]
-
-const createRouter = () => new Router({
-  mode: 'history', // 需要服务支持
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () => {
+  return new Router({
+    mode: 'history', // 需要服务支持
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
+}
 
 // 创建路由
 const router = createRouter()

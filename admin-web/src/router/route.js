@@ -1,13 +1,12 @@
 import Layout from '@/layout'
 import checkRole from '@/utils/permission'
-import adminRoute from '@/router/adminRoute'
 
 /**
  * constantRoutes
  * 一个不需要权限要求的基本页面
  * 所有角色都可以访问
  */
-export const constantRoute = [
+export const constantRoutes = [
   {
     path: '/portal',
     component: () => import('@/views/portal/index'),
@@ -30,9 +29,9 @@ export const constantRoute = [
         meta: { title: '首页', icon: 'dashboard' }
       }
     ]
-  },
-  ...adminRoute,
-  ...otherRoutes
+  }
+  // ...adminRoute,
+  // ...otherRoutes
 
 ]
 
