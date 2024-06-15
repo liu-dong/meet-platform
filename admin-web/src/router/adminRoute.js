@@ -1,6 +1,24 @@
 import Layout from '@/layout'
 
-export const adminRouter = [
+/**
+ * 注意: 当路由的子路由数量至少为1时，子菜单才会显示
+ * 具体详情参考: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ *
+ * hidden: true                   如果设置为true，该项将不会在侧边栏中显示(默认是false)
+ * alwaysShow: true               如果设置为true，将始终显示根菜单
+ *                                如果没有设置alwaysShow且子路由数量超过一个时，
+ *                                它会变成嵌套模式，否则不显示根菜单
+ * redirect: noRedirect           如果设置了noRedirect，则在面包屑中不会重定向
+ * name:'router-name'             名称由<keep-alive>使用(必须设置!!!)
+ * meta : {
+ *    roles: ['admin','editor']    控制页面角色(你可以设置多个角色)
+ *    title: 'title'               显示在侧边栏和面包屑中的名称(推荐设置)
+ *    icon: 'svg-name'/'el-icon-x' 在侧边栏中显示的图标
+ *    breadcrumb: false            如果设置为false，该项将隐藏在面包屑中(默认是true)
+ *    activeMenu: '/example/list'  如果设置了路径，侧边栏将高亮你设置的路径
+ * }
+ */
+export const adminRoute = [
   {
     path: '/user',
     name: 'User',
@@ -254,4 +272,4 @@ export const adminRouter = [
   }
 ]
 
-export default adminRouter
+export default adminRoute

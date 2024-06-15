@@ -1,4 +1,4 @@
-import router, { route_404 } from './router'
+import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -6,7 +6,8 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import checkRole from '@/utils/permission'
-import { fetchRoutes } from '@/router/dynamicRouter'
+import { fetchRoutes } from '@/router/dynamicRoute'
+import { otherRoutes } from '@/router/route'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -30,7 +31,7 @@ router.beforeEach(async(to, from, next) => {
           await store.dispatch('user/getInfo')
           // 基于用户角色，动态获取并加载路由
           const accessedRoutes = await fetchRoutes() // adminRouter//
-          accessedRoutes.push(route_404)
+          accessedRoutes.push(...otherRoutes)
           store.dispatch('GenerateRoutes', accessedRoutes).then(() => { // 存储路由
             router.addRoutes(accessedRoutes) // 动态添加可访问路由表
             next({ ...to, replace: true })
