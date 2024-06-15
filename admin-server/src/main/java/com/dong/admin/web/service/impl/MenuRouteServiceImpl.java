@@ -76,7 +76,7 @@ public class MenuRouteServiceImpl implements MenuRouteService {
             result = getMenuTreeByRecursion("");
         } else if (2 == type) {
             // 根据所有菜单数据生成菜单树
-            List<MenuRoute> menuRouteList = menuRouteRepository.findAllByHiddenOrderBySortAsc(CommonConstant.YES);
+            List<MenuRoute> menuRouteList = menuRouteRepository.findAllByHiddenOrderBySortAsc(CommonConstant.NO);
             result = getMenuTreeByALL(menuRouteList);
         }
         return result;

@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     formatStatus: function(row) {
-      return row.menuStatus === 1 ? '不显示' : '显示'
+      return row.hidden === 1 ? '隐藏' : '显示'
     },
     formatLevel: function(row) {
       let level
