@@ -5,7 +5,7 @@
       v-if="hasOneShowingChild(item.children, item) && !item.alwaysShow && (!onlyOneChild.children || onlyOneChild.noShowingChildren)"
     >
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
+        <el-menu-item :class="{'submenu-title-noDropdown':!isNest}" :index="resolvePath(onlyOneChild.path)">
           <item :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" :title="onlyOneChild.meta.title"/>
         </el-menu-item>
       </app-link>
@@ -18,9 +18,9 @@
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
+        :base-path="resolvePath(child.path)"
         :is-nest="true"
         :item="child"
-        :base-path="resolvePath(child.path)"
         class="nest-menu"
       />
     </el-submenu>
@@ -63,7 +63,7 @@ export default {
   computed: {
     // 用户角色
     userRoles() {
-      return this.$store.state.user.roles;
+      return this.$store.state.user.roles
     }
   },
   methods: {
@@ -88,8 +88,8 @@ export default {
       if (showingChildren.length === 0) {
         if (this.hasMenuPermission(parent)) {
           // 如果父节点有权限，则只显示这一个父节点（即使它没有显示的子节点）
-          this.onlyOneChild = { ...parent, path: '', noShowingChildren: true };
-          return true;
+          this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
+          return true
         }
         return false
       }

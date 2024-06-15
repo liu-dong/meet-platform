@@ -16,10 +16,12 @@ import com.dong.commoncore.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuRouteServiceImpl implements MenuRouteService {
@@ -82,7 +84,9 @@ public class MenuRouteServiceImpl implements MenuRouteService {
 
     @Override
     public List<RouteVO> findRouteList() {
-        List<MenuRoute> menuList = menuRouteRepository.findAll();
+        // 创建一个Sort对象，指定按number字段升序排序
+        Sort sort = Sort.by(Sort.Direction.ASC, "sort");
+        List<MenuRoute> menuList = menuRouteRepository.findAll(sort);
         return convertRouteVO(menuList);
     }
 

@@ -86,10 +86,10 @@ export const constantRoutes = [
     path: '/404',
     component: () => import('@/views/error-page/404'),
     hidden: true
-  },
-  // 404页面必须放在最后
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
+
+export const route_404 = { path: '*', redirect: '/404', hidden: true }
 
 const createRouter = () => new Router({
   mode: 'history', // 需要服务支持
