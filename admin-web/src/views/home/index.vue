@@ -7,7 +7,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { websocketUrl } from '@/utils/global'
-import { fetchRoutes } from '@/router/dynamicRouter'
 
 export default {
   name: 'Dashboard',
@@ -25,7 +24,6 @@ export default {
     if (this.websocket === null) {
       this.init()
     }
-    fetchRoutes()
   },
   destroyed() {
     // 销毁监听
