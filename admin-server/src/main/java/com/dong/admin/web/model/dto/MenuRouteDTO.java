@@ -70,7 +70,7 @@ public class MenuRouteDTO {
     /**
      * 页面布局（目前仅有Layout）
      */
-    private String component = "Layout";
+    private String component;
 
     /**
      * 控制页面角色(你可以设置多个角色)

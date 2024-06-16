@@ -1,9 +1,8 @@
 package com.dong.admin.web.service;
 
-import com.dong.admin.web.entity.Menu;
 import com.dong.admin.web.entity.MenuRoute;
-import com.dong.admin.web.model.dto.MenuDTO;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
+import com.dong.admin.web.model.vo.MenuRouteTreeVO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
 import com.dong.admin.web.model.vo.RouteVO;
 import com.dong.commoncore.model.PageVO;
@@ -23,6 +22,15 @@ public interface MenuRouteService {
      * @return
      */
     PageVO<MenuRouteVO> findMenuRouteList(MenuRouteDTO dto, Pagination pagination);
+
+    /**
+     * 查询菜单树列表
+     *
+     * @param dto
+     * @param pagination
+     * @return
+     */
+    PageVO<MenuRouteTreeVO> findMenuRouteTreeList(MenuRouteDTO dto, Pagination pagination);
 
     /**
      * 查询菜单树

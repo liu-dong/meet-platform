@@ -17,6 +17,14 @@ export function findMenuRouteList(params) {
     params
   })
 }
+// 查询菜单列表
+export function findMenuRouteTreeList(params) {
+  return axios({
+    url: '/menuRoute/findMenuRouteTreeList',
+    method: 'get',
+    params
+  })
+}
 
 export function getMenuRoute(params) {
   return axios({

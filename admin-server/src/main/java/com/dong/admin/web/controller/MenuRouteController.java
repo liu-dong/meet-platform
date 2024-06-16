@@ -2,6 +2,7 @@ package com.dong.admin.web.controller;
 
 import com.dong.admin.web.entity.MenuRoute;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
+import com.dong.admin.web.model.vo.MenuRouteTreeVO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
 import com.dong.admin.web.model.vo.RouteVO;
 import com.dong.admin.web.service.MenuRouteService;
@@ -41,6 +42,17 @@ public class MenuRouteController {
     @Log(moduleCode = "admin-server", moduleName = "系统服务", operateType = "select")
     public ResponseResult<PageVO<MenuRouteVO>> findMenuRouteList(MenuRouteDTO dto, Pagination pagination) {
         PageVO<MenuRouteVO> menuList = menuRouteService.findMenuRouteList(dto, pagination);
+        return ResponseResult.success(menuList, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 查询菜单树列表
+     *
+     * @return
+     */
+    @GetMapping("/findMenuRouteTreeList")
+    public ResponseResult<PageVO<MenuRouteTreeVO>> findMenuRouteTreeList(MenuRouteDTO dto, Pagination pagination) {
+        PageVO<MenuRouteTreeVO> menuList = menuRouteService.findMenuRouteTreeList(dto, pagination);
         return ResponseResult.success(menuList, ResponseMessageConstant.QUERY_SUCCESS);
     }
 

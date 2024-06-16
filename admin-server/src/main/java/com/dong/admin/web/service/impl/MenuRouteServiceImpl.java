@@ -4,6 +4,7 @@ import com.dong.admin.constant.MenuConstant;
 import com.dong.admin.web.dao.MenuRouteRepository;
 import com.dong.admin.web.entity.MenuRoute;
 import com.dong.admin.web.model.dto.MenuRouteDTO;
+import com.dong.admin.web.model.vo.MenuRouteTreeVO;
 import com.dong.admin.web.model.vo.MenuRouteVO;
 import com.dong.admin.web.model.vo.RouteVO;
 import com.dong.admin.web.service.MenuRouteService;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class MenuRouteServiceImpl implements MenuRouteService {
@@ -44,7 +44,7 @@ public class MenuRouteServiceImpl implements MenuRouteService {
     public PageVO<MenuRouteVO> findMenuRouteList(MenuRouteDTO dto, Pagination pagination) {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
-        sql.append(" SELECT id,title,`name`,path,`level`,sort,hidden FROM sys_menu_route ");
+        sql.append(" SELECT id,title,`name`,path,`level`,sort,hidden,has_child FROM sys_menu_route ");
         sql.append(" WHERE 1 = 1 ");
         if (StringUtils.isNotBlank(dto.getTitle())) {
             sql.append(" AND title LIKE ? ");
@@ -60,6 +60,46 @@ public class MenuRouteServiceImpl implements MenuRouteService {
         }
         sql.append(" ORDER BY `level`,sort,hidden ASC ");
         return commonDao.findListBySql(pagination, sql, params, MenuRouteVO.class);
+    }
+
+    public List<MenuRouteVO> findMenuRouteList(MenuRouteDTO dto) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> params = new ArrayList<>();
+        sql.append(" SELECT id,title,`name`,path,`level`,sort,hidden,has_child,parent_id FROM sys_menu_route ");
+        sql.append(" WHERE 1 = 1 ");
+        if (StringUtils.isNotBlank(dto.getTitle())) {
+            sql.append(" AND title LIKE ? ");
+            params.add("%" + dto.getTitle() + "%");
+        }
+        if (dto.getLevel() != null) {
+            sql.append(" AND `level` = ? ");
+            params.add(dto.getLevel());
+        }
+        if (dto.getHidden() != null) {
+            sql.append(" AND hidden = ? ");
+            params.add(dto.getHidden());
+        }
+        sql.append(" ORDER BY `level`,sort,hidden ASC ");
+        return commonDao.findListBySql(sql, params, MenuRouteVO.class);
+    }
+
+    @Override
+    public PageVO<MenuRouteTreeVO> findMenuRouteTreeList(MenuRouteDTO dto, Pagination pagination) {
+        List<MenuRouteVO> dataList = this.findMenuRouteList(dto);
+        List<MenuRouteTreeVO> treeVOList = convertMenuRouteTreeVO(dataList);
+        int currentPage = pagination.getPage();
+        int pageSize = pagination.getLimit();
+        int total = treeVOList.size();
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, total);
+
+        List<MenuRouteTreeVO> paginatedList;
+        if (startIndex <= total) {
+            paginatedList = treeVOList.subList(startIndex, endIndex);
+        } else {
+            paginatedList = new ArrayList<>();
+        }
+        return new PageVO<>(currentPage, total, paginatedList);
     }
 
     /**
@@ -80,6 +120,38 @@ public class MenuRouteServiceImpl implements MenuRouteService {
             result = getMenuTreeByALL(menuRouteList);
         }
         return result;
+    }
+
+
+    private List<MenuRouteTreeVO> convertMenuRouteTreeVO(List<MenuRouteVO> dataList) {
+        Map<String, MenuRouteTreeVO> menuRouteMap = new HashMap<>();
+        // 一级路由
+        List<MenuRouteTreeVO> oneLevelRoutes = new ArrayList<>();
+        // Step 1: 先转换所有菜单项为RouteVO对象，并存入Map中以便快速访问
+        for (MenuRouteVO vo : dataList) {
+            MenuRouteTreeVO treeVO = new MenuRouteTreeVO();
+            BeanUtils.copyProperties(vo, treeVO);
+            treeVO.setHasChildren(vo.getHasChild().equals(1));
+            menuRouteMap.put(vo.getId(), treeVO);
+            if (vo.getLevel() == 1) {
+                oneLevelRoutes.add(treeVO);
+            }
+        }
+        // Step 2: 处理子菜单
+        for (MenuRouteVO vo : dataList) {
+            if (vo.getLevel() == 1) {
+                continue;
+            }
+            MenuRouteTreeVO childRoute = menuRouteMap.get(vo.getId());
+            MenuRouteTreeVO parentRoute = menuRouteMap.get(vo.getParentId());
+            if (parentRoute != null) {
+                if (parentRoute.getChildren() == null) {
+                    parentRoute.setChildren(new ArrayList<>());
+                }
+                parentRoute.getChildren().add(childRoute);
+            }
+        }
+        return oneLevelRoutes;
     }
 
     @Override
