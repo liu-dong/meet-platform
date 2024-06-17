@@ -31,11 +31,11 @@
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="level"/>
-      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="hidden"/>
-      <el-table-column align="center" label="菜单顺序" prop="sort"/>
       <el-table-column align="center" label="路由名称" prop="name"/>
       <el-table-column align="center" label="路由路径" prop="path"/>
+      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="level"/>
+      <el-table-column align="center" label="菜单顺序" prop="sort"/>
+      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="hidden"/>
     </el-table>
     <!--分页-->
     <pagination

@@ -131,7 +131,6 @@ public class MenuRouteServiceImpl implements MenuRouteService {
         for (MenuRouteVO vo : dataList) {
             MenuRouteTreeVO treeVO = new MenuRouteTreeVO();
             BeanUtils.copyProperties(vo, treeVO);
-            treeVO.setHasChildren(vo.getHasChild().equals(1));
             menuRouteMap.put(vo.getId(), treeVO);
             if (vo.getLevel() == 1) {
                 oneLevelRoutes.add(treeVO);

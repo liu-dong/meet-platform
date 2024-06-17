@@ -7,7 +7,6 @@ export async function fetchRoutes() {
   const response = await findRouteList() // 调用API获取路由
   // 转换路由
   let routes = convertRoutes(response.data)
-  console.log('路由：', routes)
   if (!routes) {
     routes = adminRoute
   }
@@ -21,7 +20,6 @@ function convertRoutes(routes) {
       route.component = Layout
     } else {
       route.component = loadView(route.name)
-      console.log(route.component)
     }
     if (route.children && route.children.length) {
       convertRoutes(route.children) // 递归处理子路由

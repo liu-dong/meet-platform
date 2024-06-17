@@ -46,8 +46,6 @@ public class MenuRouteTreeVO {
      */
     private Integer hasChild;
 
-    private Boolean hasChildren;
-
     /**
      * 如果设置为true，该项将不会在侧边栏中显示(默认是false)
      */

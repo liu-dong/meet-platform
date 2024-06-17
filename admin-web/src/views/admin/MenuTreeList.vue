@@ -25,21 +25,19 @@
       highlight-current-row
       style="width: 100%;"
       row-key="id"
-      default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       @current-change="getCurrentRow"
     >
-      <!--<el-table-column label="序号" type="index" width="60" align="center"/>-->
+      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="level"/>
+      <el-table-column align="center" label="菜单顺序" prop="sort"/>
       <el-table-column align="center" label="菜单名称" prop="title">
         <template slot-scope="{row}">
           <span style="color: #409EFF;" @click="toDetail(row)">{{ row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column :formatter="formatLevel" align="center" label="菜单级别" prop="level"/>
-      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="hidden"/>
-      <el-table-column align="center" label="菜单顺序" prop="sort"/>
       <el-table-column align="center" label="路由名称" prop="name"/>
       <el-table-column align="center" label="路由路径" prop="path"/>
+      <el-table-column :formatter="formatStatus" align="center" label="菜单状态" prop="hidden"/>
     </el-table>
     <!--分页-->
     <pagination
