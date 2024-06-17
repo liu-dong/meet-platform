@@ -2,7 +2,9 @@ package com.dong.auth.web.service;
 
 import com.dong.auth.web.model.LoginDTO;
 import com.dong.commoncore.constant.RedisCacheKeyConstant;
+import com.dong.commoncore.enums.AccountStatusEnum;
 import com.dong.commoncore.exception.GlobalException;
+import com.dong.commoncore.exception.UserException;
 import com.dong.commoncore.util.RedisUtil;
 import com.dong.user.dao.AccountRepository;
 import com.dong.user.entity.Account;
@@ -33,14 +35,17 @@ class UsernameLoginWayServiceImpl implements LoginWayService {
         // 校验验证码
         verificationCode(request, dto);
         if (StringUtils.isBlank(dto.getUsername()) || StringUtils.isBlank(dto.getPassword())) {
-            throw new GlobalException("用户名和密码不能为空！");
+            throw new UserException("用户名和密码不能为空！");
         }
         Account account = accountRepository.getAccountByUsername(dto.getUsername());
         if (account == null) {
-            throw new GlobalException("无此用户");
+            throw new UserException("无此用户");
+        }
+        if (account.getAccountStatus().equals(AccountStatusEnum.DISABLE.getCode())) {
+            throw new UserException("账号锁定");
         }
         if (!dto.getPassword().equals(account.getPassword())) {
-            throw new GlobalException("密码错误");
+            throw new UserException("密码错误");
         }
         return account;
     }
