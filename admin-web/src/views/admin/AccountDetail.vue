@@ -4,13 +4,13 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="ruleForm.username"/>
       </el-form-item>
-      <el-form-item label="用户类型" prop="userType">
-        <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">
+      <el-form-item label="账号状态" prop="accountStatus">
+        <el-select v-model="ruleForm.accountStatus" placeholder="请选择账号状态">
           <el-option
-            v-for="item in userTypeOption"
-            :key="item.propertyCode"
-            :label="item.propertyName"
-            :value="item.propertyCode-0"
+            v-for="item in accountStatusOption"
+            :key="item.itemCode"
+            :label="item.itemName"
+            :value="item.itemCode-0"
           />
         </el-select>
       </el-form-item>
@@ -26,17 +26,16 @@
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="ruleForm.email"/>
       </el-form-item>
+      <el-form-item label="登录次数" prop="loginCount">
+        <el-input v-model="ruleForm.loginCount"/>
+      </el-form-item>
       <el-form-item label="上次登录时间" prop="lastLoginTime">
         <el-input v-model="ruleForm.lastLoginTime"/>
       </el-form-item>
-      <el-form-item label="账号状态" prop="accountStatus">
-        <el-input v-model="ruleForm.accountStatus"/>
-      </el-form-item>
-      <el-form-item/>
     </el-form>
     <div class="form-button">
       <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-      <el-button @click="goBack()">去登录</el-button>
+      <el-button @click="goBack()">返回</el-button>
     </div>
   </div>
 </template>
@@ -65,11 +64,12 @@ export default {
           { required: true, message: '请填写真实姓名', trigger: 'blur' }
         ]
       },
-      userTypeOption: []
+      accountStatusOption: []
     }
   },
   async created() {
-    this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
+    this.accountStatusOption = await dataCatalogUtils.getData(DataCatalog.accountStatus)
+    console.log(this.accountStatusOption)
     const id = this.$route.params.id
     if (id) {
       this.getAccount(id)
