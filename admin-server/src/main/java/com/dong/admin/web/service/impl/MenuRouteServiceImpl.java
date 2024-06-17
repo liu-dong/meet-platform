@@ -42,30 +42,33 @@ public class MenuRouteServiceImpl implements MenuRouteService {
      */
     @Override
     public PageVO<MenuRouteVO> findMenuRouteList(MenuRouteDTO dto, Pagination pagination) {
-        StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
-        sql.append(" SELECT id,title,`name`,path,`level`,sort,hidden,has_child FROM sys_menu_route ");
-        sql.append(" WHERE 1 = 1 ");
-        if (StringUtils.isNotBlank(dto.getTitle())) {
-            sql.append(" AND title LIKE ? ");
-            params.add("%" + dto.getTitle() + "%");
-        }
-        if (dto.getLevel() != null) {
-            sql.append(" AND `level` = ? ");
-            params.add(dto.getLevel());
-        }
-        if (dto.getHidden() != null) {
-            sql.append(" AND hidden = ? ");
-            params.add(dto.getHidden());
-        }
-        sql.append(" ORDER BY `level`,sort,hidden ASC ");
+        StringBuilder sql = buildFindMenuRouteListSql(dto, params);
         return commonDao.findListBySql(pagination, sql, params, MenuRouteVO.class);
     }
 
+    /**
+     * 查询菜单列表（不分页）
+     *
+     * @param dto
+     * @return
+     */
     public List<MenuRouteVO> findMenuRouteList(MenuRouteDTO dto) {
-        StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
-        sql.append(" SELECT id,title,`name`,path,`level`,sort,hidden,has_child,parent_id FROM sys_menu_route ");
+        StringBuilder sql = buildFindMenuRouteListSql(dto, params);
+        return commonDao.findListBySql(sql, params, MenuRouteVO.class);
+    }
+
+    /**
+     * 构建查询菜单路由列表SQL
+     *
+     * @param dto
+     * @param params
+     * @return
+     */
+    private StringBuilder buildFindMenuRouteListSql(MenuRouteDTO dto, List<Object> params) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT id,title,`name`,path,`level`,sort,hidden,has_child,parent_id,roles FROM sys_menu_route ");
         sql.append(" WHERE 1 = 1 ");
         if (StringUtils.isNotBlank(dto.getTitle())) {
             sql.append(" AND title LIKE ? ");
@@ -79,8 +82,7 @@ public class MenuRouteServiceImpl implements MenuRouteService {
             sql.append(" AND hidden = ? ");
             params.add(dto.getHidden());
         }
-        sql.append(" ORDER BY `level`,sort,hidden ASC ");
-        return commonDao.findListBySql(sql, params, MenuRouteVO.class);
+        return sql;
     }
 
     @Override
@@ -116,7 +118,7 @@ public class MenuRouteServiceImpl implements MenuRouteService {
             result = getMenuTreeByRecursion("");
         } else if (2 == type) {
             // 根据所有菜单数据生成菜单树
-            List<MenuRoute> menuRouteList = menuRouteRepository.findAllByHiddenOrderBySortAsc(CommonConstant.NO);
+            List<MenuRoute> menuRouteList = menuRouteRepository.findAll(Sort.by(Sort.Direction.ASC, "sort"));
             result = getMenuTreeByALL(menuRouteList);
         }
         return result;
@@ -150,6 +152,8 @@ public class MenuRouteServiceImpl implements MenuRouteService {
                 parentRoute.getChildren().add(childRoute);
             }
         }
+        // 排序
+        oneLevelRoutes.sort(Comparator.comparingInt(MenuRouteTreeVO::getSort));
         return oneLevelRoutes;
     }
 
@@ -358,6 +362,7 @@ public class MenuRouteServiceImpl implements MenuRouteService {
         map.put("path", menu.getPath());
         map.put("icon", menu.getIcon());
         map.put("sort", menu.getSort());
+        map.put("hidden", menu.getHidden());
         map.put("children", childrenList);
         return map;
     }

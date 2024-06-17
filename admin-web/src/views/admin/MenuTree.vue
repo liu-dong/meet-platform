@@ -9,7 +9,7 @@
       node-key="id"
     >
       <span slot-scope="{ node, data }" class="custom-tree-node">
-        <span @click="toDetail(data.id)">{{ node.label }}</span>
+        <span @click="toDetail(data.id)">{{ data.sort }}、 {{ node.label }}（{{ data.hidden ? '隐藏': '显示' }}）</span>
         <span>
           <el-button size="mini" type="text" @click="() => append(data,1)">添加同级菜单</el-button>
           <el-button size="mini" type="text" @click="() => append(data,2)">添加子级菜单</el-button>
