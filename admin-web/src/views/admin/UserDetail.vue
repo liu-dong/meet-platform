@@ -2,10 +2,23 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="ruleForm.username" />
+        <el-input v-model="ruleForm.username"/>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="ruleForm.password" />
+      <el-form-item label="账号状态" prop="accountStatus">
+        <el-select v-model="ruleForm.accountStatus" placeholder="请选择账号状态">
+          <el-option
+            v-for="item in accountStatusOption"
+            :key="item.itemCode"
+            :label="item.itemName"
+            :value="item.itemCode-0"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="手机号" prop="phone">
+        <el-input v-model="ruleForm.phone"/>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="ruleForm.email"/>
       </el-form-item>
       <el-form-item label="用户类型" prop="userType">
         <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">

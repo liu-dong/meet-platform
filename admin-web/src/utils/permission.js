@@ -26,7 +26,6 @@ export function checkRole(value) {
  * @example see @/views/permission/directive.vue
  */
 export function checkPermission(value) {
-  debugger
   if (value && value instanceof Array && value.length > 0) {
     const ownedPermissions = store.getters && store.getters.permissions
     return value.some(permission => {

@@ -5,12 +5,12 @@
       <i class="el-icon-caret-bottom" />
     </div>
     <el-dropdown-menu slot="dropdown" class="user-dropdown">
-      <router-link to="/">
+      <router-link to="/changePassword">
         <el-dropdown-item>
           修改密码
         </el-dropdown-item>
       </router-link>
-      <router-link to="/">
+      <router-link to="/userDetail">
         <el-dropdown-item>
           个人信息
         </el-dropdown-item>
