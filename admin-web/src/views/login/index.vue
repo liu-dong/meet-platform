@@ -8,11 +8,9 @@
       class="login-form"
       label-position="left"
     >
-
       <div class="title-container">
         <h3 class="title">Meet后台管理系统</h3>
       </div>
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user"/>
@@ -47,7 +45,6 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
-
       <div class="kaptcha-div">
         <span class="svg-container">
           <svg-icon icon-class="captcha"/>
@@ -55,7 +52,6 @@
         <el-input v-model="loginForm.captcha" name="captcha" placeholder="请输入验证码" tabindex="3"/>
         <el-image :src="getKaptcha" class="kaptcha-img" @click="updateKaptcha"/>
       </div>
-
       <el-button
         :loading="loading"
         style="width:100%;margin-bottom:30px;"
@@ -63,20 +59,26 @@
         @click.native.prevent="handleLogin"
       >登录
       </el-button>
-
-      <!--<div class="tips">
-        <span style="margin-right:20px;">用户名不可为中文</span>
-        <span>密码：123456</span>
-      </div>-->
+      <div class="tips">
+        <a style="margin-right:20px;" @click="showRegisterDialog">注册账号</a>
+        <a @click="showRegisterDialog">忘记密码</a>
+      </div>
     </el-form>
+    <!-- 注册对话框组件，通过v-model绑定显示状态 -->
+    <register :dialog-visible.sync="isRegisterDialogVisible" @close-dialog="closeRegisterDialog"/>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+import Register from '@/views/login/component/Register.vue'
 
 export default {
   name: 'Login',
+  components: {
+    // 注册组件
+    register: Register
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -93,6 +95,8 @@ export default {
       }
     }
     return {
+      // 控制注册对话框的显示
+      isRegisterDialogVisible: false,
       getKaptcha: '/images/kaptcha.jpg',
       loginForm: {
         username: '',
@@ -152,6 +156,14 @@ export default {
       const time = new Date().getTime()
       this.getKaptcha = 'http://localhost:8180/getKaptcha?t=' + time
       this.loginForm.captcha = ''
+    },
+    // 显示注册对话框
+    showRegisterDialog() {
+      this.isRegisterDialogVisible = true
+    },
+    // 关闭注册对话框
+    closeRegisterDialog() {
+      this.isRegisterDialogVisible = false
     }
   }
 }
@@ -166,13 +178,13 @@ $light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .login-container .login-form .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container {
+.login-container .login-form {
   .el-input {
     display: inline-block;
     height: 47px;

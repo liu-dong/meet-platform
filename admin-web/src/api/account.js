@@ -25,15 +25,6 @@ export function saveAccount(data) {
   })
 }
 
-// 注册账号
-export function register(data) {
-  return axios({
-    url: '/account/register',
-    method: 'post',
-    data
-  })
-}
-
 // 删除账号信息
 export function deleteAccount(params) {
   return axios({

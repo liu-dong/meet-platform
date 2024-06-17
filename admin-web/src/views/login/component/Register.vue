@@ -6,40 +6,32 @@
     width="30%"
     @close="handleCloseDialog"
   >
-    <el-form ref="form" :model="form" :rules="rules" class="demo-ruleForm" label-width="100px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username" />
+        <el-input v-model="form.username"/>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password" />
+        <el-input v-model="form.password"/>
       </el-form-item>
-      <el-form-item label="真实姓名" prop="realName">
-        <el-input v-model="form.realName" />
+      <el-form-item label="确认密码" prop="confirmPassword">
+        <el-input v-model="form.confirmPassword"/>
       </el-form-item>
-      <el-form-item label="身份证号" prop="identityCard">
-        <el-input v-model="form.identityCard" />
+      <el-form-item label="手机号" prop="phone">
+        <el-input v-model="form.phone"/>
       </el-form-item>
-      <el-form-item label="用户类型" prop="userType">
-        <el-select v-model="form.userType" placeholder="请选择用户类型">
-          <el-option
-            v-for="item in userTypeOptions"
-            :key="item.propertyCode"
-            :label="item.propertyName"
-            :value="item.propertyCode-0"
-          />
-        </el-select>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="form.email"/>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer" style="text-align: center">
       <el-button type="primary" @click="register()">确 定</el-button>
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button @click="handleCloseDialog">取 消</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
-
-import { register } from '@/api/account'
+import { register } from '@/api/auth'
 
 export default {
   name: 'Register',
@@ -51,10 +43,17 @@ export default {
     }
   },
   data() {
+    const confirmPassword = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次填写密码'))
+      } else if (value !== this.form.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
-      form: {
-        userType: 2
-      },
+      form: {},
       rules: {
         username: [
           { required: true, message: '请填写用户名', trigger: 'blur' }
@@ -62,21 +61,21 @@ export default {
         password: [
           { required: true, message: '请填写用户密码', trigger: 'blur' }
         ],
-        realName: [
-          { required: true, message: '请填写真实姓名', trigger: 'blur' }
+        confirmPassword: [
+          { required: true, message: '请再次填写密码', trigger: 'blur' },
+          { validator: confirmPassword, trigger: 'blur' }
         ],
-        identityCard: [
-          { required: true, message: '请填写身份证号', trigger: 'blur' }
+        phone: [
+          { required: true, message: '请填写手机号', trigger: 'blur' },
+          { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请填写邮箱', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ]
       },
-      dialogFormVisible: false,
-      userTypeOptions: []
+      dialogFormVisible: false
     }
-  },
-  created() {
-    this.updateKaptcha()
-  },
-  mounted() {
   },
   methods: {
     register() { // 修改个人信息
@@ -85,8 +84,11 @@ export default {
           register(this.form).then(res => {
             this.$message({ message: res.message, duration: 2000 })
             if (res.code === 200) {
-              this.username = res.data.username
-              this.password = res.data.password
+              this.form = {}
+              this.handleCloseDialog()
+            } else {
+              // 处理错误情况
+              this.$message.error(res.message || '注册失败，请稍后再试！')
             }
           })
         } else {
@@ -104,5 +106,7 @@ export default {
 </script>
 
 <style scoped>
-
+.el-form-item .el-select {
+  width: 100%;
+}
 </style>
