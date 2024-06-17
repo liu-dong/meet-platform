@@ -124,4 +124,17 @@ public class LoginController {
         return ResponseResult.success(username, ResponseMessageConstant.REGISTER_SUCCESS);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public ResponseResult<String> updatePassword(String username, String password) {
+        accountService.updatePassword(username, password);
+        return ResponseResult.success(username, ResponseMessageConstant.OPERATE_SUCCESS);
+    }
+
 }

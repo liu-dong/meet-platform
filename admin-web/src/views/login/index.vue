@@ -61,23 +61,26 @@
       </el-button>
       <div class="tips">
         <a style="margin-right:20px;" @click="showRegisterDialog">注册账号</a>
-        <a @click="showRegisterDialog">忘记密码</a>
+        <a @click="showResetPasswordDialog">忘记密码</a>
       </div>
     </el-form>
     <!-- 注册对话框组件，通过v-model绑定显示状态 -->
     <register :dialog-visible.sync="isRegisterDialogVisible" @close-dialog="closeRegisterDialog"/>
+    <reset-password :dialog-visible.sync="isResetPasswordDialogVisible" @close-dialog="closeResetPasswordDialog"/>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
 import Register from '@/views/login/component/Register.vue'
+import ResetPassword from '@/views/login/component/ResetPassword.vue'
 
 export default {
   name: 'Login',
   components: {
     // 注册组件
-    register: Register
+    register: Register,
+    ResetPassword: ResetPassword
   },
   data() {
     const validateUsername = (rule, value, callback) => {
@@ -97,6 +100,7 @@ export default {
     return {
       // 控制注册对话框的显示
       isRegisterDialogVisible: false,
+      isResetPasswordDialogVisible: false,
       getKaptcha: '/images/kaptcha.jpg',
       loginForm: {
         username: '',
@@ -164,6 +168,14 @@ export default {
     // 关闭注册对话框
     closeRegisterDialog() {
       this.isRegisterDialogVisible = false
+    },
+    // 显示重置密码对话框
+    showResetPasswordDialog() {
+      this.isResetPasswordDialogVisible = true
+    },
+    // 关闭重置密码对话框
+    closeResetPasswordDialog() {
+      this.isResetPasswordDialogVisible = false
     }
   }
 }

@@ -4,6 +4,7 @@ import adminRoute from '@/router/adminRoute'
 
 // 获取路由
 export async function fetchRoutes() {
+  debugger
   const response = await findRouteList() // 调用API获取路由
   // 转换路由
   let routes = convertRoutes(response.data)

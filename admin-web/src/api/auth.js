@@ -18,6 +18,15 @@ export function login(data) {
   })
 }
 
+// 登录
+export function updatePassword(params) {
+  return request({
+    url: '/updatePassword',
+    method: 'post',
+    params
+  })
+}
+
 // 获取用户信息
 export function getUserDetail() {
   return request({

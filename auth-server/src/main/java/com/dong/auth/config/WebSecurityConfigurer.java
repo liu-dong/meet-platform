@@ -17,7 +17,7 @@ public class WebSecurityConfigurer implements WebMvcConfigurer {
     /**
      * 不拦截的路径
      */
-    private static final String[] excludePathPatterns = {"/authenticate", "/test/**", "/register", "/login", "/getKaptcha", "/session/**", "/checkToken", "/logout", "/favicon.ico", "/error"};
+    private static final String[] excludePathPatterns = {"/authenticate", "/test/**", "/register", "/login", "/getKaptcha", "/updatePassword", "/session/**", "/checkToken", "/logout", "/favicon.ico", "/error"};
 
     /**
      * swagger路径

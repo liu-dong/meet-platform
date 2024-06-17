@@ -39,7 +39,7 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/home' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.nickname
+      const hasGetUserInfo = store.getters.userId
       if (!hasGetUserInfo) {
         try {
           // get user info
