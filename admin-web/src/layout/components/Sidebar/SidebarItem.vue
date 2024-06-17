@@ -33,6 +33,7 @@ import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
+import { checkPermission, checkRole } from '@/utils/permission'
 
 export default {
   name: 'SidebarItem',
@@ -59,12 +60,6 @@ export default {
     // 仅有一个子菜单的临时变量
     this.onlyOneChild = null
     return {}
-  },
-  computed: {
-    // 用户角色
-    userRoles() {
-      return this.$store.state.user.roles
-    }
   },
   methods: {
     // 判断是否有一个显示的子菜单
@@ -111,7 +106,7 @@ export default {
       if (!item.meta || !item.meta.roles) {
         return true // 没有设置权限的默认显示
       }
-      return item.meta.roles.some(role => this.userRoles.includes(role))
+      return checkRole(item.meta.roles) || checkPermission([item.meta.permission])
     }
   }
 }

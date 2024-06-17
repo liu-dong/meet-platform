@@ -91,7 +91,7 @@ export default {
     this.findRoleInfoList()
   },
   methods: {
-    getAccount: function(id) { // 获取菜单信息
+    getAccount: function(id) {
       getAccount({ id: id }).then(res => {
         console.log(res.data)
         this.$message({ message: res.message, duration: 2000 })
@@ -151,26 +151,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-
-}
-
-.top {
-  width: 100%;
-  height: 10%;
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: space-between;*/
-}
-
-.bottom {
-  width: 100%;
-  height: 90%;
-}
 
 .form {
   width: 100%;

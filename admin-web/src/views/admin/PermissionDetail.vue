@@ -14,21 +14,12 @@
       <el-form-item label="权限编码" prop="permissionCode">
         <el-input v-model="ruleForm.permissionCode" />
       </el-form-item>
-      <!--<el-form-item label="菜单" prop="resourceId">-->
-      <!--  <el-select v-model="ruleForm.resourceId">-->
-      <!--    <el-option-->
-      <!--      v-for="item in menuList"-->
-      <!--      :key="item.id"-->
-      <!--      :label="item.menuName"-->
-      <!--      :value="item.id"-->
-      <!--    />-->
-      <!--  </el-select>-->
-      <!--</el-form-item>-->
-      <el-form-item>
-        <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-        <el-button @click="goBack()">返回</el-button>
-      </el-form-item>
+      <el-form-item></el-form-item>
     </el-form>
+    <div class="form-button">
+      <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+      <el-button @click="goBack()">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -121,36 +112,17 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
+
+.form {
   width: 100%;
   height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
-
-}
-
-.top {
-  width: 100%;
-  height: 10%;
-}
-
-form {
-  padding: 20px 20%;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 
-}
-
-.el-form-item {
-  width: 60%;
-}
-
-.el-select {
-  position: relative;
-  font-size: 14px;
-  display: inline-block;
-  width: 100%;
+  .el-form-item {
+    width: 35%;
+  }
 }
 </style>

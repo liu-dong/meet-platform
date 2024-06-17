@@ -20,6 +20,7 @@ function convertRoutes(routes) {
       route.component = Layout
     } else {
       route.component = loadView(route.name)
+      route.props = true
     }
     if (route.children && route.children.length) {
       convertRoutes(route.children) // 递归处理子路由

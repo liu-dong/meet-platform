@@ -1,5 +1,5 @@
 import Layout from '@/layout'
-import checkRole from '@/utils/permission'
+import { checkPermission, checkRole } from '@/utils/permission'
 
 /**
  * constantRoutes
@@ -81,7 +81,7 @@ export const otherRoutes = [
  */
 export function checkRoutePermission(to, next) {
   if (to.meta && to.meta.roles) {
-    const checkResult = checkRole(to.meta.roles)
+    const checkResult = checkRole(to.meta.roles) || checkPermission([to.meta.permission])
     if (checkResult) {
       next()
     } else {
