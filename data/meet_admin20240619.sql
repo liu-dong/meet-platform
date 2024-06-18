@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.1.127
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 192.168.1.127:3306
+ Source Server Version : 50744 (5.7.44-log)
+ Source Host           : localhost:3306
  Source Schema         : meet_admin
 
  Target Server Type    : MySQL
- Target Server Version : 50729
+ Target Server Version : 50744 (5.7.44-log)
  File Encoding         : 65001
 
- Date: 17/06/2024 23:56:14
+ Date: 18/06/2024 18:07:05
 */
 
 SET NAMES utf8mb4;
@@ -29,17 +29,17 @@ CREATE TABLE `sys_account`  (
   `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '邮箱',
   `user_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户id',
-  `last_login_time` datetime(0) NULL DEFAULT NULL COMMENT '上次登录时间',
+  `last_login_time` datetime NULL DEFAULT NULL COMMENT '上次登录时间',
   `login_count` int(11) NOT NULL DEFAULT 0 COMMENT '登录次数',
   `login_fail_count` int(1) NULL DEFAULT 0 COMMENT '登录失败次数',
   `account_status` int(1) NOT NULL DEFAULT 0 COMMENT '账号状态（1：正常、2：已注销、3：禁用）',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE,
   UNIQUE INDEX `phone`(`phone`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '账号表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '账号表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_account
@@ -47,12 +47,13 @@ CREATE TABLE `sys_account`  (
 INSERT INTO `sys_account` VALUES ('0b968dab73fb443fa8e65f402a47583d', 'junbuyu', '123456', '', '1', '1', '6728918921a611ef8688000c295f0f1a', '2020-11-28 13:01:29', 1, 0, 1, '2020-11-28 13:01:26', '2020-11-28 13:01:26');
 INSERT INTO `sys_account` VALUES ('217f456d20de44a0bc41fdde6b4656bf', 'dujing1', '123456', '$2a$12$n8LK7PnxwfQ5mXLJzHpa6eRE39JtnrfNGifYi7Z68xF3qdaFFTBJy', '2', '2', '6728955b21a611ef8688000c295f0f1a', '2024-06-05 16:14:50', 2, 0, 1, '2024-04-19 21:40:03', '2024-04-19 21:40:03');
 INSERT INTO `sys_account` VALUES ('350db83ed5574164a666d11738ba01dd', 'liudong', '123456', '', '3', '3', '67289a3821a611ef8688000c295f0f1a', '2020-11-24 16:28:37', 8, 0, 1, '2020-10-12 14:31:27', '2020-10-12 14:31:27');
-INSERT INTO `sys_account` VALUES ('4df4131efb4949a2a2ac3420b52e87f7', 'SuperAdmin', '123456', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '15170519059', '15170519059@163.com', '67289bb221a611ef8688000c295f0f1a', '2024-06-17 23:46:01', 251, 1, 1, '2020-11-03 17:30:02', '2024-06-17 23:45:48');
+INSERT INTO `sys_account` VALUES ('4df4131efb4949a2a2ac3420b52e87f7', 'SuperAdmin', '123456', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '15170519059', '15170519059@163.com', '67289bb221a611ef8688000c295f0f1a', '2024-06-18 16:40:16', 257, 0, 1, '2020-11-03 17:30:02', '2024-06-17 23:45:48');
 INSERT INTO `sys_account` VALUES ('57176dd9ca7b44c1bb02a3795a2efc9f', 'dujing', 'nisi', '', '5', '5', '67289c9721a611ef8688000c295f0f1a', '2024-06-04 16:57:35', 0, 0, 2, '2024-04-19 21:25:56', '2024-04-19 21:25:56');
 INSERT INTO `sys_account` VALUES ('5b70c3a0715c4925a432090c0d635496', 'admin', '123456', '', '6', '6', '67289d5a21a611ef8688000c295f0f1a', '2021-04-25 15:47:21', 1, 0, 1, '2019-09-22 14:52:02', NULL);
 INSERT INTO `sys_account` VALUES ('7501bc2e833b4cacbce1df27ab1de4c2', 'taobao', '123456', '', '7', '7', '67289e1921a611ef8688000c295f0f1a', NULL, 0, 0, 1, '2021-05-26 16:21:56', '2021-08-11 19:57:28');
 INSERT INTO `sys_account` VALUES ('7da1ee6de7434ada8614110d14faf7cd', 'DONG', '123456', '', '8', '8', '67289ecb21a611ef8688000c295f0f1a', NULL, 0, 0, 1, '2020-10-12 15:48:39', '2020-10-12 15:48:39');
 INSERT INTO `sys_account` VALUES ('94e6475af3eb419bbf693c3813e92675', 'ld', '123456', '', '9', '9', '67289f8921a611ef8688000c295f0f1a', NULL, 0, 0, 1, '2020-10-12 15:34:57', '2020-10-12 15:34:57');
+INSERT INTO `sys_account` VALUES ('9dcc08fb61404023aff13501845c13ab', 'Sf', '123456', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '15170511234', '15170511234@qq.com', 'cb29336f31874e8eb5bb2ea982211581', '2024-06-18 14:13:06', 1, 0, 1, '2024-06-18 14:12:55', '2024-06-18 14:12:55');
 INSERT INTO `sys_account` VALUES ('bd149f6f80d14cb489f354b671b3b8a9', '222', '222', '222', '15170512222', '22@qq.com', 'e0344c3595924c3f9e8c7b4c253f70ac', NULL, 0, 6, 3, '2024-06-17 15:37:35', '2024-06-17 17:48:43');
 INSERT INTO `sys_account` VALUES ('ff8195b4ddcb4217a308f23c2ca166b7', '111', '123456', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '15170511111', '151@163.com', '134f572c1f6f4c4292effd29401b26cc', '2024-06-17 16:41:10', 1, 6, 3, '2024-06-17 15:33:43', '2024-06-17 17:35:40');
 INSERT INTO `sys_account` VALUES ('fffc9e2e39ac4a54b32c346aa2ba1271', 'liu-dong', '123456', '', '10', '10', '6728a03221a611ef8688000c295f0f1a', '2020-10-12 16:50:17', 1, 1, 1, '2020-10-12 13:34:15', '2020-10-12 17:04:02');
@@ -71,7 +72,7 @@ CREATE TABLE `sys_administrative_division`  (
   INDEX `index_division_code`(`division_code`) USING BTREE,
   INDEX `index_parent_code`(`parent_code`) USING BTREE,
   INDEX `index_division_type`(`division_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '中国行政区划数据' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '中国行政区划数据' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_administrative_division
@@ -3302,13 +3303,13 @@ CREATE TABLE `sys_data_catalog`  (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `status` smallint(1) NOT NULL COMMENT '状态 0：禁用，1：启用',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `update_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_catalog_code`(`catalog_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典目录表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典目录表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of sys_data_catalog
@@ -3330,13 +3331,13 @@ CREATE TABLE `sys_data_catalog_item`  (
   `sort` smallint(1) NULL DEFAULT 0 COMMENT '排序',
   `status` smallint(1) NOT NULL DEFAULT 1 COMMENT '状态 0：禁用，1：启用',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `update_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_catalog_id`(`catalog_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典条目表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典条目表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of sys_data_catalog_item
@@ -3367,14 +3368,14 @@ CREATE TABLE `sys_login_logs`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
   `account` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录账号',
   `login_type` int(1) NOT NULL DEFAULT 1 COMMENT '登录方式 （1：账号密码登录、2：邮箱快捷登录、3：扫码登录）',
-  `login_time` datetime(0) NOT NULL COMMENT '登录时间',
+  `login_time` datetime NOT NULL COMMENT '登录时间',
   `login_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录地点',
   `login_ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录IP',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_login_logs
@@ -3464,10 +3465,10 @@ CREATE TABLE `sys_menu`  (
   `menu_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单路径',
   `menu_status` int(1) NULL DEFAULT 1 COMMENT '菜单状态 0：显示、1：不显示',
   `has_child` int(1) NOT NULL DEFAULT 0 COMMENT '是否有子菜单 0：无 1：有',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -3523,10 +3524,10 @@ CREATE TABLE `sys_menu_route`  (
   `active_menu` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '高亮的路径',
   `roles` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '页面角色',
   `permission` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '页面权限',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单路由表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单路由表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu_route
@@ -3589,10 +3590,10 @@ CREATE TABLE `sys_menu_route_old`  (
   `roles` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '页面角色',
   `permission` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '页面权限',
   `activeMenu` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '高亮的路径',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单路由表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单路由表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu_route_old
@@ -3634,16 +3635,16 @@ CREATE TABLE `sys_operate_logs`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
   `account` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作账号',
   `operate_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '操作类型 （add：新增、delete：删除、update：修改、select：查询）',
-  `operate_time` datetime(0) NOT NULL COMMENT '操作时间',
+  `operate_time` datetime NOT NULL COMMENT '操作时间',
   `module_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模块名称',
   `module_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模块编码',
   `operate_object` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作对象',
   `login_ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录IP',
   `content` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作内容',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_operate_logs
@@ -4321,12 +4322,12 @@ CREATE TABLE `sys_org`  (
   `org_division_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '单位区域代码',
   `org_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地址',
   `delete_status` int(1) NOT NULL DEFAULT 0 COMMENT '是否删除 0：未删除、1：已删除',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人id',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `update_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织机构表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织机构表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_org
@@ -4344,10 +4345,10 @@ CREATE TABLE `sys_org_person`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `person_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '人员id',
   `org_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '单位id',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改事件',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改事件',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单位人员表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单位人员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_org_person
@@ -4366,11 +4367,11 @@ CREATE TABLE `sys_permission`  (
   `permission_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '权限类型  view：页面权限、operate：操作权限、data：数据权限',
   `parent_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父级菜单',
   `resource_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源id(菜单表id)',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `permission_code`(`permission_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -4434,7 +4435,7 @@ CREATE TABLE `sys_person`  (
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `identity_card` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '身份证',
   `age` int(1) NULL DEFAULT 25 COMMENT '年龄',
-  `birthdate` datetime(0) NULL DEFAULT NULL COMMENT '出生日期',
+  `birthdate` datetime NULL DEFAULT NULL COMMENT '出生日期',
   `sex` smallint(1) NULL DEFAULT 0 COMMENT '0：男、1：女',
   `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -4442,12 +4443,12 @@ CREATE TABLE `sys_person`  (
   `native_place` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '籍贯',
   `individual_resume` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '个人简介',
   `delete_status` int(1) NOT NULL DEFAULT 0 COMMENT '是否删除 0：否、1：是',
-  `create_time` datetime(0) NOT NULL,
+  `create_time` datetime NOT NULL,
   `create_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人id',
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   `update_user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '人员信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '人员信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_person
@@ -4477,11 +4478,11 @@ CREATE TABLE `sys_role`  (
   `role_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色编码',
   `role_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
   `remark` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '角色描述',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_role_code`(`role_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -4500,7 +4501,7 @@ CREATE TABLE `sys_role_permission`  (
   `role_code` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '角色编码',
   `permission_code` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限编码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -4600,11 +4601,11 @@ CREATE TABLE `sys_user`  (
   `user_type` int(1) NOT NULL DEFAULT 2 COMMENT '用户类型 （2：普通、1：管理员、0：超级管理员）',
   `person_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '人员id',
   `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
-  `avatar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
-  `create_time` datetime(0) NOT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
@@ -4620,6 +4621,7 @@ INSERT INTO `sys_user` VALUES ('67289e1921a611ef8688000c295f0f1a', 2, '6869a49c3
 INSERT INTO `sys_user` VALUES ('67289ecb21a611ef8688000c295f0f1a', 2, 'b7baaee0c1e1493d9eec5f833c7bb51a', '刘', NULL, '2020-10-12 15:48:39', '2020-10-12 15:48:39');
 INSERT INTO `sys_user` VALUES ('67289f8921a611ef8688000c295f0f1a', 2, '7ba92ef0dab542e6bd1061770e11c4cb', '刘东', NULL, '2020-10-12 15:34:57', '2020-10-12 15:34:57');
 INSERT INTO `sys_user` VALUES ('6728a03221a611ef8688000c295f0f1a', 2, '600e5cff674e4594819674f624b3cf0c', '刘东', NULL, '2020-10-12 13:34:15', '2020-10-12 17:04:02');
+INSERT INTO `sys_user` VALUES ('cb29336f31874e8eb5bb2ea982211581', 2, NULL, '用户昵称', 'https://img0.baidu.com/it/u=1940823440,1738820139&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800', '2024-06-18 14:12:55', NULL);
 INSERT INTO `sys_user` VALUES ('e0344c3595924c3f9e8c7b4c253f70ac', 2, NULL, NULL, NULL, '2024-06-17 15:37:35', NULL);
 
 -- ----------------------------
@@ -4631,7 +4633,7 @@ CREATE TABLE `sys_user_role`  (
   `user_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
   `role_code` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色编码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -4640,6 +4642,7 @@ INSERT INTO `sys_user_role` VALUES ('252ce4fec0b04bcaa1d294eb06f33055', '67289a3
 INSERT INTO `sys_user_role` VALUES ('4a84b1a18ed4492ea88c0c0d09791f80', '67289f8921a611ef8688000c295f0f1a', 'User');
 INSERT INTO `sys_user_role` VALUES ('5857c9909a6a422cbb54c14a47ae2373', 'e0344c3595924c3f9e8c7b4c253f70ac', 'User');
 INSERT INTO `sys_user_role` VALUES ('60ce8738456a4416a104d380e7ebfcb7', '67289bb221a611ef8688000c295f0f1a', 'User');
+INSERT INTO `sys_user_role` VALUES ('6b23020fa0584fa4999b331c0b61654a', 'cb29336f31874e8eb5bb2ea982211581', 'User');
 INSERT INTO `sys_user_role` VALUES ('790fab44987448a79a57cbc1b1f0e02d', '67289e1921a611ef8688000c295f0f1a', 'BusinessUser');
 INSERT INTO `sys_user_role` VALUES ('8266a49123a54a9aba29b7797596984f', '67289bb221a611ef8688000c295f0f1a', 'BusinessUser');
 INSERT INTO `sys_user_role` VALUES ('953f8f8f890547f88d6651dd3c1fa8b2', '6728918921a611ef8688000c295f0f1a', 'Admin');
