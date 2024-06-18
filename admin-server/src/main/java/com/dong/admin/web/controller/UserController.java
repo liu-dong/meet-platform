@@ -6,7 +6,9 @@ import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.commoncore.model.UserDetail;
 import com.dong.user.entity.UserRole;
+import com.dong.user.model.dto.AccountDTO;
 import com.dong.user.model.dto.UserDTO;
+import com.dong.user.model.dto.UserDetailDTO;
 import com.dong.user.model.dto.UserRoleDTO;
 import com.dong.user.model.vo.UserVO;
 import com.dong.user.service.AccountService;
@@ -59,6 +61,18 @@ public class UserController {
     public ResponseResult<UserDetail> getUser(String id) {
         UserDetail user = userService.getUserDetail(id);
         return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 注册用户
+     *
+     * @param dto
+     * @return
+     */
+    @PostMapping("/saveUser")
+    public ResponseResult<String> saveUser(@RequestBody UserDetailDTO dto) {
+        userService.saveUser(dto);
+        return ResponseResult.success(ResponseMessageConstant.REGISTER_SUCCESS);
     }
 
     /**

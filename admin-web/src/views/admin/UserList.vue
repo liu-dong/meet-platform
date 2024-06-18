@@ -4,7 +4,9 @@
     <div class="filter-container">
       <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名"/>
       <button-search class="filter-item" @search="findUserList">查询</button-search>
+      <button-add class="filter-item" @add="toDetail">新增</button-add>
       <button-reset class="filter-item" @reset="reset"/>
+      <button-delete class="filter-item" @delete="deleteInfo">删除</button-delete>
     </div>
     <!--数据列表-->
     <el-table
@@ -67,10 +69,12 @@ import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 import ButtonReset from '@/components/Button/ButtonReset'
 import ButtonSearch from '@/components/Button/ButtonSearch'
+import ButtonAdd from "@/components/Button/ButtonAdd.vue";
+import ButtonDelete from "@/components/Button/ButtonDelete.vue";
 
 export default {
   name: 'UserList',
-  components: { ButtonSearch, Pagination, ButtonReset },
+  components: { ButtonDelete, ButtonAdd, ButtonSearch, Pagination, ButtonReset },
   directives: { waves },
   data() {
     return {

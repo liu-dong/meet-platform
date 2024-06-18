@@ -1,8 +1,32 @@
 <template>
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
+      <el-divider content-position="center">用户信息</el-divider>
+      <el-form-item label="昵称" prop="username">
+        <el-input v-model="ruleForm.username"/>
+      </el-form-item>
+      <el-form-item label="用户类型" prop="userType">
+        <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">
+          <el-option
+            v-for="item in userTypeOption"
+            :key="item.itemCode"
+            :label="item.itemName"
+            :value="item.itemCode-0"
+          />
+        </el-select>
+      </el-form-item>
+      <el-divider content-position="center">账号信息</el-divider>
       <el-form-item label="用户名" prop="username">
         <el-input v-model="ruleForm.username"/>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="ruleForm.password"/>
+      </el-form-item>
+      <el-form-item label="手机号" prop="phone">
+        <el-input v-model="ruleForm.phone"/>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="ruleForm.email"/>
       </el-form-item>
       <el-form-item label="账号状态" prop="accountStatus">
         <el-select v-model="ruleForm.accountStatus" placeholder="请选择账号状态">
@@ -14,48 +38,12 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="手机号" prop="phone">
-        <el-input v-model="ruleForm.phone"/>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="ruleForm.email"/>
-      </el-form-item>
-      <el-form-item label="用户类型" prop="userType">
-        <el-select v-model="ruleForm.userType" placeholder="请选择用户类型">
-          <el-option
-            v-for="item in userTypeOption"
-            :key="item.propertyCode"
-            :label="item.propertyName"
-            :value="item.propertyCode-0"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="真实姓名" prop="realName">
-        <el-input v-model="ruleForm.realName" />
-      </el-form-item>
-      <el-form-item label="是否注销" prop="userStatus">
-        <el-switch v-model="ruleForm.userStatus" :active-value="0" :inactive-value="1" />
-      </el-form-item>
-      <el-form-item />
-      <el-form-item prop="remark" style="width: 70%;height: 60%; overflow: auto">
-        <el-transfer
-          v-model="roleAccount.roleIdList"
-          :button-texts="['删除角色', '添加角色']"
-          :data="roleList"
-          :format="{noChecked: '${total}',hasChecked: '${checked}/${total}'}"
-          :props="{key: 'id',label: 'roleCode'}"
-          :render-content="renderFunc"
-          :titles="['角色列表', '所属角色']"
-          filter-placeholder="请输入角色编码"
-          filterable
-          @change="addRole"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
-        <el-button @click="goBack()">返回</el-button>
-      </el-form-item>
+      <el-form-item></el-form-item>
     </el-form>
+    <div class="form-button">
+      <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+      <el-button @click="goBack()">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -85,6 +73,7 @@ export default {
         ]
       },
       userTypeOption: [],
+      accountStatusOption: [],
       roleList: [], // 账号信息列表
       roleAccount: { // 角色账号信息
         accountId: '',
@@ -97,6 +86,7 @@ export default {
   },
   async created() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
+    this.accountStatusOption = await dataCatalogUtils.getData(DataCatalog.accountStatus)
     this.roleAccount.accountId = this.$route.params.id
     if (this.roleAccount.accountId) {
       this.getAccount(this.roleAccount.accountId)
@@ -165,34 +155,4 @@ export default {
 
 <style scoped>
 
-.form {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.el-form-item {
-  width: 35%;
-  margin-bottom: 0;
-}
-
-/*控制穿梭框左右模块*/
-.el-transfer-panel {
-  width: 35%;
-}
-
-/*控制穿梭框按钮模块*/
-.el-transfer__buttons {
-  padding: 0;
-}
-
-.el-select {
-  position: relative;
-  font-size: 14px;
-  display: inline-block;
-  width: 100%;
-}
 </style>

@@ -5,8 +5,6 @@
       <el-input v-model="listQuery.username" class="filter-item" placeholder="用户名"/>
       <button-search class="filter-item" @search="findAccountList">查询</button-search>
       <button-reset class="filter-item" @reset="reset"/>
-      <button-add class="filter-item" @add="toDetail">新增</button-add>
-      <button-delete class="filter-item" @delete="deleteInfo">删除</button-delete>
     </div>
     <!--数据列表-->
     <el-table

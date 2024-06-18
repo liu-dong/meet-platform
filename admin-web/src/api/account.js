@@ -19,7 +19,7 @@ export function getAccount(params) {
 // 保存账号信息
 export function saveAccount(data) {
   return axios({
-    url: '/account/register',
+    url: '/account/save',
     method: 'post',
     data
   })

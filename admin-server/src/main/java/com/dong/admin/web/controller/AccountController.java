@@ -5,6 +5,7 @@ import com.dong.commoncore.model.PageVO;
 import com.dong.commoncore.model.Pagination;
 import com.dong.commoncore.model.ResponseResult;
 import com.dong.user.model.dto.AccountDTO;
+import com.dong.user.model.dto.RegisterDTO;
 import com.dong.user.model.vo.AccountVO;
 import com.dong.user.service.AccountService;
 import io.swagger.annotations.Api;
@@ -51,6 +52,18 @@ public class AccountController {
     public ResponseResult<AccountVO> getAccount(String id) {
         AccountVO account = accountService.getAccount(id);
         return ResponseResult.success(account, ResponseMessageConstant.QUERY_SUCCESS);
+    }
+
+    /**
+     * 保存账号
+     *
+     * @param dto
+     * @return
+     */
+    @PostMapping("/saveAccount")
+    public ResponseResult<String> saveAccount(@RequestBody AccountDTO dto) {
+        accountService.saveAccount(dto);
+        return ResponseResult.success(ResponseMessageConstant.REGISTER_SUCCESS);
     }
 
     /**

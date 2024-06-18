@@ -4,21 +4,8 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="ruleForm.username"/>
       </el-form-item>
-      <el-form-item label="账号状态" prop="accountStatus">
-        <el-select v-model="ruleForm.accountStatus" placeholder="请选择账号状态">
-          <el-option
-            v-for="item in accountStatusOption"
-            :key="item.itemCode"
-            :label="item.itemName"
-            :value="item.itemCode-0"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input v-model="ruleForm.password"/>
-      </el-form-item>
-      <el-form-item label="加密密码" prop="passwordHash">
-        <el-input v-model="ruleForm.passwordHash"/>
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
         <el-input v-model="ruleForm.phone"/>
@@ -29,8 +16,21 @@
       <el-form-item label="登录次数" prop="loginCount">
         <el-input v-model="ruleForm.loginCount"/>
       </el-form-item>
+      <el-form-item label="登录失败次数" prop="loginFailCount">
+        <el-input v-model="ruleForm.loginFailCount"/>
+      </el-form-item>
       <el-form-item label="上次登录时间" prop="lastLoginTime">
         <el-input v-model="ruleForm.lastLoginTime"/>
+      </el-form-item>
+      <el-form-item label="账号状态" prop="accountStatus">
+        <el-select v-model="ruleForm.accountStatus" placeholder="请选择账号状态">
+          <el-option
+            v-for="item in accountStatusOption"
+            :key="item.itemCode"
+            :label="item.itemName"
+            :value="item.itemCode-0"
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <div class="form-button">
@@ -50,8 +50,7 @@ export default {
   data() {
     return {
       ruleForm: {
-        userType: 2,
-        userStatus: 0
+        accountStatus: 1
       },
       rules: {
         username: [
@@ -60,8 +59,13 @@ export default {
         password: [
           { required: true, message: '请填写密码', trigger: 'blur' }
         ],
-        realName: [
-          { required: true, message: '请填写真实姓名', trigger: 'blur' }
+        phone: [
+          { required: true, message: '请填写手机号', trigger: 'blur' },
+          { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请填写邮箱', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ]
       },
       accountStatusOption: []
@@ -69,7 +73,6 @@ export default {
   },
   async created() {
     this.accountStatusOption = await dataCatalogUtils.getData(DataCatalog.accountStatus)
-    console.log(this.accountStatusOption)
     const id = this.$route.params.id
     if (id) {
       this.getAccount(id)
