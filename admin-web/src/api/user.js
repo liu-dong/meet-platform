@@ -8,6 +8,14 @@ export function findUserList(params) {
   })
 }
 
+export function saveUser(data) {
+  return axios({
+    url: '/user/saveUser',
+    method: 'post',
+    data
+  })
+}
+
 export function getUser(params) {
   return axios({
     url: '/user/getUser',

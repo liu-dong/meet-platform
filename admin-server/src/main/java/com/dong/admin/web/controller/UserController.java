@@ -10,6 +10,7 @@ import com.dong.user.model.dto.AccountDTO;
 import com.dong.user.model.dto.UserDTO;
 import com.dong.user.model.dto.UserDetailDTO;
 import com.dong.user.model.dto.UserRoleDTO;
+import com.dong.user.model.vo.UserDetailVO;
 import com.dong.user.model.vo.UserVO;
 import com.dong.user.service.AccountService;
 import com.dong.user.service.UserService;
@@ -58,9 +59,9 @@ public class UserController {
      */
     @ApiOperation("查询用户信息")
     @GetMapping("/getUser")
-    public ResponseResult<UserDetail> getUser(String id) {
-        UserDetail user = userService.getUserDetail(id);
-        return ResponseResult.success(user, ResponseMessageConstant.QUERY_SUCCESS);
+    public ResponseResult<UserDetailVO> getUser(String id) {
+        UserDetailVO vo = userService.getUser(id);
+        return ResponseResult.success(vo, ResponseMessageConstant.QUERY_SUCCESS);
     }
 
     /**

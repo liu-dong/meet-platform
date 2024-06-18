@@ -56,20 +56,17 @@
 </template>
 
 <script>
-import qs from 'qs'
-import { deleteAccount, findAccountList, updateAccountStatus } from '@/api/account'
+import { findAccountList, updateAccountStatus } from '@/api/account'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 import ButtonReset from '@/components/Button/ButtonReset'
 import ButtonSearch from '@/components/Button/ButtonSearch'
-import ButtonDelete from '@/components/Button/ButtonDelete'
-import ButtonAdd from '@/components/Button/ButtonAdd'
 
 export default {
   name: 'AccountList',
-  components: { ButtonAdd, ButtonDelete, ButtonSearch, Pagination, ButtonReset },
+  components: { ButtonSearch, Pagination, ButtonReset },
   directives: { waves },
   data() {
     return {
@@ -141,18 +138,6 @@ export default {
     },
     toDetail: function(id) {
       this.$router.push({ name: 'AccountDetail', params: { id: id } })
-    },
-    deleteInfo: function() {
-      const currentRow = this.currentRow
-      if (JSON.stringify(currentRow) === '{}') {
-        alert('请选择要删除的数据')
-      }
-      deleteAccount(qs.stringify({ id: currentRow.id })).then(res => {
-        this.$message({ message: res.message, duration: 2000 })
-        if (res.code === 200) {
-          this.findAccountList()
-        }
-      })
     },
     updateAccountStatus: function(userId, accountStatus) {
       const params = { userId: userId, accountStatus: accountStatus }

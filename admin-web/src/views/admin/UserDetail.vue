@@ -38,7 +38,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item></el-form-item>
+      <el-form-item/>
     </el-form>
     <div class="form-button">
       <el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
@@ -48,10 +48,9 @@
 </template>
 
 <script>
-import { assignRoles, findAccountRoleInfoList, getAccount, saveAccount } from '@/api/account'
-import { findRoleInfoList } from '@/api/role'
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
+import { getUser, saveUser } from '@/api/user'
 
 export default {
   name: 'UserDetail',
@@ -59,7 +58,7 @@ export default {
     return {
       ruleForm: {
         userType: 2,
-        userStatus: 0
+        accountStatus: 1
       },
       rules: {
         username: [
@@ -68,34 +67,30 @@ export default {
         password: [
           { required: true, message: '请填写密码', trigger: 'blur' }
         ],
-        realName: [
-          { required: true, message: '请填写真实姓名', trigger: 'blur' }
+        phone: [
+          { required: true, message: '请填写手机号', trigger: 'blur' },
+          { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请填写邮箱', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ]
       },
       userTypeOption: [],
-      accountStatusOption: [],
-      roleList: [], // 账号信息列表
-      roleAccount: { // 角色账号信息
-        accountId: '',
-        roleIdList: []// 角色id集合
-      },
-      renderFunc(h, option) { // 自定义列项名称
-        return <span>{option.roleCode}({option.roleName})</span>
-      }
+      accountStatusOption: []
     }
   },
   async created() {
     this.userTypeOption = await dataCatalogUtils.getData(DataCatalog.userType)
     this.accountStatusOption = await dataCatalogUtils.getData(DataCatalog.accountStatus)
-    this.roleAccount.accountId = this.$route.params.id
-    if (this.roleAccount.accountId) {
-      this.getAccount(this.roleAccount.accountId)
+    const id = this.$route.params.id
+    if (id) {
+      this.getUser(id)
     }
-    this.findRoleInfoList()
   },
   methods: {
-    getAccount: function(id) {
-      getAccount({ id: id }).then(res => {
+    getUser: function(id) {
+      getUser({ id: id }).then(res => {
         console.log(res.data)
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
@@ -104,22 +99,10 @@ export default {
         }
       })
     },
-    // 查询账号的角色信息
-    findAccountRoleInfoList(accountId) {
-      console.log('accountId：', accountId)
-      findAccountRoleInfoList({ accountId: accountId }).then(res => {
-        console.log('角色：', res)
-        if (res.code === 200) {
-          if (res.data && res.data.length > 0) {
-            this.roleAccount.roleIdList = res.data.map(item => item.id)
-          }
-        }
-      })
-    },
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveAccount(this.ruleForm).then(res => {
+          saveUser(this.ruleForm).then(res => {
             if (res.code === 200) {
               this.$message({ message: '保存成功！', duration: 2000 })
               this.ruleForm = res.data
@@ -131,23 +114,6 @@ export default {
     },
     goBack() {
       this.$router.go(-1)// 返回上一层
-    },
-    findRoleInfoList: function() { // 获取人员信息
-      findRoleInfoList({}).then(res => {
-        console.log(res.data)
-        if (res.code === 200) {
-          this.roleList = res.data
-        }
-      })
-    },
-    // 分配角色
-    addRole() {
-      console.log('已选角色：', this.roleAccount)
-      assignRoles(this.roleAccount).then(res => {
-        if (res.code === 200) {
-          this.$message({ message: res.message, duration: 2000 })
-        }
-      })
     }
   }
 }
