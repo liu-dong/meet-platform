@@ -9,8 +9,8 @@
       :key="imageCropperKey"
       :width="300"
       :height="300"
-      url="https://httpbin.org/post"
-      lang-type="en"
+      url="/local/file/upload/second"
+      lang-type="zh"
       @close="close"
       @crop-upload-success="cropSuccess"
     />
