@@ -18,9 +18,6 @@ import ProgressBar from './ProgressBar.vue'
 import ErrorDisplay from './ErrorDisplay.vue'
 export default {
   name: 'ImageCropUploadVue',
-  props: {
-
-  },
   components: {
     UploadArea,
     CropArea,
@@ -28,7 +25,10 @@ export default {
     ProgressBar,
     ErrorDisplay
   },
-  data(){
+  props: {
+
+  },
+  data() {
     return {
       // 图片的mime
       mime,
