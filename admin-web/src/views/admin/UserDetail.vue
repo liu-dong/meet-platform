@@ -2,6 +2,7 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
       <el-divider content-position="center">用户信息</el-divider>
+      <avatar-upload class="avatar-upload" />
       <el-form-item label="昵称" prop="username">
         <el-input v-model="ruleForm.username"/>
       </el-form-item>
@@ -51,9 +52,11 @@
 import dataCatalogUtils from '@/utils/dataCatalogUtils'
 import DataCatalog from '@/constant/dataCatalog'
 import { getUser, saveUser } from '@/api/user'
+import AvatarUpload from '@/views/admin/components/AvatarUpload.vue'
 
 export default {
   name: 'UserDetail',
+  components: { AvatarUpload },
   data() {
     return {
       ruleForm: {
@@ -120,5 +123,9 @@ export default {
 </script>
 
 <style scoped>
-
+.avatar-upload {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 </style>

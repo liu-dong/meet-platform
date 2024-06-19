@@ -1,7 +1,7 @@
 <template>
   <div class="components-container">
-    <pan-thumb :image="image" />
-    <el-button type="primary" icon="el-icon-upload" style="position: absolute;bottom: 15px;margin-left: 40px;" @click="imageCropperShow=true">
+    <thumb-image :image="image"/>
+    <el-button type="primary" icon="el-icon-upload" class="change-avatar" @click="imageCropperShow=true">
       更换头像
     </el-button>
     <image-cropper
@@ -19,11 +19,11 @@
 
 <script>
 import ImageCropper from '@/components/ImageCropper'
-import PanThumb from '@/components/PanThumb'
+import ThumbImage from '@/components/ThumbImage'
 
 export default {
   name: 'AvatarUpload',
-  components: { ImageCropper, PanThumb },
+  components: { ImageCropper, ThumbImage },
   data() {
     return {
       imageCropperShow: false,
@@ -45,10 +45,15 @@ export default {
 </script>
 
 <style scoped>
-  .avatar{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-  }
+.components-container {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  align-items: center;
+}
+
+.change-avatar {
+  margin-top: 20px;
+}
 </style>
 

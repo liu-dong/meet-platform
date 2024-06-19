@@ -1,17 +1,17 @@
 <template>
-  <div :style="{zIndex:zIndex,height:height,width:width}" class="pan-item">
-    <div class="pan-info">
-      <div class="pan-info-roles-container">
+  <div :style="{zIndex:zIndex,height:height,width:width}" class="thumb-item">
+    <div class="thumb-info">
+      <div class="thumb-info-roles-container">
         <slot />
       </div>
     </div>
-    <div :style="{backgroundImage: `url(${image})`}" class="pan-thumb"/>
+    <div :style="{backgroundImage: `url(${image})`}" class="thumb-thumb"/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PanThumb',
+  name: 'ThumbImage',
   props: {
     image: {
       type: String,
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style scoped>
-.pan-item {
+.thumb-item {
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -44,12 +44,12 @@ export default {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.pan-info-roles-container {
+.thumb-info-roles-container {
   padding: 20px;
   text-align: center;
 }
 
-.pan-thumb {
+.thumb-thumb {
   width: 100%;
   height: 100%;
   background-position: center center;
@@ -61,7 +61,7 @@ export default {
   transition: all 0.3s ease-in-out;
 }
 
-/* .pan-thumb:after {
+/* .thumb-thumb:after {
   content: '';
   width: 8px;
   height: 8px;
@@ -74,7 +74,7 @@ export default {
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.9);
 } */
 
-.pan-info {
+.thumb-info {
   position: absolute;
   width: inherit;
   height: inherit;
@@ -83,7 +83,7 @@ export default {
   box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
-.pan-info h3 {
+.thumb-info h3 {
   color: #fff;
   text-transform: uppercase;
   position: relative;
@@ -96,7 +96,7 @@ export default {
   text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.pan-info p {
+.thumb-info p {
   color: #fff;
   padding: 10px 5px;
   font-style: italic;
@@ -105,7 +105,7 @@ export default {
   border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.pan-info p a {
+.thumb-info p a {
   display: block;
   width: 80px;
   height: 80px;
@@ -125,15 +125,15 @@ export default {
   transform: translateX(60px) rotate(90deg);
 }
 
-.pan-info p a:hover {
+.thumb-info p a:hover {
   background: rgba(255, 255, 255, 0.5);
 }
 
-.pan-item:hover .pan-thumb {
+.thumb-item:hover .thumb-thumb {
   transform: rotate(-110deg);
 }
 
-.pan-item:hover .pan-info p a {
+.thumb-item:hover .thumb-info p a {
   opacity: 1;
   transform: translateX(0px) rotate(0deg);
 }
