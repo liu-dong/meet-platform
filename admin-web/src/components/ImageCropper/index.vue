@@ -1,5 +1,5 @@
 <template>
-  <div v-show="value" class="image-upload">
+  <div v-show="value" class="image-crop-upload">
     <div class="image-crop-upload-wrap">
       <div class="image-crop-upload-close" @click="off">
         <i class="image-crop-upload-icon4"/>
@@ -28,6 +28,103 @@
         </div>
         <div class="image-crop-upload-operate">
           <a @click="off" @mousedown="ripple">{{ lang.btn.off }}</a>
+        </div>
+      </div>
+      <div class="image-crop-upload-step2">
+        <div class="image-crop-upload-crop">
+          <div v-show="true" class="image-crop-upload-crop-left">
+            <div class="image-crop-upload-img-container">
+              <img
+                ref="img"
+                :src="sourceImgUrl"
+                :style="sourceImgStyle"
+                class="image-crop-upload-img"
+                draggable="false"
+                alt="图片"
+                @drag="preventDefault"
+                @dragstart="preventDefault"
+                @dragend="preventDefault"
+                @dragleave="preventDefault"
+                @dragover="preventDefault"
+                @dragenter="preventDefault"
+                @drop="preventDefault"
+                @touchstart="imgStartMove"
+                @touchmove="imgMove"
+                @touchend="createImg"
+                @touchcancel="createImg"
+                @mousedown="imgStartMove"
+                @mousemove="imgMove"
+                @mouseup="createImg"
+                @mouseout="createImg"
+              >
+              <div :style="sourceImgShadeStyle" class="image-crop-upload-img-shade image-crop-upload-img-shade-1"/>
+              <div :style="sourceImgShadeStyle" class="image-crop-upload-img-shade image-crop-upload-img-shade-2"/>
+            </div>
+
+            <div class="image-crop-upload-range">
+              <input
+                :value="scale.range"
+                type="range"
+                step="1"
+                min="0"
+                max="100"
+                @input="zoomChange"
+              >
+              <i
+                class="image-crop-upload-icon5"
+                @mousedown="startZoomSub"
+                @mouseout="endZoomSub"
+                @mouseup="endZoomSub"
+              />
+              <i
+                class="image-crop-upload-icon6"
+                @mousedown="startZoomAdd"
+                @mouseout="endZoomAdd"
+                @mouseup="endZoomAdd"
+              />
+            </div>
+
+            <div v-if="!noRotate" class="image-crop-upload-rotate">
+              <i @mousedown="startRotateLeft" @mouseout="endRotate" @mouseup="endRotate">↺</i>
+              <i @mousedown="startRotateRight" @mouseout="endRotate" @mouseup="endRotate">↻</i>
+            </div>
+          </div>
+          <div v-show="true" class="image-crop-upload-crop-right">
+            <div class="image-crop-upload-preview">
+              <div v-if="!noSquare" class="image-crop-upload-preview-item">
+                <img :src="createImgUrl" :style="previewStyle" alt="">
+                <span>{{ lang.preview }}</span>
+              </div>
+              <div v-if="!noCircle" class="image-crop-upload-preview-item image-crop-upload-preview-item-circle">
+                <img :src="createImgUrl" :style="previewStyle" alt="">
+                <span>{{ lang.preview }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="image-crop-upload-operate">
+          <a @click="setStep(1)" @mousedown="ripple">{{ lang.btn.back }}</a>
+          <a class="image-crop-upload-operate-btn" @click="prepareUpload" @mousedown="ripple">{{ lang.btn.save }}</a>
+        </div>
+      </div>
+      <div class="image-crop-upload-step3">
+        <div class="image-crop-upload-upload">
+          <span v-show="loading === 1" class="image-crop-upload-loading">{{ lang.loading }}</span>
+          <div class="image-crop-upload-progress-wrap">
+            <span v-show="loading === 1" :style="progressStyle" class="image-crop-upload-progress"/>
+          </div>
+          <div v-show="hasError" class="image-crop-upload-error">
+            <i class="image-crop-upload-icon2"/>
+            {{ errorMsg }}
+          </div>
+          <div v-show="loading === 2" class="image-crop-upload-success">
+            <i class="image-crop-upload-icon3"/>
+            {{ lang.success }}
+          </div>
+        </div>
+        <div class="image-crop-upload-operate">
+          <a @click="setStep(2)" @mousedown="ripple">{{ lang.btn.back }}</a>
+          <a @click="off" @mousedown="ripple">{{ lang.btn.close }}</a>
         </div>
       </div>
       <canvas v-show="false" ref="canvas" :width="width" :height="height"/>
@@ -723,7 +820,7 @@ export default {
 
 <style lang="scss">
 @charset "UTF-8";
-@-webkit-keyframes vicp_progress {
+@-webkit-keyframes image_progress {
   0% {
     background-position-y: 0;
   }
@@ -732,7 +829,7 @@ export default {
   }
 }
 
-@keyframes vicp_progress {
+@keyframes image_progress {
   0% {
     background-position-y: 0;
   }
@@ -767,7 +864,7 @@ export default {
   }
 }
 
-.image-upload {
+.image-crop-upload {
   position: fixed;
   display: block;
   -webkit-box-sizing: border-box;
@@ -784,7 +881,7 @@ export default {
   -moz-tap-highlight-color: transparent;
 }
 
-.image-upload .image-crop-upload-wrap {
+.image-crop-upload .image-crop-upload-wrap {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   position: fixed;
@@ -806,13 +903,13 @@ export default {
   animation: image-crop-upload 0.12s ease-in;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-close {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close {
   position: absolute;
   right: -30px;
   top: -30px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4 {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4 {
   position: relative;
   display: block;
   width: 30px;
@@ -827,8 +924,8 @@ export default {
   transform: rotate(0);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::after,
-.image-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::before {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::after,
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::before {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   content: "";
@@ -843,19 +940,19 @@ export default {
   background-color: #fff;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::after {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::after {
   -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4:hover {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4:hover {
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area {
   position: relative;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -867,7 +964,7 @@ export default {
   overflow: hidden;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area .image-crop-upload-icon1 {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area .image-crop-upload-icon1 {
   display: block;
   margin: 0 auto 6px;
   width: 42px;
@@ -875,7 +972,7 @@ export default {
   overflow: hidden;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step1
 .image-crop-upload-drop-area
@@ -890,7 +987,7 @@ export default {
   border-right: 14.7px solid transparent;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step1
 .image-crop-upload-drop-area
@@ -903,7 +1000,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step1
 .image-crop-upload-drop-area
@@ -917,7 +1014,7 @@ export default {
   border-top: none;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area .image-crop-upload-hint {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area .image-crop-upload-hint {
   display: block;
   padding: 15px;
   font-size: 14px;
@@ -925,7 +1022,7 @@ export default {
   line-height: 30px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step1
 .image-crop-upload-drop-area
@@ -944,21 +1041,21 @@ export default {
   font-size: 14px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area:hover {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area:hover {
   cursor: pointer;
   border-color: rgba(0, 0, 0, 0.1);
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop {
   overflow: hidden;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop .image-crop-upload-crop-left {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop .image-crop-upload-crop-left {
   float: left;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -972,7 +1069,7 @@ export default {
   overflow: hidden;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -988,7 +1085,7 @@ export default {
   user-select: none;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1001,7 +1098,7 @@ export default {
   background-color: rgba(241, 242, 243, 0.8);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1012,7 +1109,7 @@ export default {
   left: 0;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1023,7 +1120,7 @@ export default {
   right: 0;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1034,7 +1131,7 @@ export default {
   height: 18px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1054,7 +1151,7 @@ i {
   overflow: hidden;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1067,7 +1164,7 @@ i:hover {
   background-color: rgba(0, 0, 0, 0.14);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1077,7 +1174,7 @@ i:first-child {
   float: left;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1087,7 +1184,7 @@ i:last-child {
   float: right;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1099,14 +1196,14 @@ i:last-child {
   height: 18px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
 .image-crop-upload-crop-left
 .image-crop-upload-range
 .image-crop-upload-icon5,
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1121,14 +1218,14 @@ i:last-child {
   background-color: rgba(0, 0, 0, 0.08);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
 .image-crop-upload-crop-left
 .image-crop-upload-range
 .image-crop-upload-icon5:hover,
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1141,7 +1238,7 @@ i:last-child {
   background-color: rgba(0, 0, 0, 0.14);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1151,7 +1248,7 @@ i:last-child {
   left: 0;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1168,7 +1265,7 @@ i:last-child {
   background-color: #fff;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1178,7 +1275,7 @@ i:last-child {
   right: 0;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1195,7 +1292,7 @@ i:last-child {
   background-color: #fff;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1212,7 +1309,7 @@ i:last-child {
   background-color: #fff;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1236,7 +1333,7 @@ input[type="range"] {
                ---------------------------------------------------------------*/
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1246,7 +1343,7 @@ input[type="range"]:focus {
   outline: none;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1267,7 +1364,7 @@ input[type="range"]::-webkit-slider-thumb {
   transition: 0.2s;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1286,7 +1383,7 @@ input[type="range"]::-moz-range-thumb {
   transition: 0.2s;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1304,7 +1401,7 @@ input[type="range"]::-ms-thumb {
   transition: 0.2s;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1316,7 +1413,7 @@ input[type="range"]:active::-moz-range-thumb {
   height: 14px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1328,7 +1425,7 @@ input[type="range"]:active::-ms-thumb {
   height: 14px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1342,7 +1439,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   height: 14px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1359,7 +1456,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   background-color: rgba(68, 170, 119, 0.3);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1375,7 +1472,7 @@ input[type="range"]::-moz-range-track {
   background-color: rgba(68, 170, 119, 0.3);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1393,7 +1490,7 @@ input[type="range"]::-ms-track {
   border: none;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1403,7 +1500,7 @@ input[type="range"]::-ms-fill-lower {
   background-color: rgba(68, 170, 119, 0.3);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1413,7 +1510,7 @@ input[type="range"]::-ms-fill-upper {
   background-color: rgba(68, 170, 119, 0.15);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1423,7 +1520,7 @@ input[type="range"]:focus::-webkit-slider-runnable-track {
   background-color: rgba(68, 170, 119, 0.5);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1433,7 +1530,7 @@ input[type="range"]:focus::-moz-range-track {
   background-color: rgba(68, 170, 119, 0.5);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1443,7 +1540,7 @@ input[type="range"]:focus::-ms-fill-lower {
   background-color: rgba(68, 170, 119, 0.45);
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1453,11 +1550,11 @@ input[type="range"]:focus::-ms-fill-upper {
   background-color: rgba(68, 170, 119, 0.25);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop .image-crop-upload-crop-right {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop .image-crop-upload-crop-right {
   float: right;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1467,7 +1564,7 @@ input[type="range"]:focus::-ms-fill-upper {
   overflow: hidden;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1482,7 +1579,7 @@ input[type="range"]:focus::-ms-fill-upper {
   margin-right: 16px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1499,7 +1596,7 @@ span {
   text-align: center;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1524,7 +1621,7 @@ img {
   user-select: none;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1534,7 +1631,7 @@ img {
   margin-right: 0;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step2
 .image-crop-upload-crop
@@ -1545,7 +1642,7 @@ img {
   border-radius: 100%;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload {
   position: relative;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1556,7 +1653,7 @@ img {
   border: 1px dashed #ddd;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-loading {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-loading {
   display: block;
   padding: 15px;
   font-size: 16px;
@@ -1564,13 +1661,13 @@ img {
   line-height: 30px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-progress-wrap {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-progress-wrap {
   margin-top: 12px;
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 3px;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step3
 .image-crop-upload-upload
@@ -1606,11 +1703,11 @@ img {
       transparent
   );
   background-size: 40px 40px;
-  -webkit-animation: vicp_progress 0.5s linear infinite;
-  animation: vicp_progress 0.5s linear infinite;
+  -webkit-animation: image_progress 0.5s linear infinite;
+  animation: image_progress 0.5s linear infinite;
 }
 
-.image-upload
+.image-crop-upload
 .image-crop-upload-wrap
 .image-crop-upload-step3
 .image-crop-upload-upload
@@ -1630,19 +1727,19 @@ img {
   background-color: #4a7;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-error,
-.image-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-success {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-error,
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step3 .image-crop-upload-upload .image-crop-upload-success {
   height: 100px;
   line-height: 100px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-operate {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-operate {
   position: absolute;
   right: 20px;
   bottom: 20px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-operate a {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-operate a {
   position: relative;
   float: left;
   display: block;
@@ -1662,12 +1759,12 @@ img {
   user-select: none;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-operate a:hover {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-operate a:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-error,
-.image-upload .image-crop-upload-wrap .image-crop-upload-success {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-error,
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-success {
   display: block;
   font-size: 14px;
   line-height: 24px;
@@ -1677,11 +1774,11 @@ img {
   vertical-align: top;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-success {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-success {
   color: #4a7;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-icon3 {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-icon3 {
   position: relative;
   display: inline-block;
   width: 20px;
@@ -1689,7 +1786,7 @@ img {
   top: 4px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-icon3::after {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-icon3::after {
   position: absolute;
   top: 3px;
   left: 6px;
@@ -1704,7 +1801,7 @@ img {
   content: "";
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-icon2 {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-icon2 {
   position: relative;
   display: inline-block;
   width: 20px;
@@ -1712,8 +1809,8 @@ img {
   top: 4px;
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-icon2::after,
-.image-upload .image-crop-upload-wrap .image-crop-upload-icon2::before {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-icon2::after,
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-icon2::before {
   content: "";
   position: absolute;
   top: 9px;
@@ -1726,7 +1823,7 @@ img {
   transform: rotate(45deg);
 }
 
-.image-upload .image-crop-upload-wrap .image-crop-upload-icon2::after {
+.image-crop-upload .image-crop-upload-wrap .image-crop-upload-icon2::after {
   -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
