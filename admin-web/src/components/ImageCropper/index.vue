@@ -878,172 +878,149 @@ export default {
   background-color: rgba(0, 0, 0, 0.65);
   -webkit-tap-highlight-color: transparent;
   -moz-tap-highlight-color: transparent;
-}
 
-.image-crop-upload .image-crop-upload-wrap {
-  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
-  position: fixed;
-  display: block;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  z-index: 10000;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 600px;
-  height: 330px;
-  padding: 25px;
-  background-color: #fff;
-  border-radius: 2px;
-  -webkit-animation: image-crop-upload 0.12s ease-in;
-  animation: image-crop-upload 0.12s ease-in;
-}
+  .image-crop-upload-wrap {
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
+    position: fixed;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 10000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 600px;
+    height: 330px;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 2px;
+    -webkit-animation: image-crop-upload 0.12s ease-in;
+    animation: image-crop-upload 0.12s ease-in;
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close {
-  position: absolute;
-  right: -30px;
-  top: -30px;
-}
+    .image-crop-upload-close {
+      position: absolute;
+      right: -30px;
+      top: -30px;
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4 {
-  position: relative;
-  display: block;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  -webkit-transition: -webkit-transform 0.18s;
-  transition: -webkit-transform 0.18s;
-  transition: transform 0.18s;
-  transition: transform 0.18s, -webkit-transform 0.18s;
-  -webkit-transform: rotate(0);
-  -ms-transform: rotate(0);
-  transform: rotate(0);
-}
+      .image-crop-upload-icon4 {
+        position: relative;
+        display: block;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        -webkit-transition: -webkit-transform 0.18s;
+        transition: transform 0.18s, -webkit-transform 0.18s;
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        transform: rotate(0);
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::after,
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::before {
-  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
-  content: "";
-  position: absolute;
-  top: 12px;
-  left: 4px;
-  width: 20px;
-  height: 3px;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  background-color: #fff;
-}
+        &::after,
+        &::before {
+          -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
+          content: "";
+          position: absolute;
+          top: 12px;
+          left: 4px;
+          width: 20px;
+          height: 3px;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+          background-color: #fff;
+        }
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4::after {
-  -webkit-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-}
+        &::after {
+          -webkit-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+        }
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-close .image-crop-upload-icon4:hover {
-  -webkit-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
+        &:hover {
+          -webkit-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+        }
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area {
-  position: relative;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 35px;
-  height: 170px;
-  background-color: rgba(0, 0, 0, 0.03);
-  text-align: center;
-  border: 1px dashed rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
+      }
+    }
+  }
 
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area .image-crop-upload-icon1 {
-  display: block;
-  margin: 0 auto 6px;
-  width: 42px;
-  height: 42px;
-  overflow: hidden;
-}
+  .image-crop-upload-step1 {
+    .image-crop-upload-drop-area {
+      -webkit-box-sizing: border-box;
+      background-color: rgba(0, 0, 0, 0.03);
+      border: 1px dashed rgba(0, 0, 0, 0.08);
+      box-sizing: border-box;
+      height: 170px;
+      overflow: hidden;
+      padding: 35px;
+      position: relative;
+      text-align: center;
 
-.image-crop-upload
-.image-crop-upload-wrap
-.image-crop-upload-step1
-.image-crop-upload-drop-area
-.image-crop-upload-icon1
-.image-crop-upload-icon1-arrow {
-  display: block;
-  margin: 0 auto;
-  width: 0;
-  height: 0;
-  border-bottom: 14.7px solid rgba(0, 0, 0, 0.3);
-  border-left: 14.7px solid transparent;
-  border-right: 14.7px solid transparent;
-}
+      .image-crop-upload-icon1 {
+        display: block;
+        margin: 0 auto 6px;
+        width: 42px;
+        height: 42px;
+        overflow: hidden;
 
-.image-crop-upload
-.image-crop-upload-wrap
-.image-crop-upload-step1
-.image-crop-upload-drop-area
-.image-crop-upload-icon1
-.image-crop-upload-icon1-body {
-  display: block;
-  width: 12.6px;
-  height: 14.7px;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.image-crop-upload
-.image-crop-upload-wrap
-.image-crop-upload-step1
-.image-crop-upload-drop-area
-.image-crop-upload-icon1
-.image-crop-upload-icon1-bottom {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  display: block;
-  height: 12.6px;
-  border: 6px solid rgba(0, 0, 0, 0.3);
-  border-top: none;
-}
-
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area .image-crop-upload-hint {
-  display: block;
-  padding: 15px;
-  font-size: 14px;
-  color: #666;
-  line-height: 30px;
-}
-
-.image-crop-upload
-.image-crop-upload-wrap
-.image-crop-upload-step1
-.image-crop-upload-drop-area
-.image-crop-upload-no-supported-hint {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 30px;
-  width: 100%;
-  height: 60px;
-  line-height: 30px;
-  background-color: #eee;
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-}
-
-.image-crop-upload .image-crop-upload-wrap .image-crop-upload-step1 .image-crop-upload-drop-area:hover {
-  cursor: pointer;
-  border-color: rgba(0, 0, 0, 0.1);
-  background-color: rgba(0, 0, 0, 0.05);
+        .image-crop-upload-icon1-arrow {
+          border-bottom: 14.7px solid rgba(0, 0, 0, 0.3);
+          border-left: 14.7px solid transparent;
+          border-right: 14.7px solid transparent;
+          display: block;
+          height: 0;
+          margin: 0 auto;
+          width: 0;
+        }
+        .image-crop-upload-icon1-body {
+          background-color: rgba(0, 0, 0, 0.3);
+          display: block;
+          height: 14.7px;
+          margin: 0 auto;
+          width: 12.6px;
+        }
+        .image-crop-upload-icon1-bottom {
+          -webkit-box-sizing: border-box;
+          border: 6px solid rgba(0, 0, 0, 0.3);
+          border-top: none;
+          box-sizing: border-box;
+          display: block;
+          height: 12.6px;
+        }
+      }
+      .image-crop-upload-hint {
+        color: #666666;
+        display: block;
+        font-size: 14px;
+        line-height: 30px;
+        padding: 15px;
+      }
+      .image-crop-upload-no-supported-hint {
+        background-color: #eeeeee;
+        color: #666666;
+        display: block;
+        font-size: 14px;
+        height: 60px;
+        left: 0;
+        line-height: 30px;
+        padding: 30px;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 100%;
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .image-crop-upload .image-crop-upload-wrap .image-crop-upload-step2 .image-crop-upload-crop {

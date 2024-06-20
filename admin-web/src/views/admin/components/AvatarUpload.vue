@@ -14,16 +14,37 @@
       @close="close"
       @crop-upload-success="cropSuccess"
     />
+    <!--<image-upload-->
+    <!--  v-show="imageCropperShow"-->
+    <!--  :key="imageCropperKey"-->
+    <!--  :width="300"-->
+    <!--  :height="300"-->
+    <!--  url="/local/file/upload/second"-->
+    <!--  lang-type="zh"-->
+    <!--  @close="close"-->
+    <!--  @crop-upload-success="cropSuccess"-->
+    <!--/>-->
+    <!--<image-crop-->
+    <!--  v-show="imageCropperShow"-->
+    <!--  :key="imageCropperKey"-->
+    <!--  :width="300"-->
+    <!--  :height="300"-->
+    <!--  url="/local/file/upload/second"-->
+    <!--  lang-type="zh"-->
+    <!--  @close="close"-->
+    <!--  @crop-upload-success="cropSuccess"-->
+    <!--/>-->
   </div>
 </template>
 
 <script>
 import ImageCropper from '@/components/ImageCropper'
+import ImageUpload from '@/components/ImageUpload'
 import ThumbImage from '@/components/ThumbImage'
 
 export default {
   name: 'AvatarUpload',
-  components: { ImageCropper, ThumbImage },
+  components: { ImageCropper, ImageUpload, ThumbImage },
   data() {
     return {
       imageCropperShow: false,

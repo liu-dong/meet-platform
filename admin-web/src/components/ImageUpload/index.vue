@@ -4,7 +4,7 @@
       <div class="image-upload-close" @click="off">
         <i class="close-icon"/>
       </div>
-      <div class="image-upload-area">
+      <div class="image-select-area">
         <div
           class="drop-area"
           @dragleave="preventDefault"
@@ -575,7 +575,7 @@ export default {
     }
   }
 
-  .image-upload-area {
+  .image-select-area {
     .drop-area {
       position: relative;
       -webkit-box-sizing: border-box;
