@@ -49,7 +49,7 @@ export default {
       default: 'avatar'
     },
     // 原名key，类似于id，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
-    ki: {
+    key: {
       type: Number,
       default: 0
     },
@@ -394,7 +394,7 @@ export default {
         url,
         params,
         field,
-        ki,
+        key,
         createImgUrl
       } = this
       const fmData = new FormData()
@@ -433,7 +433,7 @@ export default {
             this.loading = 3
             this.hasError = true
             this.errorMsg = lang.fail
-            this.$emit('crop-upload-fail', err, field, ki)
+            this.$emit('crop-upload-fail', err, field, key)
           }
         })
     },

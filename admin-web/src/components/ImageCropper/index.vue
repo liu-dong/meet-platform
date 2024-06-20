@@ -4,7 +4,7 @@
       <div class="image-crop-upload-close" @click="off">
         <i class="image-crop-upload-icon4"/>
       </div>
-      <div class="image-crop-upload-step1">
+      <div v-show="step === 1" class="image-crop-upload-step1">
         <div
           class="image-crop-upload-drop-area"
           @dragleave="preventDefault"
@@ -30,7 +30,7 @@
           <a @click="off" @mousedown="ripple">{{ lang.btn.off }}</a>
         </div>
       </div>
-      <div class="image-crop-upload-step2">
+      <div v-if="step === 2" class="image-crop-upload-step2">
         <div class="image-crop-upload-crop">
           <div v-show="true" class="image-crop-upload-crop-left">
             <div class="image-crop-upload-img-container">
@@ -107,7 +107,7 @@
           <a class="image-crop-upload-operate-btn" @click="prepareUpload" @mousedown="ripple">{{ lang.btn.save }}</a>
         </div>
       </div>
-      <div class="image-crop-upload-step3">
+      <div v-if="step === 3" class="image-crop-upload-step3">
         <div class="image-crop-upload-upload">
           <span v-show="loading === 1" class="image-crop-upload-loading">{{ lang.loading }}</span>
           <div class="image-crop-upload-progress-wrap">
@@ -819,7 +819,6 @@ export default {
 </script>
 
 <style lang="scss">
-@charset "UTF-8";
 @-webkit-keyframes image_progress {
   0% {
     background-position-y: 0;
