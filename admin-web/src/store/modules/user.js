@@ -99,7 +99,6 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getUserDetail(state.token).then(response => {
-        console.log('响应结果：', response)
         const { data } = response
         if (!data) {
           return reject('Verification failed, please Login again.')

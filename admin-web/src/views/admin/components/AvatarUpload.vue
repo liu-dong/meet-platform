@@ -14,37 +14,16 @@
       @close="close"
       @crop-upload-success="cropSuccess"
     />
-    <!--<image-upload-->
-    <!--  v-show="imageCropperShow"-->
-    <!--  :key="imageCropperKey"-->
-    <!--  :width="300"-->
-    <!--  :height="300"-->
-    <!--  url="/local/file/upload/second"-->
-    <!--  lang-type="zh"-->
-    <!--  @close="close"-->
-    <!--  @crop-upload-success="cropSuccess"-->
-    <!--/>-->
-    <!--<image-crop-->
-    <!--  v-show="imageCropperShow"-->
-    <!--  :key="imageCropperKey"-->
-    <!--  :width="300"-->
-    <!--  :height="300"-->
-    <!--  url="/local/file/upload/second"-->
-    <!--  lang-type="zh"-->
-    <!--  @close="close"-->
-    <!--  @crop-upload-success="cropSuccess"-->
-    <!--/>-->
   </div>
 </template>
 
 <script>
 import ImageCropper from '@/components/ImageCropper'
-import ImageUpload from '@/components/ImageUpload'
 import ThumbImage from '@/components/ThumbImage'
 
 export default {
   name: 'AvatarUpload',
-  components: { ImageCropper, ImageUpload, ThumbImage },
+  components: { ImageCropper, ThumbImage },
   data() {
     return {
       imageCropperShow: false,
@@ -54,9 +33,10 @@ export default {
   },
   methods: {
     cropSuccess(resData) {
+      console.log('返回结果：', resData)
       this.imageCropperShow = false
       this.imageCropperKey = this.imageCropperKey + 1
-      this.image = resData.files.avatar
+      this.image = process.env.VUE_APP_IMAGE_PATH + resData.data.filePath
     },
     close() {
       this.imageCropperShow = false
