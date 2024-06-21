@@ -10,7 +10,7 @@
           修改密码
         </el-dropdown-item>
       </router-link>
-      <router-link to="/userDetail">
+      <router-link :to="{ name: 'UserDetail', params: { id: userId }}">
         <el-dropdown-item>
           个人信息
         </el-dropdown-item>
@@ -34,7 +34,8 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters([
-      'avatar'
+      'avatar',
+      'userId'
     ])
   },
   methods: {

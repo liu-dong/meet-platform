@@ -109,7 +109,7 @@ const actions = {
         commit('SET_PERSON_ID', personId)
         commit('SET_USERNAME', username)
         commit('SET_NICKNAME', nickname)
-        commit('SET_AVATAR', avatar || 'https://tupian.qqw21.com/article/UploadPic/2020-6/2020651254036599.jpg')
+        commit('SET_AVATAR', process.env.VUE_APP_IMAGE_PATH + avatar || 'https://tupian.qqw21.com/article/UploadPic/2020-6/2020651254036599.jpg')
         commit('SET_REAL_NAME', realName)
         commit('SET_ORG_ID', orgId)
         commit('SET_ORG_NAME', orgName)
