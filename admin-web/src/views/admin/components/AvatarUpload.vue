@@ -24,16 +24,25 @@ import ThumbImage from '@/components/ThumbImage'
 export default {
   name: 'AvatarUpload',
   components: { ImageCropper, ThumbImage },
+  props: {
+    image: {
+      type: String,
+      default: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'
+    }
+  },
   data() {
     return {
       imageCropperShow: false,
-      imageCropperKey: 0,
-      image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'
+      imageCropperKey: 0
     }
   },
   computed: {
     imageUrl() {
-      return process.env.VUE_APP_IMAGE_PATH + this.image
+      if (this.image && !this.image.includes('https')) {
+        return process.env.VUE_APP_IMAGE_PATH + this.image
+      } else {
+        return 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'
+      }
     }
   },
   methods: {
@@ -42,7 +51,7 @@ export default {
       this.imageCropperShow = false
       this.imageCropperKey = this.imageCropperKey + 1
       this.image = resData.data.newFileName
-      this.$emit('update:avatar', resData.data.newFileName)
+      this.$emit('update:image', resData.data.newFileName)
     },
     close() {
       this.imageCropperShow = false

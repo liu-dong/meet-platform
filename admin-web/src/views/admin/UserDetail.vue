@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
       <el-divider content-position="center">用户信息</el-divider>
-      <avatar-upload class="avatar-upload" :avatar.sync="ruleForm.avatar" />
+      <avatar-upload class="avatar-upload" :image.sync="ruleForm.avatar" />
       <el-form-item label="昵称" prop="username">
         <el-input v-model="ruleForm.username"/>
       </el-form-item>
@@ -108,7 +108,7 @@ export default {
           saveUser(this.ruleForm).then(res => {
             if (res.code === 200) {
               this.$message({ message: '保存成功！', duration: 2000 })
-              this.ruleForm = res.data
+              this.goBack()
             }
           })
         }
