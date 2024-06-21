@@ -98,7 +98,6 @@ export default {
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
           this.ruleForm = res.data
-          this.findAccountRoleInfoList(id)
         }
       })
     },
