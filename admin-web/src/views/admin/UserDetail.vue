@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="form" label-width="100px">
       <el-divider content-position="center">用户信息</el-divider>
-      <avatar-upload class="avatar-upload" />
+      <avatar-upload class="avatar-upload" :avatar.sync="ruleForm.avatar" />
       <el-form-item label="昵称" prop="username">
         <el-input v-model="ruleForm.username"/>
       </el-form-item>
