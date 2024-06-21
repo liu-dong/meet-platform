@@ -6,7 +6,7 @@
       :model="ruleForm"
       :rules="rules"
       label-width="100px"
-      class="demo-ruleForm el-form"
+      class="form"
       label-position="left"
     >
       <el-form-item label="姓名" prop="name">
@@ -45,17 +45,15 @@
       </el-form-item>
       <el-form-item label="籍贯" prop="nativePlace">
         <el-input v-model="ruleForm.nativePlace" />
-      </el-form-item>
-      <div class="row">
-        <el-form-item label="个人简介">
+      </el-form-item >
+        <el-form-item label="个人简介" style="width: 71%">
           <el-input v-model="ruleForm.individualResume" type="textarea" />
         </el-form-item>
-      </div>
-      <div class="row">
-        <el-button v-if="viewType!=='view'" type="primary" @click="saveForm('ruleForm')">保存</el-button>
-        <el-button @click="goBack()">返回</el-button>
-      </div>
     </el-form>
+    <div class="form-button">
+      <el-button v-if="viewType!=='view'" type="primary" @click="saveForm('ruleForm')">保存</el-button>
+      <el-button @click="goBack()">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -126,37 +124,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  /*border: 1px solid red;*/
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 12px 24px 0 rgba(28, 31, 33, .1); /*添加阴影*/
 
-}
-
-.el-form {
-  /*border: 1px solid red;*/
-  padding: 20px 20%;
-  overflow: auto;
-  display: flex;
-  /*flex-direction: row;*/
-  /*flex-wrap: wrap;*/
-  flex-flow: row wrap;
-  justify-content: center;
-  align-content: center;
-
-}
-
-.row {
-  width: 80%;
-  margin-bottom: 22px;
-}
-
-.top {
-  width: 100%;
-  height: 10%;
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: space-between;*/
-}
 </style>

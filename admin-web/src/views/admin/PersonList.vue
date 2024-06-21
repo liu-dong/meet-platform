@@ -2,33 +2,13 @@
   <div class="app-container">
     <!--查询条件-->
     <div class="filter-container">
-      <el-input
-        v-model="listQuery.name"
-        placeholder="人员名称"
-      />
-      <el-input
-        v-model="listQuery.identityCard"
-        placeholder="身份证号"
-      />
-      <el-input
-        v-model="listQuery.orgName"
-        placeholder="单位名称"
-      />
-      <el-button v-waves round type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
-      </el-button>
-      <el-button v-waves type="primary" icon="el-icon-refresh-left" @click="reset">
-        重置
-      </el-button>
-      <el-button
-        v-waves
-        plain
-        type="primary"
-        icon="el-icon-edit"
-        @click="toDetail()"
-      >
-        新增
-      </el-button>
+      <el-input v-model="listQuery.name" placeholder="人员名称"/>
+      <el-input v-model="listQuery.identityCard" placeholder="身份证号"/>
+      <el-input v-model="listQuery.orgName" placeholder="单位名称"/>
+      <button-search class="filter-item" @search="findPersonList">查询</button-search>
+      <button-reset class="filter-item" @reset="reset" />
+      <button-add class="filter-item" @add="toDetail()">新增</button-add>
+      <button-delete class="filter-item" @delete="deleteInfo" />
     </div>
     <!--数据列表-->
     <el-table
@@ -60,7 +40,7 @@
           <el-button type="primary" size="mini" @click="toDetail(row.id)">
             编辑
           </el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(row)">
+          <el-button size="mini" type="danger" @click="deleteInfo(row)">
             删除
           </el-button>
         </template>
@@ -72,7 +52,7 @@
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
-      @pagination="getList"
+      @pagination="findPersonList"
     />
   </div>
 </template>
@@ -81,10 +61,14 @@
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { deletePerson, findPersonList } from '@/api/person'
+import ButtonSearch from '@/components/Button/ButtonSearch.vue'
+import ButtonReset from '@/components/Button/ButtonReset.vue'
+import ButtonAdd from '@/components/Button/ButtonAdd.vue'
+import ButtonDelete from '@/components/Button/ButtonDelete.vue'
 
 export default {
   name: 'PlanList',
-  components: { Pagination },
+  components: { ButtonDelete, ButtonAdd, ButtonReset, ButtonSearch, Pagination },
   directives: { waves },
   data() {
     return {
@@ -102,13 +86,9 @@ export default {
     }
   },
   created() {
-    this.getList()
+    this.findPersonList()
   },
   methods: {
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
     reset() {
       this.listQuery = {
         page: 1,
@@ -118,7 +98,7 @@ export default {
         orgName: undefined
       }
     },
-    getList() {
+    findPersonList() {
       this.listLoading = true
       findPersonList(this.listQuery).then(response => {
         if (response.code === 200) {
@@ -138,11 +118,11 @@ export default {
       }
       this.$router.push({ name: 'PersonDetail', params: params })
     },
-    handleDelete(row) {
+    deleteInfo(row) {
       deletePerson(row.id).then(res => {
         this.$message({ message: res.message, duration: 2000 })
         if (res.code === 200) {
-          this.getList()
+          this.findPersonList()
         }
       })
     }

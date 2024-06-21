@@ -99,7 +99,7 @@ export default {
       if (pageType === 'person') {
         pageName = 'OrgPersonDetail'
       }
-      this.$router.push({ name: pageName, params: { id: id }})
+      this.$router.push({ name: pageName, params: { id: id } })
     },
     deleteInfo: function() {
       const currentRow = this.currentRow
